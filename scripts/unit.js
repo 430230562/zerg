@@ -1,5 +1,6 @@
 const status = require('status');
 const liquid = require('liquid');
+const Ef = require('effect');
 
 const spider = new UnitType("spider");
 exports.spider = spider;
@@ -66,7 +67,7 @@ Object.assign(new Weapon("bugs-spider-weapon"), {
 	shootY: 4,
 	reload: 60,
 	cooldownTime: 42,
-	shootSound: Vars.tree.loadSound("venomMissile"),
+	shootSound: Sounds.swish,
 	heatColor: Color.valueOf("84a94b"),
 	bullet: Object.assign(new MissileBulletType(3,9), {
 		recoil: 0.8,
@@ -233,7 +234,7 @@ Object.assign(new Weapon("bugs-mosquito-weapon"), {
 	shootY: 4,
 	reload: 60,
 	cooldownTime: 42,
-	shootSound: Vars.tree.loadSound("venomMissile"),
+	shootSound: Sounds.swish,
 	heatColor: Color.valueOf("84a94b"),
 	bullet: Object.assign(new MissileBulletType(3,9), {
 		recoil: 0.8,
@@ -270,6 +271,10 @@ const acid = new UnitType("acid");
 exports.acid = acid;
 Object.assign(acid, {
 	constructor: () => new UnitEntity.create(),
+	outlineColor: Pal.neoplasmOutline,
+	envDisabled: Env.none,
+	healFlash: true,
+	healColor: Pal.neoplasm1,
 	health: 340,
 	speed: 1.85,
 	accel: 0.08,
@@ -281,7 +286,9 @@ Object.assign(acid, {
 	faceTarget: false,
 	armor: 3,
 	itemCapacity: 0,
-	circleTarget: true
+	circleTarget: true,
+	
+	engineOffset: 7.8,
 })
 acid.abilities.add(
 	Object.assign(new LiquidExplodeAbility(), {
@@ -458,9 +465,9 @@ pildelet.abilities.add(
 );
 pildelet.immunities.addAll(status.poisoning);
 
-const earlyTestVehicle = new TankUnitType("early-test-vehicle");
-exports.earlyTestVehicle = earlyTestVehicle;
-Object.assign(earlyTestVehicle, {
+const testVehicle = new TankUnitType("test-vehicle");
+exports.testVehicle = testVehicle;
+Object.assign(testVehicle, {
 	outlineColor: Pal.neoplasmOutline,
 	envDisabled: Env.none,
 	healFlash: true,
@@ -469,23 +476,23 @@ Object.assign(earlyTestVehicle, {
 	squareShape: true,
 	omniMovement: false,
 	rotateMoveFirst: true,
-	speed: 1.2,
-	hitSize: 12,
+	speed: 0.9,
+	hitSize: 14,
 	treadPullOffset: 3,
 	treadRects: [new Rect(16, 8-32, 8, 48)],
 	outlineRadius: 1,
-	rotateSpeed: 3.5,
-	health: 400,
+	rotateSpeed: 6,
+	health: 600,
 	armor: 3,
 	itemCapacity: 0,
 	researchCostMultiplier: 20,
 	constructor: () => new TankUnit.create(),
 })
-earlyTestVehicle.weapons.add(
-Object.assign(new Weapon("bugs-early-test-vehicle-weapon"), {
+testVehicle.weapons.add(
+Object.assign(new Weapon("bugs-test-vehicle-weapon"), {
 	layerOffset: 0.0001,
-	reload: 25,
-	shootY: 8.5,
+	reload: 50,
+	shootY: 10.75,
 	recoil: 1,
 	rotate: true,
 	rotateSpeed: 5.7,
@@ -493,12 +500,10 @@ Object.assign(new Weapon("bugs-early-test-vehicle-weapon"), {
 	x: 0,
 	y: -0.75,
 	heatColor: Color.valueOf("f9350f"),
-	cooldownTime: 30,
-	shootSound: Vars.tree.loadSound("venomMissile"),
+	cooldownTime: 50,
+	shootSound: Sounds.release,
 	
-	shoot: new ShootAlternate(2),
-	
-	bullet: Object.assign(new BasicBulletType(4, 15), {
+	bullet: Object.assign(new BasicBulletType(4, 30), {
 		sprite: "missile-large",
 		smokeEffect: Fx.shootBigSmoke,
 		shootEffect: Fx.shootBigColor,
@@ -520,12 +525,107 @@ Object.assign(new Weapon("bugs-early-test-vehicle-weapon"), {
 		
 		splashDamageRadius: 8 * 2.25,
 		splashDamage: 20,
+		
+		pierce: true,
+		pierceBuilding: true,
+		pierceCap: 3,
+		
+		fragBullets: 4,
+		fragBullet: Object.assign(new LiquidBulletType(), {
+			speed: 0.5,
+			damage: 0,
+			liquid: liquid.venom,
+			lifetime: 3,
+			puddleSize: 18,
+			orbSize: 2,
+			status: status.poisoning,
+			statusDuration: 600,
+		})
 	})
 })
 )
-earlyTestVehicle.abilities.add(
+testVehicle.abilities.add(
 	Object.assign(new RegenAbility(), {
 		percentAmount: 1 / (120 * 60) * 100,
 	}),
 )
-earlyTestVehicle.immunities.addAll(status.poisoning);
+testVehicle.immunities.addAll(status.poisoning);
+
+const alter = new TankUnitType("alter");
+exports.alter = alter;
+Object.assign(alter, {
+	outlineColor: Pal.neoplasmOutline,
+	envDisabled: Env.none,
+	healFlash: true,
+	healColor: Pal.neoplasm1,
+	squareShape: true,
+	omniMovement: false,
+	rotateMoveFirst: true,
+	speed: 1.1,
+	hitSize: 10,
+	treadRects: [new Rect(16, -24, 8, 48)],
+	outlineRadius: 1,
+	treadPullOffset: 3,
+	rotateSpeed: 5.3,
+	health: 400,
+	armor: 2,
+	itemCapacity: 0,
+	researchCostMultiplier: 20,
+	targetAir: false,
+	constructor: () => new TankUnit.create()
+})
+alter.abilities.add(
+	Object.assign(new RegenAbility(), {
+		percentAmount: 1 / (120 * 60) * 100,
+	}),
+)
+alter.immunities.addAll(status.poisoning);
+alter.weapons.add(
+Object.assign(new Weapon("bugs-alter-weapon"), {
+	layerOffset: 0.0001,
+	reload: 120,
+	shootY: 0,
+	recoil: 0,
+	rotate: true,
+	rotateSpeed: 5.7,
+	mirror: false,
+	x: 0,
+	y: -1,
+	heatColor: Color.valueOf("f9350f"),
+	cooldownTime: 90,
+	shootSound: Sounds.lasershoot,
+	shoot: Object.assign(new ShootPattern(), {
+		shots: s,
+		shotDelay: 7.5,
+	}),
+	
+	bullet: Object.assign(extend(BasicBulletType, {
+		hitEntity(b, entity, health) {
+			this.super$hitEntity(b, entity, health);
+			if(entity instanceof Unit) {
+				var unit = entity;
+				if (unit.health <= b.damage + 50) {
+					unit.team = b.team,
+					unit.heal(),
+					this.damage += 1
+				}
+			}
+		}
+	}), {
+		speed: 3.5,
+		damage: 20,
+		sprite: "bugs-wave",
+		width: 10,
+		height: 13,
+		lifetime: 52,
+		despawnEffect: Ef.interfere,
+		hitEffect: Ef.interfere,
+		backColor: Color.valueOf("afffff"),
+		frontColor: Color.valueOf("ffffff"),
+		hittable: false,
+		pierceArmor: true,
+		homingRange: 60,
+		homingPower: 0.1,
+	})
+})
+)
