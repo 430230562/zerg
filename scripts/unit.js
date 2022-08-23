@@ -594,10 +594,6 @@ Object.assign(new Weapon("bugs-alter-weapon"), {
 	heatColor: Color.valueOf("f9350f"),
 	cooldownTime: 90,
 	shootSound: Sounds.lasershoot,
-	shoot: Object.assign(new ShootPattern(), {
-		shots: s,
-		shotDelay: 7.5,
-	}),
 	
 	bullet: Object.assign(extend(BasicBulletType, {
 		hitEntity(b, entity, health) {
