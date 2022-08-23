@@ -56,7 +56,6 @@ Object.assign(biomassReactor, {
 		Items.lead, 500,
 		Items.graphite, 400,
 		Items.thorium, 100,
-		Items.metaglass, 250,
 		item.biomassSteel, 1250,
 		item.organosilicon, 450,
 	),
@@ -78,9 +77,9 @@ Object.assign(biomassReactor, {
 biomassReactor.consumeLiquid(Liquids.water, 48 / 60);
 biomassReactor.consumeItem(item.biomass, 1);
 
-const ExtremeTemperatureDifferenceGenerator = new VariableReactor('extreme-temperature-difference-generator');
-exports.ExtremeTemperatureDifferenceGenerator = ExtremeTemperatureDifferenceGenerator;
-Object.assign(ExtremeTemperatureDifferenceGenerator, {
+const extremeGenerator = new VariableReactor('extreme-generator');
+exports.extremeGenerator = extremeGenerator;
+Object.assign(extremeGenerator, {
 	powerProduction: 120,
 	maxHeat: 60,
 
@@ -112,4 +111,4 @@ Object.assign(ExtremeTemperatureDifferenceGenerator, {
 		})
 	)
 })
-ExtremeTemperatureDifferenceGenerator.consumeLiquid(Liquids.cryofluid, 12 / 60);
+extremeGenerator.consumeLiquid(Liquids.cryofluid, 12 / 60);
