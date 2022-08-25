@@ -44,6 +44,10 @@ Object.assign(tankFactory, {
 		new UnitPlan(unit.testVehicle, 60 * 40, ItemStack.with(
 			item.biomassSteel, 25,
 			item.organosilicon, 20,
+		)),
+		new UnitPlan(unit.alter, 60 * 50, ItemStack.with(
+			item.biomassSteel, 20,
+			item.organosilicon, 40,
 		))
 	)
 })

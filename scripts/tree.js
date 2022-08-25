@@ -9,6 +9,7 @@ const item = require('item');
 const distribution = require('block/distribution');
 const factory = require('block/factory');
 const power = require('block/power');
+const production = require('block/production');
 const unitFactory = require('block/unitFactory');
 const wall = require('block/wall');
 const unit = require('unit');
@@ -16,12 +17,16 @@ const unit = require('unit');
 nodeRoot("深绿虫巢", planet.darkGreen, () => {
 	node(planet.darkGreenMountains, Seq.with(
 	new SectorComplete(SectorPresets.biomassFacility),
-	new Research(Blocks.laserDrill)
+	new Research(Blocks.pneumaticDrill)
 	), () => {
+		node(planet.siliconePond,Seq.with(
+		new SectorComplete(planet.darkGreenMountains),
+		new Research(factory.smelter)
+		), () => {})
 		node(planet.crimsonPass, Seq.with(
 		new SectorComplete(planet.darkGreenMountains),
-		new Research(factory.incubator),
-		new Research(factory.centrifuge)
+		new Research(factory.centrifuge),
+		new Research(production.incubator)
 		), () => {
 			node(planet.biomassComplex, Seq.with(
 			new SectorComplete(planet.crimsonPass)
@@ -29,8 +34,8 @@ nodeRoot("深绿虫巢", planet.darkGreen, () => {
 		})
 	}),
 	nodeProduce(item.organosand, () => {
-		nodeProduce(item.biomassSteel, () => {
-			nodeProduce(item.organosilicon, () => {}),
+		nodeProduce(item.organosilicon, () => {
+			nodeProduce(item.biomassSteel, () => {}),
 			nodeProduce(item.biomass, () => {
 				nodeProduce(item.methylSulfone, () => {})
 			})
@@ -40,35 +45,42 @@ nodeRoot("深绿虫巢", planet.darkGreen, () => {
 		node(factory.centrifuge, () => {
 			node(factory.extractor, () => {})
 		}),
-		node(factory.incubator, Seq.with(
-		new SectorComplete(planet.darkGreenMountains)
-		), () => {
-			node(factory.enrichmentIncubator, () => {}),
-			node(factory.compressor, () => {
-				node(factory.parallelCompressor, () => {})
+		node(production.biomassDrill, () => {
+			node(production.incubator, Seq.with(
+			new SectorComplete(planet.darkGreenMountains)
+			), () => {
+				node(production.enrichmentIncubator, () => {}),
+				node(factory.compressor, () => {
+					node(factory.parallelCompressor, () => {})
+				}),
+				node(factory.synthesizer, () => {})
 			}),
-			node(factory.synthesizer, () => {})
+			node(production.impactBiomassDrill, () => {})
 		})
 	}),
 	node(power.concentratedSolarPanel, () => {
 		node(power.biomassReactor, Seq.with(
-		new Research(factory.incubator),
+		new Research(production.incubator),
 		new SectorComplete(planet.biomassComplex)
 		), () => {
-			node(power.ExtremeTemperatureDifferenceGenerator, Seq.with(
+			node(power.extremeGenerator, Seq.with(
 			new Research(Blocks.differentialGenerator)
 			), () => {})
 		})
 	}),
 	node(unitFactory.unitIncubator, Seq.with(
 	new SectorComplete(planet.crimsonPass),
-	new Research(factory.incubator),
+	new Research(production.incubator),
 	), () => {
 		node(unit.spider, () => {}),
 		node(unit.mosquito, () => {}),
 		node(unitFactory.tankFactory, Seq.with(
 		), () => {
-			node(unit.earlyTestVehicle, () => {})
+			node(unit.testVehicle, () => {
+				node(unit.alter, Seq.with(
+				new SectorComplete(planet.siliconePond)
+				), () => {})
+			})
 		})
 	}),
 	node(wall.biomassWall, () => {

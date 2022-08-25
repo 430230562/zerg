@@ -29,69 +29,6 @@ smelter.consumeItems(ItemStack.with(
 ));
 smelter.consumePower(0.50);
 
-const incubator = new GenericCrafter("incubator");
-exports.incubator = incubator;
-Object.assign(incubator, {
-	craftEffect: Fx.none,
-	outputItem: new ItemStack(item.biomass, 1),
-	craftTime: 180,
-	size: 2,
-	hasPower: true,
-	hasLiquids: true,
-	hasItems: true,
-	drawer: new DrawMulti(
-		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.water),
-		new DrawDefault(),
-		Object.assign(new DrawCultivator(), {
-			plantColor: Color.valueOf("9cb664"),
-			plantColorLight: Color.valueOf("cbd97f"),
-		}),
-		new DrawRegion("-top")
-	),
-	buildVisibility: BuildVisibility.shown,
-	category: Category.production,
-	requirements: ItemStack.with(
-		Items.lead, 70,
-		item.biomassSteel, 80,
-		item.organosilicon, 60,
-	),
-})
-incubator.consumePower(70 / 60);
-incubator.consumeLiquid(Liquids.water, 12 / 60);
-
-const enrichmentIncubator = new GenericCrafter("enrichment-incubator");
-exports.enrichmentIncubator = enrichmentIncubator;
-Object.assign(enrichmentIncubator, {
-	craftEffect: Fx.none,
-	outputItem: new ItemStack(item.biomass, 2),
-	craftTime: 65,
-	size: 3,
-	hasPower: true,
-	hasLiquids: true,
-	hasItems: true,
-	drawer: new DrawMulti(
-		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.neoplasm),
-		new DrawDefault(),
-		Object.assign(new DrawCultivator(), {
-			plantColor: Color.valueOf("9cb664"),
-			plantColorLight: Color.valueOf("cbd97f"),
-		}),
-		new DrawRegion("-top")
-	),
-	buildVisibility: BuildVisibility.shown,
-	category: Category.production,
-	requirements: ItemStack.with(
-		Items.lead, 75,
-		Items.titanium, 60,
-		item.biomassSteel, 135,
-		item.organosilicon, 125,
-	),
-})
-enrichmentIncubator.consumePower(40 / 60);
-enrichmentIncubator.consumeLiquid(Liquids.neoplasm, 12 / 60);
-
 const compressor = new GenericCrafter('compressor');
 exports.compressor = compressor;
 Object.assign(compressor, {

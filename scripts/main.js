@@ -1,12 +1,13 @@
-require('status');
 require('item');
 require('liquid');
+require('status');
 require('unit');
 require('weather');
 require('block/distribution');
 require('block/environment');
 require('block/factory');
 require('block/power');
+require('block/production');
 require('block/turret');
 require('block/unitFactory');
 require('block/wall');
