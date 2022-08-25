@@ -10,6 +10,7 @@ const distribution = require('block/distribution');
 const factory = require('block/factory');
 const power = require('block/power');
 const production = require('block/production');
+const turret = require('block/turret');
 const unitFactory = require('block/unitFactory');
 const wall = require('block/wall');
 const unit = require('unit');
@@ -19,10 +20,6 @@ nodeRoot("深绿虫巢", planet.darkGreen, () => {
 	new SectorComplete(SectorPresets.biomassFacility),
 	new Research(Blocks.pneumaticDrill)
 	), () => {
-		node(planet.siliconePond,Seq.with(
-		new SectorComplete(planet.darkGreenMountains),
-		new Research(factory.smelter)
-		), () => {})
 		node(planet.crimsonPass, Seq.with(
 		new SectorComplete(planet.darkGreenMountains),
 		new Research(factory.centrifuge),
@@ -31,7 +28,10 @@ nodeRoot("深绿虫巢", planet.darkGreen, () => {
 			node(planet.biomassComplex, Seq.with(
 			new SectorComplete(planet.crimsonPass)
 			), () => {})
-		})
+		}),
+		node(planet.discoveryStation, Seq.with(
+		new SectorComplete(planet.darkGreenMountains)
+		), () => {})
 	}),
 	nodeProduce(item.organosand, () => {
 		nodeProduce(item.organosilicon, () => {
@@ -78,7 +78,7 @@ nodeRoot("深绿虫巢", planet.darkGreen, () => {
 		), () => {
 			node(unit.testVehicle, () => {
 				node(unit.alter, Seq.with(
-				new SectorComplete(planet.siliconePond)
+				new SectorComplete(planet.discoveryStation)
 				), () => {})
 			})
 		})
@@ -103,5 +103,8 @@ nodeRoot("深绿虫巢", planet.darkGreen, () => {
 			new Research(power.biomassReactor)
 			), () => {})
 		})
-	})
+	}),
+	node(turret.interferenceRay, Seq.with(
+	new SectorComplete(planet.discoveryStation)
+	), () => {})
 })
