@@ -146,6 +146,7 @@ Object.assign(extractor, {
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
 		new DrawLiquidTile(Liquids.arkycite),
+		new DrawLiquidTile(Liquids.oil),
 		new DrawDefault(),
 		Object.assign(new DrawCultivator(), {
 			plantColor: Color.valueOf("313131"),
