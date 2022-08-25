@@ -10,7 +10,9 @@ const darkGreen = new JavaAdapter(Planet, {
 sS.planetGrid(darkGreen, 2.4);
 
 Object.assign(darkGreen, {
-	generator: new SerpuloPlanetGenerator(),
+	generator: extend(SerpuloPlanetGenerator,  {
+	allowLoading(Landing){return false}
+	}),
 	atmosphereColor: Color.valueOf("3c7141"),
 	landCloudColor: Color.valueOf("d11e3a"),
 	atmosphereRadIn: 0.02,
@@ -40,8 +42,15 @@ const darkGreenMountains = new SectorPreset("darkGreenMountains", darkGreen, 10)
 exports.darkGreenMountains = darkGreenMountains;
 Object.assign(darkGreenMountains, {
 	captureWave: 30,
-	difficulty: 4,
+	difficulty: 3,
 	addStartingItems: true,
+})
+
+const siliconePond = new SectorPreset("siliconePond", darkGreen, 17)
+exports.siliconePond = siliconePond;
+Object.assign(siliconePond, {
+	captureWave: 30,
+	difficulty: 3,
 })
 
 const crimsonPass = new SectorPreset("crimsonPass", darkGreen, 37);

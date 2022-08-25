@@ -15,7 +15,7 @@ Object.assign(biomass, {
 const biomassSteel = new Item("biomass-steel", Color.valueOf("98ba53"));
 exports.biomassSteel = biomassSteel;
 Object.assign(biomassSteel, {
-	hardness: 4,
+	hardness: 3,
 	cost: 1.2,
 	healthScaling: 0.1,
 })

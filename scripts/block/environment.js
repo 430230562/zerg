@@ -91,10 +91,4 @@ Object.assign(neoplasm, {
 	drownTime: 60 * 1.2,
 })
 
-//ore
 const oreBiomassSteel = new OreBlock("ore-biomass-steel",item.biomassSteel)
-Object.assign(oreBiomassSteel, {
-	oreDefault: true,
-	oreThreshold: 0.864,
-	oreScale: 24.904762,
-})

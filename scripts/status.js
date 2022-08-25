@@ -1,3 +1,5 @@
+const Ef = require('effect');
+
 const poisoning = new StatusEffect("poisoning");
 exports.poisoning = poisoning;
 Object.assign(poisoning, {
@@ -10,21 +12,10 @@ Object.assign(poisoning, {
 	reloadMultiplier: 0.95,
 	buildSpeedMultiplier: 0.95,
 })
-const effect1 = Object.assign(new ParticleEffect(), {
-	line: true,
-	particles: 5,
-	lifetime: 15,
-	length: 5,
-	cone: -360,
-	lenFrom: 5,
-	lenTo: 0,
-	colorFrom: Color.valueOf("e8803f"),
-	colorTo: Color.valueOf("8c1225"),
-})
 
 const dissimilation = extend(StatusEffect, "dissimilation", {
 	update(unit, time) {
-		if (Math.random() > 0.8) {effect1.at(unit)}
+		if (Math.random() > 0.8) {Ef.dissimilation.at(unit)}
 		if (unit.type.outlineColor != Pal.neoplasmOutline) {
 			unit.damageContinuousPierce(0.15);
 		} else {
@@ -48,15 +39,6 @@ Object.assign(dissimilation, {
 })
 
 const extremelyFrozen = extend(StatusEffect, "extremely-frozen", {
-	update(unit, time) {
-		if (Math.random() <= 0.25) {Fx.freezing.at(unit)}
-		if (unit.type.lightColor != Pal.techBlue) {
-			unit.damageContinuousPierce(0.15)
-		} else {
-			unit.maxHealth = unit.type.health * 1.5,
-			unit.heal(0.3)
-		}
-	},
 	init(){
 		this.opposite(StatusEffects.burning, StatusEffects.melting)
 	}
@@ -65,10 +47,11 @@ exports.extremelyFrozen = extremelyFrozen;
 Object.assign(extremelyFrozen, {
 	color: Color.valueOf("6ecdec"),
 	effect: Fx.freezing,
+	damage: 0.15,
 	damageMultiplier: 1,
 	healthMultiplier: 0.2,
 	speedMultiplier: 0.2,
 	reloadMultiplier: 0.2,
 	buildSpeedMultiplier: 0.2,
-	dragMultiplier: 0.05
+	dragMultiplier: 0.05,
 })

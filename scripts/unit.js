@@ -479,7 +479,7 @@ Object.assign(testVehicle, {
 	speed: 0.9,
 	hitSize: 14,
 	treadPullOffset: 3,
-	treadRects: [new Rect(16, 8-32, 8, 48)],
+	treadRects: [new Rect(24, -32, 8, 64)],
 	outlineRadius: 1,
 	rotateSpeed: 6,
 	health: 600,
