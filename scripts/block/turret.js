@@ -1,4 +1,5 @@
 const item = require('item');
+const Ef = require('effect');
 
 Blocks.salvo.ammoTypes.put(
 	Items.titanium, Object.assign(new BasicBulletType(4, 24, "bullet"), {
@@ -144,3 +145,43 @@ Blocks.ripple.ammoTypes.put(
 		})
 	})
 )
+
+const interferenceRay = new ContinuousTurret("interference-ray")
+exports.interferenceRay = interferenceRay;
+Object.assign(interferenceRay, {
+	health: 960,
+	size: 3,
+	range: 160,
+	cooldownTime: 60,
+	shootSound: Sounds.none,
+	unitSort: (u, x, y) => u.maxHealth + Mathf.dst2(u.x, u.y, x, y) / 6400,
+	shootY: 7.5,
+	shootCone: 45,
+	aimChangeSpeed: 5,
+	displayAmmoMultiplier: true,
+	rotateSpeed: 1.4,
+	shootType: Object.assign(extend(PointLaserBulletType, {
+		hitEntity(b, entity, health) {
+			this.super$hitEntity(b, entity, health);
+			if(entity instanceof Unit) {
+				var unit = entity;
+				if (unit.health <= 50) {
+					unit.team = b.team,
+					unit.heal(),
+					this.damage += 0.1
+				}
+			}
+		}
+	}), {
+	damage: 5,
+	beamEffect: Ef.interfere,
+	}),
+	requirements: ItemStack.with(
+		Items.graphite, 200,
+		item.biomassSteel, 250,
+		item.organosilicon, 300,
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.turret,
+})
+interferenceRay.consumePower(2.7);
