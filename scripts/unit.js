@@ -503,7 +503,7 @@ Object.assign(new Weapon("bugs-test-vehicle-weapon"), {
 	cooldownTime: 50,
 	shootSound: Sounds.release,
 	
-	bullet: Object.assign(new BasicBulletType(4, 30), {
+	bullet: Object.assign(new BasicBulletType(4, 55), {
 		sprite: "missile-large",
 		smokeEffect: Fx.shootBigSmoke,
 		shootEffect: Fx.shootBigColor,
@@ -523,24 +523,9 @@ Object.assign(new Weapon("bugs-test-vehicle-weapon"), {
 		status: status.poisoning,
 		statusDuration: 600,
 		
-		splashDamageRadius: 8 * 2.25,
-		splashDamage: 20,
-		
 		pierce: true,
 		pierceBuilding: true,
-		pierceCap: 3,
-		
-		fragBullets: 4,
-		fragBullet: Object.assign(new LiquidBulletType(), {
-			speed: 0.5,
-			damage: 0,
-			liquid: liquid.venom,
-			lifetime: 3,
-			puddleSize: 18,
-			orbSize: 2,
-			status: status.poisoning,
-			statusDuration: 600,
-		})
+		pierceCap: 3
 	})
 })
 )
