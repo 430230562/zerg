@@ -1,5 +1,20 @@
 const item = require('item');
 
+const ossatureDrill = new Drill("ossature-drill");
+exports.ossatureDrill = ossatureDrill;
+Object.assign(ossatureDrill, {
+	tier: 3,
+	drillTime: 400,
+	size: 2,
+	alwaysUnlocked: true,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.production,
+	requirements: ItemStack.with(
+		Items.graphite, 10,
+		item.ossature, 18,
+	),
+})
+
 const biomassDrill = new Drill("biomass-drill")
 exports.biomassDrill = biomassDrill;
 Object.assign(biomassDrill, {
@@ -12,8 +27,8 @@ Object.assign(biomassDrill, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.production,
 	requirements: ItemStack.with(
-		Items.copper, 35,
 		Items.graphite, 30,
+		item.ossature, 35,
 		item.biomassSteel, 30,
 		item.organosilicon, 40,
 	),
@@ -21,34 +36,24 @@ Object.assign(biomassDrill, {
 biomassDrill.consumePower(0.9)
 biomassDrill.consumeLiquid(Liquids.water, 0.04).boost()
 
-const impactBiomassDrill = new BurstDrill("impact-biomass-drill")
-exports.impactBiomassDrill = impactBiomassDrill;
-Object.assign(impactBiomassDrill, {
-	drillTime: 60 * 8,
-	size: 4,
-	hasPower: true,
-	tier: 6,
-	drillEffect: new MultiEffect(
-		Fx.mineImpact,
-		Fx.drillSteam,
-		Fx.mineImpactWave.wrap(Pal.redLight, 40)
-	),
-	shake: 4,
-	itemCapacity: 40,
-	researchCostMultiplier: 0.5,
-	
-	fogRadius: 4,
-	
+const crystalCollector = new BeamDrill("crystal-collector");
+exports.crystalCollector = crystalCollector;
+Object.assign(crystalCollector, {
+	drillTime: 120 / 0.5,
+	optionalBoostIntensity: 4,
+	tier: 3,
+	size: 2,
+	range: 7,
+	fogRadius: 3,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.production,
 	requirements: ItemStack.with(
-		Items.graphite, 60,
-		item.biomassSteel, 120,
-		item.organosilicon, 90,
-	),
+		item.ossature, 30,
+		item.nickel, 20,
+	)
 })
-impactBiomassDrill.consumePower(140 / 60);
-impactBiomassDrill.consumeLiquid(Liquids.water, 0.1);
+crystalCollector.consumeLiquid(Liquids.water, 3 / 60).boost();
+crystalCollector.consumePower(0.15);
 
 const incubator = new GenericCrafter("incubator");
 exports.incubator = incubator;
@@ -73,8 +78,8 @@ Object.assign(incubator, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.production,
 	requirements: ItemStack.with(
-		Items.lead, 70,
-		item.biomassSteel, 80,
+		item.ossature, 70,
+		item.nickel, 150,
 		item.organosilicon, 60,
 	),
 })
@@ -104,11 +109,12 @@ Object.assign(enrichmentIncubator, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.production,
 	requirements: ItemStack.with(
-		Items.lead, 75,
-		Items.titanium, 60,
+		Items.thorium, 100,
+		item.ossature, 75,
+		item.nickel, 75,
 		item.biomassSteel, 135,
 		item.organosilicon, 125,
 	),
 })
 enrichmentIncubator.consumePower(40 / 60);
-enrichmentIncubator.consumeLiquid(Liquids.neoplasm, 12 / 60);
+enrichmentIncubator.consumeLiquid(Liquids.neoplasm, 6 / 60);

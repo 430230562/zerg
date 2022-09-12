@@ -1,187 +1,319 @@
 const item = require('item');
-const Ef = require('effect');
+const liquid = require('liquid');
+const status = require('status');
+const b = require('base/bulletType');
 
-Blocks.salvo.ammoTypes.put(
-	Items.titanium, Object.assign(new BasicBulletType(4, 24, "bullet"), {
-		width: 10,
-		height: 13,
-		shootEffect: Fx.shootBig,
-		smokeEffect: Fx.shootBigSmoke,
+const Venom = b.Venom;
+const FlameBulletType = b.FlameBulletType;
+
+const putrefaction = new ItemTurret("putrefaction");
+exports.putrefaction = putrefaction;
+Object.assign(putrefaction, {
+	size: 1,
+	health: 300,
+	range: 8 * 23,
+	reload: 60,
+	shootCone: 5,
+	inaccuracy: 0,
+	rotateSpeed: 2.5,
+	ammoUseEffect: Fx.casing1,
+	targetAir: false,
+	shootSound: Sounds.bang,
+	alwaysUnlocked: true,
+	
+	buildVisibility: BuildVisibility.shown,
+	category: Category.turret,
+	requirements: ItemStack.with(
+		Items.graphite, 17,
+		item.ossature, 45,
+	)
+})
+putrefaction.ammo(
+	item.biomass, Object.assign(new ArtilleryBulletType(3, 20), {
+		knockback: 0.8,
+		lifetime: 80,
+		width: 11,
+		height: 11,
+		collidesTiles: false,
+		splashDamageRadius: 8 * 2.25,
+		splashDamage: 40,
+		ammoMultiplier: 2,
+		
+		backColor: Color.valueOf("84a94b"),
+		frontColor: Color.valueOf("84a94b"),
+		trailColor: Color.valueOf("84a94b"),
+		
+		status: status.poisoning,
+		statusDuration: 600,
+		
+		fragBullets: 4,
+		fragBullet: new Venom(18),
+	}),
+	item.ossature, Object.assign(new ArtilleryBulletType(3, 15), {
+		knockback: 0.8,
+		lifetime: 80,
+		width: 11,
+		height: 11,
+		collidesTiles: false,
+		splashDamageRadius: 8 * 3.75,
+		splashDamage: 27,
+		backColor: Pal.gray,
+		frontColor: Color.white,
+		ammoMultiplier: 3,
+		reloadMultiplier: 1.15,
+		fragBullets: 5,
+		fragBullet: Object.assign(new BasicBulletType(3, 8, "bullet"), {
+			width: 5,
+			height: 12,
+			shrinkY: 1,
+			lifetime: 20,
+			backColor: Pal.gray,
+			frontColor: Color.white,
+			despawnEffect: Fx.none,
+		})
+	}),
+	item.organosilicon, Object.assign(new ArtilleryBulletType(3, 20), {
+		knockback: 0.8,
+		lifetime: 80,
+		width: 11,
+		height: 11,
+		collidesTiles: false,
+		splashDamageRadius: 8 * 2.25,
+		splashDamage: 40,
 		ammoMultiplier: 4,
-		lifetime: 60,
-		frontColor: Color.valueOf("8da1e3"),
-		backColor: Color.valueOf("8da1e3"),
+		reloadMultiplier: 1.4,
+		
+		homingPower: 0.08,
+		
+		backColor: Color.valueOf("da5760"),
+		frontColor: Color.valueOf("da5760"),
+		trailColor: Color.valueOf("da5760"),
+		
+		status: status.poisoning,
+		statusDuration: 600,
+		
+		fragBullets: 2,
+		fragBullet: new Venom(18),
+	})
+)
+
+const corrosion = new ItemTurret("corrosion");
+exports.corrosion = corrosion;
+Object.assign(corrosion, {
+	reload: 60,
+	size: 2,
+	range: 8 * 30.5,
+	shootCone: 15,
+	health: 960,
+	inaccuracy: 1,
+	rotateSpeed: 3.5,
+	ammoUseEffect: Fx.casing1,
+	targetAir: false,
+	shootSound: Sounds.bang,
+	shoot: Object.assign(new ShootPattern(), {
+		shots: 4,
+		shotDelay: 4,
+	}),
+	category: Category.turret,
+	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+		Items.graphite, 40,
+		item.biomassSteel, 80,
+		item.organosilicon, 40
+	),
+})
+corrosion.ammo(
+	item.biomass, Object.assign(new ArtilleryBulletType(3, 20), {
+		knockback: 0.8,
+		lifetime: 80,
+		width: 11,
+		height: 11,
+		collidesTiles: false,
+		splashDamageRadius: 8 * 2.25,
+		splashDamage: 40,
+		ammoMultiplier: 2,
+		
+		backColor: Color.valueOf("84a94b"),
+		frontColor: Color.valueOf("84a94b"),
+		trailColor: Color.valueOf("84a94b"),
+		
+		status: status.poisoning,
+		statusDuration: 600,
+		
+		fragBullets: 4,
+		fragBullet: new Venom(18),
+	}),
+	item.ossature, Object.assign(new ArtilleryBulletType(3, 15), {
+		knockback: 0.8,
+		lifetime: 80,
+		width: 11,
+		height: 11,
+		collidesTiles: false,
+		splashDamageRadius: 8 * 3.75,
+		splashDamage: 27,
+		backColor: Pal.gray,
+		frontColor: Color.white,
+		ammoMultiplier: 3,
+		reloadMultiplier: 1.15,
+		fragBullets: 5,
+		fragBullet: Object.assign(new BasicBulletType(3, 8, "bullet"), {
+			width: 5,
+			height: 12,
+			shrinkY: 1,
+			lifetime: 20,
+			backColor: Pal.gray,
+			frontColor: Color.white,
+			despawnEffect: Fx.none,
+		})
+	}),
+	item.crystal, Object.assign(new ArtilleryBulletType(3, 20), {
+		knockback: 0.8,
+		lifetime: 80,
+		width: 11,
+		height: 11,
+		collidesTiles: false,
+		splashDamageRadius: 8 * 3.75,
+		splashDamage: 47,
+		backColor: Color.valueOf("7e8ae6"),
+		frontColor: Color.white,
+		ammoMultiplier: 4,
+		reloadMultiplier: 1.5,
+		fragBullets: 5,
+		fragBullet: Object.assign(new BasicBulletType(3, 12, "bullet"), {
+			width: 5,
+			height: 12,
+			shrinkY: 1,
+			lifetime: 20,
+			backColor: Pal.gray,
+			frontColor: Color.white,
+			despawnEffect: Fx.none,
+		})
+	}),
+	item.organosilicon, Object.assign(new ArtilleryBulletType(3, 20), {
+		knockback: 0.8,
+		lifetime: 80,
+		width: 11,
+		height: 11,
+		collidesTiles: false,
+		splashDamageRadius: 8 * 2.25,
+		splashDamage: 40,
+		ammoMultiplier: 4,
+		reloadMultiplier: 1.4,
+		
+		homingPower: 0.08,
+		
+		backColor: Color.valueOf("da5760"),
+		frontColor: Color.valueOf("da5760"),
+		trailColor: Color.valueOf("da5760"),
+		
+		status: status.poisoning,
+		statusDuration: 600,
+		
+		fragBullets: 2,
+		fragBullet: new Venom(18),
+	})
+)
+
+const spark = new ItemTurret("spark");
+exports.spark = spark;
+Object.assign(spark, {
+	recoil: 0,
+	reload: 60 / 10,
+	range: 60,
+	shootCone: 30,
+	targetAir: false,
+	ammoUseEffect: Fx.none,
+	health: 400,
+	shootSound: Sounds.flame,
+	
+	buildVisibility: BuildVisibility.shown,
+	category: Category.turret,
+	requirements: ItemStack.with(
+		Items.graphite, 22,
+		item.ossature, 25,
+	)
+})
+spark.ammo(
+	Items.coal, Object.assign(new FlameBulletType(3.35, 17), {
+		ammoMultiplier: 3,
+		statusDuration: 60 * 6,
+		shootEffect: Fx.shootSmallFlame,
+	}),
+	item.biomass, Object.assign(new FlameBulletType(3.35, 22), {
+		ammoMultiplier: 4,
+		statusDuration: 60 * 6,
+		shootEffect: Fx.shootSmallFlame,
+	}),
+	item.methylSulfone, Object.assign(new FlameBulletType(4, 70), {
+		ammoMultiplier: 8,
+		statusDuration: 60 * 12,
+		shootEffect: Fx.shootPyraFlame,
 		reloadMultiplier: 1.2,
 	})
 )
 
-Blocks.salvo.ammoTypes.put(
-	item.methylSulfone, Object.assign(new BasicBulletType(3.5, 21), {
-		width: 10,
-		height: 12,
-		frontColor: Color.valueOf("ede892"),
-		backColor: Color.valueOf("d9c668"),
-		status: StatusEffects.burning,
-		hitEffect: new MultiEffect(
-			Fx.hitBulletSmall,
-			Fx.fireHit
-		),
-		ammoMultiplier: 6,
-		splashDamage: 16,
-		splashDamageRadius: 32,
-		makeFire: true,
-		lifetime: 210 / 3.5,
-	})
-)
-
-Blocks.swarmer.ammoTypes.put(
-	item.methylSulfone, Object.assign(new MissileBulletType(3.9, 12), {
-		frontColor: Color.valueOf("ede892"),
-		backColor: Color.valueOf("d9c668"),
-		trailColor: Color.valueOf("ede892"),
-		width: 7,
-		height: 8,
-		shrinkY: 0,
-		homingPower: 0.08,
-		splashDamageRadius: 35,
-		splashDamage: 30 * 1.7,
-		makeFire: true,
-		ammoMultiplier: 5,
-		hitEffect: Fx.blastExplosion,
-		status: StatusEffects.burning,
-	})
-)
-
-Blocks.hail.ammoTypes.put(
-	item.methylSulfone, Object.assign(new ArtilleryBulletType(3.5, 25), {
-		hitEffect: Fx.blastExplosion,
-		knockback: 0.8,
-		lifetime: 80,
-		width: 13,
-		height: 13,
-		collidesTiles: false,
-		splashDamageRadius: 25,
-		splashDamage: 55,
-		status: StatusEffects.burning,
-		statusDuration: 60 * 15,
-		frontColor: Color.valueOf("ede892"),
-		backColor: Color.valueOf("d9c668"),
-		trailColor: Color.valueOf("ede892"),
-		makeFire: true,
-		trailEffect: Fx.incendTrail,
-		ammoMultiplier: 5,
-	})
-)
-
-Blocks.hail.ammoTypes.put(
-	Items.metaglass, Object.assign(new ArtilleryBulletType(3, 15), {
-		knockback: 0.8,
-		lifetime: 80,
-		width: 11,
-		height: 11,
-		collidesTiles: false,
-		splashDamageRadius: 8 * 3.75,
-		splashDamage: 27,
-		backColor: Pal.gray,
-		frontColor: Color.white,
-		ammoMultiplier: 4,
-		reloadMultiplier: 1.15,
-		fragBullets: 5,
-		fragBullet: Object.assign(new BasicBulletType(3, 8, "bullet"), {
-			width: 5,
-			height: 12,
-			shrinkY: 1,
-			lifetime: 20,
-			backColor: Pal.gray,
-			frontColor: Color.white,
-			despawnEffect: Fx.none,
-		})
-	})
-)
-
-Blocks.ripple.ammoTypes.put(
-	item.methylSulfone, Object.assign(new ArtilleryBulletType(3.5, 25), {
-		hitEffect: Fx.blastExplosion,
-		knockback: 0.8,
-		lifetime: 80,
-		width: 13,
-		height: 13,
-		collidesTiles: false,
-		splashDamageRadius: 25,
-		splashDamage: 55,
-		status: StatusEffects.burning,
-		statusDuration: 60 * 15,
-		frontColor: Color.valueOf("ede892"),
-		backColor: Color.valueOf("d9c668"),
-		trailColor: Color.valueOf("ede892"),
-		makeFire: true,
-		trailEffect: Fx.incendTrail,
-		ammoMultiplier: 5,
-	})
-)
-
-Blocks.ripple.ammoTypes.put(
-	Items.metaglass, Object.assign(new ArtilleryBulletType(3, 15), {
-		knockback: 0.8,
-		lifetime: 80,
-		width: 11,
-		height: 11,
-		collidesTiles: false,
-		splashDamageRadius: 8 * 3.75,
-		splashDamage: 27,
-		backColor: Pal.gray,
-		frontColor: Color.white,
-		ammoMultiplier: 4,
-		reloadMultiplier: 1.15,
-		fragBullets: 5,
-		fragBullet: Object.assign(new BasicBulletType(3, 8, "bullet"), {
-			width: 5,
-			height: 12,
-			shrinkY: 1,
-			lifetime: 20,
-			backColor: Pal.gray,
-			frontColor: Color.white,
-			despawnEffect: Fx.none,
-		})
-	})
-)
-
-const interferenceRay = new ContinuousTurret("interference-ray")
-exports.interferenceRay = interferenceRay;
-Object.assign(interferenceRay, {
-	health: 960,
-	size: 3,
-	range: 160,
-	cooldownTime: 60,
-	shootSound: Sounds.none,
-	unitSort: (u, x, y) => u.maxHealth + Mathf.dst2(u.x, u.y, x, y) / 6400,
-	shootY: 7.5,
-	shootCone: 45,
-	aimChangeSpeed: 5,
-	displayAmmoMultiplier: true,
-	rotateSpeed: 1.4,
-	shootType: Object.assign(extend(PointLaserBulletType, {
-		hitEntity(b, entity, health) {
-			this.super$hitEntity(b, entity, health);
-			if(entity instanceof Unit) {
-				var unit = entity;
-				if (unit.health <= 50) {
-					unit.team = b.team,
-					unit.heal(),
-					this.damage += 0.1
-				}
-			}
-		}
-	}), {
-	damage: 5,
-	beamEffect: Ef.interfere,
+const sputtering = new ItemTurret("sputtering");
+exports.sputtering = sputtering;
+Object.assign(sputtering, {
+	reload: 9,
+	range: 220,
+	size: 2,
+	targetGround: false,
+	
+	shoot: Object.assign(new ShootPattern(), {
+		shots: 2,
+		shotDelay: 5,
 	}),
-	requirements: ItemStack.with(
-		Items.graphite, 200,
-		item.biomassSteel, 250,
-		item.organosilicon, 300,
-	),
+	
+	recoil: 2,
+	rotateSpeed: 15,
+	inaccuracy: 17,
+	shootCone: 35,
+	
+	scaledHealth: 200,
+	shootSound: Sounds.shootSnap,
+	
+	researchCostMultiplier: 0.25,
+	
 	buildVisibility: BuildVisibility.shown,
 	category: Category.turret,
+	requirements: ItemStack.with(
+		item.ossature, 85,
+		item.nickel, 45,
+	)
 })
-interferenceRay.consumePower(2.7);
+sputtering.ammo(
+	item.ossature, Object.assign(new FlakBulletType(4.2, 3), {
+		lifetime: 60,
+		ammoMultiplier: 4,
+		shootEffect: Fx.shootSmall,
+		width: 6,
+		height: 8,
+		hitEffect: Fx.flakExplosion,
+		splashDamage: 30 * 1.5,
+		splashDamageRadius: 24,
+	}),
+	item.crystal, Object.assign(new FlakBulletType(4, 3), {
+		lifetime: 60,
+		ammoMultiplier: 5,
+		reloadMultiplier: 1.5,
+		shootEffect: Fx.shootSmall,
+		width: 6,
+		height: 8,
+		hitEffect: Fx.flakExplosion,
+		splashDamage: 30 * 1.5,
+		splashDamageRadius: 24,
+		backColor: Color.valueOf("7e8ae6"),
+		frontColor: Color.white,
+		fragBullets: 7,
+		fragBullet: Object.assign(new BasicBulletType(3, 7, "bullet"), {
+			width: 5,
+			height: 12,
+			shrinkY: 1,
+			lifetime: 20,
+			backColor: Color.valueOf("7e8ae6"),
+			frontColor: Color.white,
+			despawnEffect: Fx.none,
+		})
+	})
+)

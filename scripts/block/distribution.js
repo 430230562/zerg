@@ -1,5 +1,19 @@
 const item = require('item');
 
+const ossatureConveyor = new Conveyor("ossature-conveyor");
+exports.ossatureConveyor = ossatureConveyor;
+Object.assign(ossatureConveyor, {
+	buildVisibility: BuildVisibility.shown,
+	category: Category.distribution,
+	requirements: ItemStack.with(
+		item.ossature, 1
+	),
+	health: 55,
+	speed: 0.05,
+	displayedSpeed: 6.5,
+	alwaysUnlocked: true
+})
+
 const biomassConveyor = new Conveyor("biomass-conveyor");
 exports.biomassConveyor = biomassConveyor;
 Object.assign(biomassConveyor, {
@@ -23,25 +37,55 @@ Object.assign(railway, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		Items.copper, 2,
-		item.biomassSteel, 10,
-		item.organosilicon, 7,
+		Items.thorium, 5,
+		item.biomassSteel, 8,
+		item.organosilicon, 5,
 	),
 })
 
 const armoredBiomassConveyor = ArmoredConveyor("armored-biomass-conveyor");
 exports.armoredBiomassConveyor = armoredBiomassConveyor;
 Object.assign(armoredBiomassConveyor, {
-buildVisibility: BuildVisibility.shown,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		Items.plastanium, 1,
-		item.biomassSteel, 4,
-		item.organosilicon, 2
+		Items.thorium, 3,
+		item.biomassSteel, 2,
+		item.organosilicon, 1
 	),
 	health: 90 * 3.5,
 	speed: 0.11,
 	displayedSpeed: 15.7,
+})
+
+const ossatureJunction = new Junction("ossature-junction");
+exports.ossatureJunction = ossatureJunction;
+Object.assign(ossatureJunction, {
+	buildVisibility: BuildVisibility.shown,
+	category: Category.distribution,
+	requirements: ItemStack.with(
+		item.ossature, 2,
+		item.nickel, 1
+	),
+	speed: 20,
+	capacity: 4,
+	health: 55
+})
+
+const ossatureBridge = new ItemBridge("ossature-bridge");
+exports.ossatureBridge = ossatureBridge;
+Object.assign(ossatureBridge, {
+	fadeIn: false,
+	moveArrows: false,
+	hasPower: false,
+	range: 7,
+	arrowSpacing: 6,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.distribution,
+	requirements: ItemStack.with(
+		item.ossature, 6,
+		item.nickel, 6
+	),
 })
 
 const biomassConveyorBridge = new ItemBridge("biomass-conveyor-bridge");
@@ -50,15 +94,83 @@ Object.assign(biomassConveyorBridge, {
 	fadeIn: false,
 	moveArrows: false,
 	hasPower: false,
-	range: 8,
+	range: 10,
 	arrowSpacing: 6,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		Items.lead, 5,
+		item.nickel, 5,
 		item.biomassSteel, 20,
 		item.organosilicon, 15
 	),
+})
+
+const ossatureSorter = new Sorter("ossature-sorter");
+exports.ossatureSorter = ossatureSorter;
+Object.assign(ossatureSorter, {
+	buildVisibility: BuildVisibility.shown,
+	category: Category.distribution,
+	requirements: ItemStack.with(
+		item.ossature, 2,
+		item.nickel, 2
+	),
+})
+
+const invertedOssatureSorter = new Sorter("inverted-ossature-sorter");
+exports.invertedOssatureSorter = invertedOssatureSorter;
+Object.assign(invertedOssatureSorter, {
+	buildVisibility: BuildVisibility.shown,
+	category: Category.distribution,
+	requirements: ItemStack.with(
+		item.ossature, 2,
+		item.nickel, 2
+	),
+	invert: true
+})
+
+const ossatureOverflowGate = new OverflowGate("ossature-overflow-gate");
+exports.ossatureOverflowGate = ossatureOverflowGate;
+Object.assign(ossatureOverflowGate, {
+	buildVisibility: BuildVisibility.shown,
+	category: Category.distribution,
+	requirements: ItemStack.with(
+		item.ossature, 4,
+		item.nickel, 2
+	),
+})
+
+const ossatureUnderflowGate = new OverflowGate("ossature-underflow-gate");
+exports.ossatureUnderflowGate = ossatureUnderflowGate;
+Object.assign(ossatureUnderflowGate, {
+	buildVisibility: BuildVisibility.shown,
+	category: Category.distribution,
+	requirements: ItemStack.with(
+		item.ossature, 4,
+		item.nickel, 2
+	),
+	invert: true
+})
+
+const ossatureRouter = new Router("ossature-router");
+exports.ossatureRouter = ossatureRouter;
+Object.assign(ossatureRouter, {
+	buildVisibility: BuildVisibility.shown,
+	category: Category.distribution,
+	requirements: ItemStack.with(
+		item.ossature, 4,
+	),
+})
+
+const ossatureDistributor = new Router("ossature-distributor");
+exports.ossatureDistributor = ossatureDistributor;
+Object.assign(ossatureDistributor, {
+	buildVisibility: BuildVisibility.shown,
+	category: Category.distribution,
+	requirements: ItemStack.with(
+		item.ossature, 4,
+		item.nickel, 4
+	),
+	size: 2
 })
 
 const biomassLaunchPad = new LaunchPad("biomass-launch-pad");
@@ -73,59 +185,14 @@ Object.assign(biomassLaunchPad, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		Items.copper, 750,
-		Items.lead, 500,
 		Items.graphite, 300,
+		item.ossature, 750,
+		item.nickel, 500,
 		item.biomassSteel, 700,
 		item.organosilicon, 500,
 	)
 })
 biomassLaunchPad.consumePower(7.5);
-
-const peristalticPump = new Pump("peristaltic-pump");
-exports.peristalticPump = peristalticPump;
-Object.assign(peristalticPump, {
-	pumpAmount: (6 / 60) / 0.35,
-	health: 80,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.liquid,
-	requirements: ItemStack.with(
-		Items.copper, 30,
-		item.biomassSteel, 40,
-		item.organosilicon, 40,
-	)
-})
-
-const biomassConduit = new Conduit("biomass-conduit");
-exports.biomassConduit = biomassConduit;
-Object.assign(biomassConduit, {
-	health: 90,
-	liquidCapacity: 16,
-	liquidPressure: 1.41,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.liquid,
-	requirements: ItemStack.with(
-		item.biomassSteel, 2,
-		item.organosilicon, 1
-	)
-})
-
-const biomassConduitBridge = new LiquidBridge("biomass-conduit-bridge");
-exports.biomassConduitBridge = biomassConduitBridge;
-Object.assign(biomassConduitBridge, {
-	fadeIn: false,
-	moveArrows: false,
-	hasPower: false,
-	range: 8,
-	arrowSpacing: 6,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.liquid,
-	requirements: ItemStack.with(
-		Items.lead, 5,
-		item.biomassSteel, 20,
-		item.organosilicon, 15
-	),
-})
 
 const heatPipe = new HeatConductor("heat-pipe")
 exports.heatPipe = heatPipe;
@@ -133,8 +200,8 @@ Object.assign(heatPipe, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
-		Items.copper, 5,
-		item.biomassSteel, 3,
+		item.ossature, 5,
+		item.nickel, 5,
 	),
 	size: 1,
 	drawer: new DrawMulti(

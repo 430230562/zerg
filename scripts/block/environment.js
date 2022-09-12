@@ -23,21 +23,6 @@ Object.assign(arkyciteSand, {
 })
 arkyciteSand.attributes.set(Attribute.water, -0.2);
 
-const sandArkycite = new Floor("sand-arkycite");
-exports.sandArkycite = sandArkycite;
-Object.assign(sandArkycite, {
-	speedMultiplier: 0.8,
-	variants: 0,
-	status: StatusEffects.none,
-	statusDuration: 90,
-	liquidDrop: Liquids.arkycite,
-	isLiquid: true,
-	cacheLayer: CacheLayer.arkycite,
-	albedo: 0.9,
-	supportsOverlay: true,
-	liquidMultiplier: 0.7,
-})
-
 //neoplasm
 const neoplasmSandWall = new StaticWall("neoplasm-sand-wall");
 exports.neoplasmSandWall = neoplasmSandWall;
@@ -81,7 +66,7 @@ Object.assign(neoplasm, {
 	speedMultiplier: 0.5,
 	variants: 0,
 	status: status.dissimilation,
-	statusDuration: 90,
+	statusDuration: 120,
 	liquidDrop: Liquids.neoplasm,
 	isLiquid: true,
 	cacheLayer: CacheLayer.water,
@@ -91,4 +76,10 @@ Object.assign(neoplasm, {
 	drownTime: 60 * 1.2,
 })
 
-const oreBiomassSteel = new OreBlock("ore-biomass-steel",item.biomassSteel)
+const oreOssature = new OreBlock("ore-ossature",item.ossature);
+const oreNickel = new OreBlock("ore-nickel", item.nickel);
+
+const WallOreCrystal = new OreBlock("wall-ore-crystal", item.crystal)
+Object.assign(WallOreCrystal, {
+	wallOre: true
+})

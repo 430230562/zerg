@@ -1,5 +1,56 @@
 const item = require('item');
 
+const compressor = new GenericCrafter("compressor");
+exports.compressor = compressor
+Object.assign(compressor, {
+	craftEffect: Fx.pulverizeMedium,
+	outputItem: new ItemStack(Items.graphite, 2),
+	craftTime: 90,
+	size: 2,
+	hasItems: true,
+	hasLiquids: false,
+	alwaysUnlocked: true,
+	
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		item.ossature, 75,
+		item.nickel, 30,
+	)
+})
+compressor.consumeItem(Items.coal, 3);
+
+const hydraulicPress = new GenericCrafter("hydraulic-press");
+exports.hydraulicPress = hydraulicPress;
+Object.assign(hydraulicPress, {
+	craftEffect: Fx.pulverizeMedium,
+	outputItem: new ItemStack(Items.graphite, 8),
+	craftTime: 150,
+	size: 3,
+	hasItems: true,
+	hasLiquids: true,
+	alwaysUnlocked: true,
+	drawer: new DrawMulti(
+		new DrawDefault(), 
+		Object.assign(new DrawRegion("-rotator"), {
+			spinSprite: true,
+			rotateSpeed: -4.5,
+		})
+	),
+	
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.graphite, 50,
+		item.nickel, 100,
+		item.biomassSteel, 100,
+		item.organosilicon, 25,
+	)
+})
+hydraulicPress.consumeItem(Items.coal, 9);
+hydraulicPress.consumePower(108 / 60);
+hydraulicPress.consumeLiquid(Liquids.water, 4 / 60);
+
 const smelter = new GenericCrafter("smelter");
 exports.smelter = smelter;
 Object.assign(smelter, {
@@ -19,8 +70,8 @@ Object.assign(smelter, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
-		Items.copper, 60,
-		Items.lead, 60,
+		item.ossature, 60,
+		item.nickel, 60,
 	)
 })
 smelter.consumeItems(ItemStack.with(
@@ -29,13 +80,47 @@ smelter.consumeItems(ItemStack.with(
 ));
 smelter.consumePower(0.50);
 
-const compressor = new GenericCrafter('compressor');
-exports.compressor = compressor;
-Object.assign(compressor, {
+const crucible = new AttributeCrafter("crucible");
+exports.crucible = crucible;
+Object.assign(crucible, {
+	craftEffect: Fx.smeltsmoke,
+	outputItem: new ItemStack(item.organosilicon, 8),
+	craftTime: 90,
+	size: 3,
+	hasPower: true,
+	hasLiquids: false,
+	itemCapacity: 30,
+	boostScale: 0.15,
+	drawer: new DrawMulti(
+		new DrawDefault(),
+		new DrawFlame(Color.valueOf("ffef99"))
+	),
+	
+	ambientSound: Sounds.smelter,
+	ambientSoundVolume: 0.07,
+	
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		item.nickel, 100,
+		item.crystal, 50,
+		item.biomassSteel, 75,
+		item.organosilicon, 150,
+	)
+})
+crucible.consumeItems(ItemStack.with(
+	Items.coal, 5, 
+	item.organosand, 8,
+));
+crucible.consumePower(4);
+
+const screwCompressor = new GenericCrafter('screw-compressor');
+exports.screwCompressor = screwCompressor;
+Object.assign(screwCompressor, {
 	hasItems: true,
 	hasLiquids: false,
 	hasPower: true,
-	craftTime: 30,
+	craftTime: 60,
 	outputItem: new ItemStack(item.biomassSteel, 1),
 	size: 2,
 	health: 320,
@@ -51,15 +136,14 @@ Object.assign(compressor, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
-		Items.copper, 70,
-		Items.lead, 110,
-		item.biomassSteel, 140,
-		item.organosilicon, 105,
+		item.ossature, 70,
+		item.nickel, 110,
+		item.organosilicon, 150,
 	)
 })
-compressor.consumePower(145 / 60);
-compressor.consumeItems(ItemStack.with(
-	Items.titanium, 1,
+screwCompressor.consumePower(145 / 60);
+screwCompressor.consumeItems(ItemStack.with(
+	item.nickel, 1,
 	item.biomass, 1
 ));
 
@@ -86,85 +170,17 @@ Object.assign(parallelCompressor, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
-		Items.copper, 170,
-		Items.titanium, 80,
-		Items.thorium, 70,
+		Items.thorium, 150,
+		item.ossature, 170,
 		item.biomassSteel, 300,
 		item.organosilicon, 150,
 	)
 })
 parallelCompressor.consumePower(215 / 60);
 parallelCompressor.consumeItems(ItemStack.with(
-	Items.titanium, 3,
+	item.nickel, 3,
 	item.biomass, 2
 ));
-
-const centrifuge = new GenericCrafter("centrifuge");
-exports.centrifuge = centrifuge;
-Object.assign(centrifuge, {
-	outputLiquid: new LiquidStack(Liquids.water, 6 / 60),
-	size: 2,
-	hasPower: true,
-	hasItems: true,
-	hasLiquids: true,
-	rotate: false,
-	solid: true,
-	outputsLiquid: true,
-	liquidCapacity: 24,
-	craftTime: 120,
-	drawer: new DrawMulti(
-		new DrawDefault(), 
-		Object.assign(new DrawRegion("-rotator"), {
-			spinSprite: true,
-			rotateSpeed: 18,
-		})
-	),
-	buildVisibility: BuildVisibility.shown,
-	category: Category.crafting,
-	requirements: ItemStack.with(
-		Items.copper, 70,
-		item.biomassSteel, 90,
-		item.organosilicon, 50,
-	),
-})
-centrifuge.consumePower(1)
-centrifuge.consumeLiquid(Liquids.neoplasm, 9 / 60);
-
-const extractor = new GenericCrafter("extractor");
-exports.extractor = extractor;
-Object.assign(extractor, {
-	outputLiquid: new LiquidStack(Liquids.oil, 12 / 60),
-	size: 2,
-	hasPower: true,
-	hasItems: true,
-	hasLiquids: true,
-	rotate: false,
-	solid: true,
-	outputsLiquid: true,
-	liquidCapacity: 36,
-	craftTime: 120,
-	drawer: new DrawMulti(
-		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.arkycite),
-		new DrawLiquidTile(Liquids.oil),
-		new DrawDefault(),
-		Object.assign(new DrawCultivator(), {
-			plantColor: Color.valueOf("313131"),
-			plantColorLight: Color.valueOf("61615b"),
-		}),
-		new DrawRegion("-top")
-	),
-	buildVisibility: BuildVisibility.shown,
-	category: Category.crafting,
-	requirements: ItemStack.with(
-		Items.lead, 80,
-		Items.graphite, 40,
-		item.biomassSteel, 50,
-		item.organosilicon, 120,
-	),
-})
-extractor.consumePower(2.4)
-extractor.consumeLiquid(Liquids.arkycite, 18 / 60);
 
 const synthesizer = new GenericCrafter("synthesizer");
 exports.synthesizer = synthesizer;
@@ -177,8 +193,8 @@ Object.assign(synthesizer, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
-		Items.lead, 25,
-		item.biomassSteel, 25,
+		item.ossature, 25,
+		item.nickel, 25,
 	),
 })
 synthesizer.consumePower(0.35);
