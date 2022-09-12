@@ -3,9 +3,11 @@ require('liquid');
 require('status');
 require('unit');
 require('weather');
+require('block/core');
 require('block/distribution');
 require('block/environment');
 require('block/factory');
+require('block/liquidBlock')
 require('block/power');
 require('block/production');
 require('block/turret');

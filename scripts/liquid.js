@@ -21,6 +21,6 @@ Object.assign(venom, {
 	moveThroughBlocks: true,
 	
 	spreadTarget: Liquids.water,
-	colorFrom: Color.valueOf("4 84a94b"),
+	colorFrom: Color.valueOf("84a94b"),
 	colorTo: Color.valueOf("98ba53"),
 })

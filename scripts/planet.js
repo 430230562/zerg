@@ -1,15 +1,9 @@
-const sS = require("base/sectorSize");
+const item = require('item');
+const core = require('block/core');
 
-const darkGreen = new JavaAdapter(Planet, {
-	load() {
-		this.meshLoader = prov(() => new HexMesh(darkGreen, 4.5));
-		this.super$load();
-	}
-}, "darkGreen", Planets.sun, 1);
-
-sS.planetGrid(darkGreen, 2.4);
-
-Object.assign(darkGreen, {
+const gredizion = new Planet("gredizion", Planets.sun, 1, 2.4);
+gredizion.meshLoader = prov(() => new HexMesh(gredizion, 4.5));
+Object.assign(gredizion, {
 	generator: extend(SerpuloPlanetGenerator,  {
 	allowLoading(Landing){return false}
 	}),
@@ -27,40 +21,74 @@ Object.assign(darkGreen, {
 	orbitTime: 247 * 60,
 	rotateTime: 27 * 60,
 	updateLighting: false,
+	defaultCore: core.ash,
 })
-darkGreen.totalRadius += 2.6;
-darkGreen.ruleSetter = r => {
+gredizion.totalRadius += 2.6;
+gredizion.ruleSetter = r => {
 	r.attributes.set(Attribute.heat, -0.3);
 	r.attributes.set(Attribute.water, -0.2);
 	r.attributes.set(Attribute.spores, -0.15);
 	r.attributes.set(Attribute.light, -0.3);
 }
-darkGreen.hiddenItems.addAll(Items.erekirItems).removeAll(Items.serpuloItems);
-exports.darkGreen = darkGreen;
+gredizion.hiddenItems.addAll(
+	Items.scrap,
+	Items.copper,
+	Items.lead,
+	Items.titanium,
+	Items.silicon,
+	Items.plastanium,
+	Items.phaseFabric,
+	Items.surgeAlloy,
+	Items.sporePod,
+	Items.sand,
+	Items.blastCompound,
+	Items.pyratite,
+	Items.metaglass,
+	Items.beryllium,
+	Items.tungsten,
+	Items.oxide,
+	Items.carbide,
+	Items.fissileMatter,
+	Items.dormantCyst
+);
+Planets.serpulo.hiddenItems.addAll(
+	item.organosand,
+	item.biomass,
+	item.ossature,
+	item.nickel,
+	item.crystal,
+	item.biomassSteel,
+	item.organosilicon,
+	item.methylSulfone
+);
+Planets.erekir.hiddenItems.addAll(
+	item.organosand,
+	item.biomass,
+	item.ossature,
+	item.nickel,
+	item.crystal,
+	item.biomassSteel,
+	item.organosilicon,
+	item.methylSulfone
+);
+exports.gredizion = gredizion;
 
-const darkGreenMountains = new SectorPreset("darkGreenMountains", darkGreen, 10);
+const darkGreenMountains = new SectorPreset("darkGreenMountains", gredizion, 10);
 exports.darkGreenMountains = darkGreenMountains;
 Object.assign(darkGreenMountains, {
-	captureWave: 30,
-	difficulty: 3,
+	captureWave: 20,
+	difficulty: 2,
 	addStartingItems: true,
 })
 
-const crimsonPass = new SectorPreset("crimsonPass", darkGreen, 37);
+const crimsonPass = new SectorPreset("crimsonPass", gredizion, 37);
 exports.crimsonPass = crimsonPass;
 Object.assign(crimsonPass, {
 	captureWave: 40,
 	difficulty: 4,
 })
 
-const discoveryStation = new SectorPreset("discoveryStation", darkGreen, 34);
-exports.discoveryStation = discoveryStation;
-Object.assign(discoveryStation, {
-	captureWave: 0,
-	difficulty: 4,
-})
-
-const biomassComplex = new SectorPreset("biomassComplex", darkGreen, 69);
+const biomassComplex = new SectorPreset("biomassComplex", gredizion, 69);
 exports.biomassComplex = biomassComplex;
 Object.assign(biomassComplex, {
 	captureWave: 50,

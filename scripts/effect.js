@@ -21,3 +21,5 @@ const interfere = Object.assign(new WaveEffect(), {
 	colorTo: Color.valueOf("ffffff")
 })
 exports.interfere = interfere;
+
+//function FlameEffect()

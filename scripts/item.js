@@ -12,10 +12,34 @@ Object.assign(biomass, {
 	flammability: 1.35
 })
 
+const ossature = new Item("ossature", Color.valueOf("bcf6ff"));
+exports.ossature = ossature;
+Object.assign(ossature, {
+	hardness: 2,
+	cost: 0.5,
+	alwaysUnlocked: true
+})
+
+const nickel = new Item("nickel", Color.valueOf("00c49b"));
+exports.nickel = nickel
+Object.assign(nickel, {
+	hardness: 2,
+	cost: 0.5,
+	alwaysUnlocked: true
+})
+
+const crystal = new Item("crystal", Color.valueOf("7e8ae6"));
+exports.crystal = crystal;
+Object.assign(crystal, {
+	radioactivity: 0.1,
+	hardness: 3,
+	cost: 2,
+	healthScaling: 0.5,
+})
+
 const biomassSteel = new Item("biomass-steel", Color.valueOf("98ba53"));
 exports.biomassSteel = biomassSteel;
 Object.assign(biomassSteel, {
-	hardness: 3,
 	cost: 1.2,
 	healthScaling: 0.1,
 })

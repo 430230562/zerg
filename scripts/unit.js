@@ -1,6 +1,13 @@
 const status = require('status');
 const liquid = require('liquid');
 const Ef = require('effect');
+const bulletType = require('base/bulletType')
+
+const ArmorReductionBulletType = bulletType.ArmorReductionBulletType;
+const VenomMissileBulletType = bulletType.VenomMissileBulletType;
+const Venom = bulletType.Venom
+
+let controlThreshold = Stat("controlThreshold");
 
 const spider = new UnitType("spider");
 exports.spider = spider;
@@ -69,33 +76,11 @@ Object.assign(new Weapon("bugs-spider-weapon"), {
 	cooldownTime: 42,
 	shootSound: Sounds.swish,
 	heatColor: Color.valueOf("84a94b"),
-	bullet: Object.assign(new MissileBulletType(3,9), {
+	bullet: Object.assign(new VenomMissileBulletType(3, 9, 2), {
 		recoil: 0.8,
-		backColor: Color.valueOf("84a94b"),
-		frontColor: Color.valueOf("84a94b"),
 		lifetime: 45,
-		hitEffect: Fx.none,
-		despawnEffect: Fx.none,
-		trailColor: Color.valueOf("84a94b"),
-		trailWidth: 0.8,
-		trailLength: 14,
-		trailChance: 0,
 		homingRange: 80,
 		homingPower: 0.05,
-		status: status.poisoning,
-		statusDuration: 600,
-		hitSound: Sounds.none,
-		fragBullets: 2,
-		fragBullet: Object.assign(new LiquidBulletType(), {
-			speed: 0.5,
-			damage: 0,
-			liquid: liquid.venom,
-			lifetime: 3,
-			puddleSize: 18,
-			orbSize: 2,
-			status: status.poisoning,
-			statusDuration: 600,
-		})
 	})
 })
 )
@@ -175,16 +160,7 @@ Object.assign(new Weapon(), {
 		statusDuration: 600,
 		
 		fragBullets: 2,
-		fragBullet: Object.assign(new LiquidBulletType(), {
-			speed: 0.5,
-			damage: 0,
-			liquid: liquid.venom,
-			lifetime: 3,
-			puddleSize: 18,
-			orbSize: 2,
-			status: status.poisoning,
-			statusDuration: 600,
-		})
+		fragBullet:new Venom(18)
 	}),
 	shootStatus: StatusEffects.slow,
 	shootStatusDuration: 130,
@@ -236,33 +212,11 @@ Object.assign(new Weapon("bugs-mosquito-weapon"), {
 	cooldownTime: 42,
 	shootSound: Sounds.swish,
 	heatColor: Color.valueOf("84a94b"),
-	bullet: Object.assign(new MissileBulletType(3,9), {
+	bullet: Object.assign(new VenomMissileBulletType(3, 8, 3), {
 		recoil: 0.8,
-		backColor: Color.valueOf("84a94b"),
-		frontColor: Color.valueOf("84a94b"),
 		lifetime: 45,
-		hitEffect: Fx.none,
-		despawnEffect: Fx.none,
-		trailColor: Color.valueOf("84a94b"),
-		trailWidth: 0.8,
-		trailLength: 14,
-		trailChance: 0,
 		homingRange: 80,
 		homingPower: 0.05,
-		status: status.poisoning,
-		statusDuration: 600,
-		hitSound: Sounds.none,
-		fragBullets: 2,
-		fragBullet: Object.assign(new LiquidBulletType(), {
-			speed: 0.5,
-			damage: 0,
-			liquid: liquid.venom,
-			lifetime: 3,
-			puddleSize: 18,
-			orbSize: 2,
-			status: status.poisoning,
-			statusDuration: 600,
-		})
 	})
 })
 )
@@ -333,16 +287,7 @@ Object.assign(new Weapon(), {
 		backColor: Color.valueOf("84a94b"),
 		frontColor: Color.valueOf("84a94b"),
 		fragBullets: 4,
-		fragBullet: Object.assign(new LiquidBulletType(), {
-			speed: 0.5,
-			damage: 0,
-			liquid: liquid.venom,
-			lifetime: 3,
-			puddleSize: 18,
-			orbSize: 2,
-			status: status.poisoning,
-			statusDuration: 600,
-		})
+		fragBullet: new Venom(18)
 	})
 })
 )
@@ -385,11 +330,11 @@ Object.assign(new Weapon(), {
 	shoot: Object.assign(new ShootPattern(), {
 		firstShotDelay: 7.5
 	}),
-	bullet: Object.assign(new ExplosionBulletType(90, 48), {})
+	bullet: new ExplosionBulletType(90, 48),
 })
 )
 
-const egg = new UnitType("egg");
+const egg = new UnitType("egg")
 //exports.egg = egg;
 Object.assign(egg, {
 	outlineColor: Pal.neoplasmOutline,
@@ -476,7 +421,8 @@ Object.assign(testVehicle, {
 	squareShape: true,
 	omniMovement: false,
 	rotateMoveFirst: true,
-	speed: 0.9,
+	targetAir: false,
+	speed: 0.75,
 	hitSize: 14,
 	treadPullOffset: 3,
 	treadRects: [new Rect(24, -32, 8, 64)],
@@ -501,12 +447,9 @@ Object.assign(new Weapon("bugs-test-vehicle-weapon"), {
 	y: -0.75,
 	heatColor: Color.valueOf("f9350f"),
 	cooldownTime: 50,
-	shootSound: Sounds.release,
+	shootSound: Sounds.shootBig,
 	
-	bullet: Object.assign(new BasicBulletType(4, 55), {
-		sprite: "missile-large",
-		smokeEffect: Fx.shootBigSmoke,
-		shootEffect: Fx.shootBigColor,
+	bullet: Object.assign(new ArmorReductionBulletType(4, 65, 3), {
 		width: 5,
 		height: 7,
 		lifetime: 40,
@@ -517,15 +460,13 @@ Object.assign(new Weapon("bugs-test-vehicle-weapon"), {
 		frontColor: Color.white,
 		trailWidth: 1.7,
 		trailLength: 5,
-		despawnEffect: Fx.hitBulletColor,
-		hitEffect: Fx.hitBulletColor,
 		
 		status: status.poisoning,
 		statusDuration: 600,
 		
 		pierce: true,
 		pierceBuilding: true,
-		pierceCap: 3
+		pierceCap: 3,
 	})
 })
 )
@@ -534,9 +475,13 @@ testVehicle.abilities.add(
 		percentAmount: 1 / (120 * 60) * 100,
 	}),
 )
-testVehicle.immunities.addAll(status.poisoning);
 
-const alter = new TankUnitType("alter");
+const alter = extend(TankUnitType, "alter", {
+	setStats() {
+		this.super$setStats();
+		this.stats.add(controlThreshold, Core.bundle.format("controlThreshold", 50));
+	}
+});
 exports.alter = alter;
 Object.assign(alter, {
 	outlineColor: Pal.neoplasmOutline,
@@ -546,7 +491,7 @@ Object.assign(alter, {
 	squareShape: true,
 	omniMovement: false,
 	rotateMoveFirst: true,
-	speed: 1.1,
+	speed: 0.9,
 	hitSize: 10,
 	treadRects: [new Rect(16, -24, 8, 48)],
 	outlineRadius: 1,
@@ -562,9 +507,8 @@ Object.assign(alter, {
 alter.abilities.add(
 	Object.assign(new RegenAbility(), {
 		percentAmount: 1 / (120 * 60) * 100,
-	}),
+	})
 )
-alter.immunities.addAll(status.poisoning);
 alter.weapons.add(
 Object.assign(new Weapon("bugs-alter-weapon"), {
 	layerOffset: 0.0001,
@@ -585,7 +529,7 @@ Object.assign(new Weapon("bugs-alter-weapon"), {
 			this.super$hitEntity(b, entity, health);
 			if(entity instanceof Unit) {
 				var unit = entity;
-				if (unit.health <= b.damage + 50) {
+				if (unit.health <= 50) {
 					unit.team = b.team,
 					unit.heal(),
 					this.damage += 1
@@ -609,4 +553,118 @@ Object.assign(new Weapon("bugs-alter-weapon"), {
 		homingPower: 0.1,
 	})
 })
+)
+
+const embers = new TankUnitType("embers")
+exports.embers = embers;
+Object.assign(embers, {
+	squareShape: true,
+	omniMovement: false,
+	rotateMoveFirst: true,
+	envDisabled: 0,
+	speed: 1.1,
+	outlineColor: Color.valueOf("2d2f39"),
+	hitSize: 14,
+	treadRects: [new Rect(24, -32, 8, 64)],
+	outlineRadius: 1,
+	treadPullOffset: 4,
+	rotateSpeed: 3.5,
+	health: 1200,
+	armor: 4,
+	itemCapacity: 0,
+	researchCostMultiplier: 20,
+	targetAir: false,
+	constructor: () => new TankUnit.create()
+})
+embers.weapons.add(
+Object.assign(new Weapon("bugs-embers-weapon"), {
+	layerOffset: 0.0001,
+	reload: 6,
+	shootY: 12,
+	rotate: true,
+	rotateSpeed: 5,
+	mirror: false,
+	x: 0,
+	y: 0,
+	heatColor: Color.valueOf("f9350f"),
+	cooldownTime: 10,
+	recoil: 0,
+	shootSound: Sounds.flame,
+	bullet: Object.assign(new BulletType(), {
+		speed: 4,
+		damage: 60,
+		hitSize: 7,
+		lifetime: 18,
+		pierce: true,
+		collidesAir: false,
+		statusDuration: 600,
+		shootEffect: Fx.shootPyraFlame,
+		hitEffect: Fx.hitFlameSmall,
+		despawnEffect: Fx.none,
+		status: StatusEffects.burning,
+		hittable: false,
+		pierceArmor: true,
+	})
+})
+)
+embers.abilities.add(
+	Object.assign(new RegenAbility(), {
+		percentAmount: 1 / (120 * 60) * 100,
+	})
+)
+
+const hurricane = new TankUnitType("hurricane");
+exports.hurricane = hurricane;
+Object.assign(hurricane, {
+	squareShape: true,
+	omniMovement: false,
+	rotateMoveFirst: true,
+	envDisabled: 0,
+	speed: 8 * 8 / 60,
+	treadRects: [new Rect(24, -32, 8, 64)],
+	outlineRadius: 1,
+	outlineColor: Color.valueOf("2d2f39"),
+	hitSize: 12,
+	treadPullOffset: 3,
+	rotateSpeed: 5,
+	health: 400,
+	armor: 1,
+	itemCapacity: 0,
+	researchCostMultiplier: 20,
+	targetAir: true,
+	constructor: () => new TankUnit.create()
+})
+hurricane.weapons.add(
+Object.assign(new Weapon("bugs-hurricane-weapon"), {
+	x: 0,
+	y: 0,
+	rotate: true,
+	rotateSpeed: 5,
+	mirror: false,
+	layerOffset: 0.0001,
+	shootY: 2,
+	reload: 30,
+	shootSound:	Sounds.missile,
+	shoot: new ShootAlternate(14 / 2),
+	bullet: Object.assign(new MissileBulletType(), {
+		hitEffect: Fx.blastExplosion,
+		speed: 4,
+		lifetime: 64,
+		width: 8,
+		damage: 10,
+		splashDamageRadius: 24,
+		splashDamage: 80,
+		trailChance: 0.1,
+		hitColor: Color.valueOf("7e8ae6"),
+		backColor: Color.valueOf("7e8ae6"),
+		trailColor: Color.valueOf("7e8ae6"),
+		frontColor: Color.white,
+	})
+})
+)
+
+hurricane.abilities.add(
+	Object.assign(new RegenAbility(), {
+		percentAmount: 1 / (120 * 60) * 100,
+	})
 )
