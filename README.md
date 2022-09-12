@@ -1,2 +1,2 @@
 # zerg
-## author : 430230562
+## a mindustry mod 
