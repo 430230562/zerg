@@ -1,6 +1,17 @@
 const item = require('item')
 const status = require('status')
 
+Attribute.add("biomass");
+Attribute.add("neoplasm");
+
+Blocks.redStone.attributes.set(Attribute.get("biomass"), 0.5);
+Blocks.denseRedStone.attributes.set(Attribute.get("biomass"), 0.5);
+Blocks.arkyicStone.attributes.set(Attribute.get("biomass"), 0.35);
+
+Blocks.redStone.attributes.set(Attribute.get("neoplasm"), 1.25);
+Blocks.denseRedStone.attributes.set(Attribute.get("neoplasm"), 1.25);
+Blocks.arkyicStone.attributes.set(Attribute.get("neoplasm"), 0.75);
+
 //arkycite
 const arkyciteSandWall = new StaticWall("arkycite-sand-wall");
 exports.arkyciteSandWall = arkyciteSandWall;
@@ -21,7 +32,8 @@ Object.assign(arkyciteSand, {
 	decoration: arkyciteSandBoulder,
 	wall: arkyciteSandWall,
 })
-arkyciteSand.attributes.set(Attribute.water, -0.2);
+arkyciteSand.attributes.set(Attribute.get("biomass"), 0.5);
+arkyciteSand.attributes.set(Attribute.get("neoplasm"), 1);
 
 //neoplasm
 const neoplasmSandWall = new StaticWall("neoplasm-sand-wall");
@@ -43,7 +55,8 @@ Object.assign(neoplasmSand, {
 	decoration: neoplasmSandBoulder,
 	wall: neoplasmSandWall,
 })
-neoplasmSand.attributes.set(Attribute.water, -0.5);
+neoplasmSand.attributes.set(Attribute.get("biomass"), 0.75);
+neoplasmSand.attributes.set(Attribute.get("neoplasm"), 1.75);
 
 const sandNeoplasm = new Floor("sand-neoplasm");
 exports.sandNeoplasm = sandNeoplasm;
@@ -76,8 +89,22 @@ Object.assign(neoplasm, {
 	drownTime: 60 * 1.2,
 })
 
-const oreOssature = new OreBlock("ore-ossature",item.ossature);
-const oreNickel = new OreBlock("ore-nickel", item.nickel);
+const crystallineWall = new StaticWall("crystalline-wall");
+
+const crystallineFloor = Object.assign(new Floor("crystalline-floor"), {
+	variants: 4,
+	wall: crystallineWall,
+})
+
+const denseCrystallineFloor = Object.assign(new Floor("dense-crystalline-floor"), {
+	variants: 4,
+	wall: crystallineWall,
+})
+
+new OreBlock("ore-ossature",item.ossature);
+new OreBlock("ore-nickel",item.nickel);
+new OreBlock("ore-manganese",item.manganese);
+new OreBlock("ore-uranium",item.uranium);
 
 const WallOreCrystal = new OreBlock("wall-ore-crystal", item.crystal)
 Object.assign(WallOreCrystal, {

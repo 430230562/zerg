@@ -3,19 +3,18 @@ const liquid = require('liquid');
 const Ef = require('effect');
 
 function Venom(puddleSize) {
-	var b = extend(LiquidBulletType, {
+	return extend(LiquidBulletType,{
 		speed: 0.1,
 		damage: 0,
 		liquid: liquid.venom,
 		lifetime: 1,
 		puddleSize: puddleSize,
-			
+		
 		knockback: 0,
-			
+		
 		status: status.poisoning,
-		statusDuration: 600,
-	});
-	return b
+		statusDuration: 120,
+	})
 }
 exports.Venom = Venom
 
@@ -31,8 +30,12 @@ function ArmorReductionBulletType(speed, damage, armorReduction) {
 		speed: speed,
 		damage: damage,
 		sprite: "missile-large",
+		pierceCap: 2,
 		pierce: true,
-		buildingDamageMultiplier: 1.25,
+		pierceBuilding: true,
+		
+		
+		buildingDamageMultiplier: 1.5,
 		
 		smokeEffect: Fx.shootBigSmoke,
 		shootEffect: Fx.shootBigColor,
@@ -59,9 +62,9 @@ function VenomMissileBulletType(speed, damage, amount) {
 		trailChance: 0,
 		
 		status: status.poisoning,
-		statusDuration: 600,
+		statusDuration: 120,
 		
-		buildingDamageMultiplier: 1.25,
+		buildingDamageMultiplier: 1.75,
 		
 		hitSound: Sounds.none,
 		fragBullets: amount,

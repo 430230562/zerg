@@ -11,28 +11,3 @@ Object.assign(neoplasmRain, {
 	liquid: Liquids.neoplasm,
 	color: Color.valueOf("c33e2b"),
 })
-
-const snowstorm = new ParticleWeather("snowstorm");
-exports.snowstorm = snowstorm;
-snowstorm.attrs.set(Attribute.light, -0.15),
-snowstorm.attrs.set(Attribute.water, -0.2),
-snowstorm.attrs.set(Attribute.heat, -0.35),
-Object.assign(snowstorm, {
-	color: Color.valueOf("6ecdec"),
-	noiseColor: Color.valueOf("6ecdec"),
-	particleRegion: "particle",
-	drawNoise: true,
-	useWindVector: true,
-	sizeMax: 140,
-	sizeMin: 70,
-	minAlpha: 0,
-	maxAlpha: 0.2,
-	density: 1500,
-	baseSpeed: 11.8,
-	opacityMultiplier: 0.35,
-	force: 1.5,
-	sound: Sounds.wind,
-	soundVol: 1.2,
-	
-	status: status.extremelyFrozen,
-})

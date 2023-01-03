@@ -6,8 +6,8 @@ Object.assign(nickelPowerNode, {
 	size: 1,
 	maxNodes: 10,
 	laserRange: 7,
-	laserColor1: Color.valueOf("00c94b"),
-	laserColor2: Color.valueOf("009173"),
+	laserColor1: Color.valueOf("00ffd7"),
+	laserColor2: Color.valueOf("00c49b"),
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
@@ -22,14 +22,14 @@ Object.assign(nickelPowerNodeLarge, {
 	size: 2,
 	maxNodes: 15,
 	laserRange: 17,
-	laserColor1: Color.valueOf("00c94b"),
-	laserColor2: Color.valueOf("009173"),
+	laserColor1: Color.valueOf("00ffd7"),
+	laserColor2: Color.valueOf("00c49b"),
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
 		item.nickel, 10,
 		item.organosilicon, 5,
-		item.biomassSteel, 3
+		item.manganese, 5,
 	)
 })
 
@@ -50,6 +50,7 @@ const nickelBatteryLarge = new Battery("nickel-battery-large");
 exports.nickelBatteryLarge = nickelBatteryLarge;
 Object.assign(nickelBatteryLarge, {
 	baseExplosiveness: 11,
+	size: 3,
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
@@ -64,7 +65,7 @@ const deflagrationGenerator = new ConsumeGenerator("deflagration-generator");
 exports.deflagrationGenerator = deflagrationGenerator;
 Object.assign(deflagrationGenerator, {
 	powerProduction: 2,
-	itemDuration: 90,
+	itemDuration: 120,
 	
 	ambientSound: Sounds.smelter,
 	ambientSoundVolume: 0.03,
@@ -87,7 +88,7 @@ deflagrationGenerator.consume(new ConsumeItemExplode());
 const totalEffectGenerator = new ConsumeGenerator("total-effect-generator");
 exports.totalEffectGenerator = totalEffectGenerator;
 Object.assign(totalEffectGenerator, {
-	powerProduction: 7.5,
+	powerProduction: 8.5,
 	itemDuration: 90,
 	hasLiquids: true,
 	size: 2,
@@ -121,20 +122,91 @@ totalEffectGenerator.consumeLiquid(Liquids.water, 0.1);
 totalEffectGenerator.consume(new ConsumeItemFlammable());
 totalEffectGenerator.consume(new ConsumeItemExplode());
 
-const concentratedSolarPanel = new SolarGenerator("concentrated-solar-panel");
-exports.concentratedSolarPanel = concentratedSolarPanel;
-Object.assign(concentratedSolarPanel, {
-	health: 120 * 4,
-	size: 2,
-	hasPower: true,
-	powerProduction: 1 / 0.8,
+const pyrolysis = new ConsumeGenerator("pyrolysis");
+exports.pyrolysis = pyrolysis;
+Object.assign(pyrolysis,{
+	powerProduction: 17.5,
+	hasLiquids: true,
+	size: 3,
+	generateEffect: Fx.none,
+	outputLiquid: new LiquidStack(Liquids.water, 0.15),
+	
+	ambientSound: Sounds.smelter,
+	ambientSoundVolume: 0.06,
+	
+	drawer: new DrawMulti(
+		new DrawRegion("-bottom"),
+		new DrawLiquidTile(Liquids.neoplasm),
+		new DrawDefault(),
+		Object.assign(new DrawCultivator(), {
+			plantColor: Color.valueOf("e05438"),
+			plantColorLight: Color.valueOf("f98f4a"),
+		}),
+		Object.assign(new DrawRegion("-rotator"), {
+			rotateSpeed: -2,
+		}),
+		new DrawRegion("-top")
+	),
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
-		item.biomassSteel, 20,
-		item.organosilicon, 100,
+		Items.graphite, 50,
+		item.nickel, 80,
+		item.organosilicon, 40,
+		item.uranium, 30,
 	),
 })
+pyrolysis.consumeLiquid(Liquids.neoplasm, 0.3);
+
+const crystalPanel = new SolarGenerator("crystal-panel");
+exports.crystalPanel = crystalPanel;
+Object.assign(crystalPanel,{
+	category: Category.power,
+	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+		item.nickel, 10,
+		item.crystal, 15,
+	),
+	powerProduction: 0.15,
+})
+
+const crystalPanelLarge = new SolarGenerator("crystal-panel-large");
+exports.crystalPanelLarge = crystalPanelLarge;
+Object.assign(crystalPanelLarge,{
+	category: Category.power,
+	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+		item.nickel, 40,
+		item.manganese, 20,
+		item.crystal, 50,
+	),
+	size: 2,
+	powerProduction: 42 / 60,
+})
+
+const uraniumReactor = new NuclearReactor("uranium-reactor");
+exports.uraniumReactor = uraniumReactor;
+Object.assign(uraniumReactor,{
+	ambientSound: Sounds.hum,
+	ambientSoundVolume: 0.24,
+	size: 3,
+	health: 800,
+	itemDuration: 300,
+	powerProduction: 21.7,
+	heating: 0.02,
+	fuelItem: item.uranium,
+	category: Category.power,
+	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+		Items.graphite, 150,
+		item.nickel, 300,
+		item.crystal, 50,
+		item.organosilicon, 200,
+		item.uranium, 150,
+	),
+})
+uraniumReactor.consumeItem(item.uranium);
+uraniumReactor.consumeLiquid(Liquids.water,5 / 60)
 
 const biomassReactor = new HeaterGenerator("biomass-reactor");
 exports.biomassReactor = biomassReactor;
@@ -148,8 +220,8 @@ Object.assign(biomassReactor, {
 	itemDuration: 60 * 1.2,
 	itemCapacity: 10,
 	
-	explosionRadius: 5,
-	explosionDamage: 300,
+	explosionRadius: 12,
+	explosionDamage: 3000,
 	explodeEffect: new MultiEffect(
 		Fx.bigShockwave, 
 		new WrapEffect(
@@ -163,8 +235,8 @@ Object.assign(biomassReactor, {
 	powerProduction: 60,
 	rebuildable: false,
 
-	explosionPuddles: 120,
-	explosionPuddleRange: 8 * 7,
+	explosionPuddles: 240,
+	explosionPuddleRange: 8 * 18,
 	explosionPuddleLiquid: Liquids.neoplasm,
 	explosionPuddleAmount: 200,
 	explosionMinWarmup: 0.5,
@@ -174,18 +246,16 @@ Object.assign(biomassReactor, {
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
-		Items.graphite, 400,
+		Items.graphite, 260,
 		item.nickel, 500,
-		Items.thorium, 100,
-		item.biomassSteel, 1250,
-		item.organosilicon, 450,
+		item.crystal, 65,
+		item.organosilicon, 310,
+		item.uranium, 260,
 	),
 	
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
 		new DrawLiquidTile(Liquids.water, 3),
-		new DrawDefault(),
-		new DrawHeatOutput(),
 		Object.assign(new DrawCells(), {
 			color: Color.valueOf("c33e2b"),
 			particleColorFrom: Color.valueOf("e8803f"),
@@ -193,6 +263,8 @@ Object.assign(biomassReactor, {
 			particles: 50,
 			range: 4,
 		}),
+		new DrawDefault(),
+		new DrawHeatOutput(),
 	)
 })
 biomassReactor.consumeLiquid(Liquids.water, 48 / 60);
@@ -206,15 +278,17 @@ Object.assign(extremeGenerator, {
 
 	liquidCapacity: 30,
 	explosionMinWarmup: 0.5,
+	explosionRadius: 6,
+	explosionDamage: 6000,
 	size: 4,
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
-		Items.graphite, 400,
-		item.nickel, 450,
-		Items.thorium, 120,
-		item.biomassSteel, 1350,
-		item.organosilicon, 450
+		item.ossature, 120,
+		item.nickel, 170,
+		item.manganese, 85,
+		item.crystal, 85,
+		item.organosilicon, 110,
 	),
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),

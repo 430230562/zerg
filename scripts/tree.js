@@ -6,37 +6,60 @@ const Research = Objectives.Research;
 
 const planet = require('planet');
 const item = require('item');
-const unit = require('unit');
+const liquid = require('liquid');
+
+const insect = require('unit/insect');
+const tank = require('unit/tank');
+const air = require('unit/air');
 
 const core = require('block/core')
 const distribution = require('block/distribution');
 const factory = require('block/factory');
 const liquidBlock = require('block/liquidBlock');
+const other = require('block/other');
 const power = require('block/power');
 const production = require('block/production');
 const turret = require('block/turret');
 const unitFactory = require('block/unitFactory');
 const wall = require('block/wall');
 
-nodeRoot("gredizion", planet.gredizion, () => {
+planet.gredizion.techTree = nodeRoot("gredizion", planet.gredizion, () => {
 	nodeProduce(item.ossature, () => {
 		nodeProduce(item.nickel, () => {
 			nodeProduce(item.crystal, () => {}),
-			nodeProduce(item.biomassSteel, () => {})
+			nodeProduce(item.manganese, () => {
+				nodeProduce(item.biomassSteel, () => {}),
+				nodeProduce(item.uranium, () => {})
+			})
 		}),
 		nodeProduce(item.organosand, () => {
-			nodeProduce(item.organosilicon, () => {}),
-			nodeProduce(item.methylSulfone, () => {})
-		}),
-		nodeProduce(item.biomass, () => {})
+			nodeProduce(item.organosilicon, () => {
+				nodeProduce(item.biomass, () => {
+					nodeProduce(item.sulfone, () => {})
+				})
+			}),
+			nodeProduce(item.salt, () => {
+				nodeProduce(item.alkali, () => {}),
+				nodeProduce(liquid.chlorine, () => {
+					nodeProduce(item.halogenated, () => {})
+				})
+			})
+		})
 	}),
 	node(core.ash, () => {
-		node(core.albus, () => {})
+		node(core.albus, () => {
+			node(core.annular, () => {})
+		})
 	}),
 	node(distribution.ossatureConveyor, () => {
-		node(distribution.biomassConveyor, () => {
-			node(distribution.armoredBiomassConveyor, () => {}),
-			node(distribution.railway, () => {})
+		node(distribution.manganeseConveyor, () => {
+			node(distribution.armoredConveyor, () => {
+				node(distribution.biomassConveyor, () => {})
+			}),
+			node(other.launchPad, () => {}),
+			node(unitFactory.payloadConveyor, () => {
+				node(unitFactory.payloadRouter, () => {})
+			})
 		}),
 		node(distribution.ossatureJunction, () => {
 			node(distribution.ossatureRouter, () => {
@@ -47,37 +70,50 @@ nodeRoot("gredizion", planet.gredizion, () => {
 				node(distribution.ossatureOverflowGate, () => {
 					node(distribution.ossatureUnderflowGate, () => {})
 				}),
-				node(distribution.biomassLaunchPad, () => {})
+				node(other.box, () => {
+					node(other.unloader, () => {})
+				})
 			}),
 			node(distribution.ossatureBridge, () => {
-				node(distribution.biomassConveyorBridge, () => {})
+				node(distribution.halogenatedBridge, () => {})
 			})
 		}),
 		node(distribution.heatPipe,Seq.with(
-			new Research(power.biomassReactor)
-		), () => {})
+		new Research(power.biomassReactor)
+		), () => {
+		    node(distribution.heatRouter, () => {})
+		})
 	}),
 	node(factory.compressor, () => {
-		node(factory.hydraulicPress, () => {}),
+		node(factory.hydraulicPress, () => {
+			node(factory.centrifuge, () => {})
+		}),
 		node(factory.smelter, () => {
 			node(factory.crucible, () => {}),
-			node(factory.screwCompressor, () => {
-				node(factory.parallelCompressor, () => {})
-			})
+			node(factory.sieve, () => {
+				node(factory.electrolyzer, () => {
+					node(factory.addition, () => {})
+				})
+			}),
+			node(factory.screwCompressor, () => {})
 		}),
-		node(factory.synthesizer, () => {})
+		node(factory.synthesizer, () => {
+			node(factory.crystalSynthesizer, () => {})
+		})
 	}),
 	node(liquidBlock.ossaturePump, () => {
-		node(liquidBlock.peristalticPump, () => {}),
+		node(liquidBlock.screwPump, () => {}),
 		node(liquidBlock.crystalConduit, () => {
-			node(liquidBlock.biomassConduit, () => {}),
+			node(liquidBlock.manganeseConduit, () => {
+				node(liquidBlock.armoredConduit, () => {})
+			}),
 			node(liquidBlock.crystalLiquidJunction, () => {
 				node(liquidBlock.crystalLiquidRouter, () => {
 					node(liquidBlock.crystalLiquidContainer, () => {
 						node(liquidBlock.crystalLiquidTank, () => {})
 					}),
 					node(liquidBlock.crystalConduitBridge, () => {
-						node(liquidBlock.biomassConduitBridge, () => {})
+						node(liquidBlock.halogenatedConduitBridge, () => {})
 					})
 				})
 			})
@@ -88,64 +124,154 @@ nodeRoot("gredizion", planet.gredizion, () => {
 			node(power.nickelPowerNodeLarge, () => {}),
 			node(power.nickelBattery, () => {
 				node(power.nickelBatteryLarge, () => {})
+			}),
+			node(other.repairer, () => {
+				node(other.catalyzer,Seq.with(
+				new SectorComplete(planet.wreckage52)
+				), () => {
+					node(other.interdict, () => {})
+				})
+			}),
+			node(other.lamp, () => {})
+		}),
+		node(power.totalEffectGenerator, () => {
+			node(power.pyrolysis, () => {}),
+			node(power.uraniumReactor, () => {
+				node(power.biomassReactor, Seq.with(
+				new SectorComplete(planet.wreckage52)
+				), () =>{
+					node(power.extremeGenerator, () => {})
+				})
 			})
 		}),
-		node(power.concentratedSolarPanel, () => {}),
-		node(power.totalEffectGenerator, () => {
-			node(power.biomassReactor, Seq.with(
-				new SectorComplete(planet.biomassComplex)
-			), () =>{
-				node(power.extremeGenerator, () => {})
-			})
+		node(power.crystalPanel, () => {
+			node(power.crystalPanelLarge, () => {})
 		})
 	}),
 	node(production.ossatureDrill, () => {
-		node(production.biomassDrill, () => {}),
 		node(production.crystalCollector, () => {})
-		node(production.incubator, () => {
-			node(production.enrichmentIncubator, () => {})
-		})
-	}),
-	node(turret.putrefaction, () => {
-		node(turret.spark, () => {}),
-		node(turret.corrosion, () => {}),
-		node(turret.sputtering, () => {})
-	}),
-	node(unitFactory.unitIncubator, () => {
-		node(unitFactory.reincubator, () => {}),
-		node(unitFactory.tankFactory, () =>{
-			node(unit.testVehicle, () => {
-				node(unit.alter, () => {}),
-				node(unit.embers, () => {}),
-				node(unit.hurricane, () => {})
+		node(production.manganeseDrill, () => {
+			node(production.neoplasmExtractor, Seq.with(
+			new SectorComplete(planet.crimsonPass)
+			), () => {
+				node(production.chlorineExtractor, () => {})
+			}),
+			node(production.crystalDrill, () => {
+				node(production.deepDrilling, () => {})
 			})
 		}),
-		node(unit.spider, () => {
-			node(unit.tarantula, () => {})
+		node(production.incubator, () => {})
+	}),
+	node(turret.putrefaction, () => {
+		node(turret.spark, () => {
+			node(turret.current, () => {
+				node(turret.misfire, () => {}),
+				node(turret.lacerate, () => {
+					node(turret.disintegrate, () => {}),
+					node(turret.focusing, () => {})
+				})
+			})
 		}),
-		node(unit.mosquito, () => {
-			node(unit.acid, () => {})
+		node(turret.nexus, () => {
+			node(turret.corrosion, () => {
+				node(turret.meteorite, () => {}),
+				node(turret.crackCrystal, () => {
+					node(turret.tearing, () => {}),
+					node(turret.lumen, () => {})
+				})
+			}),
+			node(turret.blowtorth, () => {
+				node(turret.hypertoxic, () => {})
+			})
+		}),
+		node(turret.sputtering, () => {
+			node(turret.velox, () => {})
+		})
+	}),
+	node(unitFactory.unitIncubator, () => {
+		node(insect.buffer, () => {
+			node(insect.spider, () => {}),
+			node(insect.mosquito, () => {})
+		}),
+		node(unitFactory.unitIncubatorLarge, () => {
+			node(insect.tarantula, () => {}),
+			node(insect.concuss, () => {}),
+			node(unitFactory.primeUnitIncubator, () => {
+				node(insect.group, () => {}),
+				node(insect.cicada, () => {}),
+				node(insect.pildelet, () => {})
+			})
+		}),
+		node(unitFactory.tankFactory, () => {
+			node(unitFactory.repairPoint, () => {}),
+			node(unitFactory.airFactory, () => {
+				node(air.mist, () => {
+					node(air.thoud, () => {
+						node(air.cloud, () => {})
+					}),
+					node(air.electron, () => {
+						node(air.inductance, () => {
+							node(air.ampere, () => {})
+						})
+					}),
+					node(air.phantom, () => {})
+				})
+			}),
+			node(unitFactory.reconstructor, () => {
+				node(unitFactory.primeReconstructor, () => {})
+			}),
+			node(tank.pioneer, () => {
+				node(tank.brigadier, () => {
+					node(tank.kibbler, () => {})
+				}),
+				node(tank.alter, () => {}),
+				node(tank.hurricane, () => {
+					node(tank.typhoon, () => {
+						node(tank.storm, () => {})
+					})
+				})
+			})
 		})
 	}),
 	node(wall.ossatureWall, () => {
 		node(wall.ossatureWallLarge, () => {}),
 		node(wall.crystalWall, () => {
-			node(wall.crystalWallLarge, () => {})
+			node(wall.crystalWallLarge, () => {}),
+			node(wall.mixedWall, () => {
+				node(wall.mixedWallLarge, () => {})
+			})
 		}),
-		node(wall.biomassWall, () => {
-			node(wall.biomassWallLarge, () => {}),
-			node(wall.biomassDoor, () => {
-				node(wall.biomassDoorLarge, () => {})
+		node(wall.manganeseWall, () => {
+			node(wall.manganeseWallLarge, () => {}),
+			node(wall.biomassWall, () => {
+				node(wall.biomassWallLarge, () => {}),
+				node(wall.biomassDoor, () => {
+					node(wall.biomassDoorLarge, () => {})
+				})
 			})
 		})
 	}),
-	node(planet.darkGreenMountains, () => {
+	node(planet.arkyciteMountain, () => {
 		node(planet.crimsonPass, Seq.with(
-			new SectorComplete(planet.darkGreenMountains)
+		new SectorComplete(planet.arkyciteMountain)
 		), () => {
-			node(planet.biomassComplex, Seq.with(
-				new SectorComplete(planet.crimsonPass)
-			), () => {})
+			node(planet.outpost, Seq.with(
+			new SectorComplete(planet.crimsonPass)
+			), () => {
+				node(planet.observation32, Seq.with(
+				new SectorComplete(planet.outpost)
+				), () => {}),
+				node(planet.breeding, Seq.with(
+				new SectorComplete(planet.outpost)
+				), () => {})
+			}),
+			node(planet.wreckage52,Seq.with(
+			new SectorComplete(planet.crimsonPass)
+			), () => {
+			    node(planet.desert,Seq.with(
+			    new SectorComplete(planet.wreckage52)
+			    ), () => {})
+			})
 		})
 	})
 })

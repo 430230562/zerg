@@ -12,9 +12,9 @@ Object.assign(ossaturePump, {
 	)
 })
 
-const peristalticPump = new Pump("peristaltic-pump");
-exports.peristalticPump = peristalticPump;
-Object.assign(peristalticPump, {
+const screwPump = new Pump("screw-pump");
+exports.screwPump = screwPump;
+Object.assign(screwPump, {
 	size: 2,
 	pumpAmount: 18 / 60,
 	health: 240,
@@ -24,12 +24,12 @@ Object.assign(peristalticPump, {
 	category: Category.liquid,
 	requirements: ItemStack.with(
 		item.ossature, 70,
+		item.manganese, 35,
 		item.crystal, 50,
-		item.biomassSteel, 50,
-		item.organosilicon, 35,
+		item.organosilicon, 20,
 	)
 })
-peristalticPump.consumePower(0.3);
+screwPump.consumePower(0.35);
 
 const crystalConduit = new Conduit("crystal-conduit");
 exports.crystalConduit = crystalConduit;
@@ -44,17 +44,32 @@ Object.assign(crystalConduit, {
 	)
 })
 
-const biomassConduit = new Conduit("biomass-conduit");
-exports.biomassConduit = biomassConduit;
-Object.assign(biomassConduit, {
+const manganeseConduit = new Conduit("manganese-conduit");
+exports.manganeseConduit = manganeseConduit;
+Object.assign(manganeseConduit, {
 	health: 90,
 	liquidCapacity: 16,
 	liquidPressure: 1.25,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	requirements: ItemStack.with(
-		item.biomassSteel, 2,
+		item.manganese, 2,
 		item.crystal, 1
+	)
+})
+
+const armoredConduit = new ArmoredConduit("armored-conduit");
+exports.armoredConduit = armoredConduit;
+Object.assign(armoredConduit,{
+	health: 260,
+	liquidCapacity: 16,
+	liquidPressure: 1.25,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.liquid,
+	requirements: ItemStack.with(
+		item.uranium, 2,
+		item.crystal, 1,
+		item.biomassSteel, 1,
 	)
 })
 
@@ -76,7 +91,7 @@ Object.assign(crystalLiquidContainer, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	requirements: ItemStack.with(
-		item.ossature, 10,
+		item.manganese, 10,
 		item.crystal, 15
 	),
 	liquidCapacity: 850,
@@ -89,7 +104,7 @@ Object.assign(crystalLiquidTank, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	requirements: ItemStack.with(
-		item.ossature, 30,
+		item.manganese, 30,
 		item.crystal, 45
 	),
 	liquidCapacity: 2100,
@@ -113,7 +128,7 @@ Object.assign(crystalConduitBridge, {
 	fadeIn: false,
 	moveArrows: false,
 	hasPower: false,
-	range: 7,
+	range: 8,
 	arrowSpacing: 6,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
@@ -123,19 +138,21 @@ Object.assign(crystalConduitBridge, {
 	),
 })
 
-const biomassConduitBridge = new LiquidBridge("biomass-conduit-bridge");
-exports.biomassConduitBridge = biomassConduitBridge;
-Object.assign(biomassConduitBridge, {
+const halogenatedConduitBridge = new LiquidBridge("halogenated-conduit-bridge");
+exports.halogenatedConduitBridge = halogenatedConduitBridge;
+Object.assign(halogenatedConduitBridge, {
 	fadeIn: false,
 	moveArrows: false,
-	hasPower: false,
-	range: 10,
+	hasPower: true,
+	range: 16,
 	arrowSpacing: 6,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	requirements: ItemStack.with(
-		item.nickel, 5,
-		item.biomassSteel, 20,
-		item.crystal, 15
+		item.crystal, 20,
+		item.manganese, 10,
+		item.organosilicon, 7,
+		item.halogenated, 5
 	),
 })
+halogenatedConduitBridge.consumePower(0.3);
