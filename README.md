@@ -1,2 +1,1 @@
-# zerg
-## a mindustry mod 
+# Mindusrty mod - Zerg
