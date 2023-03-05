@@ -76,8 +76,17 @@ Object.assign(biomassSteel, {
 const halogenated = new Item("halogenated",Color.valueOf("9277cc"))
 exports.halogenated = halogenated;
 Object.assign(halogenated,{
-	cost: 1.5,
+	cost: 2,
 	healthScaling: 0.75,
+})
+
+const crelectal = new Item("crelectal",Color.valueOf("fa7f7f"));
+exports.crelectal = crelectal
+Object.assign(crelectal,{
+    cost: 1.5,
+	healthScaling: 1.5,
+	explosiveness: 0.4,
+	charge:1,
 })
 
 const sulfone = new Item("sulfone", Color.valueOf("ede892"));

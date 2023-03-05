@@ -47,7 +47,6 @@ gredizion.hiddenItems.addAll(
 	Items.plastanium,
 	Items.phaseFabric,
 	Items.surgeAlloy,
-	Items.sporePod,
 	Items.sand,
 	Items.blastCompound,
 	Items.pyratite,
@@ -107,31 +106,9 @@ Object.assign(crimsonPass, {
 	difficulty: 3,
 })
 
-const wreckage52 = new SectorPreset("wreckage52",gredizion,52);
-exports.wreckage52 = wreckage52;
-Object.assign(wreckage52,{
-	captureWave: 45,
-	difficulty: 6,
-	startWaveTimeMultiplier: 4,
-})
-
-const desert = new SectorPreset("desert",gredizion,70)
-exports.desert = desert;
-Object.assign(desert,{
-    captureWave: 0,
-	difficulty: 6,
-})
-
 const outpost = SectorPreset("outpost", gredizion, 20);
 exports.outpost = outpost;
 Object.assign(outpost, {
-	captureWave: 0,
-	difficulty: 5,
-})
-
-const breeding = SectorPreset("breeding", gredizion, 49);
-exports.breeding = breeding;
-Object.assign(breeding, {
 	captureWave: 0,
 	difficulty: 5,
 })
@@ -142,4 +119,43 @@ Object.assign(observation32,{
 	captureWave: 55,
 	difficulty: 7,
 	startWaveTimeMultiplier: 1,
+})
+
+const wreckage52 = new SectorPreset("wreckage52",gredizion,52);
+exports.wreckage52 = wreckage52;
+Object.assign(wreckage52,{
+	captureWave: 45,
+	difficulty: 6,
+	startWaveTimeMultiplier: 4,
+})
+
+const uraniumSmelting = new SectorPreset("uraniumSmelting",gredizion,55);
+exports.uraniumSmelting = uraniumSmelting;
+Object.assign(uraniumSmelting,{
+    captureWave: 0,
+	difficulty: 8,
+	startWaveTimeMultiplier: 1,
+})
+
+const valleyDespair = new SectorPreset("valleyDespair",gredizion,67);
+exports.valleyDespair = valleyDespair;
+Object.assign(valleyDespair,{
+    captureWave: 0,
+	difficulty: 8,
+	startWaveTimeMultiplier: 1,
+})
+
+const sporeRift = new SectorPreset("sporeRift",gredizion,24);
+exports.sporeRift = sporeRift;
+Object.assign(sporeRift,{
+    captureWave: 18,
+	difficulty: 8,
+	startWaveTimeMultiplier: 4,
+})
+
+const breeding = SectorPreset("breeding", gredizion, 49);
+exports.breeding = breeding;
+Object.assign(breeding, {
+	captureWave: 0,
+	difficulty: 5,
 })

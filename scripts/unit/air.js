@@ -1,4 +1,5 @@
 const b = require('base/bulletType');
+const item = require('item');
 
 const mist = new UnitType("mist");
 exports.mist = mist;
@@ -13,13 +14,15 @@ Object.assign(mist,{
 	drag: 0.04,
 	targetFlags: [BlockFlag.generator,null],
 	itemCapacity: 0,
+	outlineRadius: 1,
 	constructor: () => new UnitEntity.create(),
 })
 mist.weapons.add(
 	Object.assign(new Weapon("bugs-mist-weapon"),{
-		x: 4,
-		y: 0,
+		x: -18 / 4,
+		y: -0.5,
 		shootY: 0,
+		layerOffset : -0.0001,
 		reload: 20,
 		shootSound: Sounds.missile,
 		bullet:	Object.assign(new MissileBulletType(3,14),{
@@ -420,15 +423,23 @@ Object.assign(phantom,{
 	health: 220,
 	armor: 2,
 	hitSize: 11,
-	itemCapacity: 60,
-	mineTier: 4,
-	mineSpeed: 15,
+	itemCapacity: 30,
+	mineTier: 3,
+	mineSpeed: 3,
+	mineWalls: true,
 	buildSpeed: 3,
 	controller: UnitTypes.poly.controller,
 	defaultCommand: UnitTypes.poly.defaultCommand,
 	flying: true,
 	constructor: () => new UnitEntity.create()
 })
+phantom.mineItems.addAll(
+    item.ossature,
+    item.nickel,
+    item.manganese,
+    item.crystal
+    //item.uranium
+);
 phantom.weapons.add(
 	Object.assign(new Weapon("bugs-phantom-weapon"), {
 		x: 14 / 4,
@@ -464,3 +475,34 @@ phantom.weapons.add(
 phantom.abilities.add(
 	new RepairFieldAbility(15,60 * 10,8 * 10)
 )
+
+const shadow = new UnitType("shadow");
+exports.shadow = shadow;
+Object.assign(shadow,{
+    targetPriority: -0.5,
+	
+	speed: 12 * 8 / 60,
+	accel: 0.06,
+	drag: 0.017,
+	
+	health: 460,
+	armor: 3,
+	hitSize: 13,
+	itemCapacity: 260,
+	mineTier: 4,
+	mineSpeed: 10,
+	mineWalls: true,
+	buildSpeed: 1.2,
+	controller: UnitTypes.mono.controller,
+	defaultCommand: UnitTypes.mono.defaultCommand,
+	flying: true,
+	constructor: () => new UnitEntity.create(),
+	payloadCapacity: 64
+})
+shadow.mineItems.addAll(
+    item.ossature,
+    item.nickel,
+    item.manganese,
+    item.crystal,
+    item.uranium
+);

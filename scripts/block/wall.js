@@ -57,6 +57,40 @@ Object.assign(crystalWallLarge, {
 	),
 })
 
+const crelectalWall = new Wall("crelectal-wall");
+exports.crelectalWall = crelectalWall;
+Object.assign(crelectalWall, {
+	health: 660,
+	armor: 3,
+	size: 1,
+	insulated: true,
+	absorbLasers: true,
+	lightningChance: 0.1,
+	baseExplosiveness: 6,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+		item.crelectal, 6,
+	),
+})
+
+const crelectalWallLarge = new Wall("crelectal-wall-large");
+exports.crelectalWallLarge = crelectalWallLarge;
+Object.assign(crelectalWallLarge, {
+	health: 660 * 4,
+	armor: 3,
+	size: 2,
+	insulated: true,
+	absorbLasers: true,
+	lightningChance: 0.1,
+	baseExplosiveness: 6 * 4,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+		item.crelectal, 6 * 4,
+	),
+})
+
 const manganeseWall = new Wall("manganese-wall");
 exports.manganeseWall = manganeseWall;
 Object.assign(manganeseWall, {

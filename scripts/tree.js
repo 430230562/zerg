@@ -26,7 +26,16 @@ const wall = require('block/wall');
 planet.gredizion.techTree = nodeRoot("gredizion", planet.gredizion, () => {
 	nodeProduce(item.ossature, () => {
 		nodeProduce(item.nickel, () => {
-			nodeProduce(item.crystal, () => {}),
+			nodeProduce(item.crystal, () => {
+			    nodeProduce(Liquids.water, () => {
+			        nodeProduce(Liquids.oil, () => {
+			            nodeProduce(Items.sporePod, () => {
+			                nodeProduce(liquid.sporeLiquid, () => {})
+			            })
+			        })
+			    }),
+			    nodeProduce(item.crelectal,() => {})
+			}),
 			nodeProduce(item.manganese, () => {
 				nodeProduce(item.biomassSteel, () => {}),
 				nodeProduce(item.uranium, () => {})
@@ -42,7 +51,8 @@ planet.gredizion.techTree = nodeRoot("gredizion", planet.gredizion, () => {
 				nodeProduce(item.alkali, () => {}),
 				nodeProduce(liquid.chlorine, () => {
 					nodeProduce(item.halogenated, () => {})
-				})
+				}),
+				nodeProduce(Liquids.hydrogen,() => {})
 			})
 		})
 	}),
@@ -92,10 +102,18 @@ planet.gredizion.techTree = nodeRoot("gredizion", planet.gredizion, () => {
 			node(factory.crucible, () => {}),
 			node(factory.sieve, () => {
 				node(factory.electrolyzer, () => {
-					node(factory.addition, () => {})
-				})
+					node(factory.addition, () => {
+					    node(factory.oilPyrolysis, () => {})
+					})
+				}),
+				node(factory.flocculant, () => {})
 			}),
-			node(factory.screwCompressor, () => {})
+			node(factory.screwCompressor, () => {
+			    node(factory.sporeCompressor, () => {
+			        node(factory.isolater, () => {})
+			    })
+			}),
+			node(factory.charger, () => {})
 		}),
 		node(factory.synthesizer, () => {
 			node(factory.crystalSynthesizer, () => {})
@@ -214,7 +232,9 @@ planet.gredizion.techTree = nodeRoot("gredizion", planet.gredizion, () => {
 							node(air.ampere, () => {})
 						})
 					}),
-					node(air.phantom, () => {})
+					node(air.phantom, () => {
+					    node(air.shadow, () => {})
+					})
 				})
 			}),
 			node(unitFactory.reconstructor, () => {
@@ -237,6 +257,9 @@ planet.gredizion.techTree = nodeRoot("gredizion", planet.gredizion, () => {
 		node(wall.ossatureWallLarge, () => {}),
 		node(wall.crystalWall, () => {
 			node(wall.crystalWallLarge, () => {}),
+			node(wall.crelectalWall, () => {
+			    node(wall.crelectalWallLarge, () => {})
+			}),
 			node(wall.mixedWall, () => {
 				node(wall.mixedWallLarge, () => {})
 			})
@@ -260,18 +283,26 @@ planet.gredizion.techTree = nodeRoot("gredizion", planet.gredizion, () => {
 			), () => {
 				node(planet.observation32, Seq.with(
 				new SectorComplete(planet.outpost)
-				), () => {}),
-				node(planet.breeding, Seq.with(
-				new SectorComplete(planet.outpost)
-				), () => {})
-			}),
-			node(planet.wreckage52,Seq.with(
-			new SectorComplete(planet.crimsonPass)
-			), () => {
-			    node(planet.desert,Seq.with(
-			    new SectorComplete(planet.wreckage52)
-			    ), () => {})
+				), () => {
+				    node(planet.wreckage52,Seq.with(
+			        new SectorComplete(planet.observation32)
+			        ), () => {
+			            node(planet.valleyDespair,Seq.with(
+			            new SectorComplete(planet.wreckage52)
+			            ), () => {
+			                node(planet.sporeRift,Seq.with(
+			                    new SectorComplete(planet.valleyDespair)
+			                ),() => {})
+			            }),
+			            node(planet.uraniumSmelting,Seq.with(
+			            new SectorComplete(planet.wreckage52)
+			            ), () => {})
+			        })
+				})
 			})
+			node(planet.breeding, Seq.with(
+			new SectorComplete(planet.crimsonPass)
+			), () => {})
 		})
 	})
 })

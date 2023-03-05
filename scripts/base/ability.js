@@ -1,53 +1,31 @@
-var modName = "bugs"
-
-function RotatorAbility(name, x, y, speed){
-	var a = extend(Ability, {
-		draw(unit){
-			this.super$draw(unit);
-			
-			Draw.rect(
-				Core.atlas.find(modName + "-" + name),
-				unit.x + Angles.trnsx(unit.rotation, y, x),
-				unit.y + Angles.trnsy(unit.rotation, y, x),
-				Time.time * speed
-			);
-		},
-		localized(){
-			return ""
-		}
-	});
-	return a
-}
-exports.RotatorAbility = RotatorAbility;
-
-let i = 0 , wasHealed = false;
-
 function MendFieldAbility(amount,reload,range){
 	return extend(Ability,{
+	    i: 0,
+	    wasHealed: 0,
 		update(unit){
-			i += Time.delta;
+			this.i += Time.delta;
 			
-			if(i >= reload){
-				wasHealed = false;
+			if(this.i >= reload){
+				this.wasHealed = false;
 				
 				Units.nearby(unit.team, unit.x, unit.y, range, other => {
 					if(other.health < other.maxHealth){
 						Fx.heal.at(other);
-						wasHealed = true;
+						this.wasHealed = true;
 					}
 					other.heal(amount);
 				}),
 				Units.nearbyBuildings(unit.x, unit.y, range, b => {
 					if(b.team === unit.team && b.health < b.maxHealth){
 						Fx.heal.at(b);
-						wasHealed = true;
+						this.wasHealed = true;
 						b.heal(amount);
 					}
 				})
-				if(wasHealed){
+				if(this.wasHealed){
 					Fx.healWaveDynamic.at(unit,range);
 				}
-				i = 0;
+				this.i = 0;
 			}
 		},
 		localized(){
@@ -56,3 +34,14 @@ function MendFieldAbility(amount,reload,range){
 	})
 }
 exports.MendFieldAbility = MendFieldAbility;
+
+function MoveLiquidAbility(liquid,range,amount){
+    return extend(Ability,{
+        update(unit){
+            unit.tileOn().circle(range / 8,cons(tile => {
+                Puddles.deposit(tile,liquid,amount);
+            }))
+        }
+    })
+}
+exports.MoveLiquidAbility = MoveLiquidAbility;

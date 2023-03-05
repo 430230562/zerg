@@ -184,6 +184,33 @@ addition.consumeItems(ItemStack.with(
 	item.biomass, 2,
 ));
 
+const oilPyrolysis = new GenericCrafter("oil-pyrolysis");
+exports.oilPyrolysis = oilPyrolysis;
+Object.assign(oilPyrolysis,{
+    size: 3,
+	craftTime: 45,
+	liquidCapacity: 24,
+	outputItem: new ItemStack(item.halogenated, 1),
+	drawer: new DrawMulti(
+		new DrawRegion("-bottom"),
+		new DrawLiquidTile(Liquids.oil, 4.1),
+		new DrawRegion("-rotaror", 5, true),
+		new DrawDefault(),
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		item.nickel, 180,
+		item.organosilicon, 75,
+		item.biomassSteel, 120,
+	)
+})
+oilPyrolysis.consumePower(155 / 60);
+oilPyrolysis.consumeLiquids(new LiquidStack.with(
+	Liquids.oil, 15 / 60,
+	liquid.chlorine, 12 / 60
+));
+
 const electrolyzer = new GenericCrafter("electrolyzer");
 exports.electrolyzer = electrolyzer;
 Object.assign(electrolyzer,{
@@ -295,6 +322,27 @@ crystalSynthesizer.consumeItems(ItemStack.with(
 	item.salt, 3,
 ));
 
+const charger = new GenericCrafter("charger");
+exports.charger = charger;
+Object.assign(charger,{
+    hasItems: true,
+	hasLiquids: false,
+	hasPower: true,
+	size: 2,
+	craftTime: 180,
+	outputItem: new ItemStack(item.crelectal, 1),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		item.nickel, 75,
+		item.manganese, 50,
+	),
+})
+charger.consumePower(6.5);
+charger.consumeItems(ItemStack.with(
+	item.crystal, 1,
+));
+
 const sieve = new Separator("sieve");
 exports.sieve = sieve;
 Object.assign(sieve,{
@@ -321,6 +369,72 @@ Object.assign(sieve,{
 sieve.consumePower(1.1)
 sieve.consumeItems(ItemStack.with(
 	item.organosand, 1,
+));
+
+const flocculant = new Separator("flocculant");
+exports.flocculant = flocculant;
+Object.assign(flocculant,{
+    results: ItemStack.with(
+		item.uranium, 1,
+		item.manganese, 2,
+		item.halogenated, 1,
+		item.crelectal, 1,
+		Items.sporePod, 5,
+	),
+	hasPower: true,
+	craftTime: 120,
+	liquidCapacity: 36,
+	size: 3,
+	
+	drawer: new DrawMulti(
+		new DrawRegion("-bottom"),
+		new DrawLiquidTile(liquid.sporeLiquid),
+		new DrawRegion("-rotaror", 5, true),
+		new DrawDefault()
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		item.nickel, 150,
+		item.organosilicon, 75,
+		item.halogenated, 50,
+	),
+})
+flocculant.consumePower(2.7)
+flocculant.consumeItems(ItemStack.with(
+	item.salt, 1,
+));
+flocculant.consumeLiquid(liquid.sporeLiquid, 0.1)
+
+const sporeCompressor = new GenericCrafter("spore-compressor");
+exports.sporeCompressor = sporeCompressor;
+Object.assign(sporeCompressor,{
+    craftEffect: Fx.coalSmeltsmoke,
+	size: 2,
+	craftTime: 60,
+	hasItems: true,
+	hasLiquids: true,
+	outputLiquid: new LiquidStack(liquid.sporeLiquid, 12 / 60),
+	drawer: new DrawMulti(
+		new DrawDefault(), 
+		Object.assign(new DrawRegion("-rotator"), {
+			spinSprite: true,
+			rotateSpeed: -4.5,
+		})
+	),
+	
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.graphite, 50,
+		item.nickel, 150,
+		item.manganese, 75,
+		item.organosilicon, 50,
+	)
+})
+sporeCompressor.consumePower(1.2);
+sporeCompressor.consumeItems(ItemStack.with(
+	Items.sporePod, 1,
 ));
 
 const centrifuge = new GenericCrafter("centrifuge");
@@ -355,3 +469,37 @@ Object.assign(centrifuge, {
 })
 centrifuge.consumePower(1.5);
 centrifuge.consumeLiquid(Liquids.neoplasm, 6 / 60);
+
+const isolater = new GenericCrafter("isolater");
+exports.isolater = isolater;
+Object.assign(isolater,{
+    craftEffect: Fx.coalSmeltsmoke,
+	size: 3,
+	craftTime: 30,
+	liquidCapacity: 36,
+	hasItems: true,
+	hasLiquids: true,
+	outputItem: new ItemStack(item.crelectal, 3),
+	drawer: new DrawMulti(
+		new DrawDefault(), 
+		Object.assign(new DrawRegion("-rotator"), {
+			spinSprite: true,
+			rotateSpeed: -7.5,
+		})
+	),
+	
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.graphite, 50,
+		item.nickel, 150,
+		item.manganese, 75,
+		item.organosilicon, 50,
+		item.halogenated, 50,
+	)
+})
+isolater.consumePower(2.2);
+isolater.consumeLiquid(liquid.sporeLiquid, 6 / 60);
+isolater.consumeItems(ItemStack.with(
+	item.biomass, 3,
+));

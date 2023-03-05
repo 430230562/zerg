@@ -1,11 +1,8 @@
 const item = require('item');
 const liquid = require('liquid');
 const status = require('status');
-const b = require('base/bulletType');
-
-const Venom = b.Venom;
-const ArmorReductionBulletType = b.ArmorReductionBulletType;
-const FlameBulletType = b.FlameBulletType;
+const { bottle } = require("unit/other");
+const { Venom, ArmorReductionBulletType, FlameBulletType } = require('base/bulletType')
 
 function SimpleCoolant(turret,amount){
 	return turret.coolant = turret.consumeCoolant(amount);
@@ -253,6 +250,32 @@ sputtering.ammo(
 			despawnEffect: Fx.none,
 		})
 	}),
+	item.crelectal, Object.assign(new FlakBulletType(4, 3), {
+		lifetime: 60,
+		ammoMultiplier: 5,
+		reloadMultiplier: 1.5,
+		shootEffect: Fx.shootSmall,
+		width: 6,
+		height: 8,
+		hitEffect: Fx.flakExplosion,
+		splashDamage: 45 * 1.75,
+		splashDamageRadius: 32,
+		backColor: Color.valueOf("fa7f7f"),
+		frontColor: Color.white,
+		lightning: 3,
+        lightningLength: 7,
+        lightningDamage: 9,
+		fragBullets: 7,
+		fragBullet: Object.assign(new BasicBulletType(3, 7, "bullet"), {
+			width: 5,
+			height: 12,
+			shrinkY: 1,
+			lifetime: 20,
+			backColor: Color.valueOf("fa7f7f"),
+			frontColor: Color.white,
+			despawnEffect: Fx.none,
+		})
+	}),
 	item.alkali, Object.assign(new FlakBulletType(4.2, 3), {
 		lifetime: 60,
 		ammoMultiplier: 4,
@@ -433,6 +456,32 @@ corrosion.ammo(
 		frontColor: Color.white,
 		ammoMultiplier: 4,
 		reloadMultiplier: 1.5,
+		fragBullets: 5,
+		fragBullet: Object.assign(new BasicBulletType(3, 12, "bullet"), {
+			width: 5,
+			height: 12,
+			shrinkY: 1,
+			lifetime: 20,
+			backColor: Pal.gray,
+			frontColor: Color.white,
+			despawnEffect: Fx.none,
+		})
+	}),
+	item.crelectal, Object.assign(new ArtilleryBulletType(3, 20), {
+		knockback: 0.8,
+		lifetime: 80,
+		width: 11,
+		height: 11,
+		collidesTiles: false,
+		splashDamageRadius: 8 * 3.75,
+		splashDamage: 52,
+		backColor: Color.valueOf("fa7f7f"),
+		frontColor: Color.white,
+		ammoMultiplier: 4,
+		reloadMultiplier: 1.5,
+		lightning: 3,
+        lightningLength: 7,
+        lightningDamage: 9,
 		fragBullets: 5,
 		fragBullet: Object.assign(new BasicBulletType(3, 12, "bullet"), {
 			width: 5,
@@ -746,7 +795,7 @@ Object.assign(crackCrystal, {
 })
 SimpleCoolant(crackCrystal,0.25);
 crackCrystal.ammo(
-	item.crystal, Object.assign(new BasicBulletType(8, 12), {
+	item.crystal, Object.assign(new BasicBulletType(8, 22), {
 		knockback: 4,
 		width: 25,
 		hitSize: 7,
@@ -779,12 +828,17 @@ crackCrystal.ammo(
 )
 
 const lumen = new ItemTurret("lumen");
+lumen.stats.add(Stat.ammo, {
+    display(table){
+        table.add(new FLabel("{rainbow}" + Core.bundle.format("pierceAmount") + "7"));
+    }
+})
 exports.lumen = lumen;
 Object.assign(lumen, {
 	health: 1040,
 	size: 3,
 	reload: 90,
-	targetAir: true,
+	targetAir: false,
 	range: 8 * 30,
 	maxAmmo: 10,
 	rotateSpeed: 4.5,
@@ -801,7 +855,7 @@ Object.assign(lumen, {
 })
 SimpleCoolant(lumen,0.25);
 lumen.ammo(
-	item.crystal, Object.assign(new ArmorReductionBulletType(6, 320, 20), {
+	item.crystal, Object.assign(new ArmorReductionBulletType(6, 320, 7), {
 		ammoMultiplier: 1,
 		width: 15,
 		height: 21,
@@ -817,7 +871,6 @@ lumen.ammo(
 		pierce: true,
 		pierceBuilding: true,
 		pierceCap: 20,
-		buildingDamageMultiplier: 0.2,
 		
 		knockback: 6,
 		splashDamageRadius: 8 * 2.25,
@@ -832,6 +885,38 @@ lumen.ammo(
 			frontColor: Color.valueOf("7e8ae6"),
 			backColor: Color.valueOf("7e8ae6"),
 			hitColor: Color.valueOf("7e8ae6"),
+		})
+	}),
+	item.crelectal, Object.assign(new ArmorReductionBulletType(6, 320, 7), {
+		ammoMultiplier: 1,
+		width: 15,
+		height: 21,
+		lifetime: 40,
+		hitSize: 4,
+		hitColor: Color.valueOf("fa7f7f"),
+		backColor: Color.valueOf("fa7f7f"),
+		trailColor: Color.valueOf("fa7f7f"),
+		frontColor: Color.white,
+		trailWidth: 5.5,
+		trailLength: 5,
+		
+		pierce: true,
+		pierceBuilding: true,
+		pierceCap: 15,
+		reloadMultiplier: 1.5,
+		
+		knockback: 6,
+		splashDamageRadius: 8 * 2.25,
+		splashDamage: 60,
+		intervalBullets: 5,
+		bulletInterval: 2,
+		intervalBullet: Object.assign(new LightningBulletType(), {
+			damage: 13,
+			collidesAir: false,
+			ammoMultiplier: 1,
+			lightningColor: Color.valueOf("fa7f7f"),
+			lightningLength: 3,
+			lightningLengthRand: 6,
 		})
 	})
 )
@@ -863,8 +948,7 @@ blowtorth.ammo(
 		damage: 60,
 		length: 140,
 		knockback: 1,
-		pierceCap: 2,
-		buildingDamageMultiplier: 0.3,
+		pierceCap: 5,
 	
 		colors: [
 			Color.valueOf("5fd4ff8d"),
@@ -880,6 +964,11 @@ blowtorth.ammo(
 )
 
 const focusing = new ContinuousTurret("focusing");
+focusing.stats.add(Stat.ammo, {
+    display(table){
+        table.add(new FLabel("{rainbow}" + Core.bundle.format("pierceAmount") + "12/s"));
+    }
+})
 exports.focusing = focusing;
 Object.assign(focusing, {
 	health: 960,
@@ -916,79 +1005,12 @@ Object.assign(focusing, {
 focusing.consumePower(19.2)
 SimpleCoolant(focusing,0.35);
 
-let i = 0;
-
-const s = new StatusEffect("s")
-Object.assign(s,{
-	color: Color.valueOf("92ab11"),
-	damage: 90 / 60,
-	effect: Fx.mineSmall,
-	damageMultiplier: 1,
-	healthMultiplier: 1,
-	speedMultiplier: 0.6,
-})
-
-function ToxicAbility(damage,range) {
-	return extend(Ability,{
-		update(unit){
-			i += Time.delta
-			if (i >= 15) {
-				Units.nearby(null, unit.x, unit.y, range, other => {
-					other.damagePierce(damage / 4);
-					other.apply(s, 60 * 15);
-				})
-				Units.nearbyBuildings(unit.x, unit.y, range, b => {
-					b.health -= damage / 4
-					if(b.health <= 0){b.kill()}
-				})
-				Fx.titanSmoke.at(
-					unit.x + Mathf.range(range * Math.SQRT1_2),
-					unit.y + Mathf.range(range * Math.SQRT1_2),
-					Color.valueOf("92ab117f")
-				)
-				i = 0
-			}
-		},
-		draw(unit){
-			this.super$draw(unit);
-			for(let j = 0;j < 4;j++){
-				let r = unit.rotation + j * 360 / 4;
-				Lines.arc(unit.x, unit.y, range, 0.15, r);
-			}
-		}
-	})
-}
-
-const bottle = new UnitType("bottle");
-Object.assign(bottle,{
-	speed: 0,
-	isEnemy: false,
-	envDisabled: 0,
-	targetable: false,
-	hittable: false,
-	playerControllable: false,
-	createWreck: false,
-	createScorch: false,
-	logicControllable: false,
-	useUnitCap: false,
-	allowedInPayloads: false,
-	constructor: () => new TimedKillUnit.create(),
-	physics: false,
-	bounded: false,
-	hidden: true,
-	lifetime: 60 * 1.5,
-	health: 10000,
-	drawMinimap: false,
-	flying: false,
-	drawCell: false,
-	deathSound: Sounds.none,
-})
-bottle.abilities.add(
-	new ToxicAbility(90,64)
-)
-bottle.immunities.addAll(s)
-
 const hypertoxic = new LiquidTurret("hypertoxic");
+hypertoxic.stats.add(Stat.ammo, {
+    display(table){
+        table.add(new FLabel("{rainbow}" + Core.bundle.format("toxicDamage") + "90/s"));
+    }
+})
 exports.hypertoxic = hypertoxic;
 Object.assign(hypertoxic,{
 	size: 4,
@@ -1089,9 +1111,9 @@ meteorite.ammo(
 		splashDamage: 110,
 		buildingDamageMultiplier: 0.2,
 		scaledSplashDamage: true,
-		backColor: Color.valueOf("ecaae2"),
-		hitColor: Color.valueOf("ecaae2"),
-		trailColor: Color.valueOf("ecaae2"),
+		backColor: Color.valueOf("ecaae27f"),
+		hitColor: Color.valueOf("ecaae27f"),
+		trailColor: Color.valueOf("ecaae27f"),
 		frontColor: Color.white,
 		ammoMultiplier: 1,
 		hitSound: Sounds.titanExplosion,
@@ -1120,9 +1142,9 @@ meteorite.ammo(
 		splashDamage: 275,
 		buildingDamageMultiplier: 0.2,
 		scaledSplashDamage: true,
-		backColor: Color.valueOf("7e8ae6"),
-		hitColor: Color.valueOf("7e8ae6"),
-		trailColor: Color.valueOf("7e8ae6"),
+		backColor: Color.valueOf("7e8ae67f"),
+		hitColor: Color.valueOf("7e8ae67f"),
+		trailColor: Color.valueOf("7e8ae67f"),
 		frontColor: Color.white,
 		ammoMultiplier: 1,
 		hitSound: Sounds.titanExplosion,
@@ -1149,37 +1171,6 @@ meteorite.ammo(
 			despawnEffect: Fx.none,
 		})
 	}),
-	item.organosilicon, Object.assign(new ArtilleryBulletType(2.5,350,"shell"),{
-		hitEffect: new MultiEffect(
-			Fx.titanExplosion, 
-			Fx.titanSmoke
-		),
-		despawnEffect: Fx.none,
-		knockback: 2,
-		lifetime: 140,
-		height: 19,
-		width: 17,
-		splashDamageRadius: 65,
-		splashDamage: 220,
-		buildingDamageMultiplier: 0.2,
-		scaledSplashDamage: true,
-		backColor: Color.valueOf("bcf6ff"),
-		hitColor: Color.valueOf("bcf6ff"),
-		trailColor: Color.valueOf("bcf6ff"),
-		frontColor: Color.white,
-		ammoMultiplier: 1,
-		hitSound: Sounds.titanExplosion,
-
-		trailLength: 32,
-		trailWidth: 3.35,
-		trailSinScl: 2.5,
-		trailSinMag: 0.5,
-		trailEffect: Fx.none,
-		despawnShake: 7,
-
-		shootEffect: Fx.shootTitan,
-		smokeEffect: Fx.shootSmokeTitan,
-	}),
 	item.uranium, Object.assign(new ArtilleryBulletType(2.5,350,"shell"),{
 		hitEffect: new MultiEffect(
 			Fx.titanExplosion, 
@@ -1194,9 +1185,9 @@ meteorite.ammo(
 		splashDamage: 440,
 		buildingDamageMultiplier: 0.2,
 		scaledSplashDamage: true,
-		backColor: Color.valueOf("40a06f"),
-		hitColor: Color.valueOf("40a06f"),
-		trailColor: Color.valueOf("40a06f"),
+		backColor: Color.valueOf("40a06f7f"),
+		hitColor: Color.valueOf("40a06f7f"),
+		trailColor: Color.valueOf("40a06f7f"),
 		frontColor: Color.white,
 		ammoMultiplier: 1,
 		hitSound: Sounds.titanExplosion,
@@ -1229,10 +1220,10 @@ meteorite.ammo(
 		scaledSplashDamage: true,
 		status: StatusEffects.burning,
 		statusDuration: 60 * 15,
-		frontColor: Color.valueOf("ede892"),
-		backColor: Color.valueOf("d9c668"),
-		hitColor: Color.valueOf("ede892"),
-		trailColor: Color.valueOf("ede892"),
+		frontColor: Color.valueOf("ede8927f"),
+		backColor: Color.valueOf("d9c6687f"),
+		hitColor: Color.valueOf("ede8927f"),
+		trailColor: Color.valueOf("ede8927f"),
 		hitSound: Sounds.titanExplosion,
 		
 		makeFire: true,
@@ -1282,7 +1273,7 @@ SimpleCoolant(tearing,0.25);
 tearing.ammo(
 	item.uranium, Object.assign(new ArmorReductionBulletType(8, 80, 3), {
 		width: 16,
-		height: 14,
+		height: 21,
 		lifetime: 33,
 		hitSize: 5,
 		hitColor: Color.valueOf("40a06f"),
@@ -1295,7 +1286,7 @@ tearing.ammo(
 	}),
 	item.biomassSteel, Object.assign(new ArmorReductionBulletType(8.5, 90, 3), {
 		width: 16,
-		height: 14,
+		height: 21,
 		lifetime: 33,
 		hitSize: 5,
 		hitColor: Color.valueOf("98ba53"),

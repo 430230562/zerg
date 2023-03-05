@@ -1,10 +1,7 @@
 const status = require('status');
 const liquid = require('liquid');
 const Ef = require('effect');
-const bulletType = require('base/bulletType')
-
-const VenomMissileBulletType = bulletType.VenomMissileBulletType;
-const Venom = bulletType.Venom
+const { VenomMissileBulletType, Venom } = require('base/bulletType')
 
 function Insect(name){
 	return extend(UnitType, name, {
@@ -146,7 +143,7 @@ Object.assign(tarantula, {
 	drag: 0.4,
 	hitSize: 12,
 	rotateSpeed: 3,
-	health: 540,
+	health: 500,
 	legCount: 6,
 	legLength: 13,
 	legMoveSpace: 1.4,
@@ -164,10 +161,10 @@ Object.assign(new Weapon(), {
 	x: 0,
 	y: 1,
 	shootY: 4,
-	reload: 120,
+	reload: 100,
 	cooldownTime: 42,
 	shoot: Object.assign(new ShootPattern(), {
-		shots: 4,
+		shots: 3,
 		shotDelay: 4,
 	}),
 	inaccuracy: 1,
@@ -326,7 +323,7 @@ Object.assign(mosquito, {
 	constructor: () => new UnitEntity.create(),
 	aiController: UnitTypes.quell.aiController,
 	health: 140,
-	speed: 2.4,
+	speed: 2.5,
 	flying: true,
 	lowAltitude: true,
 	hitSize: 6,
@@ -357,7 +354,7 @@ exports.concuss = concuss;
 Object.assign(concuss, {
 	constructor: () => new UnitEntity.create(),
 	health: 420,
-	speed: 1.85,
+	speed: 2,
 	accel: 0.08,
 	drag: 0.016,
 	flying: true,
@@ -378,13 +375,13 @@ Object.assign(new Weapon(), {
 	mirror: false,
 	shootCone: 360,
 	shootY: 0,
-	reload: 26,
+	reload: 40,
 	minShootVelocity: 0.55,
 	ignoreRotation: true,
 	ejectEffect: Fx.none,
 	shootSound: Sounds.none,
 	shoot: Object.assign(new ShootPattern(), {
-		shots: 3,
+		shots: 5,
 		shotDelay: 7.5,
 	}),
 	bullet: Object.assign(new BombBulletType(27, 25), {
@@ -444,7 +441,6 @@ cicada.weapons.add(
 )
 cicada.abilities.add(
 	new StatusFieldAbility(StatusEffects.overclock,320,300,8 * 12),
-	new StatusFieldAbility(status.dissimilation,320,300,8 * 12),
 )
 
 const egg = new UnitType("egg")
@@ -466,7 +462,12 @@ Object.assign(egg, {
 	allowedInPayloads: false,
 })
 egg.abilities.add(
-    new SpawnDeathAbility(buffer, 1, 1)
+    extend(Ability,{
+        u:[buffer,spider,mosquito],
+        death(unit){
+            this.u[Math.floor(Math.random() * 3)].spawn(unit.team,unit.x,unit.y)
+        }
+    })
 )
 
 const pildelet = new Insect("pildelet");

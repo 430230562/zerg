@@ -1,4 +1,4 @@
-const dissimilation = Object.assign(new ParticleEffect(), {
+const spore = Object.assign(new ParticleEffect(), {
 	line: true,
 	particles: 5,
 	lifetime: 15,
@@ -6,10 +6,10 @@ const dissimilation = Object.assign(new ParticleEffect(), {
 	cone: -360,
 	lenFrom: 5,
 	lenTo: 0,
-	colorFrom: Color.valueOf("e8803f"),
-	colorTo: Color.valueOf("8c1225"),
+	colorFrom: Color.valueOf("7457ce"),
+	colorTo: Color.valueOf("7457ce"),
 })
-exports.dissimilation = dissimilation;
+exports.spore = spore;
 
 const interfere = Object.assign(new WaveEffect(), {
 	lifetime: 5,

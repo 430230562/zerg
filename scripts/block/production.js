@@ -138,6 +138,35 @@ Object.assign(incubator, {
 incubator.consumePower(70 / 60);
 incubator.consumeLiquid(Liquids.water, 12 / 60);
 
+const sporeIncubator = new AttributeCrafter("spore-incubator");
+exports.sporeIncubator = sporeIncubator;
+Object.assign(sporeIncubator,{
+    craftEffect: Fx.none,
+	outputItem: new ItemStack(Items.sporePod, 1),
+	craftTime: 30,
+	size: 3,
+	hasPower: true,
+	hasLiquids: true,
+	hasItems: true,
+	attribute: Attribute.spores,
+	drawer: new DrawMulti(
+		new DrawRegion("-bottom"),
+		new DrawLiquidTile(Liquids.oil),
+		new DrawDefault(),
+		new DrawCultivator(),
+		new DrawRegion("-top")
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.production,
+	requirements: ItemStack.with(
+		item.nickel, 75,
+		item.manganese, 50,
+		item.organosilicon, 50,
+	)
+})
+sporeIncubator.consumePower(120 / 60);
+sporeIncubator.consumeLiquid(Liquids.oil, 6 / 60);
+
 const neoplasmExtractor = new SolidPump("neoplasm-extractor");
 exports.neoplasmExtractor = neoplasmExtractor;
 Object.assign(neoplasmExtractor, {

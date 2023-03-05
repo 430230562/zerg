@@ -63,7 +63,7 @@ exports.sandNeoplasm = sandNeoplasm;
 Object.assign(sandNeoplasm, {
 	speedMultiplier: 0.8,
 	variants: 0,
-	status: status.dissimilation,
+	status: status.none,
 	statusDuration: 90,
 	liquidDrop: Liquids.neoplasm,
 	isLiquid: true,
@@ -78,7 +78,7 @@ exports.neoplasm = neoplasm;
 Object.assign(neoplasm, {
 	speedMultiplier: 0.5,
 	variants: 0,
-	status: status.dissimilation,
+	status: status.none,
 	statusDuration: 120,
 	liquidDrop: Liquids.neoplasm,
 	isLiquid: true,
@@ -90,6 +90,9 @@ Object.assign(neoplasm, {
 })
 
 const crystallineWall = new StaticWall("crystalline-wall");
+Object.assign(crystallineWall,{
+    itemDrop: item.crystal,
+})
 
 const crystallineFloor = Object.assign(new Floor("crystalline-floor"), {
 	variants: 4,

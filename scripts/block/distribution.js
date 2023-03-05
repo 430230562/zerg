@@ -73,13 +73,14 @@ Object.assign(ossatureJunction, {
 	health: 55
 })
 
-const ossatureBridge = new ItemBridge("ossature-bridge");
+const ossatureBridge = new BufferedItemBridge("ossature-bridge");
 exports.ossatureBridge = ossatureBridge;
 Object.assign(ossatureBridge, {
 	fadeIn: false,
 	moveArrows: false,
 	hasPower: false,
 	range: 8,
+	speed: 60,
 	arrowSpacing: 6,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,

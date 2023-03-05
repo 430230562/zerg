@@ -6,9 +6,12 @@ const ab = require('base/ability')
 
 const ArmorReductionBulletType = bulletType.ArmorReductionBulletType;
 
-let controlThreshold = Stat("controlThreshold",StatCat.function);
-
 const pioneer = new TankUnitType("pioneer");
+pioneer.stats.add(Stat.weapons, {
+    display(table){
+        table.add(new FLabel("{rainbow}" + Core.bundle.format("pierceAmount") + "1"));
+    }
+})
 exports.pioneer = pioneer;
 Object.assign(pioneer, {
 	targetAir: false,
@@ -55,6 +58,11 @@ Object.assign(new Weapon("bugs-pioneer-weapon"), {
 )
 
 const brigadier = new TankUnitType("brigadier");
+brigadier.stats.add(Stat.weapons, {
+    display(table){
+        table.add(new FLabel("{rainbow}" + Core.bundle.format("pierceAmount") + "2"));
+    }
+})
 exports.brigadier = brigadier;
 Object.assign(brigadier, {
 	speed: 0.65,
@@ -103,6 +111,11 @@ Object.assign(new Weapon("bugs-brigadier-weapon"), {
 )
 
 const kibbler = new TankUnitType("kibbler");
+kibbler.stats.add(Stat.weapons, {
+    display(table){
+        table.add(new FLabel("{rainbow}" + Core.bundle.format("pierceAmount") + "3"));
+    }
+})
 exports.kibbler = kibbler;
 Object.assign(kibbler,{
 	speed: 0.65,
@@ -164,7 +177,62 @@ Object.assign(new Weapon("bugs-kibbler-weapon"),{
 })
 )
 
+const purge = new TankUnitType("purge");
+exports.purge = purge;
+Object.assign(purge,{
+    squareShape: true,
+	omniMovement: false,
+	rotateMoveFirst: true,
+	envDisabled: 0,
+	speed: 0.6,
+	outlineColor: Color.valueOf("2d2f39"),
+	outlineRadius: 1,
+	hitSize: 29,
+	rotateSpeed: 3,
+	health: 10000,
+	armor: 17,
+	itemCapacity: 0,
+	researchCostMultiplier: 20,
+	crushDamage: 2,
+	constructor: () => new TankUnit.create(),
+})
+purge.weapons.add(
+    Object.assign(new Weapon("bugs-purge-weapon"),{
+        reload: 110,
+        cooldownTime: 90,
+        mirror: false,
+        x: 0,
+        y: 0,
+        rotateSpeed: 1.4,
+        rotate: true,
+        shootY: 23,
+        shake: 6,
+        recoil: 10.5,
+        shadow: 50,
+        shootSound: Sounds.railgun,
+
+        ejectEffect: Fx.none,
+
+        bullet: Object.assign(new RailBulletType(),{
+            shootEffect: Fx.railShoot,
+            length: 500,
+            pointEffectSpace: 60,
+            pierceEffect: Fx.railHit,
+            pointEffect: Fx.railTrail,
+            hitEffect: Fx.massiveExplosion,
+            smokeEffect: Fx.shootBig2,
+            damage: 750,
+            pierceDamageFactor: 0.5,
+        })
+    })
+)
+
 const fearless = new TankUnitType("fearless")
+fearless.stats.add(Stat.weapons, {
+    display(table){
+        table.add(new FLabel("{rainbow}" + Core.bundle.format("pierceAmount") + "5"));
+    }
+})
 exports.fearless = fearless;
 Object.assign(fearless, {
 	squareShape: true,
@@ -175,9 +243,9 @@ Object.assign(fearless, {
 	outlineColor: Color.valueOf("2d2f39"),
 	outlineRadius: 1,
 	hitSize: 38,
-	rotateSpeed: 2.7,
-	health: 26000,
-	armor: 16,
+	rotateSpeed: 2.4,
+	health: 28000,
+	armor: 24,
 	itemCapacity: 0,
 	researchCostMultiplier: 20,
 	crushDamage: 4,
@@ -323,7 +391,7 @@ typhoon.weapons.add(
 	}),
 	bullet: Object.assign(new MissileBulletType(4,10), {
 		hitEffect: Fx.blastExplosion,
-		lifetime: 64,
+		lifetime: 68,
 		width: 8,
 		splashDamageRadius: 24,
 		splashDamage: 40,
@@ -443,12 +511,7 @@ Object.assign(new Weapon("bugs-storm-weapon"),{
 })
 )
 
-const alter = extend(UnitType, "alter", {
-	setStats() {
-		this.super$setStats();
-		this.stats.add(controlThreshold, Core.bundle.format("controlThreshold", 50));
-	}
-});
+const alter = new UnitType("alter");
 exports.alter = alter;
 Object.assign(alter, {
 	targetPriority: -1.5,

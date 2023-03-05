@@ -294,6 +294,7 @@ Object.assign(nest,{
 	category: Category.effect,
 })
 nest.buildType = prov(() => extend(CoreBlock.CoreBuild,nest,{
+    i : 0,
 	updateTile(){
 		this.i += Time.delta
 		
