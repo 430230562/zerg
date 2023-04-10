@@ -1,12 +1,12 @@
 const item = require('item');
 
-const ossatureConveyor = new Conveyor("ossature-conveyor");
-exports.ossatureConveyor = ossatureConveyor;
-Object.assign(ossatureConveyor, {
+const nickelConveyor = new Conveyor("nickel-conveyor");
+exports.nickelConveyor = nickelConveyor;
+Object.assign(nickelConveyor, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.ossature, 1
+		item.nickel, 1
 	),
 	health: 55,
 	speed: 0.05,
@@ -20,7 +20,6 @@ Object.assign(manganeseConveyor, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.ossature, 1,
 		item.nickel, 1,
 		item.manganese, 1,
 	),
@@ -35,7 +34,7 @@ Object.assign(armoredConveyor,{
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.uranium, 1,
+		item.chromium, 1,
 		item.crystal, 1,
 		item.biomassSteel, 1,
 	),
@@ -54,28 +53,27 @@ Object.assign(biomassConveyor, {
 	category: Category.distribution,
 	requirements: ItemStack.with(
 		Items.graphite, 1,
-		item.organosilicon, 1,
+		Items.silicon, 1,
 		item.biomassSteel, 1,
 	),
 })
 
-const ossatureJunction = new Junction("ossature-junction");
-exports.ossatureJunction = ossatureJunction;
-Object.assign(ossatureJunction, {
+const junction = new Junction("junction");
+exports.junction = junction;
+Object.assign(junction, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.ossature, 2,
-		item.nickel, 1
+		item.nickel, 4,
 	),
 	speed: 20,
 	capacity: 4,
 	health: 55
 })
 
-const ossatureBridge = new BufferedItemBridge("ossature-bridge");
-exports.ossatureBridge = ossatureBridge;
-Object.assign(ossatureBridge, {
+const nickelBridge = new BufferedItemBridge("nickel-bridge");
+exports.nickelBridge = nickelBridge;
+Object.assign(nickelBridge, {
 	fadeIn: false,
 	moveArrows: false,
 	hasPower: false,
@@ -85,94 +83,69 @@ Object.assign(ossatureBridge, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.ossature, 6,
-		item.nickel, 6
-	),
-})
-
-const halogenatedBridge = new ItemBridge("halogenated-bridge");
-exports.halogenatedBridge = halogenatedBridge;
-Object.assign(halogenatedBridge, {
-	fadeIn: false,
-	moveArrows: false,
-	hasPower: true,
-	range: 16,
-	arrowSpacing: 6,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.distribution,
-	requirements: ItemStack.with(
-		Items.graphite, 10,
 		item.nickel, 10,
-		item.organosilicon, 7,
-		item.halogenated, 5
-	),
-})
-halogenatedBridge.consumePower(18 / 60);
-
-const ossatureSorter = new Sorter("ossature-sorter");
-exports.ossatureSorter = ossatureSorter;
-Object.assign(ossatureSorter, {
-	buildVisibility: BuildVisibility.shown,
-	category: Category.distribution,
-	requirements: ItemStack.with(
-		item.ossature, 2,
-		item.nickel, 2
 	),
 })
 
-const invertedOssatureSorter = new Sorter("inverted-ossature-sorter");
-exports.invertedOssatureSorter = invertedOssatureSorter;
-Object.assign(invertedOssatureSorter, {
+const sorter = new Sorter("sorter");
+exports.sorter = sorter;
+Object.assign(sorter, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.ossature, 2,
-		item.nickel, 2
+		item.nickel, 4,
+	),
+})
+
+const invertedSorter = new Sorter("inverted-sorter");
+exports.invertedSorter = invertedSorter;
+Object.assign(invertedSorter, {
+	buildVisibility: BuildVisibility.shown,
+	category: Category.distribution,
+	requirements: ItemStack.with(
+		item.nickel, 4,
 	),
 	invert: true
 })
 
-const ossatureOverflowGate = new OverflowGate("ossature-overflow-gate");
-exports.ossatureOverflowGate = ossatureOverflowGate;
-Object.assign(ossatureOverflowGate, {
+const overflowGate = new OverflowGate("overflow-gate");
+exports.overflowGate = overflowGate;
+Object.assign(overflowGate, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.ossature, 4,
-		item.nickel, 2
+		item.nickel, 4,
 	),
 })
 
-const ossatureUnderflowGate = new OverflowGate("ossature-underflow-gate");
-exports.ossatureUnderflowGate = ossatureUnderflowGate;
-Object.assign(ossatureUnderflowGate, {
+const underflowGate = new OverflowGate("underflow-gate");
+exports.underflowGate = underflowGate;
+Object.assign(underflowGate, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.ossature, 4,
-		item.nickel, 2
+		item.nickel, 4,
 	),
 	invert: true
 })
 
-const ossatureRouter = new Router("ossature-router");
-exports.ossatureRouter = ossatureRouter;
-Object.assign(ossatureRouter, {
+const router = new Router("router");
+exports.router = router;
+Object.assign(router, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.ossature, 4,
+		item.nickel, 4,
 	),
 })
 
-const ossatureDistributor = new Router("ossature-distributor");
-exports.ossatureDistributor = ossatureDistributor;
-Object.assign(ossatureDistributor, {
+const distributor = new Router("distributor");
+exports.distributor = distributor;
+Object.assign(distributor, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.ossature, 4,
-		item.nickel, 4
+		item.nickel, 8,
 	),
 	size: 2
 })
@@ -183,7 +156,7 @@ Object.assign(heatPipe, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.ossature, 10,
+		Items.graphite, 10,
 		item.nickel, 10,
 	),
 	size: 1,
@@ -201,7 +174,7 @@ Object.assign(heatRouter,{
     buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.ossature, 10,
+		Items.graphite, 15,
 		item.nickel, 10,
 	),
 	size: 1,

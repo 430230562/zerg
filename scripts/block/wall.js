@@ -1,8 +1,8 @@
-const item = require('item');
+const item = require("item");
 
-const ossatureWall = new Wall("ossature-wall");
-exports.ossatureWall = ossatureWall;
-Object.assign(ossatureWall, {
+const nickelWall = new Wall("nickel-wall");
+exports.nickelWall = nickelWall;
+Object.assign(nickelWall, {
 	health: 400,
 	armor: 1,
 	size: 1,
@@ -10,27 +10,27 @@ Object.assign(ossatureWall, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 	requirements: ItemStack.with(
-		item.ossature, 6,
+		item.nickel, 6,
 	),
 })
 
-const ossatureWallLarge = new Wall("ossature-wall-large");
-exports.ossatureWallLarge = ossatureWallLarge;
-Object.assign(ossatureWallLarge, {
+const nickelWallLarge = new Wall("nickel-wall-large");
+exports.nickelWallLarge = nickelWallLarge;
+Object.assign(nickelWallLarge, {
 	health: 400 * 4,
 	armor: 1,
 	size: 2,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 	requirements: ItemStack.with(
-		item.ossature, 6 * 4,
+		item.nickel, 6 * 4,
 	),
 })
 
 const crystalWall = new Wall("crystal-wall");
 exports.crystalWall = crystalWall;
 Object.assign(crystalWall, {
-	health: 470,
+	health: 520,
 	armor: 5,
 	size: 1,
 	insulated: true,
@@ -45,7 +45,7 @@ Object.assign(crystalWall, {
 const crystalWallLarge = new Wall("crystal-wall-large");
 exports.crystalWallLarge = crystalWallLarge;
 Object.assign(crystalWallLarge, {
-	health: 470 * 4,
+	health: 520 * 4,
 	armor: 5,
 	size: 2,
 	insulated: true,
@@ -57,63 +57,65 @@ Object.assign(crystalWallLarge, {
 	),
 })
 
-const crelectalWall = new Wall("crelectal-wall");
-exports.crelectalWall = crelectalWall;
-Object.assign(crelectalWall, {
-	health: 660,
-	armor: 3,
-	size: 1,
-	insulated: true,
-	absorbLasers: true,
-	lightningChance: 0.1,
-	baseExplosiveness: 6,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.defense,
-	requirements: ItemStack.with(
-		item.crelectal, 6,
-	),
-})
-
-const crelectalWallLarge = new Wall("crelectal-wall-large");
-exports.crelectalWallLarge = crelectalWallLarge;
-Object.assign(crelectalWallLarge, {
-	health: 660 * 4,
-	armor: 3,
-	size: 2,
-	insulated: true,
-	absorbLasers: true,
-	lightningChance: 0.1,
-	baseExplosiveness: 6 * 4,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.defense,
-	requirements: ItemStack.with(
-		item.crelectal, 6 * 4,
-	),
-})
-
 const manganeseWall = new Wall("manganese-wall");
 exports.manganeseWall = manganeseWall;
 Object.assign(manganeseWall, {
-	health: 480,
+	health: 600,
 	armor: 7,
 	size: 1,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 	requirements: ItemStack.with(
-		item.manganese, 6,
+	    item.nickel, 2,
+		item.manganese, 4,
 	),
 })
 
 const manganeseWallLarge = new Wall("manganese-wall-large");
 exports.manganeseWallLarge = manganeseWallLarge;
 Object.assign(manganeseWallLarge, {
-	health: 480 * 4,
+	health: 600 * 4,
 	armor: 7,
 	size: 2,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 	requirements: ItemStack.with(
-		item.manganese, 6 * 4,
+		item.nickel, 2 * 4,
+		item.manganese, 4 * 4,
+	),
+})
+
+const energicWall = new Wall("energic-wall");
+exports.energicWall = energicWall;
+Object.assign(energicWall, {
+	health: 470,
+	armor: 3,
+	size: 1,
+	insulated: true,
+	absorbLasers: true,
+	lightningChance: 0.2,
+	baseExplosiveness: 6,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+		item.energic, 6,
+	),
+})
+
+const energicWallLarge = new Wall("energic-wall-large");
+exports.energicWallLarge = energicWallLarge;
+Object.assign(energicWallLarge, {
+	health: 470 * 4,
+	armor: 3,
+	size: 2,
+	insulated: true,
+	absorbLasers: true,
+	lightningChance: 0.2,
+	baseExplosiveness: 6 * 4,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+		item.energic, 6 * 4,
 	),
 })
 
@@ -148,83 +150,5 @@ Object.assign(biomassWallLarge, {
 	category: Category.defense,
 	requirements: ItemStack.with(
 		item.biomassSteel, 6 * 4,
-	),
-})
-
-const mixedWall = new Wall("mixed-wall");
-exports.mixedWall = mixedWall;
-Object.assign(mixedWall,{
-	chanceDeflect: 14.4,
-	flashHit: true,
-	flashColor: Color.valueOf("9277cc"),
-	deflectSound: Sounds.none,
-	health: 1200,
-	armor: 15,
-	size: 1,
-	insulated: true,
-	absorbLasers: true,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.defense,
-	requirements: ItemStack.with(
-		item.crystal, 4,
-		item.biomassSteel, 4,
-		item.halogenated, 4
-	),
-})
-
-const mixedWallLarge = new Wall("mixed-wall-large");
-exports.mixedWallLarge = mixedWallLarge;
-Object.assign(mixedWallLarge,{
-	chanceDeflect: 14.4,
-	flashHit: true,
-	flashColor: Color.valueOf("9277cc"),
-	deflectSound: Sounds.none,
-	health: 1200 * 4,
-	armor: 15,
-	size: 2,
-	insulated: true,
-	absorbLasers: true,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.defense,
-	requirements: ItemStack.with(
-		item.crystal, 4 * 4,
-		item.biomassSteel, 4 * 4,
-		item.halogenated, 4 * 4,
-	),
-})
-
-const biomassDoor = new AutoDoor("biomass-door");
-exports.biomassDoor = biomassDoor;
-Object.assign(biomassDoor, {
-	chanceDeflect: 7.2,
-	flashHit: true,
-	flashColor: Color.valueOf("98ba53"),
-	deflectSound: Sounds.none,
-	health: 720,
-	armor: 11,
-	size: 1,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.defense,
-	requirements: ItemStack.with(
-		item.biomassSteel, 6,
-		item.organosilicon, 8,
-	),
-})
-
-const biomassDoorLarge = new AutoDoor("biomass-door-large");
-exports.biomassDoorLarge = biomassDoorLarge;
-Object.assign(biomassDoorLarge, {
-	chanceDeflect: 7.2,
-	flashHit: true,
-	flashColor: Color.valueOf("98ba53"),
-	deflectSound: Sounds.none,
-	health: 720 * 4,
-	armor: 11,
-	size: 2,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.defense,
-	requirements: ItemStack.with(
-		item.biomassSteel, 6 * 4,
-		item.organosilicon, 8 * 4,
 	),
 })

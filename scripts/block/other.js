@@ -13,12 +13,11 @@ Object.assign(repairer, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-		item.ossature, 25,
-		item.nickel, 30,
+		item.nickel, 55,
 	)
 })
 repairer.consumePower(0.15);
-repairer.consumeItem(item.organosilicon, 1).boost();
+repairer.consumeItem(Items.silicon, 1).boost();
 
 const catalyzer = new OverdriveProjector("catalyzer");
 exports.catalyzer = catalyzer;
@@ -34,9 +33,9 @@ Object.assign(catalyzer, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
+	    Items.silicon, 75,
 		item.nickel, 100,
 		item.manganese, 75,
-		item.organosilicon, 75,
 	)
 })
 catalyzer.consumeItem(item.manganese, 1).boost();
@@ -58,10 +57,10 @@ Object.assign(interdict, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
+	    Items.silicon, 75,
 		item.nickel, 100,
 		item.manganese, 25,
 		item.crystal, 75,
-		item.organosilicon, 75,
 	)
 })
 interdict.consumeItem(item.crystal, 1).boost();
@@ -88,8 +87,8 @@ Object.assign(unloader, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
+	    Items.silicon, 20,
 		item.manganese, 30,
-		item.organosilicon, 20,
 	)
 })
 
@@ -103,10 +102,9 @@ Object.assign(launchPad,{
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-		item.ossature, 200,
-		item.nickel, 350,
+	    Items.silicon, 150,
+		item.nickel, 550,
 		item.manganese, 150,
-		item.organosilicon, 140,
 	),
 })
 launchPad.consumePower(4);

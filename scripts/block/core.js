@@ -198,37 +198,13 @@ Object.assign(ash, {
 	itemCapacity: 5000,
 	size: 3,
 	unitCapModifier: 12,
-	buildVisibility: BuildVisibility.shown,
+	buildVisibility: BuildVisibility.editorOnly,
 	category: Category.effect,
 	requirements: ItemStack.with(
-		item.ossature, 800,
 		item.nickel, 1000,
+		Items.graphite, 500,
 	)
 })
-
-const column = new Block("column");
-Object.assign(column,{
-    buildVisibility: BuildVisibility.editorOnly,
-    category: Category.effect,
-    update: true,
-})
-
-column.buildType = prov(() => extend(Building,{
-    i:0,
-    updateTile(){
-        this.i += Time.delta
-    
-        if(this.i >= 3 * 60){
-            this.tile.circle(5, cons(tile => {
-                if(tile.block() == Blocks.coreShard){
-                    tile.setBlock(ash,this.team);
-                }
-            }))
-            this.i = 0
-            this.remove();
-        }
-    }
-}))
 
 const albus = CoreBlock("albus");
 exports.albus = albus;
@@ -245,9 +221,9 @@ Object.assign(albus, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-		item.ossature, 3000,
-		item.nickel, 3000,
-		item.organosilicon, 2000,
+		item.nickel, 5000,
+		Items.graphite, 2000,
+		Items.silicon, 2000,
 	)
 })
 
@@ -266,16 +242,11 @@ Object.assign(annular, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-		item.ossature, 8000,
-		item.nickel, 8000,
-		item.organosilicon, 5000,
-		item.uranium, 4000,
+		item.nickel, 15000,
+		Items.silicon, 5000,
+		item.chromium, 4000,
 	)
 })
-
-let k = 0, unit = {};
-
-const units = [insect.spider,insect.mosquito,insect.buffer];
 
 const nest = extend(CoreBlock,"nest",{
 	canPlaceOn(tile,team,rotation){
@@ -298,19 +269,11 @@ nest.buildType = prov(() => extend(CoreBlock.CoreBuild,nest,{
 	updateTile(){
 		this.i += Time.delta
 		
-		if(this.i >= 60 * 15){
-			this.tile.circle(5, cons(tile => {
-				if(Mathf.chance(1 / 15) && tile.block() == Blocks.air){
-					k = Math.floor(Math.random() * units.length);
-					
-					unit = units[k];
-					
-					let u = unit.create(this.team);
-					u.set(tile.worldx(), tile.worldy());
-					u.rotation = 90;
-					u.add();
-				}
-			}))
+		if(this.i >= 60 * 10){
+            let a = Math.random() * 3
+			for(let i = 0; i < a;i++){
+			    insect.egg.spawn(this.team,this.tile.worldx(),this.tile.worldy());
+			}
 			
 			this.i = 0
 		}
@@ -320,4 +283,27 @@ nest.buildType = prov(() => extend(CoreBlock.CoreBuild,nest,{
 			this.y + Mathf.range(11),
 		);
 	}
+}))
+
+const column = new Block("column");
+Object.assign(column,{
+    buildVisibility: BuildVisibility.editorOnly,
+    category: Category.effect,
+    update: true,
+})
+column.buildType = prov(() => extend(Building,{
+    i:0,
+    updateTile(){
+        this.i += Time.delta
+    
+        if(this.i >= 3 * 60){
+            this.tile.circle(5, cons(tile => {
+                if(tile.block() == Blocks.coreShard){
+                    tile.setBlock(ash,this.team);
+                }
+            }))
+            this.i = 0
+            this.remove();
+        }
+    }
 }))

@@ -2,38 +2,36 @@ const status = require('status');
 const liquid = require('liquid');
 const Ef = require('effect');
 
-function Venom(puddleSize) {
+function Acid(puddleSize) {
 	return extend(LiquidBulletType,{
 		speed: 0.1,
 		damage: 0,
-		liquid: liquid.venom,
+		liquid: liquid.acid,
 		lifetime: 1,
 		puddleSize: puddleSize,
 		
 		knockback: 0,
 		
-		status: status.poisoning,
+		status: status.corroding,
 		statusDuration: 120,
 	})
 }
-exports.Venom = Venom
+exports.Acid = Acid
 
-function ArmorReductionBulletType(speed, damage, armorReduction) {
-	var b = extend(BasicBulletType, {
+function ReduceArmorBulletType(speed, damage, amount) {
+	return extend(BasicBulletType, {
 		hitEntity(b, entity, health) {
 			this.super$hitEntity(b, entity, health);
 			if(entity instanceof Unit) {
 				var unit = entity;
-				unit.armor -= armorReduction;
+				unit.armor -= amount;
 			}
 		},
 		speed: speed,
 		damage: damage,
-		sprite: "missile-large",
 		pierceCap: 2,
 		pierce: true,
 		pierceBuilding: true,
-		
 		
 		buildingDamageMultiplier: 1.5,
 		
@@ -44,38 +42,11 @@ function ArmorReductionBulletType(speed, damage, armorReduction) {
 		
 		ammoMultiplier: 2,
 	});
-	return b
 }
-exports.ArmorReductionBulletType = ArmorReductionBulletType;
-
-function VenomMissileBulletType(speed, damage, amount) {
-	var b = extend(MissileBulletType, {
-		speed: speed,
-		damage: damage,
-		backColor: Color.valueOf("84a94b"),
-		frontColor: Color.valueOf("84a94b"),
-		hitEffect: Fx.none,
-		despawnEffect: Fx.none,
-		trailColor: Color.valueOf("84a94b"),
-		trailWidth: 0.8,
-		trailLength: 14,
-		trailChance: 0,
-		
-		status: status.poisoning,
-		statusDuration: 120,
-		
-		buildingDamageMultiplier: 1.75,
-		
-		hitSound: Sounds.none,
-		fragBullets: amount,
-		fragBullet: new Venom(18)
-	});
-	return b
-}
-exports.VenomMissileBulletType = VenomMissileBulletType;
+exports.ReduceArmorBulletType = ReduceArmorBulletType;
 
 function FlameBulletType(speed, damage) {
-	const b = extend(BulletType, {
+	return extend(BulletType, {
 		speed: speed,
 		damage: damage,
 		hitSize: 7,
@@ -88,6 +59,5 @@ function FlameBulletType(speed, damage) {
 		keepVelocity: false,
 		hittable: false,
 	});
-	return b
 }
 exports.FlameBulletType = FlameBulletType;

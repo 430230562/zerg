@@ -1,13 +1,13 @@
 const item = require('item');
 
-const ossaturePump = new Pump("ossature-pump");
-exports.ossaturePump = ossaturePump;
-Object.assign(ossaturePump, {
+const nickelPump = new Pump("nickel-pump");
+exports.nickelPump = nickelPump;
+Object.assign(nickelPump, {
 	pumpAmount: 9 / 60,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	requirements: ItemStack.with(
-		item.ossature, 15,
+		item.nickel, 15,
 		item.crystal, 10,
 	)
 })
@@ -23,10 +23,10 @@ Object.assign(screwPump, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	requirements: ItemStack.with(
-		item.ossature, 70,
+	    Items.silicon, 20,
+		item.nickel, 70,
 		item.manganese, 35,
 		item.crystal, 50,
-		item.organosilicon, 20,
 	)
 })
 screwPump.consumePower(0.35);
@@ -67,7 +67,7 @@ Object.assign(armoredConduit,{
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	requirements: ItemStack.with(
-		item.uranium, 2,
+		item.chromium, 2,
 		item.crystal, 1,
 		item.biomassSteel, 1,
 	)
@@ -137,22 +137,3 @@ Object.assign(crystalConduitBridge, {
 		item.crystal, 15,
 	),
 })
-
-const halogenatedConduitBridge = new LiquidBridge("halogenated-conduit-bridge");
-exports.halogenatedConduitBridge = halogenatedConduitBridge;
-Object.assign(halogenatedConduitBridge, {
-	fadeIn: false,
-	moveArrows: false,
-	hasPower: true,
-	range: 16,
-	arrowSpacing: 6,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.liquid,
-	requirements: ItemStack.with(
-		item.crystal, 20,
-		item.manganese, 10,
-		item.organosilicon, 7,
-		item.halogenated, 5
-	),
-})
-halogenatedConduitBridge.consumePower(0.3);

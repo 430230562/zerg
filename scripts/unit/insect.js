@@ -1,7 +1,7 @@
 const status = require('status');
 const liquid = require('liquid');
 const Ef = require('effect');
-const { VenomMissileBulletType, Venom } = require('base/bulletType')
+const { Acid } = require('base/bulletType')
 
 function Insect(name){
 	return extend(UnitType, name, {
@@ -13,7 +13,7 @@ function Insect(name){
 		init(u){
 			if (u !== undefined) this.super$init(u)
 			else this.super$init();
-			this.immunities.addAll(status.poisoning);
+			this.immunities.addAll(status.hyphaSlowed);
 			this.abilities.add(
 				Object.assign(new LiquidExplodeAbility(), {
 					liquid: Liquids.neoplasm,
@@ -116,7 +116,7 @@ Object.assign(spider, {
 	constructor: () => new LegsUnit.create()
 })
 spider.weapons.add(
-Object.assign(new Weapon("bugs-spider-weapon"), {
+Object.assign(new Weapon("zerg-spider-weapon"), {
 	mirror: false,
 	x: 0,
 	y: 1,
@@ -125,11 +125,26 @@ Object.assign(new Weapon("bugs-spider-weapon"), {
 	cooldownTime: 42,
 	shootSound: Sounds.plantBreak,
 	heatColor: Color.valueOf("84a94b"),
-	bullet: Object.assign(new VenomMissileBulletType(3, 10, 2), {
+	bullet: Object.assign(new MissileBulletType(3, 10), {
+		backColor: Color.valueOf("84a94b"),
+		frontColor: Color.valueOf("84a94b"),
+		hitEffect: Fx.none,
+		despawnEffect: Fx.none,
+		trailColor: Color.valueOf("84a94b"),
+		
+		status: status.corroding,
+		statusDuration: 120,
+		
 		recoil: 0.8,
 		lifetime: 45,
 		homingRange: 80,
 		homingPower: 0.05,
+		trailWidth: 0.8,
+		trailLength: 14,
+		trailChance: 0,
+		
+		fragBullets: 2,
+		fragBullet: new Acid(18)
 	})
 })
 )
@@ -183,11 +198,11 @@ Object.assign(new Weapon(), {
 		frontColor: Color.valueOf("84a94b"),
 		trailColor: Color.valueOf("84a94b"),
 		
-		status: status.poisoning,
+		status: status.corroding,
 		statusDuration: 120,
 		
 		fragBullets: 2,
-		fragBullet:new Venom(18)
+		fragBullet:new Acid(18)
 	}),
 	shootStatus: StatusEffects.slow,
 	shootStatusDuration: 130,
@@ -300,7 +315,7 @@ for(let i = 0; i < 3; i++){
 		})
 	)
 }
-group.weapons.add(Object.assign(new Weapon("bugs-group-weapon"), {
+group.weapons.add(Object.assign(new Weapon("zerg-group-weapon"), {
 	shootSound: Sounds.missileLarge,
 	x: 29 / 4,
 	y: -11 / 4,
@@ -331,7 +346,7 @@ Object.assign(mosquito, {
 	armor: 1,
 })
 mosquito.weapons.add(
-Object.assign(new Weapon("bugs-mosquito-weapon"), {
+Object.assign(new Weapon("zerg-mosquito-weapon"), {
 	mirror: false,
 	x: 0,
 	y: 1,
@@ -340,13 +355,40 @@ Object.assign(new Weapon("bugs-mosquito-weapon"), {
 	cooldownTime: 42,
 	shootSound: Sounds.plantBreak,
 	heatColor: Color.valueOf("84a94b"),
-	bullet: Object.assign(new VenomMissileBulletType(3, 10, 3), {
+	bullet: Object.assign(new MissileBulletType(3, 10), {
+		backColor: Color.valueOf("84a94b"),
+		frontColor: Color.valueOf("84a94b"),
+		hitEffect: Fx.none,
+		despawnEffect: Fx.none,
+		trailColor: Color.valueOf("84a94b"),
+		
+		status: status.corroding,
+		statusDuration: 120,
+		
 		recoil: 0.8,
 		lifetime: 45,
 		homingRange: 80,
 		homingPower: 0.05,
+		trailWidth: 0.8,
+		trailLength: 14,
+		trailChance: 0,
+		
+		fragBullets: 2,
+		fragBullet: new Acid(18)
 	})
 })
+)
+mosquito.parts.add(
+    Object.assign(new RegionPart("-wing"),{
+        mirror: true,
+        x: 0.5,
+        y: 0,
+        rotation: -45,
+        moveX: 0,
+        moveY: 0,
+        moveRot: 30,
+        progress: DrawPart.PartProgress.smoothReload.sin(1,5)
+    })
 )
 
 const concuss = new Insect("concuss");
@@ -393,67 +435,34 @@ Object.assign(new Weapon(), {
 		backColor: Color.valueOf("84a94b"),
 		frontColor: Color.valueOf("84a94b"),
 		fragBullets: 4,
-		fragBullet: new Venom(18)
+		fragBullet: new Acid(18)
 	})
 })
 )
 
-const cicada = new Insect("cicada");
-exports.cicada = cicada;
-Object.assign(cicada,{
-	constructor: () => new UnitEntity.create(),
-	aiController: UnitTypes.quell.aiController,
-	targetPriority: 1,
-	health: 850,
-	speed: 1.7,
-	accel: 0.08,
-	drag: 0.016,
-	flying: true,
-	hitSize: 18,
-	faceTarget: true,
-	armor: 5,
-	itemCapacity: 0,
+const egg = extend(UnitType,"egg",{
+     u:[buffer,spider,mosquito],
+     update(unit){
+        unit.maxHealth += 0.1;
+        if(unit.maxHealth >= 2000 + 120){
+            this.u[Math.floor(Math.random() * 3)].spawn(unit.team,unit.x,unit.y)
+            
+            unit.remove();
+        }
+     }
 })
-cicada.weapons.add(
-	Object.assign(new Weapon(),{
-		x: 0,
-		y: 0,
-		mirror: false,
-		shootCone: 180,
-		shootY: 0,
-		reload: 45,
-		ejectEffect: Fx.none,
-		//shootSound: Sounds.none,
-		shoot: new ShootSpread(31,2),
-		bullet: Object.assign(new BulletType(4,12),{
-			hitSize: 7,
-			lifetime: 60,
-			pierce: true,
-			collidesAir: true,
-			hitEffect: Fx.none,
-			despawnEffect: Fx.none,
-			keepVelocity: false,
-			hittable: false,
-			status: StatusEffects.slow,
-			knockback: 0.8,
-		})
-	})
-)
-cicada.abilities.add(
-	new StatusFieldAbility(StatusEffects.overclock,320,300,8 * 12),
-)
-
-const egg = new UnitType("egg")
+exports.egg = egg;
 Object.assign(egg, {
 	drawCell: false,
 	lightRadius: 0,
 	envDisabled: Env.none,
-	constructor: () => new TimedKillUnit.create(),
-	lifetime: 40 * 60,
+	constructor: () => new UnitEntity.create(),
 	speed: 0,
-	hitSize: 6,
-	targetable: false,
-	hittable: false,
+	hitSize: 8,
+	health: 2000,
+	armor: 20,
+	targetable: true,
+	hittable: true,
 	canAttack: false,
 	hidden: true,
 	isEnemy: false,
@@ -461,18 +470,11 @@ Object.assign(egg, {
 	logicControllable: false,
 	allowedInPayloads: false,
 })
-egg.abilities.add(
-    extend(Ability,{
-        u:[buffer,spider,mosquito],
-        death(unit){
-            this.u[Math.floor(Math.random() * 3)].spawn(unit.team,unit.x,unit.y)
-        }
-    })
-)
+egg.immunities.addAll(status.corroding);
 
-const pildelet = new Insect("pildelet");
-exports.pildelet = pildelet;
-Object.assign(pildelet, {
+const carrier = new Insect("carrier");
+exports.carrier = carrier;
+Object.assign(carrier, {
 	targetPriority: -1,
 	speed: 0.25,
 	drag: 0.1,
@@ -501,7 +503,7 @@ Object.assign(pildelet, {
 	groundLayer: 74,
 	constructor: () => new LegsUnit.create()
 })
-pildelet.abilities.add(
+carrier.abilities.add(
 	new UnitSpawnAbility(egg, 60 * 20, 0, 0),
 	new SpawnDeathAbility(egg, 4, 10),
 	Object.assign(new RegenAbility(), {

@@ -1,4 +1,3 @@
-const b = require('base/bulletType');
 const item = require('item');
 
 const mist = new UnitType("mist");
@@ -18,7 +17,7 @@ Object.assign(mist,{
 	constructor: () => new UnitEntity.create(),
 })
 mist.weapons.add(
-	Object.assign(new Weapon("bugs-mist-weapon"),{
+	Object.assign(new Weapon("zerg-mist-weapon"),{
 		x: -18 / 4,
 		y: -0.5,
 		shootY: 0,
@@ -57,7 +56,7 @@ Object.assign(thoud,{
 	constructor: () => new UnitEntity.create(),
 })
 thoud.weapons.add(
-	Object.assign(new Weapon("bugs-thoud-weapon"),{
+	Object.assign(new Weapon("zerg-thoud-weapon"),{
 		x: 4,
 		y: 0,
 		shootY: 0,
@@ -85,56 +84,6 @@ thoud.weapons.add(
 	})
 )
 
-const couldMissile = new MissileUnitType("cloud-missile");
-Object.assign(couldMissile, {
-	hitSize: 8,
-	constructor: () => new TimedKillUnit.create(),
-	trailColor: Color.valueOf("d99f6b"),
-	engineColor: Color.valueOf("d99f6b"),
-	engineSize: 1.75,
-	engineLayer: Layer.effect,
-	speed: 4,
-	maxRange: 6,
-	lifetime: 60,
-	health: 125,
-	lowAltitude: true,
-})
-couldMissile.parts.add(
-Object.assign(new FlarePart(),{
-	progress: DrawPart.PartProgress.life.slope().curve(Interp.pow2In),
-	color1: Color.valueOf("d99f6b"),
-	radius: 0,
-	radiusTo: 35,
-	stroke: 3,
-	rotation: 45,
-	y: -5,
-	followRotation: true,
-}))
-couldMissile.weapons.add(
-Object.assign(new Weapon(), {
-	shootCone: 360,
-	mirror: false,
-	reload: 1,
-	shootOnDeath: true,
-	bullet: Object.assign(new ExplosionBulletType(110, 35), {
-		shootEffect: new MultiEffect(
-			Fx.massiveExplosion,
-			new WrapEffect(
-				Fx.dynamicSpikes,
-				Color.valueOf("d99f6b"), 24
-			),
-			Object.assign(new WaveEffect(),{
-				colorFrom: Color.valueOf("d99f6b"),
-				colorTo: Color.valueOf("d99f6b"),
-				sizeTo: 40,
-				lifetime: 12,
-				strokeFrom: 4,
-			})
-		)
-	})
-})
-)
-
 const cloud = new UnitType("cloud");
 exports.cloud = cloud;
 Object.assign(cloud,{
@@ -151,49 +100,69 @@ Object.assign(cloud,{
 	constructor: () => new UnitEntity.create(),
 })
 cloud.weapons.add(
-	Object.assign(new Weapon("bugs-cloud-weapon"),{
-		layerOffset: 0.0001,
-		reload: 15,
-		shootY: 10,
-		recoil: 3,
-		rotate: false,
-		mirror: false,
-		x: 0,
-		y: 6,
-		heatColor: Color.valueOf("d99f6b"),
-		cooldownTime: 50,
-		shootSound: Sounds.bolt,
-		shoot: new ShootAlternate(3.5),
-	
-		bullet: Object.assign(new b.ArmorReductionBulletType(4, 15, 1), {
-			width: 7,
-			height: 9,
-			lifetime: 45,
-			hitSize: 12,
+	Object.assign(new Weapon(),{
+	    x: 4,
+		y: -2,
+		shootY: 0,
+		reload: 120,
+		shoot: Object.assign(new ShootAlternate(), {
+			shotDelay: 3,
+			shots: 8,
+			barrels: 4,
+			spread: 3,
+		}),
+		baseRotation: -90,
+		shootCone: 360,
+		shootSound: Sounds.missile,
+		bullet: Object.assign(new MissileBulletType(4,17),{
+			width: 8,
+			height: 8,
+			shrinkY: 0,
+			homingRange: 160,
+			homingPower: 0.16,
+			keepVelocity: false,
+			lifetime: 55,
+			splashDamage: 18,
+			splashDamageRadius: 16,
+			trailChance: 0.1,
 			hitColor: Color.valueOf("d99f6b"),
 			backColor: Color.valueOf("d99f6b"),
 			trailColor: Color.valueOf("d99f6b"),
 			frontColor: Color.white,
-			trailWidth: 1.7,
-			trailLength: 5,
-		
-			pierceCap: 2,
 		})
 	}),
-	Object.assign(new Weapon(),{
-		x: 5,
-		y: -1,
-		shootY: 0,
-		reload: 90,
-		shootSound: Sounds.missileSmall,
-		baseRotation: -15,
-		shootCone: 360,
-		bullet: Object.assign(new BulletType(), {
-			spawnUnit: couldMissile,
-			smokeEffect: Fx.shootBigSmoke2,
-			speed: 0,
-			keepVelocity: false,
+	Object.assign(new Weapon("zerg-cloud-weapon"),{
+	    shootSound: Sounds.blaster,
+		reload: 70,
+		x: 0,
+		y: 6.5,
+		shootY: 5,
+		recoil: 1,
+		top: false,
+		layerOffset: -0.01,
+		rotate: false,
+		mirror: false,
+		shoot: Object.assign(new ShootHelix(),{
+			mag: 2,
+			scl: 3,
 		}),
+
+		bullet: Object.assign(new BasicBulletType(4, 60),{
+			width: 7,
+			height: 12,
+			lifetime: 50,
+			shootEffect: Fx.sparkShoot,
+			smokeEffect: Fx.shootBigSmoke,
+			hitColor: Color.valueOf("d99f6b"),
+			backColor: Color.valueOf("d99f6b"),
+			trailColor: Color.valueOf("d99f6b"),
+			frontColor: Color.white,
+			trailWidth: 1.5,
+			trailLength: 5,
+			hitEffect: Fx.hitBulletColor,
+			despawnEffect: Fx.hitBulletColor,
+			pierceCap: 1,
+		})
 	})
 )
 
@@ -326,7 +295,7 @@ Object.assign(ampere,{
 	constructor: () => new UnitEntity.create(),
 })
 ampere.weapons.add(
-	Object.assign(new Weapon("bugs-ampere-weapon"),{
+	Object.assign(new Weapon("zerg-ampere-weapon"),{
 		layerOffset: 0.0001,
 		reload: 60,
 		shootY: 0.75,
@@ -434,14 +403,11 @@ Object.assign(phantom,{
 	constructor: () => new UnitEntity.create()
 })
 phantom.mineItems.addAll(
-    item.ossature,
     item.nickel,
     item.manganese,
-    item.crystal
-    //item.uranium
 );
 phantom.weapons.add(
-	Object.assign(new Weapon("bugs-phantom-weapon"), {
+	Object.assign(new Weapon("zerg-phantom-weapon"), {
 		x: 14 / 4,
 		y: 9 / 4,
 		top: false,
@@ -500,9 +466,7 @@ Object.assign(shadow,{
 	payloadCapacity: 64
 })
 shadow.mineItems.addAll(
-    item.ossature,
     item.nickel,
     item.manganese,
-    item.crystal,
-    item.uranium
+    item.chromium
 );

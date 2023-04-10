@@ -1,8 +1,8 @@
 const item = require('item');
 const core = require('block/core');
 
-const gredizion = new Planet("gredizion", Planets.sun, 1, 2);
-Object.assign(gredizion, {
+const greavar = new Planet("greavar", Planets.sun, 1, 2);
+Object.assign(greavar, {
 	generator: extend(SerpuloPlanetGenerator,{
 		allowLanding(sector){return false},
 		getColor(position){
@@ -13,9 +13,9 @@ Object.assign(gredizion, {
 		    return Schematics.readBase64("bXNjaAF4nBXLUQqAIBBF0WdKRa2lFUUfow45oBaN7b+Ey/m7sLAOrlJhWNKESRtTkYhFQ+JCTYJijazhkbvJVQGMmTxnxbAfBrN/T936CpjezwfPPBUT");
 	    },
 	}),
-	meshLoader: prov(() => new HexMesh(gredizion, 4)),
+	meshLoader: prov(() => new HexMesh(greavar, 4)),
 	cloudMeshLoader: () => new MultiMesh(
-		new HexSkyMesh(gredizion, 2, 0.15, 0.14, 5, Color.valueOf("f2ff90bf"), 2, 0.42, 1, 0.43)
+		new HexSkyMesh(greavar, 2, 0.15, 0.14, 5, Color.valueOf("f2ff90bf"), 2, 0.42, 1, 0.43)
 	),
 	atmosphereColor: Color.valueOf("3c7141"),
 	landCloudColor: Color.valueOf("3c7141"),
@@ -31,23 +31,21 @@ Object.assign(gredizion, {
 	launchCapacityMultiplier: 0.75,
 	clearSectorOnLose: true,
 	startSector: 2,
-	orbitRadius: 75,
-	rotateTime: 17 * 60,
+	orbitRadius: 65,
+	rotateTime: 34.7 * 60,
 	defaultCore: core.ash,
 	iconColor: Color.valueOf("3c7141"),
 })
-gredizion.totalRadius += 2.6;
-gredizion.hiddenItems.addAll(
+greavar.totalRadius += 2.6;
+greavar.hiddenItems.addAll(
 	Items.scrap,
 	Items.copper,
 	Items.lead,
 	Items.titanium,
 	Items.thorium,
-	Items.silicon,
 	Items.plastanium,
 	Items.phaseFabric,
 	Items.surgeAlloy,
-	Items.sand,
 	Items.blastCompound,
 	Items.pyratite,
 	Items.metaglass,
@@ -58,38 +56,36 @@ gredizion.hiddenItems.addAll(
 	Items.fissileMatter,
 	Items.dormantCyst
 );
-exports.gredizion = gredizion;
+exports.greavar = greavar;
 
 Planets.serpulo.hiddenItems.addAll(
-	item.organosand,
 	item.salt,
 	item.biomass,
-	item.ossature,
 	item.nickel,
 	item.manganese,
 	item.crystal,
-	item.uranium,
+	item.chromium,
 	item.biomassSteel,
-	item.organosilicon,
-	item.methylSulfone,
-	item.alkali
+	item.sulfone,
+	item.organic,
+	item.hypha,
+	item.energic
 );
 Planets.erekir.hiddenItems.addAll(
-	item.organosand,
 	item.salt,
 	item.biomass,
-	item.ossature,
 	item.nickel,
 	item.manganese,
 	item.crystal,
-	item.uranium,
+	item.chromium,
 	item.biomassSteel,
-	item.organosilicon,
-	item.methylSulfone,
-	item.alkali
+	item.sulfone,
+	item.organic,
+	item.hypha,
+	item.energic
 );
 
-const arkyciteMountain = new SectorPreset("arkyciteMountain", gredizion, 2);
+/*const arkyciteMountain = new SectorPreset("arkyciteMountain", gredizion, 2);
 exports.arkyciteMountain = arkyciteMountain;
 Object.assign(arkyciteMountain, {
 	captureWave: 20,
@@ -158,4 +154,4 @@ exports.breeding = breeding;
 Object.assign(breeding, {
 	captureWave: 0,
 	difficulty: 5,
-})
+})*/

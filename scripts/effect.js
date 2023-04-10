@@ -1,4 +1,4 @@
-const spore = Object.assign(new ParticleEffect(), {
+exports.hyphaSlowed = Object.assign(new ParticleEffect(), {
 	line: true,
 	particles: 5,
 	lifetime: 15,
@@ -9,9 +9,8 @@ const spore = Object.assign(new ParticleEffect(), {
 	colorFrom: Color.valueOf("7457ce"),
 	colorTo: Color.valueOf("7457ce"),
 })
-exports.spore = spore;
 
-const interfere = Object.assign(new WaveEffect(), {
+exports.interfere = Object.assign(new WaveEffect(), {
 	lifetime: 5,
 	sizeFrom: 0,
 	sizeTo: 8,
@@ -20,6 +19,3 @@ const interfere = Object.assign(new WaveEffect(), {
 	colorFrom: Color.valueOf("afffff"),
 	colorTo: Color.valueOf("ffffff")
 })
-exports.interfere = interfere;
-
-//function FlameEffect()

@@ -1,2 +1,2 @@
 # zerg
-a mindustry mod that adds a planet named Gredizion
+a mindustry mod that adds a planet named Greavar

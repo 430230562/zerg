@@ -17,18 +17,14 @@ Events.on(EventType.ClientLoadEvent, () => {
     const remind = new BaseDialog("Welcome to the Gredizion");
     
     remind.cont.pane(table => {
-        table.image(Core.atlas.find("bugs-gredizion")).size(128,128).pad(3).row();
+        table.image(Core.atlas.find("bugs-gredizion")).size(64,64).pad(3).row();
         table.add(Core.bundle.get("thanking")).left().growX().wrap().width(420).maxWidth(420).pad(4).labelAlign(Align.left).row();
         
         table.add(Core.bundle.get("remind")).pad(4).labelAlign(Align.center).row();
         table.image(Tex.whiteui, Pal.accent).growX().height(3).pad(4).row();
         table.add(Core.bundle.get("remind.sub")).left().growX().wrap().width(420).maxWidth(420).pad(4).labelAlign(Align.left).row();
-        
-        table.add("[red]" + Core.bundle.get("warning")).pad(4).labelAlign(Align.center).row();
-        table.image(Tex.whiteui, Color.red).growX().height(3).pad(4).row();
-        table.add(Core.bundle.get("warning.sub")).left().growX().wrap().width(420).maxWidth(420).pad(4).labelAlign(Align.left).row();
     });
-    let time = 30 * 60;
+    let time = 15 * 60;
     remind.buttons.button("",run(() => {
         remind.hide();
         mod.writeString("true")
@@ -42,14 +38,14 @@ Events.on(EventType.ClientLoadEvent, () => {
         }
     })
     remind.buttons.button(Core.bundle.get("removeMod"),run(() => {
-        Vars.mods.removeMod(Vars.mods.getMod("bugs"));
+        Vars.mods.removeMod(Vars.mods.getMod("zerg"));
         Core.app.exit();
     })).size(128,48)
     
     if(! hidden) remind.show();
     
     
-    const dialog = new BaseDialog(Core.bundle.get("report"));
+    /*const dialog = new BaseDialog(Core.bundle.get("report"));
     dialog.cont.pane(table => {
         table.image(Core.atlas.find("bugs-stellar-observatory")).size(64, 64).pad(3);
         table.button(Core.bundle.get("report-1"), run(() => {
@@ -97,7 +93,5 @@ Events.on(EventType.ClientLoadEvent, () => {
 		const container = Reflect.get(Vars.ui.menufrag, "container");
 		container.row();
 		container.add(new MobileButton(Icon.download, Core.bundle.get("report"), () => dialog.show()));
-		const c = Reflect.get(Vars.ui.menufrag, "container");
-		c.add(new MobileButton(Icon.book, Core.bundle.get("web"), () => Core.app.openURI("https://430230562.github.io/zerg")));
-	});
+	});*/
 })

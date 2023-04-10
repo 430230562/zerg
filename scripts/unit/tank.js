@@ -1,17 +1,20 @@
 const status = require('status');
 const liquid = require('liquid');
 const Ef = require('effect');
-const bulletType = require('base/bulletType')
-const ab = require('base/ability')
+const { ReduceArmorBulletType } = require('base/bulletType')
 
-const ArmorReductionBulletType = bulletType.ArmorReductionBulletType;
+function StatWeapon(name, stat, num){
+    return extend(Weapon, {
+        name: name,
+        addStats(u, t){
+            this.super$addStats(u, t);
+            t.row();
+            t.add(Core.bundle.format(stat, num));
+        }
+    });
+}
 
 const pioneer = new TankUnitType("pioneer");
-pioneer.stats.add(Stat.weapons, {
-    display(table){
-        table.add(new FLabel("{rainbow}" + Core.bundle.format("pierceAmount") + "1"));
-    }
-})
 exports.pioneer = pioneer;
 Object.assign(pioneer, {
 	targetAir: false,
@@ -28,7 +31,7 @@ Object.assign(pioneer, {
 	constructor: () => new TankUnit.create(),
 })
 pioneer.weapons.add(
-Object.assign(new Weapon("bugs-pioneer-weapon"), {
+Object.assign(new StatWeapon("zerg-pioneer-weapon","armorReduction",1), {
 	layerOffset: 0.0001,
 	reload: 50,
 	shootY: 0.75,
@@ -42,7 +45,7 @@ Object.assign(new Weapon("bugs-pioneer-weapon"), {
 	cooldownTime: 50,
 	shootSound: Sounds.mediumCannon,
 	
-	bullet: Object.assign(new ArmorReductionBulletType(4, 35, 1), {
+	bullet: Object.assign(new ReduceArmorBulletType(4, 35, 1), {
 		width: 5,
 		height: 7,
 		lifetime: 40,
@@ -58,11 +61,6 @@ Object.assign(new Weapon("bugs-pioneer-weapon"), {
 )
 
 const brigadier = new TankUnitType("brigadier");
-brigadier.stats.add(Stat.weapons, {
-    display(table){
-        table.add(new FLabel("{rainbow}" + Core.bundle.format("pierceAmount") + "2"));
-    }
-})
 exports.brigadier = brigadier;
 Object.assign(brigadier, {
 	speed: 0.65,
@@ -78,7 +76,7 @@ Object.assign(brigadier, {
 	constructor: () => new TankUnit.create(),
 })
 brigadier.weapons.add(
-Object.assign(new Weapon("bugs-brigadier-weapon"), {
+Object.assign(new StatWeapon("zerg-brigadier-weapon","armorReduction",2), {
 	layerOffset: 0.0001,
 	reload: 25,
 	shootY: 10,
@@ -93,7 +91,7 @@ Object.assign(new Weapon("bugs-brigadier-weapon"), {
 	shootSound: Sounds.mediumCannon,
 	shoot: new ShootAlternate(3.5),
 	
-	bullet: Object.assign(new ArmorReductionBulletType(4, 75, 2), {
+	bullet: Object.assign(new ReduceArmorBulletType(4, 75, 2), {
 		width: 7,
 		height: 9,
 		lifetime: 40,
@@ -111,11 +109,6 @@ Object.assign(new Weapon("bugs-brigadier-weapon"), {
 )
 
 const kibbler = new TankUnitType("kibbler");
-kibbler.stats.add(Stat.weapons, {
-    display(table){
-        table.add(new FLabel("{rainbow}" + Core.bundle.format("pierceAmount") + "3"));
-    }
-})
 exports.kibbler = kibbler;
 Object.assign(kibbler,{
 	speed: 0.65,
@@ -135,7 +128,7 @@ Object.assign(kibbler,{
 	constructor: () => new TankUnit.create(),
 })
 kibbler.weapons.add(
-Object.assign(new Weapon("bugs-kibbler-weapon"),{
+Object.assign(new StatWeapon("zerg-kibbler-weapon","armorReduction",3),{
 	shootSound: Sounds.dullExplosion,
 	layerOffset: 0.0001,
 	reload: 85,
@@ -148,7 +141,7 @@ Object.assign(new Weapon("bugs-kibbler-weapon"),{
 	x: 0,
 	y: 0,
 	cooldownTime: 30,
-	bullet: Object.assign(new ArmorReductionBulletType(4, 110, 3), {
+	bullet: Object.assign(new ReduceArmorBulletType(4, 110, 3), {
 		width: 10,
 		height: 14,
 		lifetime: 48,
@@ -197,7 +190,7 @@ Object.assign(purge,{
 	constructor: () => new TankUnit.create(),
 })
 purge.weapons.add(
-    Object.assign(new Weapon("bugs-purge-weapon"),{
+    Object.assign(new Weapon("zerg-purge-weapon"),{
         reload: 110,
         cooldownTime: 90,
         mirror: false,
@@ -215,7 +208,7 @@ purge.weapons.add(
 
         bullet: Object.assign(new RailBulletType(),{
             shootEffect: Fx.railShoot,
-            length: 500,
+            length: 400,
             pointEffectSpace: 60,
             pierceEffect: Fx.railHit,
             pointEffect: Fx.railTrail,
@@ -228,11 +221,6 @@ purge.weapons.add(
 )
 
 const fearless = new TankUnitType("fearless")
-fearless.stats.add(Stat.weapons, {
-    display(table){
-        table.add(new FLabel("{rainbow}" + Core.bundle.format("pierceAmount") + "5"));
-    }
-})
 exports.fearless = fearless;
 Object.assign(fearless, {
 	squareShape: true,
@@ -252,7 +240,7 @@ Object.assign(fearless, {
 	constructor: () => new TankUnit.create(),
 })
 fearless.weapons.add(
-Object.assign(new Weapon("bugs-fearless-weapon"),{
+Object.assign(new StatWeapon("zerg-fearless-weapon","armorReduction",5),{
 	layerOffset: 0.0001,
 	reload: 45 / 2,
 	shootY: 6,
@@ -266,7 +254,7 @@ Object.assign(new Weapon("bugs-fearless-weapon"),{
 	cooldownTime: 50,
 	shootSound: Sounds.shotgun,
 	shoot: new ShootAlternate(8),
-	bullet: Object.assign(new ArmorReductionBulletType(8,320,5), {
+	bullet: Object.assign(new ReduceArmorBulletType(8,320,5), {
 		pierce: true,
 		pierceBuilding: true,
 		pierceCap: 4,
@@ -295,7 +283,7 @@ Object.assign(new Weapon("bugs-fearless-weapon"),{
 		fragVelocityMax: 4,
 		fragLifeMin: 1,
 		fragLifeMax: 1,
-		fragBullet: Object.assign(new BasicBulletType,{
+		fragBullet: Object.assign(new BasicBulletType(),{
 			lifetime: 20,
 			damage: 10,
 			width: 6,
@@ -310,9 +298,9 @@ Object.assign(new Weapon("bugs-fearless-weapon"),{
 })
 )
 
-const hurricane = new TankUnitType("hurricane");
-exports.hurricane = hurricane;
-Object.assign(hurricane, {
+const breeze = new TankUnitType("breeze");
+exports.breeze = breeze;
+Object.assign(breeze, {
 	outlineColor: Color.valueOf("7e8ae6"),
 	healColor: Color.valueOf("7e8ae6"),
 	speed: 9 * 8 / 60,
@@ -328,8 +316,8 @@ Object.assign(hurricane, {
 	targetAir: true,
 	constructor: () => new TankUnit.create()
 })
-hurricane.weapons.add(
-Object.assign(new Weapon("bugs-hurricane-weapon"), {
+breeze.weapons.add(
+Object.assign(new Weapon("zerg-breeze-weapon"), {
 	x: 0,
 	y: 0,
 	rotate: true,
@@ -356,9 +344,9 @@ Object.assign(new Weapon("bugs-hurricane-weapon"), {
 })
 )
 
-const typhoon = new TankUnitType("typhoon")
-exports.typhoon = typhoon;
-Object.assign(typhoon, {
+const gale = new TankUnitType("gale")
+exports.gale = gale;
+Object.assign(gale, {
 	outlineColor: Color.valueOf("7e8ae6"),
 	healColor: Color.valueOf("7e8ae6"),
 	speed: 8 * 8 / 60,
@@ -374,8 +362,8 @@ Object.assign(typhoon, {
 	targetAir: true,
 	constructor: () => new TankUnit.create()
 })
-typhoon.weapons.add(
-	Object.assign(new Weapon("bugs-typhoon-weapon"), {
+gale.weapons.add(
+	Object.assign(new Weapon("zerg-gale-weapon"), {
 	x: 0,
 	y: 0,
 	rotate: true,
@@ -404,9 +392,9 @@ typhoon.weapons.add(
 })
 )
 
-const storm = new TankUnitType("storm")
-exports.storm = storm;
-Object.assign(storm,{
+const hurricane = new TankUnitType("hurricane")
+exports.hurricane = hurricane;
+Object.assign(hurricane,{
 	outlineColor: Color.valueOf("7e8ae6"),
 	healColor: Color.valueOf("7e8ae6"),
 	speed: 7.5 * 8 / 60,
@@ -426,8 +414,8 @@ Object.assign(storm,{
 	targetAir: true,
 	constructor: () => new TankUnit.create()
 })
-storm.weapons.add(
-Object.assign(new Weapon("bugs-storm-weapon"),{
+hurricane.weapons.add(
+Object.assign(new Weapon("zerg-hurricane-weapon"),{
 	layerOffset: 0.0001,
 	reload: 60,
 	shootY: 0.75,
@@ -438,75 +426,33 @@ Object.assign(new Weapon("bugs-storm-weapon"),{
 	x: 0,
 	y: -0.25,
 	heatColor: Color.valueOf("7e8ae6"),
-	cooldownTime: 50,
-	shootSound: Sounds.shockBlast,
-	bullet: Object.assign(new BasicBulletType(3,125), {
-		shootEffect: new MultiEffect(
-			Fx.shootTitan,
-			Object.assign(new WaveEffect(), {
-				colorTo: Color.valueOf("7e8ae6"),
-				sizeTo: 26,
-				lifetime: 14,
-				strokeFrom: 4,
-			})
-		),
-		smokeEffect: Fx.shootSmokeTitan,
+	shootSound: Sounds.missileLarge,
+	bullet: Object.assign(new MissileBulletType(5,125), {
+		hitEffect: Fx.blastExplosion,
+		lifetime: 60,
+		width: 12,
+		height: 24,
+		splashDamageRadius: 24,
+		splashDamage: 125,
+		trailChance: 0.1,
 		hitColor: Color.valueOf("7e8ae6"),
-		despawnSound: Sounds.spark,
-	
-		sprite: "large-orb",
-		trailEffect: Fx.missileTrail,
-		trailInterval: 3,
-		trailParam: 4,
-		lifetime: 75,
-		width: 15,
-		height: 15,
 		backColor: Color.valueOf("7e8ae6"),
-		frontColor: Color.valueOf("7e8ae6"),
-		shrinkX: 0,
-		shrinkY: 0,
 		trailColor: Color.valueOf("7e8ae6"),
-		trailLength: 12,
-		trailWidth: 2.2,
-		despawnEffect: Object.assign(new ExplosionEffect(),{
-			waveColor: Color.valueOf("7e8ae6"),
-			smokeColor: Color.gray,
-			sparkColor: Color.valueOf("7e8ae6"),
-			waveStroke: 4,
-			waveRad: 40,
-		}),
-		hitEffect: Object.assign(new ExplosionEffect(),{
-			waveColor: Color.valueOf("7e8ae6"),
-			smokeColor: Color.gray,
-			sparkColor: Color.valueOf("7e8ae6"),
-			waveStroke: 4,
-			waveRad: 40,
-		}),
-		intervalBullet: Object.assign(new LightningBulletType(),{
-			damage: 21,
-			collidesAir: false,
-			ammoMultiplier: 1,
-			lightningColor: Color.valueOf("7e8ae6"),
-			lightningLength: 3,
-			lightningLengthRand: 6,
-	
-			lightningType: Object.assign(new BulletType(0.0001, 0),{
-				lifetime: Fx.lightning.lifetime,
-				hitEffect: Fx.hitLancer,
-				despawnEffect: Fx.none,
-				status: StatusEffects.shocked,
-				statusDuration: 10,
-				hittable: false,
-				lightColor: Color.white,
-				buildingDamageMultiplier: 0.25,
-			})
-		}),
+		frontColor: Color.white,
 		bulletInterval: 4,
-		lightningColor: Color.valueOf("7e8ae6"),
-		lightningDamage: 19,
-		lightning: 12,
-		lightningLength: 2,
-		lightningLengthRand: 8,
+		intervalRandomSpread: 45,
+		intervalBullet: Object.assign(new MissileBulletType(4,10), {
+    		hitEffect: Fx.blastExplosion,
+    		lifetime: 30,
+    		width: 8,
+    		splashDamageRadius: 24,
+    		splashDamage: 40,
+    		trailChance: 0.1,
+    		hitColor: Color.valueOf("7e8ae6"),
+    		backColor: Color.valueOf("7e8ae6"),
+    		trailColor: Color.valueOf("7e8ae6"),
+    		frontColor: Color.white,
+    	})
 	})
 })
 )
@@ -535,7 +481,7 @@ Object.assign(alter, {
 	constructor: () => new TankUnit.create()
 })
 alter.weapons.add(
-Object.assign(new Weapon("bugs-alter-weapon"), {
+Object.assign(new Weapon("zerg-alter-weapon"), {
 	layerOffset: 0.0001,
 	reload: 90,
 	shootY: 1.5,
@@ -562,7 +508,7 @@ Object.assign(new Weapon("bugs-alter-weapon"), {
 		},
 		speed: 3.5,
 		damage: 25,
-		sprite: "bugs-wave",
+		sprite: "zerg-wave",
 		width: 10,
 		height: 13,
 		lifetime: 52,

@@ -1,9 +1,9 @@
 const item = require('item');
 const liquid = require('liquid');
 
-const ossatureDrill = new Drill("ossature-drill");
-exports.ossatureDrill = ossatureDrill;
-Object.assign(ossatureDrill, {
+const nickelDrill = new Drill("nickel-drill");
+exports.nickelDrill = nickelDrill;
+Object.assign(nickelDrill, {
 	tier: 3,
 	drillTime: 360,
 	hardnessDrillMultiplier: 0,
@@ -13,10 +13,10 @@ Object.assign(ossatureDrill, {
 	category: Category.production,
 	requirements: ItemStack.with(
 		Items.graphite, 10,
-		item.ossature, 18,
+		item.nickel, 18,
 	),
 })
-ossatureDrill.consumeLiquid(Liquids.water, 0.04).boost()
+nickelDrill.consumeLiquid(Liquids.water, 0.04).boost()
 
 const manganeseDrill = new Drill("manganese-drill");
 exports.manganeseDrill = manganeseDrill;
@@ -28,8 +28,7 @@ Object.assign(manganeseDrill, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.production,
 	requirements: ItemStack.with(
-		item.ossature, 20,
-		item.nickel, 15,
+		item.nickel, 35,
 		item.manganese, 10,
 	),
 })
@@ -48,44 +47,11 @@ Object.assign(crystalDrill, {
 		Items.graphite, 30,
 		item.nickel, 35,
 		item.manganese, 20,
-		item.organosilicon, 30,
+		Items.silicon, 30,
 	)
 })
 crystalDrill.consumeLiquid(Liquids.water, 0.04).boost();
 crystalDrill.consumePower(1.2);
-
-const deepDrilling = GenericCrafter("deep-drilling");
-exports.deepDrilling = deepDrilling
-Object.assign(deepDrilling,{
-	craftEffect: Fx.mineBig,
-	outputItem: new ItemStack(item.uranium, 1),
-	craftTime: 120,
-	size: 4,
-	hasItems: true,
-	hasLiquids: true,
-	buildCostMultiplier: 2.5,
-	group: BlockGroup.drills,
-	
-	drawer: new DrawMulti(
-		new DrawDefault(), 
-		Object.assign(new DrawRegion("-rotator"), {
-			spinSprite: true,
-			rotateSpeed: 4.5,
-		}),
-		new DrawRegion("-top")
-	),
-	
-	buildVisibility: BuildVisibility.shown,
-	category: Category.production,
-	requirements: ItemStack.with(
-		item.nickel, 65,
-		item.uranium, 75,
-		item.manganese, 50,
-		item.organosilicon, 60,
-	)
-})
-deepDrilling.consumeLiquid(Liquids.water, 0.1)
-deepDrilling.consumePower(220 / 60)
 
 const crystalCollector = new BeamDrill("crystal-collector");
 exports.crystalCollector = crystalCollector;
@@ -99,12 +65,30 @@ Object.assign(crystalCollector, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.production,
 	requirements: ItemStack.with(
-		item.ossature, 30,
-		item.nickel, 20,
+		item.nickel, 50,
 	)
 })
 crystalCollector.consumeLiquid(Liquids.water, 3 / 60).boost();
 crystalCollector.consumePower(0.15);
+
+const hyphaCutting = new WallCrafter("hypha-cutting")
+exports.hyphaCutting = hyphaCutting;
+Object.assign(hyphaCutting,{
+    drillTime: 240,
+    size: 3,
+    attribute: Attribute.get("biomass"),
+    output: item.hypha,
+    ambientSound: Sounds.plantBreak,
+    ambientSoundVolume: 0.04,
+    requirements: ItemStack.with(
+		item.nickel, 250,
+		item.manganese, 150,
+		item.crystal, 100,
+		item.chromium, 125,
+	)
+})
+hyphaCutting.consumePower(150 / 60);
+hyphaCutting.consumeLiquid(liquid.dissolvant, 12 / 60);
 
 const incubator = new AttributeCrafter("incubator");
 exports.incubator = incubator;
@@ -130,88 +114,9 @@ Object.assign(incubator, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.production,
 	requirements: ItemStack.with(
-		item.ossature, 25,
-		item.nickel, 25,
-		item.organosilicon, 10,
+		item.nickel, 50,
+		Items.silicon, 10,
 	),
 })
 incubator.consumePower(70 / 60);
 incubator.consumeLiquid(Liquids.water, 12 / 60);
-
-const sporeIncubator = new AttributeCrafter("spore-incubator");
-exports.sporeIncubator = sporeIncubator;
-Object.assign(sporeIncubator,{
-    craftEffect: Fx.none,
-	outputItem: new ItemStack(Items.sporePod, 1),
-	craftTime: 30,
-	size: 3,
-	hasPower: true,
-	hasLiquids: true,
-	hasItems: true,
-	attribute: Attribute.spores,
-	drawer: new DrawMulti(
-		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.oil),
-		new DrawDefault(),
-		new DrawCultivator(),
-		new DrawRegion("-top")
-	),
-	buildVisibility: BuildVisibility.shown,
-	category: Category.production,
-	requirements: ItemStack.with(
-		item.nickel, 75,
-		item.manganese, 50,
-		item.organosilicon, 50,
-	)
-})
-sporeIncubator.consumePower(120 / 60);
-sporeIncubator.consumeLiquid(Liquids.oil, 6 / 60);
-
-const neoplasmExtractor = new SolidPump("neoplasm-extractor");
-exports.neoplasmExtractor = neoplasmExtractor;
-Object.assign(neoplasmExtractor, {
-	result: Liquids.neoplasm,
-	pumpAmount: 4 / 60,
-	size: 2,
-	liquidCapacity: 30,
-	rotateSpeed: 2.4,
-	baseEfficiency: 0,
-	attribute: Attribute.get("neoplasm"),
-	buildVisibility: BuildVisibility.shown,
-	category: Category.production,
-	requirements: ItemStack.with(
-		Items.graphite, 30,
-		item.ossature, 30,
-		item.nickel, 30,
-		item.crystal, 30,
-	),
-})
-neoplasmExtractor.consumePower(110 / 60);
-
-const chlorineExtractor = new GenericCrafter("chlorine-extractor");
-exports.chlorineExtractor = chlorineExtractor;
-Object.assign(chlorineExtractor, {
-	outputLiquid: new LiquidStack(liquid.chlorine,1.5 / 60),
-	size: 3,
-	liquidCapacity: 24,
-	drawer: new DrawMulti(
-		new DrawRegion("-bottom"),
-		new DrawLiquidTile(liquid.chlorine),
-		new DrawDefault(), 
-		Object.assign(new DrawRegion("-rotator"), {
-			spinSprite: true,
-			rotateSpeed: 2.4,
-		}),
-		new DrawRegion("-top")
-	),
-	buildVisibility: BuildVisibility.shown,
-	category: Category.production,
-	requirements: ItemStack.with(
-		Items.graphite, 175,
-		item.nickel, 115,
-		item.crystal, 75,
-		item.uranium, 50,
-		item.halogenated, 75,
-	),
-})
-chlorineExtractor.consumePower(220 / 60);

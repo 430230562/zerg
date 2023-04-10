@@ -11,8 +11,7 @@ Object.assign(nickelPowerNode, {
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
-		item.ossature, 1,
-		item.nickel, 3
+		item.nickel, 4
 	)
 })
 
@@ -28,7 +27,7 @@ Object.assign(nickelPowerNodeLarge, {
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
 		item.nickel, 10,
-		item.organosilicon, 5,
+		Items.silicon, 5,
 		item.manganese, 5,
 	)
 })
@@ -40,8 +39,7 @@ Object.assign(nickelBattery, {
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
-		item.ossature, 5,
-		item.nickel, 20,
+		item.nickel, 25,
 	)
 })
 nickelBattery.consumePowerBuffered(5500)
@@ -54,9 +52,8 @@ Object.assign(nickelBatteryLarge, {
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
-		item.ossature, 20,
-		item.nickel, 70,
-		item.organosilicon, 30,
+		item.nickel, 100,
+		Items.silicon, 30,
 	)
 })
 nickelBatteryLarge.consumePowerBuffered(70000)
@@ -78,8 +75,7 @@ Object.assign(deflagrationGenerator, {
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
-		item.ossature, 25,
-		item.nickel, 40,
+		item.nickel, 65,
 	)
 })
 deflagrationGenerator.consume(new ConsumeItemFlammable());
@@ -113,9 +109,8 @@ Object.assign(totalEffectGenerator, {
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
 		Items.graphite, 25,
-		item.ossature, 35,
-		item.nickel, 40,
-		item.organosilicon, 30,
+		item.nickel, 75,
+		Items.silicon, 30,
 	),
 })
 totalEffectGenerator.consumeLiquid(Liquids.water, 0.1);
@@ -152,8 +147,8 @@ Object.assign(pyrolysis,{
 	requirements: ItemStack.with(
 		Items.graphite, 50,
 		item.nickel, 80,
-		item.organosilicon, 40,
-		item.uranium, 30,
+		Items.silicon, 40,
+		item.chromium, 30,
 	),
 })
 pyrolysis.consumeLiquid(Liquids.neoplasm, 0.3);
@@ -183,30 +178,6 @@ Object.assign(crystalPanelLarge,{
 	size: 2,
 	powerProduction: 42 / 60,
 })
-
-const uraniumReactor = new NuclearReactor("uranium-reactor");
-exports.uraniumReactor = uraniumReactor;
-Object.assign(uraniumReactor,{
-	ambientSound: Sounds.hum,
-	ambientSoundVolume: 0.24,
-	size: 3,
-	health: 800,
-	itemDuration: 300,
-	powerProduction: 21.7,
-	heating: 0.02,
-	fuelItem: item.uranium,
-	category: Category.power,
-	buildVisibility: BuildVisibility.shown,
-	requirements: ItemStack.with(
-		Items.graphite, 150,
-		item.nickel, 300,
-		item.crystal, 50,
-		item.organosilicon, 200,
-		item.uranium, 150,
-	),
-})
-uraniumReactor.consumeItem(item.uranium);
-uraniumReactor.consumeLiquid(Liquids.water,5 / 60)
 
 const biomassReactor = new HeaterGenerator("biomass-reactor");
 exports.biomassReactor = biomassReactor;
@@ -249,8 +220,8 @@ Object.assign(biomassReactor, {
 		Items.graphite, 260,
 		item.nickel, 500,
 		item.crystal, 65,
-		item.organosilicon, 310,
-		item.uranium, 260,
+		Items.silicon, 310,
+		item.chromium, 260,
 	),
 	
 	drawer: new DrawMulti(
@@ -284,11 +255,10 @@ Object.assign(extremeGenerator, {
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
-		item.ossature, 120,
-		item.nickel, 170,
+		item.nickel, 300,
 		item.manganese, 85,
 		item.crystal, 85,
-		item.organosilicon, 110,
+		Items.silicon, 110,
 	),
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
