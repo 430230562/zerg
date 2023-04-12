@@ -20,9 +20,9 @@ Object.assign(compressor, {
 })
 compressor.consumeItem(Items.coal, 3);
 
-const hydraulicPress = new GenericCrafter("hydraulic-press");
-exports.hydraulicPress = hydraulicPress;
-Object.assign(hydraulicPress, {
+const multiCompressor = new GenericCrafter("multi-compressor");
+exports.multiCompressor = multiCompressor;
+Object.assign(multiCompressor, {
 	craftEffect: Fx.pulverizeMedium,
 	outputItem: new ItemStack(Items.graphite, 8),
 	craftTime: 150,
@@ -46,9 +46,9 @@ Object.assign(hydraulicPress, {
 		item.manganese, 100,
 	)
 })
-hydraulicPress.consumeItem(Items.coal, 9);
-hydraulicPress.consumePower(108 / 60);
-hydraulicPress.consumeLiquid(Liquids.water, 6 / 60);
+multiCompressor.consumeItem(Items.coal, 9);
+multiCompressor.consumePower(108 / 60);
+multiCompressor.consumeLiquid(Liquids.water, 6 / 60);
 
 const smelter = new GenericCrafter("smelter");
 exports.smelter = smelter;
