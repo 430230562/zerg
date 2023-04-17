@@ -1,7 +1,7 @@
 function MendFieldAbility(amount,reload,range){
 	return extend(Ability,{
 	    i: 0,
-	    wasHealed: 0,
+	    wasHealed: false,
 		update(unit){
 			this.i += Time.delta;
 			
@@ -45,3 +45,19 @@ function MoveLiquidAbility(liquid,range,amount){
     })
 }
 exports.MoveLiquidAbility = MoveLiquidAbility;
+
+function UAVSpawnAbility(unitType,regen,amount){
+    return extend(Ability,{
+        update(unit){
+            if(unit.shield <= unitType.health)unit.shield += regen * Time.delta
+            if(unit.shield >= unitType.health && unit.team.data().countType(unitType) <= unit.team.data().countType(unit.type) * amount){
+                Fx.spawn.at(unit)
+                unitType.spawn(unit.team,unit.x,unit.y)
+                
+                unit.shield -= unitType.health
+            }
+        }
+        
+    })
+}
+exports.UAVSpawnAbility = UAVSpawnAbility

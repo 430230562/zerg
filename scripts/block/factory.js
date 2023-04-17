@@ -26,6 +26,7 @@ Object.assign(multiCompressor, {
 	craftEffect: Fx.pulverizeMedium,
 	outputItem: new ItemStack(Items.graphite, 8),
 	craftTime: 150,
+	itemCapacity: 30,
 	size: 3,
 	hasItems: true,
 	hasLiquids: true,
@@ -82,3 +83,85 @@ smelter.consumeItems(ItemStack.with(
 	Items.sand, 3,
 ));
 smelter.consumePower(0.50);
+
+const biomassSmelter = new GenericCrafter("biomass-smelter");
+exports.biomassSmelter = biomassSmelter;
+Object.assign(biomassSmelter,{
+    health: 360,
+	craftEffect: Fx.smeltsmoke,
+	outputItem: new ItemStack(item.biomassSteel, 5),
+	craftTime: 180,
+	size: 3,
+	hasPower: true,
+	hasLiquids: false,
+	drawer: new DrawMulti(
+		new DrawDefault(),
+		new DrawFlame(Color.valueOf("ffef99"))
+	),
+	ambientSound: Sounds.smelter,
+	ambientSoundVolume: 0.14,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+	    Items.silicon, 80,
+		item.nickel, 70,
+		item.manganese, 80
+	)
+})
+biomassSmelter.consumeItems(ItemStack.with(
+    item.biomass, 3,
+	item.nickel, 2,
+	item.manganese, 3,
+));
+biomassSmelter.consumePower(3);
+
+const biomassDissociator = new GenericCrafter("biomass-dissociator");
+exports.biomassDissociator = biomassDissociator
+Object.assign(biomassDissociator,{
+    craftEffect: Fx.pulverizeMedium,
+	outputItem: new ItemStack(item.amino, 3),
+	craftTime: 60,
+	size: 2,
+	hasItems: true,
+	hasLiquids: false,
+	
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		item.nickel, 55,
+		item.manganese, 50,
+	)
+})
+biomassDissociator.consumeItems(ItemStack.with(
+    item.biomass, 1,
+));
+biomassDissociator.consumePower(1);
+
+const dissolvantMixer = new GenericCrafter("dissolvant-mixer");
+exports.dissolvantMixer = dissolvantMixer;
+Object.assign(dissolvantMixer, {
+	health: 240,
+	outputLiquid: new LiquidStack(liquid.dissolvant, 0.1),
+	craftTime: 60,
+	size: 2,
+	hasPower: true,
+	hasLiquids: true,
+	drawer: new DrawMulti(
+	    new DrawRegion("-bottom"),
+	    new DrawLiquidTile(Liquids.water),
+	    new DrawLiquidTile(liquid.dissolvant),
+	    new DrawDefault()
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+	    Items.silicon, 20,
+		item.nickel, 65,
+		item.manganese, 50,
+	)
+})
+dissolvantMixer.consumeItems(ItemStack.with(
+	item.amino, 2,
+));
+dissolvantMixer.consumeLiquid(Liquids.water, 6 / 60);
+dissolvantMixer.consumePower(0.50);

@@ -101,6 +101,7 @@ Object.assign(incubator, {
 	hasLiquids: true,
 	hasItems: true,
 	attribute: Attribute.get("biomass"),
+	maxBoost: 3,
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
 		new DrawLiquidTile(Liquids.water),

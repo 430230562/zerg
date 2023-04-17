@@ -35,28 +35,43 @@ Object.assign(nickelPowerNodeLarge, {
 const nickelBattery = new Battery("nickel-battery");
 exports.nickelBattery = nickelBattery;
 Object.assign(nickelBattery, {
-	baseExplosiveness: 1.2,
+	baseExplosiveness: 2,
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
 		item.nickel, 25,
 	)
 })
-nickelBattery.consumePowerBuffered(5500)
+nickelBattery.consumePowerBuffered(5000)
+
+const nickelBatteryMedium = new Battery("nickel-battery-medium");
+exports.nickelBatteryMedium = nickelBatteryMedium;
+Object.assign(nickelBatteryMedium, {
+	baseExplosiveness: 12,
+	size: 2,
+	category: Category.power,
+	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+		item.nickel, 75,
+		Items.silicon, 30,
+	)
+})
+nickelBatteryMedium.consumePowerBuffered(24000)
 
 const nickelBatteryLarge = new Battery("nickel-battery-large");
 exports.nickelBatteryLarge = nickelBatteryLarge;
 Object.assign(nickelBatteryLarge, {
-	baseExplosiveness: 11,
+	baseExplosiveness: 36,
 	size: 3,
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
-		item.nickel, 100,
-		Items.silicon, 30,
+		item.nickel, 125,
+		item.manganese, 50,
+		Items.silicon, 50,
 	)
 })
-nickelBatteryLarge.consumePowerBuffered(70000)
+nickelBatteryLarge.consumePowerBuffered(63000)
 
 const deflagrationGenerator = new ConsumeGenerator("deflagration-generator");
 exports.deflagrationGenerator = deflagrationGenerator;
@@ -165,9 +180,9 @@ Object.assign(crystalPanel,{
 	powerProduction: 0.15,
 })
 
-const crystalPanelLarge = new SolarGenerator("crystal-panel-large");
-exports.crystalPanelLarge = crystalPanelLarge;
-Object.assign(crystalPanelLarge,{
+const crystalPanelMedium = new SolarGenerator("crystal-panel-medium");
+exports.crystalPanelMedium = crystalPanelMedium;
+Object.assign(crystalPanelMedium,{
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
@@ -176,7 +191,22 @@ Object.assign(crystalPanelLarge,{
 		item.crystal, 50,
 	),
 	size: 2,
-	powerProduction: 42 / 60,
+	powerProduction: 0.8,
+})
+
+const crystalPanelLarge = new SolarGenerator("crystal-panel-large");
+exports.crystalPanelLarge = crystalPanelLarge;
+Object.assign(crystalPanelLarge,{
+	category: Category.power,
+	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+		item.nickel, 100,
+		item.crystal, 125,
+		item.manganese, 50,
+		item.chromium, 100,
+	),
+	size: 3,
+	powerProduction: 2.25,
 })
 
 const biomassReactor = new HeaterGenerator("biomass-reactor");
