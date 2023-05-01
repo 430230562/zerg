@@ -14,7 +14,7 @@ exports.corroding = extend(StatusEffect,"corroding",{
 	setStats(){
 		this.super$setStats();
 		
-		this.stats.add(reduceArmor, 0.5)
+		this.stats.add(reduceArmor, 0.5, StatUnit.perSecond)
 	},
 	damage: 0.2
 });

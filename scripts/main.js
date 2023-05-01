@@ -15,7 +15,7 @@ require('block/other');
 require('block/power');
 require('block/production');
 require('block/turret');
-//require('block/unitFactory');
+require('block/unitFactory');
 require('block/wall');
 
 require('planet');

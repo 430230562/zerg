@@ -3,6 +3,41 @@ const status = require("status");
 const ab = require('base/ability');
 const insect = require('unit/insect');
 
+const { wire,matrix } = require("block/other")
+
+function Pay(block) {
+	return new BuildPayload(block, Team.derelict)
+}
+function CoreBuild(build, block, liquid) {
+	build.buildType = prov(() => {
+		const p = Pay(block);
+		return extend(CoreBlock.CoreBuild, build, {
+			updateTile() {
+				this.super$updateTile();
+				if (p.build.team != this.team) {
+					p.build.team = this.team;
+				}
+				p.update(null, this);
+				p.build.power.status = 1;
+				if(liquid != null)p.build.handleLiquid(this, Liquids.water, 1);
+				p.set(this.x, this.y, p.build.payloadRotation);
+			},
+			draw() {
+				this.super$draw();
+				p.draw();
+			},
+			drawSelect() {
+				this.super$drawSelect();
+				if(block.range != undefined){
+				    Drawf.dashCircle(this.x, this.y, block.range, Pal.accent);
+				}else{
+				    Drawf.dashCircle(this.x, this.y, block.radius, Pal.accent);
+				}
+			}
+		})
+	});
+}
+
 const election = new UnitType("election");
 Object.assign(election, {
 	aiController: UnitTypes.alpha.aiController,
@@ -32,7 +67,7 @@ Object.assign(new RepairBeamWeapon(), {
 	y: 0,
 	targetBuildings: true,
 	targetUnits: true,
-	rotateSpeed: 10,
+	rotate: false,
 	beamWidth: 0.5,
 	shootCone: 15,
 	repairSpeed: 1,
@@ -51,13 +86,8 @@ Object.assign(new Weapon("bugs-election-weapon"), {
 		homingPower: 0.08,
 		lifetime: 50,
 		keepVelocity: false,
-		smokeEffect: Fx.hitLaser,
-		hitEffect: Fx.hitLaser,
-		despawnEffect: Fx.hitLaser,
+		smokeEffect: Fx.none,
 		frontColor: Color.white,
-		hitColor: Color.valueOf("00c49b"),
-		backColor: Color.valueOf("00c49b"),
-		trailColor: Color.valueOf("00c49b"),
 		hitSound: Sounds.none,
 		buildingDamageMultiplier: 0.001,
 	})
@@ -110,16 +140,15 @@ Object.assign(new Weapon("bugs-atom-weapon"), {
 		lifetime: 25,
 		shootEffect: Fx.sparkShoot,
 		smokeEffect: Fx.shootBigSmoke,
-		hitColor: Color.valueOf("00c49b"),
-		backColor: Color.valueOf("00c49b"),
-		trailColor: Color.valueOf("00c49b"),
+		backColor: Pal.heal,
+        trailColor: Pal.heal,
 		frontColor: Color.white,
 		trailWidth: 1.5,
 		trailLength: 5,
-		hitEffect: Fx.hitBulletColor,
-		despawnEffect: Fx.hitBulletColor,
+		hitEffect: Fx.hitLaser,
+		despawnEffect: Fx.hitLaser,
 		buildingDamageMultiplier: 0.001,
-		healPercent: 12.5,
+		healPercent: 10,
 		collidesTeam: true,
 	})
 })
@@ -157,7 +186,7 @@ molecule.weapons.add(
 	top: false,
 	mirror: false,
 	rotate: true,
-	y: -14 / 4,
+	y: -10 / 4,
 	x: 0,
 	reload: 50,
 	ejectEffect: Fx.none,
@@ -168,17 +197,12 @@ molecule.weapons.add(
 		shots: 3,
 		shotDelay: 3,
 	}),
-	bullet: Object.assign(new MissileBulletType(4, 17), {
+	bullet: Object.assign(new MissileBulletType(4, 9), {
 		homingPower: 0.08,
 		lifetime: 50,
 		keepVelocity: false,
-		smokeEffect: Fx.hitLaser,
-		hitEffect: Fx.hitLaser,
-		despawnEffect: Fx.hitLaser,
+		smokeEffect: Fx.none,
 		frontColor: Color.white,
-		hitColor: Color.valueOf("00c49b"),
-		backColor: Color.valueOf("00c49b"),
-		trailColor: Color.valueOf("00c49b"),
 		hitSound: Sounds.none,
 		buildingDamageMultiplier: 0.001,
 	})
@@ -226,6 +250,7 @@ Object.assign(albus, {
 		Items.silicon, 2000,
 	)
 })
+CoreBuild(albus, wire, Liquids.water)
 
 const annular = new CoreBlock("annular");
 exports.annular = annular
@@ -247,6 +272,7 @@ Object.assign(annular, {
 		item.chromium, 4000,
 	)
 })
+CoreBuild(annular, matrix, Liquids.water)
 
 const nest = extend(CoreBlock,"nest",{
 	canPlaceOn(tile,team,rotation){

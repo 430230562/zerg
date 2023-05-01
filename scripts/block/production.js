@@ -71,15 +71,17 @@ Object.assign(crystalCollector, {
 crystalCollector.consumeLiquid(Liquids.water, 3 / 60).boost();
 crystalCollector.consumePower(0.15);
 
-const hyphaCutting = new WallCrafter("hypha-cutting")
-exports.hyphaCutting = hyphaCutting;
-Object.assign(hyphaCutting,{
+const hyphaCutter = new WallCrafter("hypha-cutter")
+exports.hyphaCutter = hyphaCutter;
+Object.assign(hyphaCutter,{
     drillTime: 240,
     size: 3,
     attribute: Attribute.get("biomass"),
     output: item.hypha,
     ambientSound: Sounds.plantBreak,
     ambientSoundVolume: 0.04,
+    buildVisibility: BuildVisibility.shown,
+	category: Category.production,
     requirements: ItemStack.with(
 		item.nickel, 250,
 		item.manganese, 150,
@@ -87,8 +89,8 @@ Object.assign(hyphaCutting,{
 		item.chromium, 125,
 	)
 })
-hyphaCutting.consumePower(150 / 60);
-hyphaCutting.consumeLiquid(liquid.dissolvant, 12 / 60);
+hyphaCutter.consumePower(150 / 60);
+hyphaCutter.consumeLiquid(liquid.dissolvant, 12 / 60);
 
 const incubator = new AttributeCrafter("incubator");
 exports.incubator = incubator;

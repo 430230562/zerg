@@ -137,3 +137,10 @@ Object.assign(crystalConduitBridge, {
 		item.crystal, 15,
 	),
 })
+
+crystalConduit.junctionReplacement = crystalLiquidJunction;
+crystalConduit.bridgeReplacement = crystalConduitBridge;
+manganeseConduit.junctionReplacement = crystalLiquidJunction;
+manganeseConduit.bridgeReplacement = crystalConduitBridge;
+armoredConduit.junctionReplacement = crystalLiquidJunction;
+armoredConduit.bridgeReplacement = crystalConduitBridge;

@@ -41,30 +41,74 @@ Object.assign(catalyzer, {
 catalyzer.consumeItem(item.manganese, 1).boost();
 catalyzer.consumePower(2.5);
 
-const interdict = new ForceProjector("interdict");
-exports.interdict = interdict;
-Object.assign(interdict, {
-	radius: 92,
-	shieldHealth: 1400,
-	phaseUseTime: 150,
-	phaseShieldBoost: 350,
-	phaseRadiusBoost: 47,
-	consumeCoolant: false,
-	hasLiquids: false,
-	cooldownNormal: 70 / 60,
-	cooldownBrokenBase: 28 / 60,
-	size: 3,
+const wire = new ForceProjector("wire");
+exports.wire = wire;
+Object.assign(wire, {
+	radius: 32,
+	shieldHealth: 400,
+	consumeCoolant: true,
+	hasLiquids: true,
+	cooldownNormal: 40 / 60,
+	cooldownLiquid: 20 / 60,
+    coolantConsumption: 0.05,
+	cooldownBrokenBase: 20 / 60,
+	size: 1,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.effect,
+	requirements: ItemStack.with(
+	    Items.silicon, 25,
+		item.nickel, 50,
+		item.crystal, 25,
+	)
+})
+wire.consumePower(0.8);
+
+const matrix = new ForceProjector("matrix");
+exports.matrix = matrix;
+Object.assign(matrix,{
+    radius: 64,
+	shieldHealth: 1200,
+	consumeCoolant: true,
+	hasLiquids: true,
+	cooldownNormal: 80 / 60,
+	cooldownLiquid: 40 / 60,
+    coolantConsumption: 0.1,
+	cooldownBrokenBase: 40 / 60,
+	size: 2,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
 	    Items.silicon, 75,
 		item.nickel, 100,
-		item.manganese, 25,
-		item.crystal, 75,
+		item.manganese, 50,
+		item.crystal, 125,
 	)
 })
-interdict.consumeItem(item.crystal, 1).boost();
-interdict.consumePower(3.5);
+matrix.consumePower(2.4)
+
+const curtain = new ForceProjector("curtain");
+exports.curtain = curtain
+Object.assign(curtain,{
+    radius: 128,
+	shieldHealth: 2400,
+	consumeCoolant: true,
+	hasLiquids: true,
+	cooldownNormal: 150 / 60,
+	cooldownLiquid: 60 / 60,
+    coolantConsumption: 0.15,
+	cooldownBrokenBase: 100 / 60,
+	size: 3,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.effect,
+	requirements: ItemStack.with(
+	    Items.silicon, 125,
+		item.nickel, 120,
+		item.manganese, 75,
+		item.chromium, 25,
+		item.crystal, 205,
+	)
+})
+curtain.consumePower(3.4)
 
 const box = new StorageBlock("box");
 exports.box = box;
@@ -75,7 +119,8 @@ Object.assign(box, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-		item.manganese, 100,
+	    item.nickel, 25,
+		item.manganese, 75,
 	)
 })
 

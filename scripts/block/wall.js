@@ -119,6 +119,32 @@ Object.assign(energicWallLarge, {
 	),
 })
 
+const chromiumWall = new Wall("chromium-wall");
+exports.chromiumWall = chromiumWall;
+Object.assign(chromiumWall,{
+    health: 700,
+	armor: 9,
+	size: 1,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+		item.chromium, 6,
+	),
+})
+
+const chromiumWallLarge = new Wall("chromium-wall-large");
+exports.chromiumWallLarge = chromiumWallLarge;
+Object.assign(chromiumWallLarge,{
+    health: 700 * 4,
+	armor: 9,
+	size: 2,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+		item.chromium, 6 * 4,
+	),
+})
+
 const biomassWall = new Wall("biomass-wall");
 exports.biomassWall = biomassWall;
 Object.assign(biomassWall, {
@@ -126,7 +152,7 @@ Object.assign(biomassWall, {
 	flashHit: true,
 	flashColor: Color.valueOf("98ba53"),
 	deflectSound: Sounds.none,
-	health: 600,
+	health: 750,
 	armor: 13,
 	size: 1,
 	buildVisibility: BuildVisibility.shown,
@@ -143,7 +169,7 @@ Object.assign(biomassWallLarge, {
 	flashHit: true,
 	flashColor: Color.valueOf("98ba53"),
 	deflectSound: Sounds.none,
-	health: 600 * 4,
+	health: 750 * 4,
 	armor: 13,
 	size: 2,
 	buildVisibility: BuildVisibility.shown,

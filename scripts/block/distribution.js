@@ -11,7 +11,7 @@ Object.assign(nickelConveyor, {
 	health: 55,
 	speed: 0.05,
 	displayedSpeed: 6.5,
-	alwaysUnlocked: true
+	alwaysUnlocked: true,
 })
 
 const manganeseConveyor = new Conveyor("manganese-conveyor");
@@ -188,3 +188,10 @@ Object.assign(heatRouter,{
 	regionRotated1: 1,
 	splitHeat: true
 })
+
+nickelConveyor.junctionReplacement = junction;
+nickelConveyor.bridgeReplacement = nickelBridge;
+manganeseConveyor.junctionReplacement = junction;
+manganeseConveyor.bridgeReplacement = nickelBridge;
+armoredConveyor.junctionReplacement = junction;
+armoredConveyor.bridgeReplacement = nickelBridge;

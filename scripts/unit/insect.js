@@ -391,9 +391,9 @@ mosquito.parts.add(
     })
 )
 
-const concuss = new Insect("concuss");
-exports.concuss = concuss;
-Object.assign(concuss, {
+const burst = new Insect("burst");
+exports.burst = burst;
+Object.assign(burst, {
 	constructor: () => new UnitEntity.create(),
 	health: 420,
 	speed: 2,
@@ -410,7 +410,7 @@ Object.assign(concuss, {
 	
 	engineOffset: 7.8,
 })
-concuss.weapons.add(
+burst.weapons.add(
 Object.assign(new Weapon(), {
 	x: 0,
 	y: 0,
@@ -444,7 +444,8 @@ const egg = extend(UnitType,"egg",{
      u:[buffer,spider,mosquito],
      update(unit){
         unit.maxHealth += 0.1;
-        if(unit.maxHealth >= 2000 + 120){
+        unit.heal(0.2)
+        if(unit.maxHealth >= 2120){
             this.u[Math.floor(Math.random() * 3)].spawn(unit.team,unit.x,unit.y)
             
             unit.remove();

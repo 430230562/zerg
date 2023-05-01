@@ -21,27 +21,28 @@ Object.assign(pioneer, {
 	speed: 0.75,
 	hitSize: 10,
 	treadPullOffset: 3,
-	treadRects: [new Rect(6, -24, 14, 51)],
+	treadRects: [new Rect(6, -24, 14, 48)],
 	treadFrames: 8,
+	outlineColor: Color.valueOf("464a59"),
+	outlineRadius: 3,
 	rotateSpeed: 3,
-	health: 400,
+	health: 600,
 	armor: 4,
 	itemCapacity: 0,
-	researchCostMultiplier: 20,
 	constructor: () => new TankUnit.create(),
 })
 pioneer.weapons.add(
-Object.assign(new StatWeapon("zerg-pioneer-weapon","armorReduction",1), {
+Object.assign(new StatWeapon("zerg-pioneer-weapon","reduceArmor",1), {
 	layerOffset: 0.0001,
 	reload: 50,
-	shootY: 0.75,
-	recoil: 3,
+	shootY: 6.25,
+	recoil: 1,
 	rotate: true,
 	rotateSpeed: 3.7,
 	mirror: false,
 	x: 0,
-	y: 0,
-	heatColor: Color.valueOf("00c49b"),
+	y: -1.5,
+	heatColor: Color.red,
 	cooldownTime: 50,
 	shootSound: Sounds.mediumCannon,
 	
@@ -50,9 +51,9 @@ Object.assign(new StatWeapon("zerg-pioneer-weapon","armorReduction",1), {
 		height: 7,
 		lifetime: 40,
 		hitSize: 4,
-		hitColor: Color.valueOf("00c49b"),
-		backColor: Color.valueOf("00c49b"),
-		trailColor: Color.valueOf("00c49b"),
+		hitColor: Color.valueOf("d06b53"),
+		backColor: Color.valueOf("d06b53"),
+		trailColor: Color.valueOf("d06b53"),
 		frontColor: Color.white,
 		trailWidth: 1.7,
 		trailLength: 5,
@@ -68,15 +69,16 @@ Object.assign(brigadier, {
 	treadPullOffset: 3,
 	treadRects: [new Rect(-31, -38, 21, 76)],
 	treadFrames: 8,
+	outlineColor: Color.valueOf("464a59"),
+	outlineRadius: 3,
 	rotateSpeed: 2.5,
-	health: 1100,
+	health: 1300,
 	armor: 7,
 	itemCapacity: 0,
-	researchCostMultiplier: 20,
 	constructor: () => new TankUnit.create(),
 })
 brigadier.weapons.add(
-Object.assign(new StatWeapon("zerg-brigadier-weapon","armorReduction",2), {
+Object.assign(new StatWeapon("zerg-brigadier-weapon","reduceArmor",2), {
 	layerOffset: 0.0001,
 	reload: 25,
 	shootY: 10,
@@ -86,7 +88,7 @@ Object.assign(new StatWeapon("zerg-brigadier-weapon","armorReduction",2), {
 	mirror: false,
 	x: 0,
 	y: 0,
-	heatColor: Color.valueOf("00c49b"),
+	heatColor: Color.red,
 	cooldownTime: 50,
 	shootSound: Sounds.mediumCannon,
 	shoot: new ShootAlternate(3.5),
@@ -96,9 +98,9 @@ Object.assign(new StatWeapon("zerg-brigadier-weapon","armorReduction",2), {
 		height: 9,
 		lifetime: 40,
 		hitSize: 12,
-		hitColor: Color.valueOf("00c49b"),
-		backColor: Color.valueOf("00c49b"),
-		trailColor: Color.valueOf("00c49b"),
+		hitColor: Color.valueOf("d06b53"),
+		backColor: Color.valueOf("d06b53"),
+		trailColor: Color.valueOf("d06b53"),
 		frontColor: Color.white,
 		trailWidth: 1.7,
 		trailLength: 5,
@@ -120,15 +122,16 @@ Object.assign(kibbler,{
 		new Rect(44 - 60,17 - 70,17,60)
 	],
 	treadFrames: 8,
+	outlineColor: Color.valueOf("464a59"),
+	outlineRadius: 3,
 	rotateSpeed: 2.5,
-	health: 1800,
+	health: 2100,
 	armor: 13,
 	itemCapacity: 0,
-	researchCostMultiplier: 20,
 	constructor: () => new TankUnit.create(),
 })
 kibbler.weapons.add(
-Object.assign(new StatWeapon("zerg-kibbler-weapon","armorReduction",3),{
+Object.assign(new StatWeapon("zerg-kibbler-weapon","reduceArmor",3),{
 	shootSound: Sounds.dullExplosion,
 	layerOffset: 0.0001,
 	reload: 85,
@@ -146,9 +149,9 @@ Object.assign(new StatWeapon("zerg-kibbler-weapon","armorReduction",3),{
 		height: 14,
 		lifetime: 48,
 		hitSize: 12,
-		hitColor: Color.valueOf("00c49b"),
-		backColor: Color.valueOf("00c49b"),
-		trailColor: Color.valueOf("00c49b"),
+		hitColor: Color.valueOf("d06b53"),
+		backColor: Color.valueOf("d06b53"),
+		trailColor: Color.valueOf("d06b53"),
 		frontColor: Color.white,
 		trailWidth: 2.1,
 		trailLength: 7,
@@ -178,20 +181,19 @@ Object.assign(purge,{
 	rotateMoveFirst: true,
 	envDisabled: 0,
 	speed: 0.6,
-	outlineColor: Color.valueOf("2d2f39"),
-	outlineRadius: 1,
+	outlineColor: Color.valueOf("464a59"),
+	outlineRadius: 3,
 	hitSize: 29,
 	rotateSpeed: 3,
-	health: 10000,
+	health: 12000,
 	armor: 17,
 	itemCapacity: 0,
-	researchCostMultiplier: 20,
 	crushDamage: 2,
 	constructor: () => new TankUnit.create(),
 })
 purge.weapons.add(
     Object.assign(new Weapon("zerg-purge-weapon"),{
-        reload: 110,
+        reload: 180,
         cooldownTime: 90,
         mirror: false,
         x: 0,
@@ -200,15 +202,17 @@ purge.weapons.add(
         rotate: true,
         shootY: 23,
         shake: 6,
-        recoil: 10.5,
-        shadow: 50,
         shootSound: Sounds.railgun,
 
         ejectEffect: Fx.none,
+        recoil: 12.5,
+        
+        shootStatus: StatusEffects.slow,
+	    shootStatusDuration: 200,
 
         bullet: Object.assign(new RailBulletType(),{
             shootEffect: Fx.railShoot,
-            length: 400,
+            length: 401,
             pointEffectSpace: 60,
             pierceEffect: Fx.railHit,
             pointEffect: Fx.railTrail,
@@ -216,6 +220,7 @@ purge.weapons.add(
             smokeEffect: Fx.shootBig2,
             damage: 750,
             pierceDamageFactor: 0.5,
+            recoil: 2.5,
         })
     })
 )
@@ -228,19 +233,18 @@ Object.assign(fearless, {
 	rotateMoveFirst: true,
 	envDisabled: 0,
 	speed: 0.53,
-	outlineColor: Color.valueOf("2d2f39"),
-	outlineRadius: 1,
+	outlineColor: Color.valueOf("464a59"),
+	outlineRadius: 3,
 	hitSize: 38,
 	rotateSpeed: 2.4,
-	health: 28000,
+	health: 32000,
 	armor: 24,
 	itemCapacity: 0,
-	researchCostMultiplier: 20,
 	crushDamage: 4,
 	constructor: () => new TankUnit.create(),
 })
 fearless.weapons.add(
-Object.assign(new StatWeapon("zerg-fearless-weapon","armorReduction",5),{
+Object.assign(new StatWeapon("zerg-fearless-weapon","reduceArmor",5),{
 	layerOffset: 0.0001,
 	reload: 45 / 2,
 	shootY: 6,
@@ -250,7 +254,7 @@ Object.assign(new StatWeapon("zerg-fearless-weapon","armorReduction",5),{
 	mirror: false,
 	x: 0,
 	y: -0.75,
-	heatColor: Color.valueOf("00c49b"),
+	heatColor: Color.red,
 	cooldownTime: 50,
 	shootSound: Sounds.shotgun,
 	shoot: new ShootAlternate(8),
@@ -266,9 +270,9 @@ Object.assign(new StatWeapon("zerg-fearless-weapon","armorReduction",5),{
 		shrinkY: 0,
 		lifetime: 30,
 		hitSize: 12,
-		hitColor: Color.valueOf("00c49b"),
-		backColor: Color.valueOf("00c49b"),
-		trailColor: Color.valueOf("00c49b"),
+		hitColor: Color.valueOf("d06b53"),
+		backColor: Color.valueOf("d06b53"),
+		trailColor: Color.valueOf("d06b53"),
 		frontColor: Color.valueOf("ffffff"),
 		trailWidth: 2.2,
 		trailLength: 12,
@@ -292,43 +296,42 @@ Object.assign(new StatWeapon("zerg-fearless-weapon","armorReduction",5),{
 			pierceBuilding: true,
 			pierceCap: 2,
 			frontColor: Color.valueOf("ffffff"),
-			backColor: Color.valueOf("00c49b"),
+			backColor: Color.valueOf("d06b53"),
 		})
 	})
 })
 )
 
-const breeze = new TankUnitType("breeze");
-exports.breeze = breeze;
-Object.assign(breeze, {
-	outlineColor: Color.valueOf("7e8ae6"),
-	healColor: Color.valueOf("7e8ae6"),
+const gale = new TankUnitType("gale");
+exports.gale = gale;
+Object.assign(gale, {
 	speed: 9 * 8 / 60,
-	treadRects:  [new Rect(6, -24, 14, 51)],
+	treadRects:  [new Rect(6, -24, 16, 45)],
 	treadFrames: 8,
+	outlineColor: Color.valueOf("464a59"),
+	outlineRadius: 3,
 	hitSize: 12,
 	treadPullOffset: 3,
 	rotateSpeed: 5,
-	health: 560,
+	health: 460,
 	armor: 2,
 	itemCapacity: 0,
-	researchCostMultiplier: 20,
 	targetAir: true,
 	constructor: () => new TankUnit.create()
 })
-breeze.weapons.add(
-Object.assign(new Weapon("zerg-breeze-weapon"), {
+gale.weapons.add(
+Object.assign(new Weapon("zerg-gale-weapon"), {
 	x: 0,
-	y: 0,
+	y: -1.5,
 	rotate: true,
 	rotateSpeed: 5,
 	mirror: false,
 	layerOffset: 0.0001,
-	shootY: 2,
+	shootY: 3,
 	recoil: 1,
 	reload: 25,
 	shootSound:	Sounds.missile,
-	shoot: new ShootAlternate(14 / 2),
+	shoot: new ShootAlternate(3),
 	bullet: Object.assign(new MissileBulletType(4,10), {
 		hitEffect: Fx.blastExplosion,
 		lifetime: 64,
@@ -336,34 +339,33 @@ Object.assign(new Weapon("zerg-breeze-weapon"), {
 		splashDamageRadius: 24,
 		splashDamage: 40,
 		trailChance: 0.1,
-		hitColor: Color.valueOf("7e8ae6"),
-		backColor: Color.valueOf("7e8ae6"),
-		trailColor: Color.valueOf("7e8ae6"),
+		hitColor: Color.valueOf("5c69cc"),
+		backColor: Color.valueOf("5c69cc"),
+		trailColor: Color.valueOf("5c69cc"),
 		frontColor: Color.white,
 	})
 })
 )
 
-const gale = new TankUnitType("gale")
-exports.gale = gale;
-Object.assign(gale, {
-	outlineColor: Color.valueOf("7e8ae6"),
-	healColor: Color.valueOf("7e8ae6"),
+const hurricane = new TankUnitType("hurricane")
+exports.hurricane = hurricane;
+Object.assign(hurricane, {
 	speed: 8 * 8 / 60,
 	treadRects: [new Rect(12, -40, 20, 76)],
 	treadFrames: 8,
+	outlineColor: Color.valueOf("464a59"),
+	outlineRadius: 3,
 	hitSize: 18,
 	treadPullOffset: 3,
 	rotateSpeed: 3,
-	health: 1200,
-	armor: 5,
+	health: 800,
+	armor: 3,
 	itemCapacity: 0,
-	researchCostMultiplier: 20,
 	targetAir: true,
 	constructor: () => new TankUnit.create()
 })
-gale.weapons.add(
-	Object.assign(new Weapon("zerg-gale-weapon"), {
+hurricane.weapons.add(
+	Object.assign(new Weapon("zerg-hurricane-weapon"), {
 	x: 0,
 	y: 0,
 	rotate: true,
@@ -384,38 +386,37 @@ gale.weapons.add(
 		splashDamageRadius: 24,
 		splashDamage: 40,
 		trailChance: 0.1,
-		hitColor: Color.valueOf("7e8ae6"),
-		backColor: Color.valueOf("7e8ae6"),
-		trailColor: Color.valueOf("7e8ae6"),
+		hitColor: Color.valueOf("5c69cc"),
+		backColor: Color.valueOf("5c69cc"),
+		trailColor: Color.valueOf("5c69cc"),
 		frontColor: Color.white,
 	})
 })
 )
 
-const hurricane = new TankUnitType("hurricane")
-exports.hurricane = hurricane;
-Object.assign(hurricane,{
-	outlineColor: Color.valueOf("7e8ae6"),
-	healColor: Color.valueOf("7e8ae6"),
+const tornado = new TankUnitType("tornado")
+exports.tornado = tornado;
+Object.assign(tornado,{
 	speed: 7.5 * 8 / 60,
 	treadRects: [
 		new Rect(16 - 60,48 - 70,30,75),
 		new Rect(44 - 60,17 - 70,17,60)
 	],
 	treadFrames: 8,
+	outlineColor: Color.valueOf("464a59"),
+	outlineRadius: 3,
 	hitSize: 22,
 	treadPullOffset: 0,
 	crushDamage: 0.2,
 	rotateSpeed: 3,
-	health: 1820,
-	armor: 7,
+	health: 1320,
+	armor: 5,
 	itemCapacity: 0,
-	researchCostMultiplier: 20,
 	targetAir: true,
 	constructor: () => new TankUnit.create()
 })
-hurricane.weapons.add(
-Object.assign(new Weapon("zerg-hurricane-weapon"),{
+tornado.weapons.add(
+Object.assign(new Weapon("zerg-tornado-weapon"),{
 	layerOffset: 0.0001,
 	reload: 60,
 	shootY: 0.75,
@@ -426,33 +427,77 @@ Object.assign(new Weapon("zerg-hurricane-weapon"),{
 	x: 0,
 	y: -0.25,
 	heatColor: Color.valueOf("7e8ae6"),
-	shootSound: Sounds.missileLarge,
-	bullet: Object.assign(new MissileBulletType(5,125), {
-		hitEffect: Fx.blastExplosion,
-		lifetime: 60,
-		width: 12,
-		height: 24,
-		splashDamageRadius: 24,
-		splashDamage: 125,
-		trailChance: 0.1,
-		hitColor: Color.valueOf("7e8ae6"),
-		backColor: Color.valueOf("7e8ae6"),
-		trailColor: Color.valueOf("7e8ae6"),
-		frontColor: Color.white,
-		bulletInterval: 4,
-		intervalRandomSpread: 45,
-		intervalBullet: Object.assign(new MissileBulletType(4,10), {
-    		hitEffect: Fx.blastExplosion,
-    		lifetime: 30,
-    		width: 8,
-    		splashDamageRadius: 24,
-    		splashDamage: 40,
-    		trailChance: 0.1,
-    		hitColor: Color.valueOf("7e8ae6"),
-    		backColor: Color.valueOf("7e8ae6"),
-    		trailColor: Color.valueOf("7e8ae6"),
-    		frontColor: Color.white,
-    	})
+	shootSound: Sounds.shockBlast,
+	bullet: Object.assign(new BasicBulletType(4.5,125), {
+		shootEffect: new MultiEffect(
+			Fx.shootTitan,
+			Object.assign(new WaveEffect(), {
+				colorTo: Color.valueOf("5c69cc"),
+				sizeTo: 26,
+				lifetime: 14,
+				strokeFrom: 4,
+			})
+		),
+		smokeEffect: Fx.shootSmokeTitan,
+		hitColor: Color.valueOf("5c69cc"),
+		despawnSound: Sounds.spark,
+	
+		sprite: "large-orb",
+		trailEffect: Fx.missileTrail,
+		trailInterval: 3,
+		trailParam: 4,
+		lifetime: 50,
+		pierceBuilding: true,
+		pierceCap: 1,
+		width: 15,
+		height: 15,
+		backColor: Color.valueOf("5c69cc"),
+		frontColor: Color.valueOf("5c69cc"),
+		shrinkX: 0,
+		shrinkY: 0,
+		trailColor: Color.valueOf("5c69cc"),
+		trailLength: 12,
+		trailWidth: 2.2,
+		despawnEffect: Object.assign(new ExplosionEffect(),{
+			waveColor: Color.valueOf("5c69cc"),
+			smokeColor: Color.gray,
+			sparkColor: Color.valueOf("5c69cc"),
+			waveStroke: 4,
+			waveRad: 40,
+		}),
+		hitEffect: Object.assign(new ExplosionEffect(),{
+			waveColor: Color.valueOf("5c69cc"),
+			smokeColor: Color.gray,
+			sparkColor: Color.valueOf("5c69cc"),
+			waveStroke: 4,
+			waveRad: 40,
+		}),
+		intervalBullet: Object.assign(new LightningBulletType(),{
+			damage: 21,
+			collidesAir: false,
+			ammoMultiplier: 1,
+			lightningColor: Color.valueOf("5c69cc"),
+			lightningLength: 3,
+			lightningLengthRand: 6,
+	
+			lightningType: Object.assign(new BulletType(0.0001, 0),{
+				lifetime: Fx.lightning.lifetime,
+				hitEffect: Fx.hitLancer,
+				despawnEffect: Fx.none,
+				status: StatusEffects.shocked,
+				statusDuration: 10,
+				hittable: false,
+				lightColor: Color.white,
+				buildingDamageMultiplier: 0.25,
+			})
+		}),
+		bulletInterval: 5,
+		intervalBullets: 2,
+		lightningColor: Color.valueOf("5c69cc"),
+		lightningDamage: 19,
+		lightning: 12,
+		lightningLength: 2,
+		lightningLengthRand: 8,
 	})
 })
 )
@@ -461,10 +506,10 @@ const alter = new UnitType("alter");
 exports.alter = alter;
 Object.assign(alter, {
 	targetPriority: -1.5,
-	outlineColor: Pal.neoplasmOutline,
+	outlineColor: Color.valueOf("464a59"),
+	outlineRadius: 3,
 	envDisabled: Env.none,
 	healFlash: true,
-	healColor: Pal.neoplasm1,
 	squareShape: true,
 	omniMovement: false,
 	rotateMoveFirst: true,
@@ -477,7 +522,6 @@ Object.assign(alter, {
 	health: 240,
 	armor: 1,
 	itemCapacity: 0,
-	researchCostMultiplier: 20,
 	constructor: () => new TankUnit.create()
 })
 alter.weapons.add(

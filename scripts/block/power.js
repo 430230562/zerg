@@ -76,7 +76,7 @@ nickelBatteryLarge.consumePowerBuffered(63000)
 const deflagrationGenerator = new ConsumeGenerator("deflagration-generator");
 exports.deflagrationGenerator = deflagrationGenerator;
 Object.assign(deflagrationGenerator, {
-	powerProduction: 2,
+	powerProduction: 1.2,
 	itemDuration: 120,
 	
 	ambientSound: Sounds.smelter,
@@ -96,10 +96,10 @@ Object.assign(deflagrationGenerator, {
 deflagrationGenerator.consume(new ConsumeItemFlammable());
 deflagrationGenerator.consume(new ConsumeItemExplode());
 
-const totalEffectGenerator = new ConsumeGenerator("total-effect-generator");
-exports.totalEffectGenerator = totalEffectGenerator;
-Object.assign(totalEffectGenerator, {
-	powerProduction: 8.5,
+const fullEffectGenerator = new ConsumeGenerator("full-effect-generator");
+exports.fuckEffectGenerator = fullEffectGenerator;
+Object.assign(fullEffectGenerator, {
+	powerProduction: 6.5,
 	itemDuration: 90,
 	hasLiquids: true,
 	size: 2,
@@ -115,9 +115,8 @@ Object.assign(totalEffectGenerator, {
 			rotateSpeed: 2,
 		}),
 		Object.assign(new DrawRegion("-rotator"), {
-			rotateSpeed: -2,
+			rotateSpeed: 1,
 		}),
-		new DrawRegion("-cap"),
 		new DrawLiquidRegion()
 	),
 	category: Category.power,
@@ -128,9 +127,9 @@ Object.assign(totalEffectGenerator, {
 		Items.silicon, 30,
 	),
 })
-totalEffectGenerator.consumeLiquid(Liquids.water, 0.1);
-totalEffectGenerator.consume(new ConsumeItemFlammable());
-totalEffectGenerator.consume(new ConsumeItemExplode());
+fullEffectGenerator.consumeLiquid(Liquids.water, 0.1);
+fullEffectGenerator.consume(new ConsumeItemFlammable());
+fullEffectGenerator.consume(new ConsumeItemExplode());
 
 const pyrolysis = new ConsumeGenerator("pyrolysis");
 exports.pyrolysis = pyrolysis;
