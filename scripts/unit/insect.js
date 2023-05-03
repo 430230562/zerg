@@ -1,7 +1,8 @@
 const status = require('status');
 const liquid = require('liquid');
 const Ef = require('effect');
-const { Acid } = require('base/bulletType')
+const { Acid } = require('base/bulletType');
+const { DeathNeoplasmAbility, InsectRegenAbility } = require("base/ability")
 
 function Insect(name){
 	return extend(UnitType, name, {
@@ -13,17 +14,10 @@ function Insect(name){
 		init(u){
 			if (u !== undefined) this.super$init(u)
 			else this.super$init();
-			this.immunities.addAll(status.hyphaSlowed);
+			this.immunities.addAll(status.hyphaSlowed)
 			this.abilities.add(
-				Object.assign(new LiquidExplodeAbility(), {
-					liquid: Liquids.neoplasm,
-					amount: 60,
-					radAmountScale: 8,
-					radScale: 2,
-					noiseMag: 6.5,
-					noiseScl: 5,
-				}),
-				Object.assign(new RegenAbility(), {
+			    new DeathNeoplasmAbility(this.hitSize * 2, this.health),
+			    Object.assign(new RegenAbility(), {
 					percentAmount: 1 / (90 * 60) * 100,
 				}),
 				Object.assign(new LiquidRegenAbility(), {
@@ -51,17 +45,10 @@ Object.assign(buffer, {
 	lightRadius: 0,
 })
 buffer.abilities.add(
-	Object.assign(new LiquidExplodeAbility(), {
-		liquid: Liquids.neoplasm,
-		amount: 210,
-		radAmountScale: 8,
-		radScale: 2,
-		noiseMag: 6.5,
-		noiseScl: 5,
-	}),
+	new DeathNeoplasmAbility(18,300),
 	Object.assign(new RegenAbility(), {
 		percentAmount: 1 / (90 * 60) * 100,
-	})
+	}),
 )
 buffer.weapons.add(
 Object.assign(new Weapon(), {
