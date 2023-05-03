@@ -29,7 +29,7 @@ function MendFieldAbility(amount,reload,range){
 			}
 		},
 		localized(){
-			return Core.bundle.format("ability.mendField",amount,reload / 60,range / 8);
+			return Core.bundle.format("ability.mendField",reload / 60,range / 8,amount);
 		}
 	})
 }
@@ -45,6 +45,20 @@ function MoveLiquidAbility(liquid,range,amount){
     })
 }
 exports.MoveLiquidAbility = MoveLiquidAbility;
+
+function DeathNeoplasmAbility(range,amount){
+    return extend(Ability,{
+        death(unit){
+            unit.tileOn().circle(range / 8,cons(tile => {
+                Puddles.deposit(tile,Liquids.neoplasm,amount);
+            }))
+        },
+        localized(){
+			return Core.bundle.format("ability.deathNeoplasm",amount,range / 8);
+		}
+    })
+}
+exports.DeathNeoplasmAbility = DeathNeoplasmAbility;
 
 function UAVSpawnAbility(unitType,regen,amount){
     return extend(Ability,{
