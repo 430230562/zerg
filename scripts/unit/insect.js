@@ -2,7 +2,7 @@ const status = require('status');
 const liquid = require('liquid');
 const Ef = require('effect');
 const { Acid } = require('base/bulletType');
-const { DeathNeoplasmAbility, InsectRegenAbility } = require("base/ability")
+const { DeathNeoplasmAbility, MoveLiquidAbility } = require("base/ability")
 
 function Insect(name){
 	return extend(UnitType, name, {
@@ -14,7 +14,6 @@ function Insect(name){
 		init(u){
 			if (u !== undefined) this.super$init(u)
 			else this.super$init();
-			this.immunities.addAll(status.hyphaSlowed)
 			this.abilities.add(
 			    new DeathNeoplasmAbility(this.hitSize * 2, this.health),
 			    Object.assign(new RegenAbility(), {
@@ -38,6 +37,7 @@ Object.assign(buffer, {
 	health: 200,
 	mechSideSway: 0.25,
 	range: 40,
+	targetAir: false,
 	outlineColor: Pal.neoplasmOutline,
 	envDisabled: Env.none,
 	healFlash: true,
@@ -45,7 +45,7 @@ Object.assign(buffer, {
 	lightRadius: 0,
 })
 buffer.abilities.add(
-	new DeathNeoplasmAbility(18,300),
+	new DeathNeoplasmAbility(18,400),
 	Object.assign(new RegenAbility(), {
 		percentAmount: 1 / (90 * 60) * 100,
 	}),
@@ -65,6 +65,34 @@ Object.assign(new Weapon(), {
 	}),
 	bullet: new ExplosionBulletType(90, 48),
 })
+)
+
+const spread = new UnitType("spread");
+exports.spread = spread;
+Object.assign(spread,{
+    constructor: () => new CrawlUnit.create(),
+	speed: 1,
+	hitSize: 12,
+	targetPriority: -1,
+	health: 340,
+	omniMovement: false,
+    rotateSpeed: 2.5,
+    segments: 3,
+    drawBody: false,
+    aiController: () => new HugAI(),
+
+    segmentScl: 3,
+    segmentPhase: 5,
+    segmentMag: 0.5,
+	outlineColor: Pal.neoplasmOutline,
+	envDisabled: Env.none,
+	healFlash: true,
+	healColor: Pal.neoplasm1,
+	lightRadius: 0,
+})
+spread.abilities.add(
+	new DeathNeoplasmAbility(32,680),
+	new MoveLiquidAbility(Liquids.neoplasm,12,5)
 )
 
 const spider = new Insect("spider");
@@ -198,17 +226,17 @@ Object.assign(new Weapon(), {
 
 const groupMissile = new MissileUnitType("group-missile")
 Object.assign(groupMissile, {
-	hitSize: 8,
+	hitSize: 4,
 	constructor: () => new TimedKillUnit.create(),
 	trailColor: Color.valueOf("e05438"),
 	engineColor: Color.valueOf("e05438"),
 	engineSize: 1.75,
 	engineLayer: Layer.effect,
-	speed: 3.7,
+	speed: 4,
 	maxRange: 6,
-	lifetime: 60 * 1.7,
+	lifetime: 95,
 	outlineColor: Pal.neoplasmOutline,
-	health: 25,
+	health: 35,
 	lowAltitude: true,
 })
 groupMissile.parts.add(
@@ -248,14 +276,7 @@ Object.assign(new Weapon(), {
 })
 )
 groupMissile.abilities.add(
-	Object.assign(new LiquidExplodeAbility(), {
-		liquid: Liquids.neoplasm,
-		amount: 30,
-		radAmountScale: 8,
-		radScale: 2,
-		noiseMag: 6.5,
-		noiseScl: 5,
-	})
+	new DeathNeoplasmAbility(16,150)
 )
 
 const group = new Insect("group");
@@ -317,6 +338,8 @@ group.weapons.add(Object.assign(new Weapon("zerg-group-weapon"), {
 		speed: 0,
 		keepVelocity: false,
 	}),
+	shootStatus: StatusEffects.slow,
+	shootStatusDuration: 130,
 }))
 
 const mosquito = new Insect("mosquito");
@@ -328,9 +351,9 @@ Object.assign(mosquito, {
 	speed: 2.5,
 	flying: true,
 	lowAltitude: true,
-	hitSize: 6,
+	hitSize: 8,
 	engineOffset: 5.5,
-	armor: 1,
+	armor: 1
 })
 mosquito.weapons.add(
 Object.assign(new Weapon("zerg-mosquito-weapon"), {
@@ -394,7 +417,7 @@ Object.assign(burst, {
 	armor: 3,
 	itemCapacity: 0,
 	circleTarget: true,
-	
+	targetFlags: [BlockFlag.drill,BlockFlag.battery,null],
 	engineOffset: 7.8,
 })
 burst.weapons.add(
@@ -432,10 +455,13 @@ const egg = extend(UnitType,"egg",{
      update(unit){
         unit.maxHealth += 0.1;
         unit.heal(0.2)
-        if(unit.maxHealth >= 2120){
+        if(unit.maxHealth >= 220){
             this.u[Math.floor(Math.random() * 3)].spawn(unit.team,unit.x,unit.y)
             
             unit.remove();
+        }
+        if(unit.getDuration(status.dissolved) >= 1){
+            unit.kill();
         }
      }
 })
@@ -444,11 +470,13 @@ Object.assign(egg, {
 	drawCell: false,
 	lightRadius: 0,
 	envDisabled: Env.none,
-	constructor: () => new UnitEntity.create(),
+	constructor: () => new MechUnit.create(),
 	speed: 0,
-	hitSize: 8,
-	health: 2000,
+	hitSize: 4,
+	health: 100,
 	armor: 20,
+	targetPriority: -2,
+	healColor: Pal.neoplasm1,
 	targetable: true,
 	hittable: true,
 	canAttack: false,
@@ -466,7 +494,7 @@ Object.assign(carrier, {
 	targetPriority: -1,
 	speed: 0.25,
 	drag: 0.1,
-	hitSize: 14,
+	hitSize: 15,
 	rotateSpeed: 3,
 	health: 400,
 	armor: 1,
@@ -493,8 +521,8 @@ Object.assign(carrier, {
 })
 carrier.abilities.add(
 	new UnitSpawnAbility(egg, 60 * 20, 0, 0),
-	new SpawnDeathAbility(egg, 4, 10),
-	Object.assign(new RegenAbility(), {
-		percentAmount: 1 / (90 * 60) * 100,
+	Object.assign(new SpawnDeathAbility(egg, 2, 10),{
+	    randAmount: 4,
 	}),
+	new DeathNeoplasmAbility(30, 800),
 );

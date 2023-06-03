@@ -3,7 +3,7 @@ const status = require("status");
 const ab = require('base/ability');
 const insect = require('unit/insect');
 
-const { wire,matrix } = require("block/other")
+const { frame,matrix } = require("block/other")
 
 function Pay(block) {
 	return new BuildPayload(block, Team.derelict)
@@ -55,6 +55,7 @@ Object.assign(election, {
 	accel: 0.1,
 	itemCapacity: 30,
 	health: 150,
+	targetPriority: -1,
 	engineOffset: 4,
 	hitSize: 8,
 	alwaysUnlocked: true,
@@ -116,6 +117,7 @@ Object.assign(atom, {
 	accel: 0.1,
 	itemCapacity: 50,
 	health: 170,
+	targetPriority: -1,
 	engineOffset: 6,
 	hitSize: 9,
 	alwaysUnlocked: true,
@@ -176,6 +178,7 @@ Object.assign(molecule,{
 	accel: 0.1,
 	itemCapacity: 50,
 	health: 220,
+	targetPriority: -1,
 	engineOffset: 7,
 	hitSize: 11,
 	alwaysUnlocked: true,
@@ -250,7 +253,7 @@ Object.assign(albus, {
 		Items.silicon, 2000,
 	)
 })
-CoreBuild(albus, wire, Liquids.water)
+CoreBuild(albus, frame, Liquids.water)
 
 const annular = new CoreBlock("annular");
 exports.annular = annular
@@ -287,7 +290,7 @@ Object.assign(nest,{
 	health: 1200,
 	unitCapModifier: 0,
 	itemCapacity: 0,
-	buildVisibility: BuildVisibility.sandboxOnly,
+	buildVisibility: BuildVisibility.editorOnly,
 	category: Category.effect,
 })
 nest.buildType = prov(() => extend(CoreBlock.CoreBuild,nest,{
@@ -296,9 +299,9 @@ nest.buildType = prov(() => extend(CoreBlock.CoreBuild,nest,{
 		this.i += Time.delta
 		
 		if(this.i >= 60 * 10){
-            let a = Math.random() * 3
+            let a = Math.random() * 5
 			for(let i = 0; i < a;i++){
-			    insect.egg.spawn(this.team,this.tile.worldx(),this.tile.worldy());
+			    insect.egg.spawn(this.team,this.tile.worldx() + Math.random(),this.tile.worldy() + Math.random());
 			}
 			
 			this.i = 0
@@ -318,18 +321,11 @@ Object.assign(column,{
     update: true,
 })
 column.buildType = prov(() => extend(Building,{
-    i:0,
     updateTile(){
-        this.i += Time.delta
-    
-        if(this.i >= 3 * 60){
-            this.tile.circle(5, cons(tile => {
-                if(tile.block() == Blocks.coreShard){
-                    tile.setBlock(ash,this.team);
-                }
-            }))
-            this.i = 0
-            this.remove();
-        }
+        this.tile.circle(5, cons(tile => {
+            if(tile.block() == Blocks.coreShard){
+                tile.setBlock(ash,this.team);
+            }
+        }))
     }
 }))

@@ -27,6 +27,34 @@ Object.assign(nickelWallLarge, {
 	),
 })
 
+const manganeseWall = new Wall("manganese-wall");
+exports.manganeseWall = manganeseWall;
+Object.assign(manganeseWall, {
+	health: 600,
+	armor: 7,
+	size: 1,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+	    item.nickel, 2,
+		item.manganese, 4,
+	),
+})
+
+const manganeseWallLarge = new Wall("manganese-wall-large");
+exports.manganeseWallLarge = manganeseWallLarge;
+Object.assign(manganeseWallLarge, {
+	health: 600 * 4,
+	armor: 7,
+	size: 2,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+		item.nickel, 2 * 4,
+		item.manganese, 4 * 4,
+	),
+})
+
 const crystalWall = new Wall("crystal-wall");
 exports.crystalWall = crystalWall;
 Object.assign(crystalWall, {
@@ -54,34 +82,6 @@ Object.assign(crystalWallLarge, {
 	category: Category.defense,
 	requirements: ItemStack.with(
 		item.crystal, 6 * 4,
-	),
-})
-
-const manganeseWall = new Wall("manganese-wall");
-exports.manganeseWall = manganeseWall;
-Object.assign(manganeseWall, {
-	health: 600,
-	armor: 7,
-	size: 1,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.defense,
-	requirements: ItemStack.with(
-	    item.nickel, 2,
-		item.manganese, 4,
-	),
-})
-
-const manganeseWallLarge = new Wall("manganese-wall-large");
-exports.manganeseWallLarge = manganeseWallLarge;
-Object.assign(manganeseWallLarge, {
-	health: 600 * 4,
-	armor: 7,
-	size: 2,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.defense,
-	requirements: ItemStack.with(
-		item.nickel, 2 * 4,
-		item.manganese, 4 * 4,
 	),
 })
 

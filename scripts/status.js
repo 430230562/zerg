@@ -1,9 +1,10 @@
 const Ef = require("effect");
 
 let reduceArmor = Stat("reduceArmor");
+let disabled = Stat("disabled");
+let percentDamage = Stat("percentDamage");
 
 exports.corroding = extend(StatusEffect,"corroding",{
-    i:false,
     update(unit, time){
 		this.super$update(unit, time);
 		
@@ -19,9 +20,25 @@ exports.corroding = extend(StatusEffect,"corroding",{
 	damage: 0.2
 });
 
-exports.hyphaSlowed = extend(StatusEffect,"hypha-slowed",{
-    healthMultiplier: 0.8,
-    speedMultiplier: 0.4,
-    effect: Ef.hyphaSlowed,
-    color: Color.valueOf("7457ce")
+exports.dissolved = extend(StatusEffect,"dissolved",{
+    update(unit, time){
+		this.super$update(unit, time);
+		
+		if(unit.type.outlineColor === Pal.neoplasmOutline){
+			unit.damageContinuousPierce(unit.type.health / 1200)
+			unit.abilities = []
+		}
+	},
+	setStats(){
+		this.super$setStats();
+		
+		this.stats.add(disabled, false);
+		this.stats.add(percentDamage, 5, StatUnit.perSecond)
+	},
+	init(){
+		this.opposite(StatusEffects.tarred)
+	},
+	effect: Fx.unitDust,
+    color: Color.valueOf("b3e5fa"),
+    permanent: true
 })

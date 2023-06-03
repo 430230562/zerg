@@ -56,7 +56,7 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     }),
     node(core.ash, () => {
         node(core.albus, Seq.with(
-        new Research(other.wire)
+        new Research(other.frame)
         ), () => {
             node(core.annular, Seq.with(
             new Research(other.matrix)
@@ -65,6 +65,10 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     }),
     node(distribution.nickelConveyor, () => {
         node(distribution.manganeseConveyor, () => {
+            node(other.box, () => {
+                node(other.unloader, () => {}),
+                node(other.launchPad, () => {})
+            }),
             node(distribution.biomassConveyor, () => {}),
             node(distribution.armoredConveyor, () => {})
         }),
@@ -86,16 +90,15 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
         ), () => {
             node(distribution.heatRouter, () => {})
         }),
-        node(other.box, () => {
-            node(other.unloader, () => {}),
-            node(other.launchPad, () => {})
+        node(unitFactory.payloadConveyor, Seq.with(
+        new Research(unitFactory.tankFactory)
+        ), () => {
+            node(unitFactory.payloadRouter, () => {})
         })
     }),
     node(factory.compressor, () => {
         node(factory.multiCompressor, () => {}),
-        node(factory.smelter, Seq.with(
-        new SectorComplete(planet.siliconPond)
-        ), () => {
+        node(factory.smelter, () => {
             node(factory.biomassSmelter, () => {}),
             node(factory.incubator, () => {
                 node(factory.biomassDissociator, () => {
@@ -151,9 +154,9 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
             }),
             node(other.lamp, () => {}),
             node(other.repairer, () => {
-                node(other.wire, () => {
+                node(other.frame, () => {
                     node(other.matrix, () => {
-                        node(other.curtain, () => {})
+                        node(other.clan, () => {})
                     }),
                     node(other.catalyzer, () => {})
                 })
@@ -163,7 +166,11 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     node(turret.guard, () => {
         node(turret.obstruct, () => {}),
         node(turret.nexus, () => {
-            node(turret.bomb, () => {})
+            node(turret.bomb, () => {}),
+            node(turret.electrolyze, () => {
+                node(turret.lacerate, () => {}),
+                node(turret.soak, () => {})
+            })
         })
     }),
     node(unitFactory.tankFactory, () => {
@@ -178,9 +185,27 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
             node(tank.gale, () => {
                 node(tank.hurricane, () => {
                     node(tank.tornado, () => {})
+                })
+            }),
+            node(tank.alter, () => {})
+        }),
+        node(unitFactory.airFactory, () => {
+            node(air.mist, () => {
+                node(air.thoud, () => {
+                    node(air.cloud, () => {})
                 }),
-                node(tank.alter, () => {})
+                node(air.electron, () => {
+                    node(air.inductance, () => {
+                        node(air.ampere, () => {})
+                    })
+                }),
+                node(air.phantom, () => {
+                    node(air.shadow, () => {})
+                })
             })
+        }),
+        node(unitFactory.fixPoint, () => {
+            node(unitFactory.fixTurret, () => {})
         })
     }),
     node(wall.nickelWall, () => {
@@ -201,9 +226,5 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
             })
         })
     }),
-    node(planet.valleyPlain, () => {
-        node(planet.siliconPond, Seq.with(
-        new SectorComplete(planet.valleyPlain)
-        ), () => {})
-    })
+    node(planet.valleyPlain, () => {})
 })

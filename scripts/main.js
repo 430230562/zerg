@@ -18,6 +18,7 @@ require('block/turret');
 require('block/unitFactory');
 require('block/wall');
 
+require('weather');
 require('planet');
 require('tree');
 require('report');

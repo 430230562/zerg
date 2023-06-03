@@ -1,3 +1,5 @@
+const environment = require("block/environment")
+
 function MendFieldAbility(amount,reload,range){
 	return extend(Ability,{
 	    i: 0,
@@ -54,7 +56,7 @@ function DeathNeoplasmAbility(range,amount){
             }))
         },
         localized(){
-			return Core.bundle.format("ability.deathNeoplasm",amount,range / 8);
+			return Core.bundle.format("ability.deathNeoplasm");
 		}
     })
 }

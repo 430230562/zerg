@@ -41,9 +41,9 @@ Object.assign(catalyzer, {
 catalyzer.consumeItem(item.manganese, 1).boost();
 catalyzer.consumePower(2.5);
 
-const wire = new ForceProjector("wire");
-exports.wire = wire;
-Object.assign(wire, {
+const frame = new ForceProjector("frame");
+exports.frame = frame;
+Object.assign(frame, {
 	radius: 32,
 	shieldHealth: 400,
 	consumeCoolant: true,
@@ -61,7 +61,7 @@ Object.assign(wire, {
 		item.crystal, 25,
 	)
 })
-wire.consumePower(0.8);
+frame.consumePower(0.8);
 
 const matrix = new ForceProjector("matrix");
 exports.matrix = matrix;
@@ -86,9 +86,9 @@ Object.assign(matrix,{
 })
 matrix.consumePower(2.4)
 
-const curtain = new ForceProjector("curtain");
-exports.curtain = curtain
-Object.assign(curtain,{
+const clan = new ForceProjector("clan");
+exports.clan = clan
+Object.assign(clan,{
     radius: 128,
 	shieldHealth: 2400,
 	consumeCoolant: true,
@@ -108,7 +108,7 @@ Object.assign(curtain,{
 		item.crystal, 205,
 	)
 })
-curtain.consumePower(3.4)
+clan.consumePower(3.4)
 
 const box = new StorageBlock("box");
 exports.box = box;
@@ -154,17 +154,31 @@ Object.assign(launchPad,{
 })
 launchPad.consumePower(4);
 
-const lamp = new LightBlock("lamp");
-exports.lamp = lamp;
-Object.assign(lamp, {
-	size: 2,
-	brightness: 0.65,
-	radius: 210,
+const lamp = extend(LightBlock,"lamp",{
+    drawPlace(x,y,rotation,valid){
+        Drawf.dashCircle(x * 8 + this.offset, y * 8 + this.offset, this.radius * 2, Pal.accent);
+    },
+    setStats(){
+        this.super$setStats();
+        this.stats.add(Stat.shootRange, (this.radius / 8) * 2, StatUnit.blocks);
+    },
+    size: 2,
+	brightness: 0.8,
+	radius: 100,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
 		Items.graphite, 12,
 		item.nickel, 8,
 	)
-})
+});
+exports.lamp = lamp;
+lamp.buildType = prov(() => {
+	return extend(LightBlock.LightBuild, lamp, {
+		drawSelect() {
+			this.super$drawSelect();
+			Drawf.dashCircle(this.x, this.y, this.block.radius * 2, Pal.accent);
+		}
+	})
+});
 lamp.consumePower(0.1);

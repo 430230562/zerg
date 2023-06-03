@@ -4,18 +4,29 @@ const { UAVSpawnAbility } = require("base/ability")
 const mist = new UnitType("mist");
 exports.mist = mist;
 Object.assign(mist,{
-	health: 130,
-	speed: 2,
+	health: 150,
+	speed: 3.5,
 	flying: true,
 	hitSize: 8,
 	engineOffset: 5.75,
 	armor: 1,
 	accel: 0.08,
 	drag: 0.04,
-	targetFlags: [BlockFlag.generator,null],
 	itemCapacity: 0,
-	outlineRadius: 1,
+	targetGround: false,
+	playerControllable: false,
+	logicControllable: false,
+	range: 1600,
 	constructor: () => new UnitEntity.create(),
+	aiController: () => extend(FlyingAI,{
+	    updateMovement(){
+	        if(this.target != null){
+	            this.circleAttack(150)
+	        }else if(this.unit.team.core() != null){
+	            this.moveTo(this.unit.team.core(), 40)
+	        }
+	    }
+	})
 })
 mist.weapons.add(
 	Object.assign(new Weapon("zerg-mist-weapon"),{
@@ -23,21 +34,13 @@ mist.weapons.add(
 		y: -0.5,
 		shootY: 0,
 		layerOffset : -0.0001,
-		reload: 20,
-		shootSound: Sounds.missile,
-		bullet:	Object.assign(new MissileBulletType(3,14),{
-			width: 8,
-			height: 8,
-			shrinkY: 0,
-			homingRange: 60,
-			keepVelocity: false,
-			lifetime: 50,
-			trailChance: 0.1,
-			hitColor: Color.valueOf("d99f6b"),
-			backColor: Color.valueOf("d99f6b"),
-			trailColor: Color.valueOf("d99f6b"),
-			frontColor: Color.white,
-		})
+		reload: 5,
+		shootCone: 30,
+		bullet: Object.assign(new BasicBulletType(4, 7),{
+            width: 2,
+            height: 9,
+            lifetime: 40,
+        })
 	})
 )
 
@@ -62,9 +65,11 @@ thoud.weapons.add(
 		y: 0,
 		shootY: 0,
 		reload: 45,
-		shoot: Object.assign(new ShootPattern(), {
-			shotDelay: 5,
-			shots: 3,
+		shoot: Object.assign(new ShootAlternate(), {
+			shotDelay: 3,
+			shots: 4,
+			barrels: 2,
+			spread: 2,
 		}),
 		shootSound: Sounds.missile,
 		bullet: Object.assign(new MissileBulletType(4,19),{
@@ -72,14 +77,11 @@ thoud.weapons.add(
 			height: 8,
 			shrinkY: 0,
 			homingRange: 60,
-			keepVelocity: false,
+			keepVelocity: true,
 			lifetime: 50,
-			splashDamage: 24,
+			splashDamage: 18,
 			splashDamageRadius: 16,
 			trailChance: 0.1,
-			hitColor: Color.valueOf("d99f6b"),
-			backColor: Color.valueOf("d99f6b"),
-			trailColor: Color.valueOf("d99f6b"),
 			frontColor: Color.white,
 		})
 	})
@@ -171,10 +173,13 @@ const electron = new UnitType("electron");
 exports.electron = electron;
 Object.assign(electron,{
 	health: 75,
-	speed: 3.75,
+	speed: 4,
 	flying: true,
 	hitSize: 6,
 	engineOffset: 5.75,
+	engineColor: Pal.lancerLaser,
+	trailLength: 8,
+	trailColor: Pal.lancerLaser,
 	armor: 0,
 	accel: 0.08,
 	drag: 0.04,
@@ -195,12 +200,14 @@ electron.weapons.add(
 		x: 0,
 		y: -2,
 		reload: 15,
+		alwaysShooting: true,
 		bullet: Object.assign(new LightningBulletType(), {
 			damage: 12,
 			lightningLength: 9,
-			collidesAir: false,
 			pierceArmor: true,
 			ammoMultiplier: 1,
+			shootEffect: Fx.sparkShoot,
+			smokeEffect: Fx.shootBigSmoke,
 		})
 	})
 )

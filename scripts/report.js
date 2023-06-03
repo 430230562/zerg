@@ -14,10 +14,10 @@ function SimpleDialog(name){
 }
 
 Events.on(EventType.ClientLoadEvent, () => {
-    const remind = new BaseDialog("Welcome to the Gredizion");
+    const remind = new BaseDialog("Welcome to the Greavar");
     
     remind.cont.pane(table => {
-        table.image(Core.atlas.find("bugs-gredizion")).size(64,64).pad(3).row();
+        table.image(Core.atlas.find("zerg-greavar")).size(64,64).pad(3).row();
         table.add(Core.bundle.get("thanking")).left().growX().wrap().width(420).maxWidth(420).pad(4).labelAlign(Align.left).row();
         
         table.add(Core.bundle.get("remind")).pad(4).labelAlign(Align.center).row();

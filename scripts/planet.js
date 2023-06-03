@@ -28,11 +28,17 @@ Object.assign(greavar, {
 	alwaysUnlocked: true,
 	allowLaunchLoadout: true,
 	allowLaunchSchematics: true,
+	allowWaveSimulation: true,
 	launchCapacityMultiplier: 0.75,
-	clearSectorOnLose: true,
+	clearSectorOnLose: false,
 	startSector: 2,
 	orbitRadius: 65,
 	rotateTime: 34.7 * 60,
+	//0.1125 到 1.2375
+	lightSrcFrom: 0.1,
+	lightSrcTo: 0.5,
+	lightDstFrom: 0,
+	lightDstTo: 0.45,
 	defaultCore: core.ash,
 	iconColor: Color.valueOf("3c7141"),
 })
@@ -89,15 +95,8 @@ const valleyPlain = new SectorPreset("valleyPlain", greavar, 2);
 exports.valleyPlain = valleyPlain;
 Object.assign(valleyPlain, {
 	captureWave: 15,
-	difficulty: 1,
+	difficulty: 2,
 	addStartingItems: true,
 	alwaysUnlocked: true,
 	startWaveTimeMultiplier: 3,
-})
-
-const siliconPond = new SectorPreset("siliconPond", greavar, 12);
-exports.siliconPond = siliconPond;
-Object.assign(siliconPond, {
-	captureWave: 20,
-	difficulty: 2,
 })

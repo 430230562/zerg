@@ -1,4 +1,5 @@
 const item = require('item');
+const liquid = require('liquid');
 
 const nickelPowerNode = new PowerNode("nickel-power-node");
 exports.nickelPowerNode = nickelPowerNode;
@@ -97,7 +98,7 @@ deflagrationGenerator.consume(new ConsumeItemFlammable());
 deflagrationGenerator.consume(new ConsumeItemExplode());
 
 const fullEffectGenerator = new ConsumeGenerator("full-effect-generator");
-exports.fuckEffectGenerator = fullEffectGenerator;
+exports.fullEffectGenerator = fullEffectGenerator;
 Object.assign(fullEffectGenerator, {
 	powerProduction: 6.5,
 	itemDuration: 90,
@@ -134,7 +135,7 @@ fullEffectGenerator.consume(new ConsumeItemExplode());
 const pyrolysis = new ConsumeGenerator("pyrolysis");
 exports.pyrolysis = pyrolysis;
 Object.assign(pyrolysis,{
-	powerProduction: 17.5,
+	powerProduction: 10,
 	hasLiquids: true,
 	size: 3,
 	generateEffect: Fx.none,
@@ -142,6 +143,11 @@ Object.assign(pyrolysis,{
 	
 	ambientSound: Sounds.smelter,
 	ambientSoundVolume: 0.06,
+	
+	explosionPuddles: 75,
+	explosionPuddleRange: 40,
+	explosionPuddleLiquid: Liquids.neoplasm,
+	explosionPuddleAmount: 125,
 	
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
@@ -165,7 +171,7 @@ Object.assign(pyrolysis,{
 		item.chromium, 30,
 	),
 })
-pyrolysis.consumeLiquid(Liquids.neoplasm, 0.3);
+pyrolysis.consumeLiquid(Liquids.neoplasm, 0.2);
 
 const crystalPanel = new SolarGenerator("crystal-panel");
 exports.crystalPanel = crystalPanel;
@@ -176,7 +182,7 @@ Object.assign(crystalPanel,{
 		item.nickel, 10,
 		item.crystal, 15,
 	),
-	powerProduction: 0.15,
+	powerProduction: 0.05,
 })
 
 const crystalPanelMedium = new SolarGenerator("crystal-panel-medium");
@@ -190,7 +196,7 @@ Object.assign(crystalPanelMedium,{
 		item.crystal, 50,
 	),
 	size: 2,
-	powerProduction: 0.8,
+	powerProduction: 0.3,
 })
 
 const crystalPanelLarge = new SolarGenerator("crystal-panel-large");
@@ -205,22 +211,22 @@ Object.assign(crystalPanelLarge,{
 		item.chromium, 100,
 	),
 	size: 3,
-	powerProduction: 2.25,
+	powerProduction: 0.75,
 })
 
 const biomassReactor = new HeaterGenerator("biomass-reactor");
 exports.biomassReactor = biomassReactor;
 Object.assign(biomassReactor, {
-	size: 4,
+	size: 5,
 	liquidCapacity: 24 * 5,
 	outputLiquid: new LiquidStack(Liquids.neoplasm, 24 / 60),
 	explodeOnFull: true,
 	heatOutput: 30,
 	
-	itemDuration: 60 * 1.2,
-	itemCapacity: 10,
+	itemDuration: 90,
+	itemCapacity: 15,
 	
-	explosionRadius: 12,
+	explosionRadius: 15,
 	explosionDamage: 3000,
 	explodeEffect: new MultiEffect(
 		Fx.bigShockwave, 
@@ -235,10 +241,10 @@ Object.assign(biomassReactor, {
 	powerProduction: 60,
 	rebuildable: false,
 
-	explosionPuddles: 240,
-	explosionPuddleRange: 8 * 18,
+	explosionPuddles: 500,
+	explosionPuddleRange: 120,
 	explosionPuddleLiquid: Liquids.neoplasm,
-	explosionPuddleAmount: 200,
+	explosionPuddleAmount: 300,
 	explosionMinWarmup: 0.5,
 	
 	consumeEffect: Fx.none,
@@ -246,16 +252,17 @@ Object.assign(biomassReactor, {
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
-		Items.graphite, 260,
+		Items.graphite, 300,
 		item.nickel, 500,
-		item.crystal, 65,
-		Items.silicon, 310,
-		item.chromium, 260,
+		item.crystal, 100,
+		Items.silicon, 300,
+		item.chromium, 450,
 	),
 	
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
 		new DrawLiquidTile(Liquids.water, 3),
+		new DrawLiquidTile(Liquids.neoplasm, 3),
 		Object.assign(new DrawCells(), {
 			color: Color.valueOf("c33e2b"),
 			particleColorFrom: Color.valueOf("e8803f"),
@@ -267,8 +274,11 @@ Object.assign(biomassReactor, {
 		new DrawHeatOutput(),
 	)
 })
-biomassReactor.consumeLiquid(Liquids.water, 48 / 60);
-biomassReactor.consumeItem(item.biomass, 1);
+biomassReactor.consumeLiquid(Liquids.water, 36 / 60)
+biomassReactor.consumeItems(ItemStack.with(
+    item.biomass, 1,
+    item.salt, 1
+));
 
 const extremeGenerator = new VariableReactor('extreme-generator');
 exports.extremeGenerator = extremeGenerator;
@@ -277,9 +287,6 @@ Object.assign(extremeGenerator, {
 	maxHeat: 60,
 
 	liquidCapacity: 30,
-	explosionMinWarmup: 0.5,
-	explosionRadius: 6,
-	explosionDamage: 6000,
 	size: 4,
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
@@ -305,4 +312,4 @@ Object.assign(extremeGenerator, {
 		})
 	)
 })
-extremeGenerator.consumeLiquid(Liquids.water, 12 / 60);
+extremeGenerator.consumeLiquid(Liquids.water, 24 / 60);

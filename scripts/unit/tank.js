@@ -67,7 +67,7 @@ Object.assign(brigadier, {
 	speed: 0.65,
 	hitSize: 16,
 	treadPullOffset: 3,
-	treadRects: [new Rect(-31, -38, 21, 76)],
+	treadRects: [new Rect(4, -32, 26, 72)],
 	treadFrames: 8,
 	outlineColor: Color.valueOf("464a59"),
 	outlineRadius: 3,
@@ -118,8 +118,7 @@ Object.assign(kibbler,{
 	treadPullOffset: 0,
 	crushDamage: 1.4,
 	treadRects: [
-		new Rect(16 - 60,48 - 70,30,75),
-		new Rect(44 - 60,17 - 70,17,60)
+		new Rect(16 - 60,48 - 70,30,75)
 	],
 	treadFrames: 8,
 	outlineColor: Color.valueOf("464a59"),
@@ -180,11 +179,13 @@ Object.assign(purge,{
 	omniMovement: false,
 	rotateMoveFirst: true,
 	envDisabled: 0,
-	speed: 0.6,
+	speed: 0.5,
 	outlineColor: Color.valueOf("464a59"),
 	outlineRadius: 3,
+	treadRects: [new Rect(14,-24,30,80)],
+	treadFrames: 8,
 	hitSize: 29,
-	rotateSpeed: 3,
+	rotateSpeed: 2,
 	health: 12000,
 	armor: 17,
 	itemCapacity: 0,
@@ -194,21 +195,18 @@ Object.assign(purge,{
 purge.weapons.add(
     Object.assign(new Weapon("zerg-purge-weapon"),{
         reload: 180,
-        cooldownTime: 90,
+        cooldownTime: 120,
         mirror: false,
         x: 0,
         y: 0,
         rotateSpeed: 1.4,
         rotate: true,
-        shootY: 23,
+        shootY: 0.25,
         shake: 6,
         shootSound: Sounds.railgun,
 
         ejectEffect: Fx.none,
-        recoil: 12.5,
-        
-        shootStatus: StatusEffects.slow,
-	    shootStatusDuration: 200,
+        recoil: 5.5,
 
         bullet: Object.assign(new RailBulletType(),{
             shootEffect: Fx.railShoot,
@@ -219,8 +217,9 @@ purge.weapons.add(
             hitEffect: Fx.massiveExplosion,
             smokeEffect: Fx.shootBig2,
             damage: 750,
-            pierceDamageFactor: 0.5,
-            recoil: 2.5,
+            pierceDamageFactor: 0.8,
+            buildingDamageMultiplier: 1.1,
+            recoil: 0.8,
         })
     })
 )
@@ -232,11 +231,11 @@ Object.assign(fearless, {
 	omniMovement: false,
 	rotateMoveFirst: true,
 	envDisabled: 0,
-	speed: 0.53,
+	speed: 0.42,
 	outlineColor: Color.valueOf("464a59"),
 	outlineRadius: 3,
 	hitSize: 38,
-	rotateSpeed: 2.4,
+	rotateSpeed: 1.5,
 	health: 32000,
 	armor: 24,
 	itemCapacity: 0,
@@ -283,12 +282,12 @@ Object.assign(new StatWeapon("zerg-fearless-weapon","reduceArmor",5),{
 		fragBullets:9,
 		fragRandomSpread: 0,
 		fragSpread: 45 / 8,
-		fragVelocityMin: 4,
-		fragVelocityMax: 4,
+		fragVelocityMin: 8,
+		fragVelocityMax: 8,
 		fragLifeMin: 1,
 		fragLifeMax: 1,
 		fragBullet: Object.assign(new BasicBulletType(),{
-			lifetime: 20,
+			lifetime: 15,
 			damage: 10,
 			width: 6,
 			height: 6,
@@ -351,7 +350,7 @@ const hurricane = new TankUnitType("hurricane")
 exports.hurricane = hurricane;
 Object.assign(hurricane, {
 	speed: 8 * 8 / 60,
-	treadRects: [new Rect(12, -40, 20, 76)],
+	treadRects: [new Rect(7, -32, 26, 72)],
 	treadFrames: 8,
 	outlineColor: Color.valueOf("464a59"),
 	outlineRadius: 3,
@@ -367,16 +366,16 @@ Object.assign(hurricane, {
 hurricane.weapons.add(
 	Object.assign(new Weapon("zerg-hurricane-weapon"), {
 	x: 0,
-	y: 0,
+	y: -1.75,
 	rotate: true,
 	rotateSpeed: 5,
 	mirror: false,
 	layerOffset: 0.0001,
-	shootY: 1.25,
+	shootY: 3,
 	recoil: 1,
 	reload: 7,
 	shootSound:	Sounds.missile,
-	shoot: Object.assign(new ShootAlternate(17 / 4), {
+	shoot: Object.assign(new ShootAlternate(14 / 4), {
 		barrels: 3
 	}),
 	bullet: Object.assign(new MissileBulletType(4,10), {
@@ -541,14 +540,16 @@ Object.assign(new Weapon("zerg-alter-weapon"), {
 	
 	bullet: extend(BasicBulletType, {
 		hitEntity(b, entity, health) {
-			this.super$hitEntity(b, entity, health);
 			if(entity instanceof Unit) {
 				var unit = entity;
-				if (unit.health <= 50 && unit.type.health <= 700) {
-					unit.team = b.team,
-					unit.heal();
+				if (unit.health <= 50) {
+					unit.remove();
+					
+					unit.type.spawn(b.team,unit.x,unit.y)
 				}
 			}
+			
+			this.super$hitEntity(b, entity, health);
 		},
 		speed: 3.5,
 		damage: 25,
@@ -567,3 +568,78 @@ Object.assign(new Weapon("zerg-alter-weapon"), {
 	})
 })
 )
+
+const bewitch = new UnitType("bewitch");
+exports.bewitch = bewitch;
+Object.assign(bewitch,{
+    targetPriority: -1.5,
+	envDisabled: Env.none,
+	squareShape: true,
+	omniMovement: false,
+	rotateMoveFirst: true,
+	speed: 0.75,
+	hitSize: 14,
+	treadRects: [new Rect(4, -20, 11, 36)],
+	treadFrames: 8,
+	treadPullOffset: 3,
+	rotateSpeed: 3,
+	health: 540,
+	armor: 3,
+	itemCapacity: 0,
+	constructor: () => new TankUnit.create()
+})
+bewitch.weapons.add(
+Object.assign(new Weapon("zerg-bewitch-weapon"), {
+	layerOffset: 0.0001,
+	reload: 60,
+	shootY: 1.5,
+	recoil: 0,
+	rotate: true,
+	rotateSpeed: 5.7,
+	mirror: false,
+	x: 0,
+	y: 0,
+	heatColor: Color.valueOf("f9350f"),
+	cooldownTime: 90,
+	shootSound: Sounds.lasershoot,
+	
+	bullet: extend(BasicBulletType, {
+		hitEntity(b, entity, health) {
+			if(entity instanceof Unit) {
+				var unit = entity;
+				if (unit.health <= 100) {
+					unit.remove();
+					
+					unit.type.spawn(b.team,unit.x,unit.y)
+				}
+			}
+			
+			this.super$hitEntity(b, entity, health);
+		},
+		hitTile(b,build,x,y,initialHealth,direct){
+		    if(build.team != b.team && build.health <= 100){
+		        build.remove()
+		        
+		        build.tile.setBlock(build.block,b.team,build.rotation)
+		    }
+		    this.super$hitTile(b,build,x,y,initialHealth,direct);
+		},
+		speed: 3.5,
+		damage: 35,
+		sprite: "zerg-wave",
+		width: 13,
+		height: 17,
+		lifetime: 52,
+		despawnEffect: Ef.interfere,
+		hitEffect: Ef.interfere,
+		backColor: Color.valueOf("afffff"),
+		frontColor: Color.valueOf("ffffff"),
+		hittable: false,
+		pierceArmor: true,
+		homingRange: 60,
+		homingPower: 0.1,
+	})
+})
+)
+
+//蛊惑→同化

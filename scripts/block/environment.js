@@ -3,8 +3,6 @@ const liquid = require('liquid')
 const status = require('status')
 
 Attribute.add("biomass");
-Attribute.add("hypha");
-Attribute.add("organic");
 
 Blocks.arkyicStone.attributes.set(Attribute.get("biomass"), 0.35);
 
@@ -14,7 +12,6 @@ Blocks.snow.attributes.set(Attribute.water, 0.5);
 
 //tundra
 const tundraWall = new StaticWall("tundra-wall");
-tundraWall.attributes.set(Attribute.get("organic"), 1);
 
 const tundra = new Floor("tundra");
 tundra.attributes.set(Attribute.water, 0.35);
@@ -78,15 +75,8 @@ Object.assign(neoplasm, {
 
 //hypha
 const hyphaWall = new StaticWall("hypha-wall");
-hyphaWall.attributes.set(Attribute.get("hypha"), 1);
-hyphaWall.attributes.set(Attribute.get("organic"), 3);
 
 const hyphaFloor = new Floor("hypha-floor");
-Object.assign(hyphaFloor,{
-    status: status.infecting,
-	statusDuration: 120,
-})
-hyphaFloor.attributes.set(Attribute.get("hypha"), 1);
 
 //crystal
 const crystallineWall = new StaticWall("crystalline-wall");
