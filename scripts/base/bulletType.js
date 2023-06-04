@@ -40,6 +40,9 @@ function ReduceArmorBulletType(speed, damage, amount) {
 		despawnEffect: Fx.hitBulletColor,
 		hitEffect: Fx.hitBulletColor,
 		
+		shrinkX: 0,
+        shrinkY: 0,
+		
 		ammoMultiplier: 2,
 	});
 }

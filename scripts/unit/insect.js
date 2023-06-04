@@ -32,9 +32,9 @@ const buffer = new UnitType("buffer");
 exports.buffer = buffer;
 Object.assign(buffer, {
 	constructor: () => new MechUnit.create(),
-	speed: 1.2,
+	speed: 1.25,
 	hitSize: 6,
-	health: 200,
+	health: 100,
 	mechSideSway: 0.25,
 	range: 40,
 	targetAir: false,
@@ -136,7 +136,7 @@ Object.assign(new Weapon("zerg-spider-weapon"), {
 	x: 0,
 	y: 1,
 	shootY: 4,
-	reload: 50,
+	reload: 25,
 	cooldownTime: 42,
 	shootSound: Sounds.plantBreak,
 	heatColor: Color.valueOf("84a94b"),
@@ -361,7 +361,8 @@ Object.assign(new Weapon("zerg-mosquito-weapon"), {
 	x: 0,
 	y: 1,
 	shootY: 4,
-	reload: 50,
+	reload: 25,
+	shootCone: 60,
 	cooldownTime: 42,
 	shootSound: Sounds.plantBreak,
 	heatColor: Color.valueOf("84a94b"),
@@ -449,13 +450,25 @@ Object.assign(new Weapon(), {
 	})
 })
 )
+burst.parts.add(
+    Object.assign(new RegionPart("-wing"),{
+        mirror: true,
+        x: 0.5,
+        y: 0,
+        rotation: -45,
+        moveX: 0,
+        moveY: 0,
+        moveRot: 30,
+        progress: DrawPart.PartProgress.smoothReload.sin(1,5)
+    })
+)
 
 const egg = extend(UnitType,"egg",{
      u:[buffer,spider,mosquito],
      update(unit){
-        unit.maxHealth += 0.1;
+        unit.maxHealth += 0.01;
         unit.heal(0.2)
-        if(unit.maxHealth >= 220){
+        if(unit.maxHealth >= 112){
             this.u[Math.floor(Math.random() * 3)].spawn(unit.team,unit.x,unit.y)
             
             unit.remove();

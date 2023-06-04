@@ -117,9 +117,7 @@ Object.assign(kibbler,{
 	hitSize: 22,
 	treadPullOffset: 0,
 	crushDamage: 1.4,
-	treadRects: [
-		new Rect(16 - 60,48 - 70,30,75)
-	],
+	treadRects: [new Rect(14,-40,35,100)],
 	treadFrames: 8,
 	outlineColor: Color.valueOf("464a59"),
 	outlineRadius: 3,
@@ -133,13 +131,13 @@ kibbler.weapons.add(
 Object.assign(new StatWeapon("zerg-kibbler-weapon","reduceArmor",3),{
 	shootSound: Sounds.dullExplosion,
 	layerOffset: 0.0001,
-	reload: 85,
-	shootY: 96 / 4,
+	reload: 90,
+	shootY: 36 / 4,
 	recoil: 3,
 	rotate: true,
 	rotateSpeed: 1.3,
 	mirror: false,
-	shootCone: 2,
+	shootCone: 20,
 	x: 0,
 	y: 0,
 	cooldownTime: 30,

@@ -1,7 +1,7 @@
 const item = require('item');
 const liquid = require('liquid');
 const status = require('status');
-const { Acid, ReduceArmorBulletType, FlameBulletType } = require('base/bulletType')
+const { Acid, ReduceArmorBulletType } = require('base/bulletType')
 
 function AddCoolant(turret,amount){
 	return turret.coolant = turret.consumeCoolant(amount);
@@ -453,3 +453,138 @@ Object.assign(lacerate, {
 })
 lacerate.consumePower(6.8)
 AddCoolant(lacerate,0.15);
+
+const lumen = new ItemTurret("lumen");
+exports.lumen = lumen;
+Object.assign(lumen, {
+	health: 1040,
+	size: 3,
+	reload: 90,
+	targetAir: false,
+	range: 8 * 30,
+	maxAmmo: 20,
+	shootCone: 5,
+	rotateSpeed: 4.5,
+	recoil: 4,
+	ammoPerShot: 5,
+	shootSound: Sounds.mediumCannon,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.turret,
+	requirements: ItemStack.with(
+		item.nickel, 150,
+		item.crystal, 75,
+		item.biomassSteel, 100,
+	),
+})
+AddCoolant(lumen,0.15);
+lumen.ammo(
+	item.crystal, Object.assign(new ReduceArmorBulletType(6, 550, 7), {
+		ammoMultiplier: 1,
+		width: 7,
+		height: 21,
+		lifetime: 40,
+		hitSize: 4,
+		hitColor: Color.valueOf("7e8ae6"),
+		backColor: Color.valueOf("7e8ae6"),
+		trailColor: Color.valueOf("7e8ae6"),
+		frontColor: Color.white,
+		trailWidth: 2,
+		trailLength: 5,
+		
+		hitEffect: Fx.flakExplosionBig,
+		
+		pierce: true,
+		pierceBuilding: true,
+		
+		knockback: 12,
+		
+		intervalBullets: 5,
+		bulletInterval: 2,
+		intervalBullet: Object.assign(new BasicBulletType(), {
+			lifetime: 1,
+			damage: 8,
+			width: 3,
+			height: 3,
+			frontColor: Color.valueOf("7e8ae6"),
+			backColor: Color.valueOf("7e8ae6"),
+			hitColor: Color.valueOf("7e8ae6"),
+		})
+	}),
+	item.energic, Object.assign(new ReduceArmorBulletType(6, 570, 7), {
+		ammoMultiplier: 1,
+		width: 7,
+		height: 21,
+		lifetime: 40,
+		hitSize: 4,
+		hitColor: Color.valueOf("fa7f7f"),
+		backColor: Color.valueOf("fa7f7f"),
+		trailColor: Color.valueOf("fa7f7f"),
+		frontColor: Color.white,
+		trailWidth: 2,
+		trailLength: 5,
+		
+		hitEffect: Fx.flakExplosionBig,
+		
+		pierce: true,
+		pierceBuilding: true,
+		reloadMultiplier: 1.5,
+		
+		knockback: 12,
+		intervalBullets: 5,
+		bulletInterval: 2,
+		intervalBullet: Object.assign(new LightningBulletType(), {
+			damage: 13,
+			collidesAir: false,
+			ammoMultiplier: 1,
+			lightningColor: Color.valueOf("fa7f7f"),
+			lightningLength: 1,
+			lightningLengthRand: 2,
+		})
+	})
+)
+lumen.consumePower(3)
+
+const blowtorth = new ContinuousLiquidTurret("blowtorth");
+exports.blowtorth = blowtorth;
+Object.assign(blowtorth,{
+	liquidConsumed: 12 / 60,
+	targetInterval: 5,
+	range: 140,
+	shootY: 4,
+	
+	size: 3,
+	
+	loopSound: Sounds.torch,
+	shootSound: Sounds.none,
+	loopSoundVolume: 3,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.turret,
+	requirements: ItemStack.with(
+	    Items.silicon, 200,
+		item.nickel, 400,
+		item.manganese, 150,
+		item.biomassSteel, 75,
+	),
+})
+blowtorth.ammo(
+	Liquids.hydrogen, Object.assign(new ContinuousFlameBulletType(),{
+		damage: 75,
+		length: 145,
+		pierceCap: 5,
+	
+		colors: [
+			Color.valueOf("5fd4ff8d"),
+			Color.valueOf("85d6f4b3"),
+			Color.valueOf("a2dcf1cd"),
+			Color.valueOf("c4e4f0"),
+			Color.white
+		],
+		
+		status: StatusEffects.melting,
+		statusDuration: 120,
+		
+		flareColor: Color.valueOf("5fd4ff8d"),
+		lightColor: Color.valueOf("5fd4ff8d"),
+		hitColor: Color.valueOf("5fd4ff8d"),
+	})
+)

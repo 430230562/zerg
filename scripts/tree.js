@@ -104,7 +104,8 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                 node(factory.biomassDissociator, () => {
                     node(factory.dissolvantMixer, () => {})
                 })
-            })
+            }),
+            node(factory.charger, () => {})
         }),
         node(factory.displacer, () => {
             node(factory.synthesizer, () => {})
@@ -174,6 +175,7 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
         })
     }),
     node(unitFactory.tankFactory, () => {
+        node(unitFactory.reconstructor, () => {}),
         node(tank.pioneer, () => {
             node(tank.brigadier, () => {
                 node(tank.kibbler, () => {
@@ -187,7 +189,9 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                     node(tank.tornado, () => {})
                 })
             }),
-            node(tank.alter, () => {})
+            node(tank.alter, () => {
+                node(tank.bewitch, () => {})
+            })
         }),
         node(unitFactory.airFactory, () => {
             node(air.mist, () => {
@@ -201,6 +205,20 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                 }),
                 node(air.phantom, () => {
                     node(air.shadow, () => {})
+                })
+            })
+        }),
+        node(unitFactory.unitIncubator, () => {
+            node(unitFactory.reincubator, () => {}),
+            node(insect.buffer, () => {
+                node(insect.spread, () => {}),
+                node(insect.spider, () => {
+                    node(insect.tarantula, () => {
+                        node(insect.group, () => {})
+                    })
+                }),
+                node(insect.mosquito, () => {
+                    node(insect.burst, () => {})
                 })
             })
         }),

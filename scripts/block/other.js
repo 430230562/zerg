@@ -163,8 +163,8 @@ const lamp = extend(LightBlock,"lamp",{
         this.stats.add(Stat.shootRange, (this.radius / 8) * 2, StatUnit.blocks);
     },
     size: 2,
-	brightness: 0.8,
-	radius: 100,
+	brightness: 0.9,
+	radius: 120,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
