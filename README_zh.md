@@ -2,18 +2,14 @@
 这个像素工厂模组允许玩家探索一个名为Greavar的行星，并在开发当地矿产、研究科技的同时防御原住民的进攻。
 
 ## 语言
-
-    - [简体中文](README_zh.md)
-    - [English](README.md)（WIP）
-    - [Français](README_fr.md)（WIP）
-    - [Русский язык](README_ru.md)（WIP）
-
+- [简体中文](README_zh.md)
+- [English](README.md)（WIP）
+- [Français](README_fr.md)（WIP）
+- [Русский язык](README_ru.md)（WIP）
 ## 主要内容
 
-- 本模组的特点在于其独特的机制，而不是优质的贴图或平衡的数值
-- 完全使用js编写
-
-- 本模组持续更新，如果有建议或者问题，可反馈至[QQ群][QQ]:624665699或者在我们的[issues][issues]里提出。
+- 本模组的特点在于其独特的机制，而不是优质的贴图或平衡的数值。
+- 本模组将持续更新，如果有建议或者问题，可反馈至[QQ群][QQ]:624665699，或者在我们的[issues][issues]里提出。
 
 ### 戈利瓦尔（Greavar）
 
