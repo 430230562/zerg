@@ -19,7 +19,7 @@ function Acid(puddleSize) {
 exports.Acid = Acid
 
 function ReduceArmorBulletType(speed, damage, amount) {
-	return extend(BasicBulletType, {
+	return extend(BasicBulletType, speed, damage, {
 		hitEntity(b, entity, health) {
 			this.super$hitEntity(b, entity, health);
 			if(entity instanceof Unit) {
@@ -27,8 +27,6 @@ function ReduceArmorBulletType(speed, damage, amount) {
 				unit.armor -= amount;
 			}
 		},
-		speed: speed,
-		damage: damage,
 		pierceCap: 2,
 		pierce: true,
 		pierceBuilding: true,
@@ -49,7 +47,7 @@ function ReduceArmorBulletType(speed, damage, amount) {
 exports.ReduceArmorBulletType = ReduceArmorBulletType;
 
 function FlameBulletType(speed, damage) {
-	return extend(BulletType, {
+	return extend(BulletType, speed, damage, {
 		speed: speed,
 		damage: damage,
 		hitSize: 7,
@@ -64,3 +62,31 @@ function FlameBulletType(speed, damage) {
 	});
 }
 exports.FlameBulletType = FlameBulletType;
+
+//原代码by miner 20230607 
+//pardon 修改
+
+function BounceBulletType(speed,damage,range){
+    return extend(BasicBulletType, speed, damage, {
+        
+        hitEntity(b, entity, health){
+            this.super$hitEntity(b, entity, health);
+            
+            let {team, x, y, vel} = b;
+            let target = null;
+            if(entity instanceof Unit){
+                target = Units.closestEnemy(team, x, y, range, unit => !b.hasCollided(unit.id));
+            }else{
+                target = Units.findEnemyTile(team, x, y, range, build => !b.hasCollided(build.id));
+            }
+            
+            if(target != null){
+                vel.setAngle(Angles.angle(x, y, target.x, target.y));
+                b.damage -= b.damage / 10
+            }else{
+                b.remove()
+            }
+        },
+    });
+}
+exports.BounceBulletType = BounceBulletType;

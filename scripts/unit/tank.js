@@ -539,11 +539,10 @@ Object.assign(new Weapon("zerg-alter-weapon"), {
 	bullet: extend(BasicBulletType, {
 		hitEntity(b, entity, health) {
 			if(entity instanceof Unit) {
-				var unit = entity;
-				if (unit.health <= 50) {
-					unit.remove();
+				if (entity.health <= 50) {
+					entity.remove();
 					
-					unit.type.spawn(b.team,unit.x,unit.y)
+					entity.type.spawn(b.team,entity.x,entity.y)
 				}
 			}
 			
@@ -604,11 +603,11 @@ Object.assign(new Weapon("zerg-bewitch-weapon"), {
 	bullet: extend(BasicBulletType, {
 		hitEntity(b, entity, health) {
 			if(entity instanceof Unit) {
-				var unit = entity;
-				if (unit.health <= 100) {
-					unit.remove();
+			    
+				if (entity.health <= 100) {
+					entity.remove();
 					
-					unit.type.spawn(b.team,unit.x,unit.y)
+					entity.type.spawn(b.team,entity.x,entity.y)
 				}
 			}
 			
@@ -620,10 +619,11 @@ Object.assign(new Weapon("zerg-bewitch-weapon"), {
 		        
 		        build.tile.setBlock(build.block,b.team,build.rotation)
 		    }
+            
 		    this.super$hitTile(b,build,x,y,initialHealth,direct);
 		},
 		speed: 3.5,
-		damage: 35,
+		damage: 50,
 		sprite: "zerg-wave",
 		width: 13,
 		height: 17,

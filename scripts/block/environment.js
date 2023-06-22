@@ -10,10 +10,18 @@ Blocks.ice.attributes.set(Attribute.water, 0.6);
 Blocks.iceSnow.attributes.set(Attribute.water, 0.55);
 Blocks.snow.attributes.set(Attribute.water, 0.5);
 
+const flower = new Prop("flower");
+Object.assign(flower,{
+    variants: 6,
+    hasShadow: false,
+})
+
 //tundra
 const tundraWall = new StaticWall("tundra-wall");
+tundraWall.mapColor = Color.valueOf("928b00")
 
 const tundra = new Floor("tundra");
+tundra.mapColor = Color.valueOf("787300")
 tundra.attributes.set(Attribute.water, 0.35);
 
 //arkycite

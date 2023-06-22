@@ -152,15 +152,21 @@ Object.assign(pyrolysis,{
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
 		new DrawLiquidTile(Liquids.neoplasm),
+		Object.assign(new DrawPistons(),{
+            sinMag: 1
+        }),
+	    new DrawRegion("-rotator", 2.5, false),
+	    new DrawRegion("-rotator", 3.5, false),
 		new DrawDefault(),
-		Object.assign(new DrawCultivator(), {
-			plantColor: Color.valueOf("e05438"),
-			plantColorLight: Color.valueOf("f98f4a"),
-		}),
-		Object.assign(new DrawRegion("-rotator"), {
-			rotateSpeed: -2,
-		}),
-		new DrawRegion("-top")
+		Object.assign(new DrawSoftParticles(), {
+			alpha: 0.35,
+			particleRad: 12,
+			particleSize: 9,
+			particleLife: 120,
+			particles: 15,
+			color: Color.valueOf("e3ae6f"), 
+			color2: Color.valueOf("d04d46"),
+		})
 	),
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
@@ -261,13 +267,12 @@ Object.assign(biomassReactor, {
 	
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.water, 3),
-		new DrawLiquidTile(Liquids.neoplasm, 3),
+		new DrawLiquidTile(Liquids.water),
 		Object.assign(new DrawCells(), {
 			color: Color.valueOf("c33e2b"),
 			particleColorFrom: Color.valueOf("e8803f"),
 			particleColorTo: Color.valueOf("8c1225"),
-			particles: 50,
+			particles: 75,
 			range: 4,
 		}),
 		new DrawDefault(),
@@ -298,7 +303,7 @@ Object.assign(extremeGenerator, {
 	),
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.cryofluid),
+		new DrawLiquidTile(Liquids.water),
 		new DrawDefault(),
 		new DrawHeatInput(),
 		Object.assign(new DrawSoftParticles(), {

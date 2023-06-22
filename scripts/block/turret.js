@@ -1,7 +1,7 @@
 const item = require('item');
 const liquid = require('liquid');
 const status = require('status');
-const { Acid, ReduceArmorBulletType } = require('base/bulletType')
+const { Acid, ReduceArmorBulletType, BounceBulletType } = require('base/bulletType')
 
 function AddCoolant(turret,amount){
 	return turret.coolant = turret.consumeCoolant(amount);
@@ -164,12 +164,12 @@ nexus.ammo(
 		ammoMultiplier: 4,
 		reloadMultiplier: 1.2,
 		lifetime: 60,
-		fragBullets: 9,
+		fragBullets: 5,
 		fragBullet: Object.assign(new BasicBulletType(3, 5), {
 			width: 5,
 			height: 12,
 			shrinkY: 1,
-			lifetime: 20,
+			lifetime: 5,
 			despawnEffect: Fx.none,
 		})
 	}),
@@ -238,7 +238,7 @@ bomb.ammo(
 		backColor: Color.valueOf("7e8ae6"),
 		frontColor: Color.white,
 		ammoMultiplier: 4,
-		reloadMultiplier: 1.5,
+		reloadMultiplier: 1.25,
 		fragBullets: 3,
 		fragBullet: Object.assign(new BasicBulletType(3, 12), {
 			width: 5,
@@ -261,10 +261,16 @@ bomb.ammo(
 		backColor: Color.valueOf("fa7f7f"),
 		frontColor: Color.white,
 		ammoMultiplier: 4,
-		reloadMultiplier: 1.5,
-		lightning: 3,
-        lightningLength: 7,
-        lightningDamage: 9,
+		reloadMultiplier: 1.25,
+		fragBullets: 3,
+		fragBullet: Object.assign(new LightningBulletType(), {
+			damage: 13,
+			collidesAir: false,
+			ammoMultiplier: 1,
+			lightningColor: Color.valueOf("fa7f7f"),
+			lightningLength: 2,
+			lightningLengthRand: 6,
+		})
 	}),
 	item.sulfone, Object.assign(new ArtilleryBulletType(3.5, 25), {
 		hitEffect: Fx.blastExplosion,
@@ -329,7 +335,7 @@ soak.ammo(
         layer: Layer.bullet - 2,
     }),
     liquid.acid,Object.assign(new LiquidBulletType(liquid.acid),{
-        damage: 3,
+        damage: 5,
         drag: 0.01,
         lifetime: 37,
         layer: Layer.bullet - 2,
@@ -365,7 +371,7 @@ soak.buildType = prov(() => extend(LiquidTurret.LiquidTurretBuild, soak, {
             this.tile.circle((this.block.range - 1) / 8, cons(tile => {
                 let other = Puddles.get(tile);
                 if(other != null && other.liquid == Liquids.neoplasm && other.amount > 0.01 && this.target == null){
-                    this.target = b.create(this,Team.derelict,tile.worldx(),tile.worldy(),0)
+                    this.target = b.create(this,Team.derelict,tile.worldx(),tile.worldy(),90)
                 }
             }))
         }
@@ -382,11 +388,12 @@ Object.assign(electrolyze, {
 	health: 1050,
 	rotateSpeed: 6,
 	recoil: 2,
+	shootY: 7,
 	targetAir: false,
 	shootEffect: Fx.lightningShoot,
 	shootSound: Sounds.spark,
 	heatColor: Color.red,
-	shoot: Object.assign(new ShootPattern(), {
+	shoot: Object.assign(new ShootAlternate(2), {
 		shots: 3,
 	}),
 	category: Category.turret,
@@ -413,6 +420,7 @@ Object.assign(lacerate, {
 	range: 176,
 	reload: 80,
 	shootCone: 8,
+	shootY: 2,
 	size: 2,
 	health: 1250,
 	rotateSpeed: 7,
@@ -495,6 +503,7 @@ lumen.ammo(
 		
 		pierce: true,
 		pierceBuilding: true,
+		pierceCap: 20,
 		
 		knockback: 12,
 		
@@ -527,22 +536,26 @@ lumen.ammo(
 		
 		pierce: true,
 		pierceBuilding: true,
-		reloadMultiplier: 1.5,
+		pierceCap: 15,
+		
+		reloadMultiplier: 1.25,
 		
 		knockback: 12,
 		intervalBullets: 5,
 		bulletInterval: 2,
+		intervalRandomSpread: 20,
+		intervalSpread: 0,
+		intervalAngle: 180,
 		intervalBullet: Object.assign(new LightningBulletType(), {
 			damage: 13,
 			collidesAir: false,
 			ammoMultiplier: 1,
 			lightningColor: Color.valueOf("fa7f7f"),
-			lightningLength: 1,
-			lightningLengthRand: 2,
+			lightningLength: 2,
+			lightningLengthRand: 6,
 		})
 	})
 )
-lumen.consumePower(3)
 
 const blowtorth = new ContinuousLiquidTurret("blowtorth");
 exports.blowtorth = blowtorth;
@@ -576,7 +589,7 @@ blowtorth.ammo(
 			Color.valueOf("5fd4ff8d"),
 			Color.valueOf("85d6f4b3"),
 			Color.valueOf("a2dcf1cd"),
-			Color.valueOf("c4e4f0"),
+			Color.valueOf("c4e4f0ff"),
 			Color.white
 		],
 		

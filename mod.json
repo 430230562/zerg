@@ -1,23 +1,10 @@
 {
 "name": "zerg",
-"displayName": "zerg",
+"displayName": "虫族",
 "subtitle": "Welcome to Greavar……"
-"description": "
-[[]white]This mindustry mod allows players to explore a planet named Greavar and defend against indigenous attacks while developing local minerals and researching technology.
-
-[[]gray]Language:
-    [[]white]- 简体中文
-    [[]white]- English [[]red](WIP)
-    [[]white]- Français [[]red](WIP)
-    [[]white]- Русский язык [[]red](WIP)
-
-
-[[]white]...check our GitHub repository for more info!
-
-[[]white]I am looking for volunteers who can translate this mod into his (or her) native language.
-",
+"description": "这个像素工厂模组允许玩家探索一个名为Greavar的行星，并在开发当地矿产、研究科技的同时防御原住民的进攻。",
 "minGameVersion": 139,
-"author": "pardon",
+"author": "pardon生物",
 "version": 0.12,
 "repo":"430230562/zerg",
 "hideBrowser":false

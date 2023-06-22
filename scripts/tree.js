@@ -45,6 +45,9 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                         nodeProduce(item.biomassSteel, () => {})
                     })
                 }),
+                nodeProduce(Liquids.arkycite, () => {
+                    nodeProduce(Liquids.oil, () => {})
+                }),
                 nodeProduce(liquid.acid, () => {
                     nodeProduce(item.salt, () => {}),
                     nodeProduce(Liquids.hydrogen, () => {})
@@ -244,5 +247,16 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
             })
         })
     }),
-    node(planet.valleyPlain, () => {})
+    node(planet.iceField, () => {
+        node(planet.valleyPlain, Seq.with(
+        new SectorComplete(planet.iceField)
+        ), () => {
+            node(planet.coldJunction, Seq.with(
+            new SectorComplete(planet.valleyPlain)
+            ), () => {}),
+            node(planet.crystalOutpost, Seq.with(
+            new SectorComplete(planet.valleyPlain)
+            ), () => {})
+        })
+    })
 })

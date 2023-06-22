@@ -28,73 +28,6 @@ function Insect(name){
 	})
 }
 
-const buffer = new UnitType("buffer");
-exports.buffer = buffer;
-Object.assign(buffer, {
-	constructor: () => new MechUnit.create(),
-	speed: 1.25,
-	hitSize: 6,
-	health: 100,
-	mechSideSway: 0.25,
-	range: 40,
-	targetAir: false,
-	outlineColor: Pal.neoplasmOutline,
-	envDisabled: Env.none,
-	healFlash: true,
-	healColor: Pal.neoplasm1,
-	lightRadius: 0,
-})
-buffer.abilities.add(
-	new DeathNeoplasmAbility(18,400),
-	Object.assign(new RegenAbility(), {
-		percentAmount: 1 / (90 * 60) * 100,
-	}),
-)
-buffer.weapons.add(
-Object.assign(new Weapon(), {
-	shootOnDeath: true,
-	reload: 24,
-	shootCone: 180,
-	ejectEffect: Fx.none,
-	shootSound: Sounds.explosion,
-	x: 0,
-	shootY: 0,
-	mirror: false,
-	shoot: Object.assign(new ShootPattern(), {
-		firstShotDelay: 7.5
-	}),
-	bullet: new ExplosionBulletType(90, 48),
-})
-)
-
-const spread = new UnitType("spread");
-exports.spread = spread;
-Object.assign(spread,{
-    constructor: () => new CrawlUnit.create(),
-	speed: 1,
-	hitSize: 12,
-	targetPriority: -1,
-	health: 340,
-	omniMovement: false,
-    rotateSpeed: 2.5,
-    segments: 3,
-    drawBody: false,
-    aiController: () => new HugAI(),
-
-    segmentScl: 3,
-    segmentPhase: 5,
-    segmentMag: 0.5,
-	outlineColor: Pal.neoplasmOutline,
-	envDisabled: Env.none,
-	healFlash: true,
-	healColor: Pal.neoplasm1,
-	lightRadius: 0,
-})
-spread.abilities.add(
-	new DeathNeoplasmAbility(32,680),
-	new MoveLiquidAbility(Liquids.neoplasm,12,5)
-)
-
 const spider = new Insect("spider");
 exports.spider = spider;
 Object.assign(spider, {
@@ -224,7 +157,15 @@ Object.assign(new Weapon(), {
 })
 )
 
-const groupMissile = new MissileUnitType("group-missile")
+const groupMissile = extend(MissileUnitType,"group-missile",{
+    update(unit){
+        if(unit.getDuration(status.dissolved) >= 1){
+            unit.damageMultiplier = 0
+            
+            unit.kill();
+        }
+    }
+})
 Object.assign(groupMissile, {
 	hitSize: 4,
 	constructor: () => new TimedKillUnit.create(),
@@ -463,6 +404,77 @@ burst.parts.add(
     })
 )
 
+const buffer = new UnitType("buffer");
+exports.buffer = buffer;
+Object.assign(buffer, {
+	constructor: () => new MechUnit.create(),
+	speed: 1.25,
+	hitSize: 6,
+	health: 100,
+	mechSideSway: 0.25,
+	range: 40,
+	targetAir: false,
+	outlineColor: Pal.neoplasmOutline,
+	envDisabled: Env.none,
+	healFlash: true,
+	healColor: Pal.neoplasm1,
+	lightRadius: 0,
+})
+buffer.abilities.add(
+	new DeathNeoplasmAbility(18,400),
+	Object.assign(new RegenAbility(), {
+		percentAmount: 1 / (90 * 60) * 100,
+	}),
+)
+buffer.weapons.add(
+Object.assign(new Weapon(), {
+	shootOnDeath: true,
+	reload: 24,
+	shootCone: 180,
+	ejectEffect: Fx.none,
+	shootSound: Sounds.explosion,
+	x: 0,
+	shootY: 0,
+	mirror: false,
+	shoot: Object.assign(new ShootPattern(), {
+		firstShotDelay: 7.5
+	}),
+	bullet: new ExplosionBulletType(90, 48),
+})
+)
+
+const spread = new UnitType("spread");
+exports.spread = spread;
+Object.assign(spread,{
+    constructor: () => new CrawlUnit.create(),
+	speed: 1,
+	hitSize: 12,
+	targetPriority: 1,
+	health: 340,
+	omniMovement: false,
+    rotateSpeed: 2.5,
+    segments: 3,
+    drawBody: false,
+    aiController: () => new HugAI(),
+
+    segmentScl: 3,
+    segmentPhase: 5,
+    segmentMag: 0.5,
+	outlineColor: Pal.neoplasmOutline,
+	envDisabled: Env.none,
+	healFlash: true,
+	healColor: Pal.neoplasm1,
+	lightRadius: 0,
+})
+spread.abilities.add(
+	new DeathNeoplasmAbility(32,680),
+	new MoveLiquidAbility(Liquids.neoplasm,12,5)
+)
+
+const s = new StatusEffect("s");
+s.healthMultiplier = 5;
+s.show = false;
+
 const egg = extend(UnitType,"egg",{
      u:[buffer,spider,mosquito],
      update(unit){
@@ -472,6 +484,9 @@ const egg = extend(UnitType,"egg",{
             this.u[Math.floor(Math.random() * 3)].spawn(unit.team,unit.x,unit.y)
             
             unit.remove();
+        }
+        if(unit.getDuration(s) <= 10){
+            unit.apply(s,20 * 60);
         }
         if(unit.getDuration(status.dissolved) >= 1){
             unit.kill();

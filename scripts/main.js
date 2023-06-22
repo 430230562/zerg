@@ -3,6 +3,7 @@ require('liquid');
 require('status');
 
 require('unit/insect');
+require('unit/crystive');
 require('unit/air');
 require('unit/tank');
 

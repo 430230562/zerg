@@ -31,7 +31,7 @@ Object.assign(greavar, {
 	allowWaveSimulation: true,
 	launchCapacityMultiplier: 0.75,
 	clearSectorOnLose: false,
-	startSector: 2,
+	startSector: 88,
 	orbitRadius: 65,
 	rotateTime: 34.7 * 60,
 	//0.1125 到 1.2375
@@ -73,7 +73,7 @@ Planets.serpulo.hiddenItems.addAll(
 	item.chromium,
 	item.biomassSteel,
 	item.sulfone,
-	item.organic,
+	item.amino,
 	item.hypha,
 	item.energic
 );
@@ -86,17 +86,38 @@ Planets.erekir.hiddenItems.addAll(
 	item.chromium,
 	item.biomassSteel,
 	item.sulfone,
-	item.organic,
+	item.amino,
 	item.hypha,
 	item.energic
 );
+
+const iceField = SectorPreset("iceField", greavar, 88);
+exports.iceField = iceField
+Object.assign(iceField,{
+    captureWave: 10,
+	difficulty: 1,
+    addStartingItems: true,
+	alwaysUnlocked: true,
+	startWaveTimeMultiplier: 3,
+})
 
 const valleyPlain = new SectorPreset("valleyPlain", greavar, 2);
 exports.valleyPlain = valleyPlain;
 Object.assign(valleyPlain, {
 	captureWave: 15,
 	difficulty: 2,
-	addStartingItems: true,
-	alwaysUnlocked: true,
-	startWaveTimeMultiplier: 3,
+})
+
+const coldJunction = new SectorPreset("coldJunction", greavar, 18);
+exports.coldJunction = coldJunction;
+Object.assign(coldJunction,{
+    captureWave: 25,
+	difficulty: 4,
+})
+
+const crystalOutpost = new SectorPreset("crystalOutpost", greavar, 27);
+exports.crystalOutpost = crystalOutpost;
+Object.assign(crystalOutpost,{
+    captureWave: 65,
+	difficulty: 5,
 })

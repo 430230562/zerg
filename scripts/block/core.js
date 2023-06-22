@@ -327,5 +327,9 @@ column.buildType = prov(() => extend(Building,{
                 tile.setBlock(ash,this.team);
             }
         }))
+        this.team.core().items.add(item.nickel, 200)
+        this.team.core().items.add(Items.graphite, 100)
+        
+        this.tile.setBlock(Blocks.air)
     }
 }))

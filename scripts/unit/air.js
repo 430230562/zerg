@@ -1,5 +1,4 @@
 const item = require('item');
-const { UAVSpawnAbility } = require("base/ability")
 
 const mist = new UnitType("mist");
 exports.mist = mist;
@@ -16,6 +15,7 @@ Object.assign(mist,{
 	targetGround: false,
 	playerControllable: false,
 	logicControllable: false,
+	physics: false,
 	range: 1600,
 	constructor: () => new UnitEntity.create(),
 	aiController: () => extend(FlyingAI,{
@@ -23,7 +23,7 @@ Object.assign(mist,{
 	        if(this.target != null){
 	            this.circleAttack(150)
 	        }else if(this.unit.team.core() != null){
-	            this.moveTo(this.unit.team.core(), 40)
+	            this.circle(this.unit.team.core(), 120)
 	        }
 	    }
 	})
@@ -36,11 +36,16 @@ mist.weapons.add(
 		layerOffset : -0.0001,
 		reload: 5,
 		shootCone: 30,
-		bullet: Object.assign(new BasicBulletType(4, 7),{
-            width: 2,
-            height: 9,
-            lifetime: 40,
-        })
+		shootSound: Sounds.missile,
+		bullet: Object.assign(new MissileBulletType(4,7),{
+			width: 4,
+			height: 4,
+			shrinkY: 0,
+			homingRange: 60,
+			keepVelocity: true,
+			lifetime: 50,
+			trailChance: 0.1,
+		})
 	})
 )
 
