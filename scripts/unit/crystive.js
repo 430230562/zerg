@@ -3,7 +3,7 @@ function CrystalUnit(name){
 	    outlineColor: Color.valueOf("2e3466"),
 		healColor: Color.valueOf("7e8ae6"),
 		envDisabled: Env.none,
-		lightOpacity: 0,
+		lightOpacity: 0.1,
 		init(u){
 			if (u !== undefined) this.super$init(u)
 			else this.super$init();

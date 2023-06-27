@@ -62,17 +62,6 @@ Object.assign(election, {
 	constructor: () => new UnitEntity.create(),
 })
 election.weapons.add(
-Object.assign(new RepairBeamWeapon(), {
-	mirror: false,
-	x: 0,
-	y: 0,
-	targetBuildings: true,
-	targetUnits: true,
-	rotate: false,
-	beamWidth: 0.5,
-	shootCone: 15,
-	repairSpeed: 1,
-}),
 Object.assign(new Weapon("bugs-election-weapon"), {
 	top: false,
 	y: 5 / 4,
@@ -87,10 +76,17 @@ Object.assign(new Weapon("bugs-election-weapon"), {
 		homingPower: 0.08,
 		lifetime: 50,
 		keepVelocity: false,
-		smokeEffect: Fx.none,
-		frontColor: Color.white,
 		hitSound: Sounds.none,
+		shootEffect: Fx.sparkShoot,
+		smokeEffect: Fx.shootBigSmoke,
+		backColor: Pal.heal,
+        trailColor: Pal.heal,
+		frontColor: Color.white,
+		hitEffect: Fx.hitLaser,
+		despawnEffect: Fx.hitLaser,
 		buildingDamageMultiplier: 0.001,
+		healPercent: 2.5,
+		collidesTeam: true,
 	})
 })
 )
@@ -150,7 +146,7 @@ Object.assign(new Weapon("bugs-atom-weapon"), {
 		hitEffect: Fx.hitLaser,
 		despawnEffect: Fx.hitLaser,
 		buildingDamageMultiplier: 0.001,
-		healPercent: 10,
+		healPercent: 7.5,
 		collidesTeam: true,
 	})
 })
@@ -198,7 +194,7 @@ molecule.weapons.add(
 	inaccuracy: 3,
 	shoot: Object.assign(new ShootPattern(), {
 		shots: 3,
-		shotDelay: 3,
+		shotDelay: 5,
 	}),
 	bullet: Object.assign(new MissileBulletType(4, 9), {
 		homingPower: 0.08,

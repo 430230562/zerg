@@ -499,6 +499,84 @@ Object.assign(new Weapon("zerg-tornado-weapon"),{
 })
 )
 
+const meteorite = new UnitType("meteorite");
+exports.meteorite = meteorite;
+Object.assign(meteorite,{
+    speed: 0.24,
+	treadRects: [
+		new Rect(16 - 60,48 - 70,30,75),
+		new Rect(44 - 60,17 - 70,17,60)
+	],
+	treadFrames: 8,
+	outlineColor: Color.valueOf("464a59"),
+	outlineRadius: 3,
+	hitSize: 28,
+	treadPullOffset: 0,
+	crushDamage: 0.5,
+	rotateSpeed: 0.75,
+	omniMovement: false,
+    rotateMoveFirst: true,
+	health: 6000,
+	armor: 8,
+	itemCapacity: 0,
+	targetAir: false,
+	constructor: () => new TankUnit.create()
+})
+meteorite.weapons.add(
+Object.assign(new Weapon("zerg-meteorite-weapon"),{
+    reload: 4.5 * 60,
+	shootY: 0,
+	recoil: 0,
+	rotate: true,
+	rotateSpeed: 1.5,
+	mirror: false,
+	x: 0,
+	y: 0,
+	inaccuracy: 3,
+	velocityRnd: 0.05,
+	heatColor: Color.valueOf("f9350f"),
+	cooldownTime: 4 * 60,
+	shootSound: Sounds.mediumCannon,
+	
+	bullet: Object.assign(new ArtilleryBulletType(2.5, 160, "shell"),{
+        hitEffect: new MultiEffect(
+            Fx.titanExplosion,
+            Fx.titanSmoke
+        ),
+        despawnEffect: Fx.none,
+        knockback: 2,
+        lifetime: 184,
+        height: 21,
+        width: 19,
+        splashDamageRadius: 72,
+        splashDamage: 650,
+        scaledSplashDamage: true,
+        pierceArmor: true,
+        backColor: Color.valueOf("5c69cccd"),
+        hitColor: Color.valueOf("5c69cccd"),
+        trailColor: Color.valueOf("5c69cccd"),
+        frontColor: Color.white,
+        ammoMultiplier: 1,
+        hitSound: Sounds.titanExplosion,
+
+        status: StatusEffects.blasted,
+
+        trailLength: 32,
+        trailWidth: 3.35,
+        trailSinScl: 2.5,
+        trailSinMag: 0.5,
+        trailEffect: Fx.none,
+        despawnShake: 7,
+
+        shootEffect: Fx.shootTitan,
+        smokeEffect: Fx.shootSmokeTitan,
+
+        trailInterp: v => Math.max(Mathf.slope(v), 0.8),
+        shrinkX: 0.2,
+        shrinkY: 0.1,
+    })
+}))
+
 const alter = new UnitType("alter");
 exports.alter = alter;
 Object.assign(alter, {

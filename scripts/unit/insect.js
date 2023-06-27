@@ -91,6 +91,8 @@ Object.assign(new Weapon("zerg-spider-weapon"), {
 		trailLength: 14,
 		trailChance: 0,
 		
+		lightOpacity: 0,
+		
 		fragBullets: 2,
 		fragBullet: new Acid(18)
 	})
@@ -146,6 +148,8 @@ Object.assign(new Weapon(), {
 		frontColor: Color.valueOf("84a94b"),
 		trailColor: Color.valueOf("84a94b"),
 		
+		lightOpacity: 0,
+		
 		status: status.corroding,
 		statusDuration: 120,
 		
@@ -174,6 +178,7 @@ Object.assign(groupMissile, {
 	engineSize: 1.75,
 	engineLayer: Layer.effect,
 	speed: 4,
+	lightOpacity: 0,
 	maxRange: 6,
 	lifetime: 95,
 	outlineColor: Pal.neoplasmOutline,
@@ -325,6 +330,8 @@ Object.assign(new Weapon("zerg-mosquito-weapon"), {
 		trailLength: 14,
 		trailChance: 0,
 		
+		lightOpacity: 0,
+		
 		fragBullets: 2,
 		fragBullet: new Acid(18)
 	})
@@ -369,13 +376,13 @@ Object.assign(new Weapon(), {
 	mirror: false,
 	shootCone: 360,
 	shootY: 0,
-	reload: 40,
+	reload: 60,
 	minShootVelocity: 0.55,
 	ignoreRotation: true,
 	ejectEffect: Fx.none,
 	shootSound: Sounds.none,
 	shoot: Object.assign(new ShootPattern(), {
-		shots: 5,
+		shots: 3,
 		shotDelay: 7.5,
 	}),
 	bullet: Object.assign(new BombBulletType(27, 25), {
@@ -386,6 +393,9 @@ Object.assign(new Weapon(), {
 		smokeEffect: Fx.none,
 		backColor: Color.valueOf("84a94b"),
 		frontColor: Color.valueOf("84a94b"),
+		
+		lightOpacity: 0,
+		
 		fragBullets: 4,
 		fragBullet: new Acid(18)
 	})

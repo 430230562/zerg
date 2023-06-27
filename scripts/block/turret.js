@@ -293,9 +293,14 @@ bomb.ammo(
 )
 
 const b = extend(BulletType,{
-    speed: 0.1,
+    speed: 0.01,
     damage: 0,
-    lifetime: 20,
+    collidesGround: false,
+    collidesAir: false,
+    collides: false,
+    absorbable: false,
+    hittable: false,
+    lifetime: 60,
     hitEffect: Fx.none,
     despawnEffect: Fx.none,
     lightOpacity: 0,
@@ -371,7 +376,7 @@ soak.buildType = prov(() => extend(LiquidTurret.LiquidTurretBuild, soak, {
             this.tile.circle((this.block.range - 1) / 8, cons(tile => {
                 let other = Puddles.get(tile);
                 if(other != null && other.liquid == Liquids.neoplasm && other.amount > 0.01 && this.target == null){
-                    this.target = b.create(this,Team.derelict,tile.worldx(),tile.worldy(),90)
+                    this.target = b.create(this,Team.derelict,tile.worldx(),tile.worldy(),this.rotation - 180)
                 }
             }))
         }
@@ -481,7 +486,8 @@ Object.assign(lumen, {
 	requirements: ItemStack.with(
 		item.nickel, 150,
 		item.crystal, 75,
-		item.biomassSteel, 100,
+		item.manganese, 100,
+		item.biomassSteel, 150,
 	),
 })
 AddCoolant(lumen,0.15);
@@ -560,7 +566,7 @@ lumen.ammo(
 const blowtorth = new ContinuousLiquidTurret("blowtorth");
 exports.blowtorth = blowtorth;
 Object.assign(blowtorth,{
-	liquidConsumed: 12 / 60,
+	liquidConsumed: 18 / 60,
 	targetInterval: 5,
 	range: 140,
 	shootY: 4,
@@ -581,9 +587,9 @@ Object.assign(blowtorth,{
 })
 blowtorth.ammo(
 	Liquids.hydrogen, Object.assign(new ContinuousFlameBulletType(),{
-		damage: 75,
+		damage: 90,
 		length: 145,
-		pierceCap: 5,
+		pierceCap: 3,
 	
 		colors: [
 			Color.valueOf("5fd4ff8d"),
@@ -599,5 +605,28 @@ blowtorth.ammo(
 		flareColor: Color.valueOf("5fd4ff8d"),
 		lightColor: Color.valueOf("5fd4ff8d"),
 		hitColor: Color.valueOf("5fd4ff8d"),
+	}),
+	liquid.acetylene, Object.assign(new ContinuousFlameBulletType(),{
+	    damage: 1600 / 12,
+	    length: 160,
+		pierceCap: 3,
+		rangeChange: 10,
+		
+		ammoMultiplier: 0.75,
+		
+		colors: [
+			Color.valueOf("CA1FF58d"),
+			Color.valueOf("D757F8b3"),
+			Color.valueOf("E48FFAcd"),
+			Color.valueOf("F2C7FCff"),
+			Color.white
+		],
+		
+		status: StatusEffects.melting,
+		statusDuration: 120,
+		
+		flareColor: Color.valueOf("CA1FF58d"),
+		lightColor: Color.valueOf("CA1FF58d"),
+		hitColor: Color.valueOf("CA1FF58d"),
 	})
 )

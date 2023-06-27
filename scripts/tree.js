@@ -192,8 +192,16 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                     node(tank.tornado, () => {})
                 })
             }),
-            node(tank.alter, () => {
-                node(tank.bewitch, () => {})
+            node(tank.alter, ItemStack.with(
+		        Items.silicon, 50 * 50,
+			    item.nickel, 20 * 50,
+			    item.manganese, 40 * 50,
+		    ) ,() => {
+                node(tank.bewitch, ItemStack.with(
+		            Items.graphite, 40 * 50,
+	                Items.silicon, 50 * 50,
+	                item.crystal, 30 * 50,
+		        ), () => {})
             })
         }),
         node(unitFactory.airFactory, () => {

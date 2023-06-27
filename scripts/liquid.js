@@ -23,3 +23,12 @@ Object.assign(dissolvant,{
     coolant: false,
     effect: status.dissolved,
 })
+
+const acetylene = new Liquid("acetylene",Color.valueOf("9da8ab"))
+exports.acetylene = acetylene;
+Object.assign(acetylene,{
+    gas: true,
+    flammability: 1.5,
+    explosiveness: 1,
+    coolant: false,
+})

@@ -46,7 +46,7 @@ Object.assign(crystalDrill, {
 	requirements: ItemStack.with(
 		Items.graphite, 30,
 		item.nickel, 35,
-		item.manganese, 20,
+		item.crystal, 45,
 		Items.silicon, 30,
 	)
 })

@@ -118,6 +118,6 @@ Object.assign(coldJunction,{
 const crystalOutpost = new SectorPreset("crystalOutpost", greavar, 27);
 exports.crystalOutpost = crystalOutpost;
 Object.assign(crystalOutpost,{
-    captureWave: 65,
+    captureWave: 45,
 	difficulty: 5,
 })
