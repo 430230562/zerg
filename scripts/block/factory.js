@@ -1,5 +1,6 @@
 const item = require('item');
 const liquid = require('liquid');
+const { DrawShakeRegion } = require("base/draw")
 
 const compressor = new GenericCrafter("compressor");
 exports.compressor = compressor
@@ -288,8 +289,12 @@ Object.assign(oilDistillation,{
 	hasPower: true,
 	hasLiquids: true,
 	drawer: new DrawMulti(
+	    new DrawRegion("-bottom"),
+	    new DrawLiquidTile(Liquids.oil),
 	    new DrawDefault(),
-	    new DrawWarmupRegion()
+	    Object.assign(new DrawWarmupRegion(),{
+	        color : Color.valueOf("ff3838")
+	    })
 	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
@@ -314,6 +319,7 @@ Object.assign(biomassFermenter,{
 	drawer: new DrawMulti(
 	    new DrawRegion("-bottom"),
 	    new DrawLiquidTile(Liquids.water),
+	    new DrawLiquidTile(liquid.acid),
 		new DrawDefault(),
 		Object.assign(new DrawCultivator(), {
 			plantColor: Color.valueOf("9cb664"),
@@ -404,7 +410,8 @@ Object.assign(incubator, {
 			plantColor: Color.valueOf("9cb664"),
 			plantColorLight: Color.valueOf("cbd97f"),
 		}),
-		new DrawRegion("-top")
+		new DrawRegion("-top"),
+		new DrawSinRegion("-shake",1,30,1,50)
 	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,

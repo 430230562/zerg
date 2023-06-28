@@ -33,7 +33,6 @@ mist.weapons.add(
 		x: -18 / 4,
 		y: -0.5,
 		shootY: 0,
-		layerOffset : -0.0001,
 		reload: 5,
 		shootCone: 30,
 		shootSound: Sounds.missile,
