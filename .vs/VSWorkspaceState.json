@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\bundles",
+    "\\scripts",
+    "\\scripts\\block",
+    "\\scripts\\unit",
+    "\\sprites",
+    "\\sprites\\blocks"
+  ],
+  "SelectedNode": "\\scripts\\block\\unitFactory.js",
+  "PreviewInSolutionExplorer": false
+}

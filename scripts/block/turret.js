@@ -488,7 +488,7 @@ Object.assign(lumen, {
 		item.crystal, 75,
 		item.manganese, 100,
 		item.biomassSteel, 150,
-	),
+	)
 })
 AddCoolant(lumen,0.15);
 lumen.ammo(

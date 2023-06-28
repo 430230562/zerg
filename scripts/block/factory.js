@@ -288,8 +288,12 @@ Object.assign(oilDistillation,{
 	hasPower: true,
 	hasLiquids: true,
 	drawer: new DrawMulti(
+	    new DrawRegion("-bottom"),
+	    new DrawLiquidTile(Liquids.oil),
 	    new DrawDefault(),
-	    new DrawWarmupRegion()
+	    Object.assign(new DrawWarmupRegion(),{
+	        color : Color.valueOf("ff3838")
+	    })
 	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
@@ -314,6 +318,7 @@ Object.assign(biomassFermenter,{
 	drawer: new DrawMulti(
 	    new DrawRegion("-bottom"),
 	    new DrawLiquidTile(Liquids.water),
+	    new DrawLiquidTile(liquid.acid),
 		new DrawDefault(),
 		Object.assign(new DrawCultivator(), {
 			plantColor: Color.valueOf("9cb664"),
