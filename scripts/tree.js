@@ -16,6 +16,7 @@ const unitFactory = require("block/unitFactory");
 const wall = require("block/wall");
 
 const air = require("unit/air");
+const crystive = request('unit/crystive');
 const insect = require("unit/insect");
 const tank = require("unit/tank");
 
@@ -102,13 +103,18 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     node(factory.compressor, () => {
         node(factory.multiCompressor, () => {}),
         node(factory.smelter, () => {
-            node(factory.biomassSmelter, () => {}),
             node(factory.incubator, () => {
+                node(factory.biomassSmelter, () => {}),
                 node(factory.biomassDissociator, () => {
                     node(factory.dissolvantMixer, () => {})
-                })
+                }),
+                node(factory.biomassFermenter, () => {})
             }),
-            node(factory.charger, () => {})
+            node(factory.charger, () => {}),
+            node(factory.oilRefinery, () => {
+                node(factory.arkyciteExtractor, () => {}),
+                node(factory.oilDistillation, () => {})
+            })
         }),
         node(factory.displacer, () => {
             node(factory.synthesizer, () => {})

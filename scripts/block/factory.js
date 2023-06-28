@@ -175,9 +175,9 @@ dissolvantMixer.consumeItems(ItemStack.with(
 dissolvantMixer.consumeLiquid(Liquids.water, 6 / 60);
 dissolvantMixer.consumePower(0.50);
 
-const oilyRefinery = new GenericCrafter("oily-refinery");
-exports.oilyRefinery = oilyRefinery;
-Object.assign(oilyRefinery,{
+const oilRefinery = new GenericCrafter("oil-refinery");
+exports.oilRefinery = oilRefinery;
+Object.assign(oilRefinery,{
     outputLiquid: new LiquidStack(Liquids.oil, 0.05),
 	liquidCapacity: 15,
 	craftTime: 60,
@@ -198,8 +198,8 @@ Object.assign(oilyRefinery,{
 		item.crystal, 30,
 	)
 })
-oilyRefinery.consumeLiquid(Liquids.arkycite, 0.05);
-oilyRefinery.consumePower(1.5);
+oilRefinery.consumeLiquid(Liquids.arkycite, 0.05);
+oilRefinery.consumePower(1.5);
 
 const arkyciteExtractor = new GenericCrafter("arkycite-extractor");
 exports.arkyciteExtractor = arkyciteExtractor;
@@ -277,9 +277,9 @@ displacer.consumeItems(ItemStack.with(
 ));
 displacer.consumeLiquid(liquid.acid, 6 / 60);
 
-const oilCentrifuge = new GenericCrafter("oil-centrifuge");
-exports.oilCentrifuge = oilCentrifuge
-Object.assign(oilCentrifuge,{
+const oilDistillation = new GenericCrafter("oil-distillation");
+exports.oilDistillation = oilDistillation
+Object.assign(oilDistillation,{
     outputItem: new ItemStack(Items.coal, 1),
     outputLiquid: new LiquidStack(Liquids.hydrogen, 0.05),
 	liquidCapacity: 60,
@@ -289,7 +289,7 @@ Object.assign(oilCentrifuge,{
 	hasLiquids: true,
 	drawer: new DrawMulti(
 	    new DrawDefault(),
-	    new DrawRegion("-rotator", 3)
+	    new DrawWarmupRegion()
 	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
@@ -299,8 +299,8 @@ Object.assign(oilCentrifuge,{
 		item.manganese, 45,
 	)
 })
-oilCentrifuge.consumeLiquid(Liquids.oil, 0.1);
-oilCentrifuge.consumePower(1.1);
+oilDistillation.consumeLiquid(Liquids.oil, 0.1);
+oilDistillation.consumePower(1.1);
 
 const biomassFermenter = new GenericCrafter("biomass-fermenter");
 exports.biomassFermenter = biomassFermenter;
