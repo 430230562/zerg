@@ -16,7 +16,7 @@ const unitFactory = require("block/unitFactory");
 const wall = require("block/wall");
 
 const air = require("unit/air");
-const crystive = request('unit/crystive');
+const crystive = require('unit/crystive');
 const insect = require("unit/insect");
 const tank = require("unit/tank");
 
@@ -178,7 +178,10 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
         node(turret.nexus, () => {
             node(turret.bomb, () => {}),
             node(turret.electrolyze, () => {
-                node(turret.lacerate, () => {}),
+                node(turret.lacerate, () => {
+                    node(turret.lumen, () => {}),
+                    node(turret.blowtorth, () => {})
+                }),
                 node(turret.soak, () => {})
             })
         })
@@ -226,12 +229,19 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
             })
         }),
         node(unitFactory.unitIncubator, () => {
-            node(unitFactory.reincubator, () => {}),
+            node(unitFactory.reincubator, () => {
+                node(unitFactory.laboratory, () => {})
+            }),
             node(insect.buffer, () => {
                 node(insect.spread, () => {}),
                 node(insect.spider, () => {
                     node(insect.tarantula, () => {
                         node(insect.group, () => {})
+                    }),
+                    node(crystive.anatase, () => {
+                        node(crystive.asbestos, () => {
+                            node(crystive.quartz, () => {})
+                        })
                     })
                 }),
                 node(insect.mosquito, () => {

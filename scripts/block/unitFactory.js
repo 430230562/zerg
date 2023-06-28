@@ -1,4 +1,5 @@
 const insect = require('unit/insect');
+const crystive = require('unit/crystive');
 const tank = require('unit/tank');
 const air = require('unit/air');
 const item = require('item');
@@ -218,6 +219,57 @@ reincubator.buildType = prov(() => extend(Reconstructor.ReconstructorBuild, rein
             }
         }
     }
+}))
+
+const laboratory = new Reconstructor("laboratory")
+exports.laboratory = laboratory
+Object.assign(laboratory, {
+	size: 3,
+	constructTime: 60 * 20,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.units,
+	requirements: ItemStack.with(
+		Items.silicon, 100,
+		item.crystal, 125,
+		item.nickel, 200,
+		item.manganese, 100,
+	),
+})
+laboratory.addUpgrade(insect.spider, crystive.anatase);
+laboratory.addUpgrade(insect.tarantula, crystive.asbestos);
+laboratory.addUpgrade(insect.group, crystive.quartz);
+laboratory.consumePower(3.2);
+laboratory.consumeItems(ItemStack.with(
+	item.biomass, 20,
+	item.crystal, 30,
+	item.amino, 30,
+))
+laboratory.buildType = prov(() => extend(Reconstructor.ReconstructorBuild, laboratory, {
+	draw() {
+		this.super$draw();
+
+		Draw.z(35.001);
+
+		Draw.color(Color.valueOf("9e172c"), 0.65);
+		Draw.rect(Core.atlas.find("zerg-laboratory-liquid"), this.x, this.y);
+
+		//out
+		if (this.rotation <= 1) {
+			Draw.rect(Core.atlas.find("zerg-laboratory-out1"), this.x, this.y, this.rotation * 90);
+		} else {
+			Draw.rect(Core.atlas.find("zerg-laboratory-out2"), this.x, this.y, this.rotation * 90);
+		}
+		//in
+		for (let i = 0; i < 4; i++) {
+			if (PayloadBlock.blends(this, i) && i != this.rotation) {
+				if (i <= 1) {
+					Draw.rect(Core.atlas.find("zerg-laboratory-in1"), this.x, this.y, (i * 90) - 180);
+				} else {
+					Draw.rect(Core.atlas.find("zerg-laboratory-in2"), this.x, this.y, (i * 90) - 180);
+				}
+			}
+		}
+	}
 }))
 
 Blocks.groundFactory.plans.add(

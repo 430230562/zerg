@@ -1,6 +1,5 @@
 const status = require('status');
 const liquid = require('liquid');
-const Ef = require('effect');
 const { Acid } = require('base/bulletType');
 const { DeathNeoplasmAbility, MoveLiquidAbility } = require("base/ability")
 
