@@ -1,7 +1,7 @@
 function Pay(block) {
 	return new BuildPayload(block, Team.derelict)
 }
-function CoreTurret(build, block, x, y, ammo){
+function CoreTurret(build, block, ammo){
 	build.buildType = prov(() => {
 		const p = Pay(block);
 		return extend(CoreBlock.CoreBuild, build, {
@@ -20,7 +20,7 @@ function CoreTurret(build, block, x, y, ammo){
 					    break;
 				    }
 				}
-				p.set(this.x + x, this.y + y, p.build.payloadRotation);
+				p.set(this.x, this.y, p.build.payloadRotation);
 			},
 			draw() {
 				this.super$draw();
@@ -34,4 +34,4 @@ function CoreTurret(build, block, x, y, ammo){
 	});
 }
 
-CoreTurret(core,turret,0,0,[Items.copper,Items.lead])
+CoreTurret(core,turret,[Items.copper,Items.lead])
