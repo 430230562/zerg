@@ -1,6 +1,6 @@
 const item = require('item');
 const liquid = require('liquid');
-const { DrawShakeRegion, DrawSinRegion } = require("base/draw")
+const { DrawShakeRegion } = require("base/draw")
 
 const compressor = new GenericCrafter("compressor");
 exports.compressor = compressor
@@ -410,8 +410,7 @@ Object.assign(incubator, {
 			plantColor: Color.valueOf("9cb664"),
 			plantColorLight: Color.valueOf("cbd97f"),
 		}),
-		new DrawRegion("-top"),
-		new DrawSinRegion("-shake",1,30,1,50)
+		new DrawRegion("-top")
 	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,

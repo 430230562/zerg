@@ -3,11 +3,10 @@
     "",
     "\\bundles",
     "\\scripts",
+    "\\scripts\\base",
     "\\scripts\\block",
-    "\\scripts\\unit",
-    "\\sprites",
-    "\\sprites\\blocks"
+    "\\scripts\\unit"
   ],
-  "SelectedNode": "\\scripts\\block\\wall.js",
+  "SelectedNode": "\\scripts\\block\\factory.js",
   "PreviewInSolutionExplorer": false
 }
