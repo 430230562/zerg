@@ -1,6 +1,6 @@
 const item = require('item');
 const liquid = require('liquid');
-const { DrawShakeRegion } = require("base/draw")
+const { DrawShakeRegion, DrawSinRegion } = require("base/draw")
 
 const compressor = new GenericCrafter("compressor");
 exports.compressor = compressor
