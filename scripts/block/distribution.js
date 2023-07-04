@@ -77,7 +77,7 @@ Object.assign(nickelBridge, {
 	fadeIn: false,
 	moveArrows: false,
 	hasPower: false,
-	range: 8,
+	range: 6,
 	speed: 60,
 	arrowSpacing: 6,
 	buildVisibility: BuildVisibility.shown,

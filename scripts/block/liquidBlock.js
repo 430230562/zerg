@@ -128,7 +128,7 @@ Object.assign(crystalConduitBridge, {
 	fadeIn: false,
 	moveArrows: false,
 	hasPower: false,
-	range: 8,
+	range: 6,
 	arrowSpacing: 6,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,

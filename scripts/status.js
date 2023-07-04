@@ -27,6 +27,7 @@ exports.dissolved = extend(StatusEffect,"dissolved",{
 		if(unit.type.outlineColor === Pal.neoplasmOutline){
 			unit.damageContinuousPierce(unit.type.health / 1200)
 			unit.shield = 0
+			unit.speedMultiplier = 0.2
 			unit.abilities = []
 			
 			if(unit.getDuration(this) <= 10){

@@ -405,11 +405,11 @@ Object.assign(incubator, {
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
 		new DrawLiquidTile(Liquids.water),
-		new DrawDefault(),
 		Object.assign(new DrawCultivator(), {
 			plantColor: Color.valueOf("9cb664"),
 			plantColorLight: Color.valueOf("cbd97f"),
 		}),
+		new DrawDefault(),
 		new DrawRegion("-top")
 	),
 	buildVisibility: BuildVisibility.shown,
@@ -421,3 +421,38 @@ Object.assign(incubator, {
 })
 incubator.consumePower(70 / 60);
 incubator.consumeLiquid(Liquids.water, 12 / 60);
+
+const incubatorLarge = new AttributeCrafter("incubator-large");
+exports.incubatorLarge = incubatorLarge;
+Object.assign(incubatorLarge, {
+	craftEffect: Fx.none,
+	outputItem: new ItemStack(item.biomass, 1),
+	craftTime: 30,
+	size: 3,
+	hasPower: true,
+	hasLiquids: true,
+	hasItems: true,
+	attribute: Attribute.get("biomass"),
+	maxBoost: 3,
+	drawer: new DrawMulti(
+		new DrawRegion("-bottom"),
+		new DrawLiquidTile(Liquids.water),
+		Object.assign(new DrawCultivator(), {
+		    spread: 5,
+			plantColor: Color.valueOf("e05438"),
+			plantColorLight: Color.valueOf("f98f4a"),
+		}),
+		new DrawDefault(),
+		new DrawRegion("-top")
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+	    Items.silicon, 100,
+	    Items.graphite, 125,
+		item.nickel, 250,
+		item.manganese, 175,
+	),
+})
+incubatorLarge.consumePower(210 / 60);
+incubatorLarge.consumeLiquid(Liquids.neoplasm, 12 / 60);
