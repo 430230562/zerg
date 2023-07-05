@@ -3,6 +3,7 @@ const liquid = require('liquid')
 const status = require('status')
 
 Attribute.add("biomass");
+Attribute.add("data");
 
 Blocks.arkyicStone.attributes.set(Attribute.get("biomass"), 0.35);
 
@@ -114,4 +115,9 @@ Object.assign(acidPool,{
 
 new OreBlock("ore-nickel",item.nickel);
 new OreBlock("ore-manganese",item.manganese);
-new OreBlock("ore-chromium",item.chromium);
+new OreBlock("ore-chromium", item.chromium);
+
+const floors = [Blocks.grass, Blocks.arkyicStone, arkyciteSand, tundra, neoplasm, neoplasmSand, sandNeoplasm, neoplasmStone];
+for (let i of floors) {
+	i.attributes.set(Attribute.get("data"), Math.random() * 0.75);
+}
