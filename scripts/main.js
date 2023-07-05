@@ -8,6 +8,7 @@ require('unit/air');
 require('unit/tank');
 
 require('block/core');
+require('block/data');
 require('block/distribution');
 require('block/environment');
 require('block/factory');
