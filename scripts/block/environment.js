@@ -117,7 +117,7 @@ new OreBlock("ore-nickel",item.nickel);
 new OreBlock("ore-manganese",item.manganese);
 new OreBlock("ore-chromium", item.chromium);
 
-const floors = [Blocks.grass, Blocks.arkyicStone, arkyciteSand, tundra, neoplasm, neoplasmSand, sandNeoplasm, neoplasmStone];
+const floors = [Blocks.grass, Blocks.arkyicStone, arkyciteSand, tundra, neoplasm, neoplasmSand, sandNeoplasm, neoplasmStone, hyphaFloor];
 for (let i of floors) {
-	i.attributes.set(Attribute.get("data"), Math.random() * 0.75);
+	i.attributes.set(Attribute.get("data"), Math.random() * 0.625 + 0.125);
 }

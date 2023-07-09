@@ -66,8 +66,8 @@ Object.assign(junction, {
 	requirements: ItemStack.with(
 		item.nickel, 4,
 	),
-	speed: 20,
-	capacity: 4,
+	speed: 1,
+	capacity: 1,
 	health: 55
 })
 

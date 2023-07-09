@@ -20,7 +20,7 @@ const atmosphericAnalyzer = extend(GenericCrafter, "atmospheric-analyzer", {
 exports.atmosphericAnalyzer = atmosphericAnalyzer;
 atmosphericAnalyzer.consumePower(0.25);
 
-const soilAnalyzer = extend(AttributeCrafter, "soilAnalyzer", {
+const soilAnalyzer = extend(AttributeCrafter, "soil-analyzer", {
     hasItems: true,
     hasLiquids: false,
     hasPower: true,
@@ -29,6 +29,7 @@ const soilAnalyzer = extend(AttributeCrafter, "soilAnalyzer", {
     craftTime: 60 * 20,
     attribute: Attribute.get("data"),
     baseEfficiency: 0,
+    maxBoost: 3,
     buildVisibility: BuildVisibility.shown,
     category: Category.logic,
     requirements: ItemStack.with(

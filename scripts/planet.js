@@ -75,7 +75,8 @@ Planets.serpulo.hiddenItems.addAll(
 	item.sulfone,
 	item.amino,
 	item.hypha,
-	item.energic
+	item.energic,
+	item.data
 );
 Planets.erekir.hiddenItems.addAll(
 	item.salt,
@@ -88,7 +89,8 @@ Planets.erekir.hiddenItems.addAll(
 	item.sulfone,
 	item.amino,
 	item.hypha,
-	item.energic
+	item.energic,
+	item.data
 );
 
 const iceField = SectorPreset("iceField", greavar, 88);

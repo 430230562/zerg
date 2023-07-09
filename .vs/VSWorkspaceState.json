@@ -3,11 +3,8 @@
     "",
     "\\scripts",
     "\\scripts\\block",
-    "\\scripts\\unit",
-    "\\sprites-override\\blocks",
-    "\\sprites-override\\blocks\\liquid",
-    "\\sprites-override\\blocks\\liquid\\conduits"
+    "\\scripts\\unit"
   ],
-  "SelectedNode": "\\scripts\\unit\\insect.js",
+  "SelectedNode": "\\scripts\\block\\environment.js",
   "PreviewInSolutionExplorer": false
 }

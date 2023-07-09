@@ -24,6 +24,10 @@ const item = require("item");
 const liquid = require("liquid");
 const planet = require("planet");
 
+function DataNode(content,cost,children){
+    return node(content, content.researchRequirements().concat([new ItemStack(item.data, cost)]), children)
+}
+
 planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     nodeProduce(item.nickel, () => {
         nodeProduce(Items.sand, () => {
@@ -73,7 +77,7 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                 node(other.unloader, () => {}),
                 node(other.launchPad, () => {})
             }),
-            node(distribution.biomassConveyor, () => {}),
+            DataNode(distribution.biomassConveyor, 25, () => {}),
             node(distribution.armoredConveyor, () => {})
         }),
         node(distribution.junction, () => {
@@ -103,16 +107,16 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     node(factory.compressor, () => {
         node(factory.multiCompressor, () => {}),
         node(factory.smelter, () => {
-            node(factory.incubator, () => {
-                node(factory.biomassSmelter, () => {}),
-                node(factory.biomassDissociator, () => {
-                    node(factory.dissolvantMixer, () => {})
+            DataNode(factory.incubator, 50, () => {
+                DataNode(factory.biomassSmelter, 150, () => {}),
+                DataNode(factory.biomassDissociator, 25, () => {
+                    DataNode(factory.dissolvantMixer, 75, () => {})
                 }),
-                node(factory.biomassFermenter, () => {})
+                DataNode(factory.biomassFermenter, 75, () => {})
             }),
             node(factory.charger, () => {}),
             node(factory.oilRefinery, () => {
-                node(factory.arkyciteExtractor, () => {}),
+                DataNode(factory.arkyciteExtractor, 25, () => {}),
                 node(factory.oilDistillation, () => {})
             })
         }),
@@ -145,8 +149,8 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     }),
     node(power.deflagrationGenerator, () => {
         node(power.fullEffectGenerator, () => {
-            node(power.pyrolysis, () => {
-                node(power.biomassReactor, () => {}),
+            DataNode(power.pyrolysis, 100, () => {
+                DataNode(power.biomassReactor, 225, () => {}),
                 node(power.extremeGenerator, () => {})
             }),
             node(power.crystalPanel, () => {
@@ -213,7 +217,7 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 		        ), () => {})
             })
         }),
-        node(unitFactory.airFactory, () => {
+        node(unitFactory.airFactory,() => {
             node(air.mist, () => {
                 node(air.thoud, () => {
                     node(air.cloud, () => {})
