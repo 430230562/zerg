@@ -1,23 +1,26 @@
 const item = require("item");
 
-const repairer = new MendProjector("repairer");
-exports.repairer = repairer;
-Object.assign(repairer, {
-	size: 1,
-	reload: 120,
-	range: 40,
+const resurrection = new MendProjector("resurrection");
+exports.resurrection = resurrection;
+Object.assign(resurrection, {
+	size: 3,
+	reload: 40,
+	range: 120,
 	healPercent: 4,
 	phaseBoost: 2,
-	phaseRangeBoost: 20,
-	health: 80,
+	phaseRangeBoost: 40,
+	health: 720,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-		item.nickel, 55,
+	    Items.silicon, 200,
+	    Items.graphite, 150,
+		item.nickel, 250,
+		item.manganese, 175,
 	)
 })
-repairer.consumePower(0.15);
-repairer.consumeItem(Items.silicon, 1).boost();
+resurrection.consumePower(3.5);
+resurrection.consumeItem(Items.silicon, 1).boost();
 
 const catalyzer = new OverdriveProjector("catalyzer");
 exports.catalyzer = catalyzer;

@@ -98,16 +98,17 @@ Object.assign(unitIncubator, {
 	size: 3,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.units,
+	liquidCapacity: 18,
 	plans: Seq.with(
-		new UnitPlan(insect.spider, 60 * 12, ItemStack.with(
+		new UnitPlan(insect.spider, 60 * 6, ItemStack.with(
 			item.biomass, 15,
 			item.amino, 20,
 		)),
-		new UnitPlan(insect.mosquito, 60 * 15, ItemStack.with(
+		new UnitPlan(insect.mosquito, 60 * 7.5, ItemStack.with(
 			item.biomass, 15,
 			item.amino, 25,
 		)),
-		new UnitPlan(insect.buffer, 60 * 5, ItemStack.with(
+		new UnitPlan(insect.buffer, 60 * 3, ItemStack.with(
 			item.biomass, 5,
 			item.amino, 10,
 		)),
@@ -118,6 +119,7 @@ Object.assign(unitIncubator, {
 	),
 })
 unitIncubator.consumePower(1.7);
+unitIncubator.consumeLiquid(Liquids.water, 3 / 60);
 unitIncubator.buildType = prov(() => extend(UnitFactory.UnitFactoryBuild, unitIncubator,{
     ox: [0,4,4,-4,-4], 
     oy: [0,-4,4,-4,4],
@@ -126,7 +128,10 @@ unitIncubator.buildType = prov(() => extend(UnitFactory.UnitFactoryBuild, unitIn
         
         Draw.z(35.001);
         
-        Draw.color(Color.valueOf("9e172c"), 0.65);
+        Draw.color(
+            Color.valueOf("9e172c"), 
+            this.liquids.get(Liquids.water) / 18 * 0.65
+        );
         Draw.rect(Core.atlas.find("zerg-unit-incubator-liquid"), this.x, this.y);
         
         Draw.color(Color.valueOf("e05438"));
@@ -157,7 +162,8 @@ const reincubator = new Reconstructor("reincubator");
 exports.reincubator = reincubator;
 Object.assign(reincubator,{
     size: 3,
-    constructTime: 60 * 20,
+    constructTime: 60 * 10,
+    liquidCapacity: 30,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.units,
 	requirements: ItemStack.with(
@@ -171,6 +177,7 @@ reincubator.addUpgrade(insect.buffer, insect.spread);
 reincubator.addUpgrade(insect.spider, insect.tarantula);
 reincubator.addUpgrade(insect.mosquito, insect.burst);
 reincubator.consumePower(2.7);
+reincubator.consumeLiquid(Liquids.water, 6 / 60);
 reincubator.consumeItems(ItemStack.with(
 	item.biomass, 40,
 	item.amino, 80,
@@ -183,7 +190,10 @@ reincubator.buildType = prov(() => extend(Reconstructor.ReconstructorBuild, rein
         
         Draw.z(35.001);
         
-        Draw.color(Color.valueOf("9e172c"), 0.65);
+        Draw.color(
+            Color.valueOf("9e172c"), 
+            this.liquids.get(Liquids.water) / 30 * 0.65
+        );
         Draw.rect(Core.atlas.find("zerg-reincubator-liquid"), this.x, this.y);
         
         Draw.color(Color.valueOf("e05438"));

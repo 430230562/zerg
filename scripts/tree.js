@@ -149,8 +149,8 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     }),
     node(power.deflagrationGenerator, () => {
         node(power.fullEffectGenerator, () => {
-            DataNode(power.pyrolysis, 100, () => {
-                DataNode(power.biomassReactor, 225, () => {}),
+            DataNode(power.pyrolysis, 250, () => {
+                DataNode(power.biomassReactor, 525, () => {}),
                 node(power.extremeGenerator, () => {})
             }),
             node(power.crystalPanel, () => {
@@ -167,13 +167,12 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                 })
             }),
             node(other.lamp, () => {}),
-            node(other.repairer, () => {
-                node(other.frame, () => {
-                    node(other.matrix, () => {
-                        node(other.clan, () => {})
-                    }),
-                    node(other.catalyzer, () => {})
-                })
+            node(other.frame, () => {
+                node(other.matrix, () => {
+                    node(other.clan, () => {}),
+                    node(other.resurrection, () => {})
+                }),
+                node(other.catalyzer, () => {})
             })
         })
     }),
@@ -232,24 +231,24 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                 })
             })
         }),
-        node(unitFactory.unitIncubator, () => {
-            node(unitFactory.reincubator, () => {
-                node(unitFactory.laboratory, () => {})
+        DataNode(unitFactory.unitIncubator, 125, () => {
+            DataNode(unitFactory.reincubator, 250, () => {
+                DataNode(unitFactory.laboratory, 275, () => {})
             }),
-            node(insect.buffer, () => {
-                node(insect.spread, () => {}),
-                node(insect.spider, () => {
-                    node(insect.tarantula, () => {
-                        node(insect.group, () => {})
+            DataNode(insect.buffer, 20, () => {
+                DataNode(insect.spread, 125, () => {}),
+                DataNode(insect.spider, 35, () => {
+                    DataNode(insect.tarantula, 100, () => {
+                        DataNode(insect.group, 500, () => {})
                     }),
-                    node(crystive.anatase, () => {
-                        node(crystive.asbestos, () => {
-                            node(crystive.quartz, () => {})
+                    DataNode(crystive.anatase, 75, () => {
+                        DataNode(crystive.asbestos, 155, () => {
+                            DataNode(crystive.quartz, 450, () => {})
                         })
                     })
                 }),
-                node(insect.mosquito, () => {
-                    node(insect.burst, () => {})
+                DataNode(insect.mosquito, 35, () => {
+                    DataNode(insect.burst, 100, () => {})
                 })
             })
         }),

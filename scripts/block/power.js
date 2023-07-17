@@ -112,12 +112,10 @@ Object.assign(fullEffectGenerator, {
 	drawer: new DrawMulti(
 		new DrawDefault(),
 		new DrawWarmupRegion(),
-		Object.assign(new DrawRegion("-rotator"), {
-			rotateSpeed: 2,
-		}),
-		Object.assign(new DrawRegion("-rotator"), {
-			rotateSpeed: 1,
-		}),
+		new DrawRegion("-rotator0", 1),
+		new DrawRegion("-rotator1", 2),
+		new DrawRegion("-rotator2", 3),
+		new DrawRegion("-rotator3", 4),
 		new DrawLiquidRegion()
 	),
 	category: Category.power,
@@ -155,8 +153,8 @@ Object.assign(pyrolysis,{
 		Object.assign(new DrawPistons(),{
             sinMag: 1
         }),
-	    new DrawRegion("-rotator", 2.5, false),
-	    new DrawRegion("-rotator", 3.5, false),
+	    new DrawRegion("-rotator0", 2.5, false),
+	    new DrawRegion("-rotator1", 3.5, false),
 		new DrawDefault(),
 		Object.assign(new DrawSoftParticles(), {
 			alpha: 0.35,
