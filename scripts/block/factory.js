@@ -32,11 +32,9 @@ Object.assign(multiCompressor, {
 	hasItems: true,
 	hasLiquids: true,
 	drawer: new DrawMulti(
-		new DrawDefault(), 
-		Object.assign(new DrawRegion("-rotator"), {
-			spinSprite: true,
-			rotateSpeed: -4.5,
-		})
+	    new DrawRegion("-bottom"),
+	    new DrawRegion("-rotator", 4.5, true),
+		new DrawDefault()
 	),
 	
 	buildVisibility: BuildVisibility.shown,

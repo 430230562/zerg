@@ -24,10 +24,6 @@ const item = require("item");
 const liquid = require("liquid");
 const planet = require("planet");
 
-function DataNode(content,cost,children){
-    return node(content, content.researchRequirements().concat([new ItemStack(item.data, cost)]), children)
-}
-
 planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     nodeProduce(item.nickel, () => {
         nodeProduce(Items.sand, () => {
@@ -77,7 +73,7 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                 node(other.unloader, () => {}),
                 node(other.launchPad, () => {})
             }),
-            DataNode(distribution.biomassConveyor, 25, () => {}),
+            node(distribution.biomassConveyor, () => {}),
             node(distribution.armoredConveyor, () => {})
         }),
         node(distribution.junction, () => {
@@ -107,16 +103,16 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     node(factory.compressor, () => {
         node(factory.multiCompressor, () => {}),
         node(factory.smelter, () => {
-            DataNode(factory.incubator, 50, () => {
-                DataNode(factory.biomassSmelter, 150, () => {}),
-                DataNode(factory.biomassDissociator, 25, () => {
-                    DataNode(factory.dissolvantMixer, 75, () => {})
+            node(factory.incubator, () => {
+                node(factory.biomassSmelter, () => {}),
+                node(factory.biomassDissociator, () => {
+                    node(factory.dissolvantMixer, () => {})
                 }),
-                DataNode(factory.biomassFermenter, 75, () => {})
+                node(factory.biomassFermenter, () => {})
             }),
             node(factory.charger, () => {}),
             node(factory.oilRefinery, () => {
-                DataNode(factory.arkyciteExtractor, 25, () => {}),
+                node(factory.arkyciteExtractor, () => {}),
                 node(factory.oilDistillation, () => {})
             })
         }),
@@ -149,8 +145,8 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     }),
     node(power.deflagrationGenerator, () => {
         node(power.fullEffectGenerator, () => {
-            DataNode(power.pyrolysis, 250, () => {
-                DataNode(power.biomassReactor, 525, () => {}),
+            node(power.pyrolysis, () => {
+                node(power.biomassReactor, () => {}),
                 node(power.extremeGenerator, () => {})
             }),
             node(power.crystalPanel, () => {
@@ -231,24 +227,24 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                 })
             })
         }),
-        DataNode(unitFactory.unitIncubator, 125, () => {
-            DataNode(unitFactory.reincubator, 250, () => {
-                DataNode(unitFactory.laboratory, 275, () => {})
+        node(unitFactory.unitIncubator, () => {
+            node(unitFactory.reincubator, () => {
+                node(unitFactory.laboratory, () => {})
             }),
-            DataNode(insect.buffer, 20, () => {
-                DataNode(insect.spread, 125, () => {}),
-                DataNode(insect.spider, 35, () => {
-                    DataNode(insect.tarantula, 100, () => {
-                        DataNode(insect.group, 500, () => {})
+            node(insect.buffer, () => {
+                node(insect.spread, () => {}),
+                node(insect.spider, () => {
+                    node(insect.tarantula, () => {
+                        node(insect.group, () => {})
                     }),
-                    DataNode(crystive.anatase, 75, () => {
-                        DataNode(crystive.asbestos, 155, () => {
-                            DataNode(crystive.quartz, 450, () => {})
+                    node(crystive.anatase, () => {
+                        node(crystive.asbestos, () => {
+                            node(crystive.quartz, () => {})
                         })
                     })
                 }),
-                DataNode(insect.mosquito, 35, () => {
-                    DataNode(insect.burst, 100, () => {})
+                node(insect.mosquito, () => {
+                    node(insect.burst, () => {})
                 })
             })
         }),

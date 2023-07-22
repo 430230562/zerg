@@ -79,6 +79,3 @@ Object.assign(sulfone, {
 	explosiveness: 0.4,
 	buildable: false,
 })
-
-const data = new Item("data", Color.valueOf("ffffff"));
-exports.data = data;

@@ -130,7 +130,7 @@ unitIncubator.buildType = prov(() => extend(UnitFactory.UnitFactoryBuild, unitIn
         
         Draw.color(
             Color.valueOf("9e172c"), 
-            this.liquids.get(Liquids.water) / 18 * 0.65
+            this.liquids.get(Liquids.water) / 18 * 0.55
         );
         Draw.rect(Core.atlas.find("zerg-unit-incubator-liquid"), this.x, this.y);
         
@@ -142,19 +142,13 @@ unitIncubator.buildType = prov(() => extend(UnitFactory.UnitFactoryBuild, unitIn
                 this.oy[i] = Mathf.range(8)
             }
         }
-        if(this.progress >= 0.001){
+        if(this.progress >= 0.01){
             Lines.stroke(0.2 + (this.progress % 30) / 100);
             for(let i = 0;i < 5;i++){
                 Lines.poly(this.x + this.ox[i], this.y + this.oy[i], 8, (this.progress % 30) / 20);
             }
         }
         Draw.color();
-        
-        if(this.rotation <= 1){
-            Draw.rect(Core.atlas.find("zerg-unit-incubator-out1"), this.x, this.y, this.rotation * 90);
-        }else{
-            Draw.rect(Core.atlas.find("zerg-unit-incubator-out2"), this.x, this.y, this.rotation * 90);
-        }
     }
 }))
 
