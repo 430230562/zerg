@@ -289,10 +289,8 @@ Object.assign(oilDistillation,{
 	drawer: new DrawMulti(
 	    new DrawRegion("-bottom"),
 	    new DrawLiquidTile(Liquids.oil),
-	    new DrawDefault(),
-	    Object.assign(new DrawWarmupRegion(),{
-	        color : Color.valueOf("ff3838")
-	    })
+	    new DrawShakeRegion("-shake",360,120),
+	    new DrawDefault()
 	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
@@ -318,12 +316,11 @@ Object.assign(biomassFermenter,{
 	    new DrawRegion("-bottom"),
 	    new DrawLiquidTile(Liquids.water),
 	    new DrawLiquidTile(liquid.acid),
-		new DrawDefault(),
 		Object.assign(new DrawCultivator(), {
 			plantColor: Color.valueOf("9cb664"),
 			plantColorLight: Color.valueOf("cbd97f"),
 		}),
-		new DrawRegion("-top")
+		new DrawDefault(),
 	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
@@ -335,7 +332,7 @@ Object.assign(biomassFermenter,{
 	)
 })
 biomassFermenter.consumeLiquid(Liquids.water, 2 / 60);
-displacer.consumeItems(ItemStack.with(
+biomassFermenter.consumeItems(ItemStack.with(
 	item.biomass, 1,
 ));
 biomassFermenter.consumePower(1.1);

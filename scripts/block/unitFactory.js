@@ -171,57 +171,15 @@ reincubator.addUpgrade(insect.buffer, insect.spread);
 reincubator.addUpgrade(insect.spider, insect.tarantula);
 reincubator.addUpgrade(insect.mosquito, insect.burst);
 reincubator.consumePower(2.7);
-reincubator.consumeLiquid(Liquids.water, 6 / 60);
 reincubator.consumeItems(ItemStack.with(
 	item.biomass, 40,
 	item.amino, 80,
 ));
 reincubator.buildType = prov(() => extend(Reconstructor.ReconstructorBuild, reincubator,{
-    ox: [0,4,4,-4,-4], 
-    oy: [0,-4,4,-4,4],
     draw(){
         this.super$draw();
         
-        Draw.z(35.001);
-        
-        Draw.color(
-            Color.valueOf("9e172c"), 
-            this.liquids.get(Liquids.water) / 30 * 0.65
-        );
-        Draw.rect(Core.atlas.find("zerg-reincubator-liquid"), this.x, this.y);
-        
-        Draw.color(Color.valueOf("e05438"));
-        
-        if(Time.time % 30 <= 1){
-            for(let i = 0;i < 5;i++){
-                this.ox[i] = Mathf.range(8)
-                this.oy[i] = Mathf.range(8)
-            }
-        }
-        if(this.progress >= 0.001){
-            Lines.stroke(0.2 + (this.progress % 30) / 100);
-            for(let i = 0;i < 5;i++){
-                Lines.poly(this.x + this.ox[i], this.y + this.oy[i], 8, (this.progress % 30) / 20);
-            }
-        }
-        Draw.color();
-        
-        //out
-        if(this.rotation <= 1){
-            Draw.rect(Core.atlas.find("zerg-reincubator-out1"), this.x, this.y, this.rotation * 90);
-        }else{
-            Draw.rect(Core.atlas.find("zerg-reincubator-out2"), this.x, this.y, this.rotation * 90);
-        }
-        //in
-        for(let i = 0; i < 4; i++){
-            if(PayloadBlock.blends(this,i) && i != this.rotation){
-                if(i <= 1){
-                    Draw.rect(Core.atlas.find("zerg-reincubator-in1"), this.x, this.y, (i * 90) - 180);
-                }else{
-                    Draw.rect(Core.atlas.find("zerg-reincubator-in2"), this.x, this.y, (i * 90) - 180);
-                }
-            }
-        }
+        if(Mathf.chance(0.05) && this.progress >= 0.01)Fx.neoplasmHeal.at(this.x + Mathf.range(8), this.y + Mathf.range(8), 0)
     }
 }))
 
