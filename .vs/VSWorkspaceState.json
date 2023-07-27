@@ -2,10 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\bundles",
-    "\\scripts",
     "\\scripts\\block",
     "\\scripts\\unit"
   ],
-  "SelectedNode": "\\scripts\\block\\power.js",
+  "SelectedNode": "\\bundles\\bundle_zh_CN.properties",
   "PreviewInSolutionExplorer": false
 }
