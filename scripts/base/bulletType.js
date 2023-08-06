@@ -1,6 +1,5 @@
 const status = require('status');
 const liquid = require('liquid');
-const Ef = require('effect');
 
 function Acid(puddleSize) {
 	return extend(LiquidBulletType,{
@@ -46,47 +45,56 @@ function ReduceArmorBulletType(speed, damage, amount) {
 }
 exports.ReduceArmorBulletType = ReduceArmorBulletType;
 
-function FlameBulletType(speed, damage) {
-	return extend(BulletType, speed, damage, {
-		speed: speed,
-		damage: damage,
-		hitSize: 7,
-		lifetime: 18,
-		pierce: true,
-		collidesAir: false,
-		hitEffect: Fx.hitFlameSmall,
-		despawnEffect: Fx.none,
-		status: StatusEffects.burning,
-		keepVelocity: false,
-		hittable: false,
-	});
-}
-exports.FlameBulletType = FlameBulletType;
-
-//原代码by miner 20230607 
-//pardon 修改
-
-function BounceBulletType(speed,damage,range){
+function RicochetBulletType(speed,damage){
     return extend(BasicBulletType, speed, damage, {
-        
         hitEntity(b, entity, health){
-            this.super$hitEntity(b, entity, health);
-            
-            let {team, x, y, vel} = b;
-            let target = null;
             if(entity instanceof Unit){
-                target = Units.closestEnemy(team, x, y, range, unit => !b.hasCollided(unit.id));
-            }else{
-                target = Units.findEnemyTile(team, x, y, range, build => !b.hasCollided(build.id));
-            }
-            
-            if(target != null){
-                vel.setAngle(Angles.angle(x, y, target.x, target.y));
-                b.damage -= b.damage / 10
-            }else{
-                b.remove()
+                if(Mathf.chance(Math.pow(entity.armor / b.damage,3))){
+                    b.vel.setAngle(b.rotation() + Mathf.range(60) + 180)
+                }else{
+                    this.super$hitEntity(b, entity, health);
+                    b.remove()
+                }
             }
         },
+        pierce: true
     });
 }
-exports.BounceBulletType = BounceBulletType;
+exports.RicochetBulletType = RicochetBulletType
+
+function SniperBulletType(color,length,damage){
+    return extend(RailBulletType, {
+        damage: damage,
+		pierce: true,
+		pierceBuilding: true,
+		pierceDamageFactor: 0.65,
+		buildingDamageMultiplier: 0.1,
+		speed: 0,
+		reflectable: false,
+		hitEffect: Fx.hitBulletColor,
+		collides: false,
+		keepVelocity: false,
+		lifetime: 1,
+		ammoMultiplier: 1,
+		length: length,
+		endEffect: Fx.hitBulletColor,
+		hitColor: Color.valueOf(color),
+		pointEffectSpace: 8,
+		pointEffect: Object.assign(new ParticleEffect(),{
+    		particles: 1,
+    		line: true,
+    		randLength: false,
+    		lifetime: 25,
+    		cone: 0,
+    		strokeFrom: 0.8,
+    		strokeTo: 0,
+    		lenFrom: 8,
+    		lenTo: 5,
+    		length: 1,
+    		baseLength: 1,
+    		colorFrom: Color.valueOf(color),
+    		colorTo: Color.valueOf(color + "66"),
+    	})
+    })
+}
+exports.SniperBulletType = SniperBulletType;

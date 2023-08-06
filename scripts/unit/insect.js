@@ -10,9 +10,9 @@ function Insect(name){
 		healFlash: true,
 		healColor: Pal.neoplasm1,
 		lightRadius: 0,
-		init(u){
-			if (u !== undefined) this.super$init(u)
-			else this.super$init();
+		init(){
+			this.super$init();
+			
 			this.abilities.add(
 			    new DeathNeoplasmAbility(this.hitSize * 2, this.health),
 			    Object.assign(new RegenAbility(), {
@@ -418,6 +418,7 @@ exports.buffer = buffer;
 Object.assign(buffer, {
 	constructor: () => new MechUnit.create(),
 	speed: 1.25,
+	armor: 3,
 	hitSize: 6,
 	health: 100,
 	mechSideSway: 0.25,
@@ -558,7 +559,7 @@ Object.assign(carrier, {
 })
 carrier.abilities.add(
 	new UnitSpawnAbility(egg, 60 * 20, 0, 0),
-	Object.assign(new SpawnDeathAbility(egg, 2, 10),{
+	Object.assign(new SpawnDeathAbility(egg, 2, 20),{
 	    randAmount: 4,
 	}),
 	new DeathNeoplasmAbility(30, 800),

@@ -53,6 +53,69 @@ Object.assign(crystalDrill, {
 crystalDrill.consumeLiquid(Liquids.water, 0.04).boost();
 crystalDrill.consumePower(1.2);
 
+const biomassDrill = extend(Drill,"biomass-drill",{
+    icons(){
+        return [Core.atlas.find("zerg-biomass-drill-icon")]
+    }
+});
+exports.biomassDrill = biomassDrill;
+Object.assign(biomassDrill, {
+	tier: 4,
+	drillTime: 180,
+	hardnessDrillMultiplier: 0,
+	size: 4,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.production,
+	requirements: ItemStack.with(
+		Items.silicon, 60,
+		item.nickel, 65,
+		item.crystal, 55,
+		item.manganese, 65,
+		item.biomassSteel, 50,
+	)
+})
+biomassDrill.consumeLiquid(Liquids.water, 0.1).boost();
+biomassDrill.consumePower(3.5);
+biomassDrill.buildType = prov(() => extend(Drill.DrillBuild, biomassDrill,{
+    draw(){
+        Draw.rect(Core.atlas.find("zerg-biomass-drill"), this.x, this.y);
+        Draw.z(30.1);
+        
+        
+        Drawf.spinSprite(
+            Core.atlas.find("zerg-biomass-drill-rotater"),
+            this.x + Angles.trnsx(this.timeDrilled * 2, 0, 5.5),
+            this.y + Angles.trnsy(this.timeDrilled * 2, 0, 5.5),
+            this.timeDrilled * 4
+        );
+        Draw.rect(
+            Core.atlas.find("zerg-biomass-drill-axis"),
+            this.x + Angles.trnsx(this.timeDrilled * 2, 0, 5.5),
+            this.y + Angles.trnsy(this.timeDrilled * 2, 0, 5.5),
+        );
+        
+        Drawf.spinSprite(
+            Core.atlas.find("zerg-biomass-drill-rotater"),
+            this.x + Angles.trnsx(this.timeDrilled * 2, 0, -5.5),
+            this.y + Angles.trnsy(this.timeDrilled * 2, 0, -5.5),
+            this.timeDrilled * 4
+        );
+        Draw.rect(
+            Core.atlas.find("zerg-biomass-drill-axis"),
+            this.x + Angles.trnsx(this.timeDrilled * 2, 0, -5.5),
+            this.y + Angles.trnsy(this.timeDrilled * 2, 0, -5.5),
+        );
+
+        Draw.rect(Core.atlas.find("zerg-biomass-drill-top"), this.x, this.y);
+
+        if(this.dominantItem != null){
+            Draw.color(this.dominantItem.color);
+            Draw.rect(Core.atlas.find("drill-item-4"), this.x, this.y);
+            Draw.color();
+        }
+    }
+}))
+
 const crystalCollector = new BeamDrill("crystal-collector");
 exports.crystalCollector = crystalCollector;
 Object.assign(crystalCollector, {

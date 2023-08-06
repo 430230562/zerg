@@ -3,6 +3,7 @@ const Ef = require("effect");
 let reduceArmor = Stat("reduceArmor");
 let disabled = Stat("disabled");
 let percentDamage = Stat("percentDamage");
+let armorLimit = Stat("armorLimit");
 
 exports.corroding = extend(StatusEffect,"corroding",{
     update(unit, time){
@@ -47,3 +48,13 @@ exports.dissolved = extend(StatusEffect,"dissolved",{
 	effect: Fx.unitDust,
     color: Color.valueOf("b3e5fa"),
 })
+
+const poisoned = extend(StatusEffect,"poisoned",{
+    color: Color.valueOf("92ab11"),
+	damage: 15 / 60,
+	effect: Fx.mineSmall,
+	damageMultiplier: 1,
+	healthMultiplier: 0.8,
+	speedMultiplier: 0.6,
+})
+exports.poisoned = poisoned

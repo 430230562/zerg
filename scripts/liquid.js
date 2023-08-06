@@ -32,3 +32,11 @@ Object.assign(acetylene,{
     explosiveness: 1,
     coolant: false,
 })
+
+const yperite = new Liquid("yperite",Color.valueOf("92ab11"))
+exports.yperite = yperite;
+Object.assign(yperite,{
+    gas: true,
+    explosiveness: 3,
+    coolant: false,
+})

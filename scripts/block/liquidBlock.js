@@ -31,6 +31,24 @@ Object.assign(screwPump, {
 })
 screwPump.consumePower(0.35);
 
+const waterExtractor = new SolidPump("water-extractor")
+exports.waterExtractor = waterExtractor;
+Object.assign(waterExtractor,{
+    result: Liquids.water,
+    pumpAmount: 0.11,
+    size: 2,
+    liquidCapacity: 30,
+    rotateSpeed: 1.4,
+    buildVisibility: BuildVisibility.shown,
+	category: Category.liquid,
+    requirements: ItemStack.with(
+        Items.graphite, 30,
+        item.nickel, 30,
+        item.crystal, 30
+    )
+})
+waterExtractor.consumePower(1.5);
+
 const crystalConduit = new Conduit("crystal-conduit");
 exports.crystalConduit = crystalConduit;
 Object.assign(crystalConduit, {

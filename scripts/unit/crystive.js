@@ -4,9 +4,9 @@ function CrystalUnit(name){
 		healColor: Color.valueOf("7e8ae6"),
 		envDisabled: Env.none,
 		lightOpacity: 0.1,
-		init(u){
-			if (u !== undefined) this.super$init(u)
-			else this.super$init();
+		init(){
+			this.super$init();
+			
 			this.abilities.add(
 			    Object.assign(new RegenAbility(), {
 					percentAmount: 1 / (120 * 60) * 100,

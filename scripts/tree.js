@@ -174,11 +174,13 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     }),
     node(turret.guard, () => {
         node(turret.obstruct, () => {}),
+        node(turret.sniper, () => {
+            node(turret.lumen, () => {})
+        }),
         node(turret.nexus, () => {
             node(turret.bomb, () => {}),
-            node(turret.electrolyze, () => {
+            node(turret.spiral, () => {
                 node(turret.lacerate, () => {
-                    node(turret.lumen, () => {}),
                     node(turret.blowtorth, () => {})
                 }),
                 node(turret.soak, () => {})

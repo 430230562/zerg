@@ -4,11 +4,11 @@ const resurrection = new MendProjector("resurrection");
 exports.resurrection = resurrection;
 Object.assign(resurrection, {
 	size: 3,
-	reload: 40,
+	reload: 120,
 	range: 120,
-	healPercent: 4,
+	phaseRangeBoost: 60,
+	healPercent: 8,
 	phaseBoost: 2,
-	phaseRangeBoost: 40,
 	health: 720,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
@@ -19,7 +19,7 @@ Object.assign(resurrection, {
 		item.manganese, 175,
 	)
 })
-resurrection.consumePower(3.5);
+resurrection.consumePower(5.5);
 resurrection.consumeItem(Items.silicon, 1).boost();
 
 const catalyzer = new OverdriveProjector("catalyzer");
