@@ -55,6 +55,36 @@ Object.assign(manganeseWallLarge, {
 	),
 })
 
+const manganeseDoor = new AutoDoor("manganese-door");
+exports.manganeseDoor = manganeseDoor;
+Object.assign(manganeseDoor,{
+    health: 640,
+	armor: 7,
+	size: 1,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+	    Items.silicon, 4,
+		item.nickel, 2,
+		item.manganese, 4,
+	),
+})
+
+const manganeseDoorLarge = new AutoDoor("manganese-door-large");
+exports.manganeseDoorLarge = manganeseDoorLarge;
+Object.assign(manganeseDoorLarge,{
+    health: 640 *.4,
+	armor: 7,
+	size: 2,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+	    Items.silicon, 4 * 4,
+		item.nickel, 2 * 4,
+		item.manganese, 4 * 4,
+	),
+})
+
 const crystalWall = new Wall("crystal-wall");
 exports.crystalWall = crystalWall;
 Object.assign(crystalWall, {

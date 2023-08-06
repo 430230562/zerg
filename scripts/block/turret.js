@@ -1,10 +1,28 @@
 const item = require('item');
 const liquid = require('liquid');
 const status = require('status');
-const { Acid, ReduceArmorBulletType, BounceBulletType } = require('base/bulletType')
+const { ReduceArmorBulletType, RicochetBulletType, SniperBulletType } = require('base/bulletType');
+const { SniperRailEffect } = require("effect");
 
 function AddCoolant(turret,amount){
 	return turret.coolant = turret.consumeCoolant(amount);
+}
+
+function ShootEncircle(range,speed){
+    return extend(ShootPattern,{
+        shoot(totalShots, handler, barrelIncrementer){
+            handler.shoot(0, 0, 0, 0,
+            b => b.moveRelative(
+                Angles.trnsx(b.time * 6 * speed, 0, range),
+                Angles.trnsy(b.time * 6 * speed, 0, range)
+            ))
+            handler.shoot(0, 0, 0, 0,
+            b => b.moveRelative(
+                Angles.trnsx(b.time * 6 * speed, 0, -1 * range),
+                Angles.trnsy(b.time * 6 * speed, 0, -1 * range)
+            ))
+        }
+    })
 }
 
 const guard = new ItemTurret("guard");
@@ -31,13 +49,13 @@ Object.assign(guard,{
 })
 AddCoolant(guard,0.1)
 guard.ammo(
-    item.nickel, Object.assign(new BasicBulletType(3, 11),{
+    item.nickel, Object.assign(new RicochetBulletType(3, 11),{
         width: 2,
         height: 9,
         lifetime: 60,
         ammoMultiplier: 3,
     }),
-    Items.graphite, Object.assign(new BasicBulletType(3.5, 23),{
+    Items.graphite, Object.assign(new RicochetBulletType(3.5, 23),{
         width: 2,
         height: 12,
         reloadMultiplier: 0.6,
@@ -117,6 +135,53 @@ obstruct.ammo(
     })
 )
 
+const sniper = new ItemTurret('sniper');
+exports.sniper = sniper
+Object.assign(sniper, {
+	reload: 180,
+	size: 2,
+	range: 8 * 45,
+	shootCone: 5,
+	health: 1040,
+	inaccuracy: 0,
+	rotateSpeed: 2.7,
+	ammoUseEffect: Fx.casing1,
+	shootSound: Sounds.mediumCannon,
+    unitSort: UnitSorts.strongest,
+	shoot: Object.assign(new ShootPattern(), {
+		firstShotDelay: 15
+	}),
+	category: Category.turret,
+	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+		Items.graphite, 80,
+		item.nickel, 100,
+	),
+})
+AddCoolant(sniper,0.2)
+sniper.ammo(
+    item.nickel, new SniperBulletType("00c49b",45.5 * 8,120),
+	item.manganese, Object.assign(new SniperBulletType("ecaae2",45.5 * 8,220) ,{
+		reloadMultiplier: 1.25,
+	}),
+	item.chromium, Object.assign(new SniperBulletType("e45018",50.5 * 8,350) ,{
+		reloadMultiplier: 1.25,
+		rangeChange: 40,
+	}),
+)
+sniper.buildType = prov(() => extend(ItemTurret.ItemTurretBuild, sniper, {
+    handleBullet(bullet, offsetX, offsetY, angleOffset) {
+        if(this.target != null){
+		    bullet.damage *= this.target.maxHealth / this.target.health
+		}
+	},
+	findTarget(){
+	    if(this.target == null)Units.nearby(null, this.x, this.y, this.range(), other => {
+	        if(other.team != this.team && Mathf.chance(0.25)) this.target = other
+	    })
+	}
+}))
+
 const nexus = new ItemTurret("nexus");
 exports.nexus = nexus;
 Object.assign(nexus, {
@@ -143,14 +208,14 @@ Object.assign(nexus, {
 })
 AddCoolant(nexus,0.2);
 nexus.ammo(
-	Items.graphite, Object.assign(new BasicBulletType(4, 23), {
+	Items.graphite, Object.assign(new RicochetBulletType(4, 23), {
 		width: 2,
 		height: 12,
 		reloadMultiplier: 0.75,
 		ammoMultiplier: 6,
 		lifetime: 50,
 	}),
-	Items.silicon, Object.assign(new BasicBulletType(4, 23), {
+	Items.silicon, Object.assign(new RicochetBulletType(4, 23), {
 		width: 2,
 		height: 12,
 		reloadMultiplier: 1.2,
@@ -159,13 +224,13 @@ nexus.ammo(
 		homingRange: 32,
 		homingPower: 0.04,
 	}),
-	item.nickel, Object.assign(new BasicBulletType(3.5, 11), {
+	item.nickel, Object.assign(new RicochetBulletType(3.5, 11), {
 		width: 2,
 		height: 9,
 		ammoMultiplier: 3,
 		lifetime: 60,
 	}),
-	item.manganese, Object.assign(new BasicBulletType(4, 27), {
+	item.manganese, Object.assign(new RicochetBulletType(4, 27), {
 		width: 2,
 		height: 12,
 		shootEffect: Fx.shootBig,
@@ -174,7 +239,7 @@ nexus.ammo(
 		reloadMultiplier: 1.2,
 		lifetime: 60,
 		fragBullets: 5,
-		fragBullet: Object.assign(new BasicBulletType(3, 5), {
+		fragBullet: Object.assign(new RicochetBulletType(3, 5), {
 			width: 5,
 			height: 12,
 			shrinkY: 1,
@@ -182,7 +247,7 @@ nexus.ammo(
 			despawnEffect: Fx.none,
 		})
 	}),
-	item.sulfone, Object.assign(new BasicBulletType(3, 21), {
+	item.sulfone, Object.assign(new RicochetBulletType(3, 21), {
 		width: 10,
 		height: 12,
 		frontColor: Color.valueOf("ede892"),
@@ -404,24 +469,29 @@ soak.buildType = prov(() => extend(LiquidTurret.LiquidTurretBuild, soak, {
     }
 }))
 
-const electrolyze = new PowerTurret("electrolyze");
-exports.electrolyze = electrolyze;
-Object.assign(electrolyze, {
-	reload: 40,
+const spiral = new PowerTurret("spiral");
+exports.spiral = spiral;
+Object.assign(spiral, {
+	reload: 60,
 	shootCone: 12,
 	size: 2,
-	range: 96,
+	range: 16 * 8,
 	health: 1050,
 	rotateSpeed: 6,
 	recoil: 2,
 	shootY: 7,
 	targetAir: false,
 	shootEffect: Fx.lightningShoot,
-	shootSound: Sounds.spark,
+	shootSound: Sounds.blaster,
 	heatColor: Color.red,
-	shoot: Object.assign(new ShootAlternate(2), {
-		shots: 3,
-	}),
+	shoot: new ShootMulti(
+	    new ShootPattern(),
+	    Object.assign(new ShootHelix(),{
+			mag: 3,
+			scl: 4,
+		}),
+		new ShootPattern(),
+	),
 	category: Category.turret,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
@@ -429,18 +499,53 @@ Object.assign(electrolyze, {
 		item.nickel, 120,
 		item.manganese, 75,
 	),
-	shootType: Object.assign(new LightningBulletType(), {
-		damage: 17,
-		lightningLength: 20,
-		collidesAir: false,
-		pierceArmor: true,
-		ammoMultiplier: 1,
+	shootType: Object.assign(new BasicBulletType(2, 30),{
+		width: 7,
+		height: 12,
+		lifetime: 64,
+		shootEffect: Fx.sparkShoot,
+		smokeEffect: Fx.shootBigSmoke,
+		hitColor: Pal.lancerLaser,
+		backColor: Pal.lancerLaser,
+		trailColor: Pal.lancerLaser,
+		frontColor: Color.white,
+		trailWidth: 1.5,
+		trailLength: 5,
+		hitEffect: Fx.hitBulletColor,
+		despawnEffect: Fx.hitBulletColor,
+		/*intervalBullet: Object.assign(new LightningBulletType(),{
+			damage: 9,
+			collidesAir: false,
+			ammoMultiplier: 1,
+			lightningColor: Pal.lancerLaser,
+			lightningLength: 3,
+			lightningLengthRand: 6,
+	
+			lightningType: Object.assign(new BulletType(0.0001, 0),{
+				lifetime: Fx.lightning.lifetime,
+				hitEffect: Fx.hitLancer,
+				despawnEffect: Fx.none,
+				status: StatusEffects.shocked,
+				statusDuration: 10,
+				hittable: false,
+				lightColor: Color.white,
+				buildingDamageMultiplier: 0.25,
+			})
+		}),
+		bulletInterval: 4,
+		intervalRandomSpread: 30,
+		intervalBullets: 2,*/
+		lightningColor: Pal.lancerLaser,
+		lightningDamage: 9,
+		lightning: 9,
+		lightningLength: 1,
+		lightningLengthRand: 6,
 	})
 })
-electrolyze.consumePower(4.7)
-AddCoolant(electrolyze,0.15);
+spiral.consumePower(4.7)
+AddCoolant(spiral,0.15);
 
-const lacerate = new PowerTurret("lacerate");
+const lacerate = extend(PowerTurret,"lacerate",{})
 exports.lacerate = lacerate;
 Object.assign(lacerate, {
 	range: 176,
@@ -457,9 +562,6 @@ Object.assign(lacerate, {
 	shootEffect: Fx.lancerLaserShoot,
 	shootSound: Sounds.laser,
 	heatColor: Color.red,
-	shoot: Object.assign(new ShootPattern(), {
-		firstShotDelay: 40
-	}),
 	category: Category.turret,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
@@ -485,8 +587,21 @@ Object.assign(lacerate, {
 		pierceCap: 5,
 	})
 })
-lacerate.consumePower(6.8)
-AddCoolant(lacerate,0.15);
+lacerate.consumePower(4.8);
+lacerate.buildType = prov(() => extend(PowerTurret.PowerTurretBuild, lacerate, {
+    update(){
+        this.super$update()
+        
+        if(this.isShooting() && this.timeScale <= 4){
+            this.applyBoost(0.1 + this.timeScale, 10)
+        }else{
+            this.timeScale = Math.max(0, this.timeScale - 0.3)
+        }
+    },
+    getTimeScale(){
+        return this.timeScale
+    }
+}))
 
 const lumen = new ItemTurret("lumen");
 exports.lumen = lumen;
@@ -649,5 +764,116 @@ blowtorth.ammo(
 		flareColor: Color.valueOf("CA1FF58d"),
 		lightColor: Color.valueOf("CA1FF58d"),
 		hitColor: Color.valueOf("CA1FF58d"),
+	})
+)
+
+function ToxicAbility(damage, reload, range) {
+	return extend(Ability, {
+	    i: 0,
+	    j: 75,
+		update(unit) {
+			this.i += Time.delta
+			this.j += Time.delta
+			if (this.i >= reload) {
+				Units.nearby(null, unit.x, unit.y, range, other => {
+					other.health -= damage;
+					other.apply(status.poisoned, 60 * 15);
+				})
+				Units.nearbyBuildings(unit.x, unit.y, range, b => {
+					b.health -= damage / 4
+					if(b.health <= 0){b.kill()}
+				})
+				this.i = 0
+			}
+			if (this.j >= 15) {
+				Fx.titanSmoke.at(
+					unit.x + Mathf.range(range),
+					unit.y + Mathf.range(range),
+					Color.valueOf("92AB117F")
+				)
+				this.j -= 15
+			}
+		},
+		draw(unit){
+		    Draw.color(Color.red)
+		    
+		    for(let i = 0; i < 2; i++){
+                let rot = i * 180 + Time.time * 1;
+                Lines.arc(unit.x, unit.y, range, 0.2, rot);
+            }
+		}
+	})
+}
+
+const bottle = new UnitType("bottle");
+Object.assign(bottle,{
+	speed: 0,
+	isEnemy: false,
+	envDisabled: 0,
+	targetable: false,
+	hittable: false,
+	playerControllable: false,
+	createWreck: false,
+	createScorch: false,
+	logicControllable: false,
+	useUnitCap: false,
+	allowedInPayloads: false,
+	constructor: () => new TimedKillUnit.create(),
+	physics: false,
+	bounded: false,
+	hidden: true,
+	lifetime: 60 * 15,
+	health: 10000,
+	drawMinimap: false,
+	flying: false,
+	drawCell: false,
+	deathSound: Sounds.none,
+})
+bottle.abilities.add(
+	new ToxicAbility(50,60,80)
+)
+bottle.immunities.addAll(status.poisoned)
+
+const midnight = new LiquidTurret("midnight");
+exports.midnight = midnight;
+Object.assign(midnight,{
+    size: 4,
+    recoil: 2,
+    reload: 180,
+    inaccuracy: 5,
+    shootCone: 50,
+    liquidCapacity: 30,
+    ammoPerShot: 10,
+    minRange: 190,
+    ammoUseEffect: Fx.casing1,
+	targetAir: false,
+	extinguish: false,
+	shootSound: Sounds.artillery,
+    range: 8 * 40,
+    unitSort: UnitSorts.farthest,
+    scaledHealth: 250,
+    category: Category.turret,
+	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+	    Items.silicon, 250,
+		item.nickel, 400,
+		item.crystal, 300,
+		item.manganese, 250,
+	),
+})
+midnight.ammo(
+	liquid.yperite, Object.assign(new ArtilleryBulletType(4, 20), {
+		lifetime: 130,
+		height: 19,
+		width: 17,
+		ammoMultiplier: 1,
+		backColor: Color.valueOf("515e09"),
+		frontColor: Color.white,
+		trailColor: Color.valueOf("515e09"),
+		shrinkX: 0,
+		shrinkY: 0,
+		hitShake: 0,
+		hitSound: Sounds.none,
+		despawnUnit: bottle
 	})
 )

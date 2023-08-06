@@ -6,7 +6,7 @@ Object.assign(mist,{
 	health: 150,
 	speed: 3.5,
 	flying: true,
-	hitSize: 8,
+	hitSize: 4,
 	engineOffset: 5.75,
 	armor: 1,
 	accel: 0.08,
@@ -16,11 +16,11 @@ Object.assign(mist,{
 	playerControllable: false,
 	logicControllable: false,
 	physics: false,
-	range: 1600,
+	range: 800,
 	constructor: () => new UnitEntity.create(),
 	aiController: () => extend(FlyingAI,{
 	    updateMovement(){
-	        if(this.target != null){
+	        if(this.target != null && this.target instanceof Unit){
 	            this.circleAttack(150)
 	        }else if(this.unit.team.core() != null){
 	            this.circle(this.unit.team.core(), 120)
@@ -37,7 +37,7 @@ mist.weapons.add(
 		reload: 5,
 		shootCone: 30,
 		shootSound: Sounds.missile,
-		bullet: Object.assign(new MissileBulletType(4,7),{
+		bullet: Object.assign(new MissileBulletType(4,11),{
 			width: 4,
 			height: 4,
 			shrinkY: 0,
@@ -244,15 +244,22 @@ inductance.weapons.add(
 		layerOffset: -0.01,
 		rotate: false,
 		mirror: false,
-		shoot: Object.assign(new ShootHelix(),{
-			mag: 2,
-			scl: 3,
-		}),
+		shoot: new ShootMulti(
+    	    Object.assign(new ShootHelix(),{
+    			mag: 1,
+    			scl: 6,
+    		}),
+    	    Object.assign(new ShootHelix(),{
+    			mag: 3,
+    			scl: 4,
+    		})
+    	),
 
-		bullet: Object.assign(new BasicBulletType(4, 30),{
+		bullet: Object.assign(new BasicBulletType(4, 15),{
 			width: 7,
 			height: 12,
 			lifetime: 50,
+			hitSize: 16,
 			shootEffect: Fx.sparkShoot,
 			smokeEffect: Fx.shootBigSmoke,
 			hitColor: Pal.lancerLaser,
@@ -263,26 +270,6 @@ inductance.weapons.add(
 			trailLength: 5,
 			hitEffect: Fx.hitBulletColor,
 			despawnEffect: Fx.hitBulletColor,
-			intervalBullet: Object.assign(new LightningBulletType(),{
-				damage: 9,
-				collidesAir: false,
-				ammoMultiplier: 1,
-				lightningColor: Pal.lancerLaser,
-				lightningLength: 3,
-				lightningLengthRand: 6,
-		
-				lightningType: Object.assign(new BulletType(0.0001, 0),{
-					lifetime: Fx.lightning.lifetime,
-					hitEffect: Fx.hitLancer,
-					despawnEffect: Fx.none,
-					status: StatusEffects.shocked,
-					statusDuration: 10,
-					hittable: false,
-					lightColor: Color.white,
-					buildingDamageMultiplier: 0.25,
-				})
-			}),
-			bulletInterval: 4,
 			lightningColor: Pal.lancerLaser,
 			lightningDamage: 9,
 			lightning: 9,
@@ -409,7 +396,7 @@ Object.assign(phantom,{
 	mineTier: 3,
 	mineSpeed: 3,
 	mineWalls: true,
-	buildSpeed: 3,
+	buildSpeed: 2,
 	controller: UnitTypes.poly.controller,
 	defaultCommand: UnitTypes.poly.defaultCommand,
 	flying: true,
@@ -467,15 +454,16 @@ Object.assign(shadow,{
 	health: 460,
 	armor: 3,
 	hitSize: 13,
-	itemCapacity: 260,
+	itemCapacity: 130,
 	mineTier: 4,
-	mineSpeed: 10,
+	mineSpeed: 7.5,
 	mineWalls: true,
-	buildSpeed: 1.2,
+	buildSpeed: 0.75,
 	controller: UnitTypes.mono.controller,
 	defaultCommand: UnitTypes.mono.defaultCommand,
 	flying: true,
-	constructor: () => new UnitEntity.create(),
+	constructor: () => new PayloadUnit.create(),
+	
 	payloadCapacity: 64
 })
 shadow.mineItems.addAll(

@@ -276,6 +276,49 @@ displacer.consumeItems(ItemStack.with(
 ));
 displacer.consumeLiquid(liquid.acid, 6 / 60);
 
+const acetyleneSynthesizer = GenericCrafter("acetylene-synthesizer");
+exports.acetyleneSynthesizer = acetyleneSynthesizer;
+Object.assign(acetyleneSynthesizer,{
+    outputItem: new ItemStack(item.crystal, 1),
+    outputLiquid: new LiquidStack(liquid.acetylene, 0.05),
+	liquidCapacity: 120,
+	craftTime: 60,
+	size: 3,
+	hasPower: true,
+	hasLiquids: true,
+	drawer: new DrawMulti(
+	    new DrawRegion("-bottom"),
+	    Object.assign(new DrawArcSmelt(),{
+	        flameColor: Color.valueOf("fa7f7f"),
+	        midColor: Color.valueOf("ff9999")
+	    }),
+	    Object.assign(new DrawParticles(), {
+			alpha: 0.35,
+			particleRad: 12,
+			particleSize: 9,
+			particleLife: 120,
+			particles: 15,
+			reverse: true,
+			color: Color.valueOf("d1e4ff"), 
+		}),
+	    new DrawDefault()
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+	    Items.graphite, 50,
+		item.nickel, 55,
+		item.manganese, 45,
+		item.crystal, 75,
+	)
+})
+acetyleneSynthesizer.consumeLiquid(Liquids.hydrogen, 0.1);
+acetyleneSynthesizer.consumeItems(ItemStack.with(
+    Items.coal, 2,
+	item.energic, 1,
+));
+acetyleneSynthesizer.consumePower(0.8);
+
 const oilDistillation = new GenericCrafter("oil-distillation");
 exports.oilDistillation = oilDistillation
 Object.assign(oilDistillation,{

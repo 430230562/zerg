@@ -1,10 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\bundles",
+    "\\scripts",
     "\\scripts\\block",
     "\\scripts\\unit"
   ],
-  "SelectedNode": "\\bundles\\bundle_zh_CN.properties",
+  "SelectedNode": "\\scripts\\status.js",
   "PreviewInSolutionExplorer": false
 }

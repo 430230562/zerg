@@ -75,7 +75,7 @@ Object.assign(reconstructor, {
 	category: Category.units,
 	requirements: ItemStack.with(
 	    Items.silicon, 100,
-		item.nickel, 75,
+		item.nickel, 200,
 		item.manganese, 200,
 	),
 })
@@ -92,13 +92,39 @@ reconstructor.consumeItems(ItemStack.with(
 	item.crystal, 30,
 ));
 
+const deepReconstructor = new Reconstructor("deep-reconstructor");
+exports.deepReconstructor = deepReconstructor;
+Object.assign(deepReconstructor, {
+	size: 3,
+	constructTime: 60 * 60,
+	
+	buildVisibility: BuildVisibility.shown,
+	category: Category.units,
+	requirements: ItemStack.with(
+	    Items.silicon, 400,
+		item.nickel, 650,
+		item.manganese, 350,
+		item.chromium, 200,
+	),
+})
+deepReconstructor.addUpgrade(tank.brigadier, tank.kibbler);
+deepReconstructor.addUpgrade(tank.hurricane, tank.tornado);
+//deepReconstructor.addUpgrade(tank.alter,tank.bewitch)
+deepReconstructor.addUpgrade(air.thoud, air.cloud);
+deepReconstructor.addUpgrade(air.inductance, air.ampere);
+deepReconstructor.consumePower(6.8);
+deepReconstructor.consumeItems(ItemStack.with(
+	Items.silicon, 150,
+	item.manganese, 120,
+	item.crystal, 100,
+));
+
 const unitIncubator = new UnitFactory("unit-incubator");
 exports.unitIncubator = unitIncubator;
 Object.assign(unitIncubator, {
 	size: 3,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.units,
-	liquidCapacity: 18,
 	plans: Seq.with(
 		new UnitPlan(insect.spider, 60 * 6, ItemStack.with(
 			item.biomass, 15,
@@ -119,38 +145,6 @@ Object.assign(unitIncubator, {
 	),
 })
 unitIncubator.consumePower(1.7);
-unitIncubator.consumeLiquid(Liquids.water, 3 / 60);
-unitIncubator.buildType = prov(() => extend(UnitFactory.UnitFactoryBuild, unitIncubator,{
-    ox: [0,4,4,-4,-4], 
-    oy: [0,-4,4,-4,4],
-    draw(){
-        this.super$draw();
-        
-        Draw.z(35.001);
-        
-        Draw.color(
-            Color.valueOf("9e172c"), 
-            this.liquids.get(Liquids.water) / 18 * 0.55
-        );
-        Draw.rect(Core.atlas.find("zerg-unit-incubator-liquid"), this.x, this.y);
-        
-        Draw.color(Color.valueOf("e05438"));
-        
-        if(Time.time % 30 <= 1){
-            for(let i = 0;i < 5;i++){
-                this.ox[i] = Mathf.range(8)
-                this.oy[i] = Mathf.range(8)
-            }
-        }
-        if(this.progress >= 0.01){
-            Lines.stroke(0.2 + (this.progress % 30) / 100);
-            for(let i = 0;i < 5;i++){
-                Lines.poly(this.x + this.ox[i], this.y + this.oy[i], 8, (this.progress % 30) / 20);
-            }
-        }
-        Draw.color();
-    }
-}))
 
 const reincubator = new Reconstructor("reincubator");
 exports.reincubator = reincubator;
@@ -175,13 +169,6 @@ reincubator.consumeItems(ItemStack.with(
 	item.biomass, 40,
 	item.amino, 80,
 ));
-reincubator.buildType = prov(() => extend(Reconstructor.ReconstructorBuild, reincubator,{
-    draw(){
-        this.super$draw();
-        
-        if(Mathf.chance(0.05) && this.progress >= 0.01)Fx.neoplasmHeal.at(this.x + Mathf.range(8), this.y + Mathf.range(8), 0)
-    }
-}))
 
 const laboratory = new Reconstructor("laboratory")
 exports.laboratory = laboratory
@@ -203,46 +190,9 @@ laboratory.addUpgrade(insect.group, crystive.quartz);
 laboratory.consumePower(3.2);
 laboratory.consumeItems(ItemStack.with(
 	item.biomass, 20,
-	item.crystal, 30,
+	item.crystal, 50,
 	item.amino, 30,
 ))
-laboratory.buildType = prov(() => extend(Reconstructor.ReconstructorBuild, laboratory, {
-	draw() {
-		this.super$draw();
-
-		Draw.z(35.001);
-
-		Draw.color(Color.valueOf("9e172c"), 0.65);
-		Draw.rect(Core.atlas.find("zerg-laboratory-liquid"), this.x, this.y);
-
-		//out
-		if (this.rotation <= 1) {
-			Draw.rect(Core.atlas.find("zerg-laboratory-out1"), this.x, this.y, this.rotation * 90);
-		} else {
-			Draw.rect(Core.atlas.find("zerg-laboratory-out2"), this.x, this.y, this.rotation * 90);
-		}
-		//in
-		for (let i = 0; i < 4; i++) {
-			if (PayloadBlock.blends(this, i) && i != this.rotation) {
-				if (i <= 1) {
-					Draw.rect(Core.atlas.find("zerg-laboratory-in1"), this.x, this.y, (i * 90) - 180);
-				} else {
-					Draw.rect(Core.atlas.find("zerg-laboratory-in2"), this.x, this.y, (i * 90) - 180);
-				}
-			}
-		}
-	}
-}))
-
-Blocks.groundFactory.plans.add(
-    new UnitPlan(tank.alter, 60 * 120, ItemStack.with(
-		Items.silicon, 50,
-		Items.graphite, 20,
-		Items.lead, 40,
-		Items.titanium, 25
-	))
-)
-Blocks.additiveReconstructor.addUpgrade(tank.alter,tank.bewitch)
 
 const payloadConveyor = new PayloadConveyor("payload-conveyor");
 exports.payloadConveyor = payloadConveyor;
