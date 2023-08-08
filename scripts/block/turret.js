@@ -55,7 +55,7 @@ guard.ammo(
         lifetime: 60,
         ammoMultiplier: 3,
     }),
-    Items.graphite, Object.assign(new RicochetBulletType(3.5, 23),{
+    Items.graphite, Object.assign(new RicochetBulletType(3.5, 17),{
         width: 2,
         height: 12,
         reloadMultiplier: 0.6,
@@ -98,7 +98,7 @@ obstruct.ammo(
         hitEffect: Fx.flakExplosionBig,
         collidesGround: false,
         pierceCap: 1,
-        fragBullet: Object.assign(new BasicBulletType(3,7),{
+        fragBullet: Object.assign(new BasicBulletType(3,3),{
             width: 1,
             height: 1,
             lifetime: 120,
@@ -118,10 +118,10 @@ obstruct.ammo(
         hitEffect: Fx.flakExplosionBig,
         collidesGround: false,
         pierceCap: 1,
-        fragBullets:13,
+        fragBullets:9,
         fragVelocityMin: 1,
 		fragVelocityMax: 7,
-        fragBullet: Object.assign(new BasicBulletType(3,13),{
+        fragBullet: Object.assign(new BasicBulletType(3,5),{
             width: 1,
             height: 1,
             lifetime: 150,
@@ -208,37 +208,36 @@ Object.assign(nexus, {
 })
 AddCoolant(nexus,0.2);
 nexus.ammo(
-	Items.graphite, Object.assign(new RicochetBulletType(4, 23), {
-		width: 2,
-		height: 12,
-		reloadMultiplier: 0.75,
-		ammoMultiplier: 6,
-		lifetime: 50,
-	}),
-	Items.silicon, Object.assign(new RicochetBulletType(4, 23), {
-		width: 2,
-		height: 12,
-		reloadMultiplier: 1.2,
-		ammoMultiplier: 6,
-		lifetime: 50,
-		homingRange: 32,
-		homingPower: 0.04,
-	}),
 	item.nickel, Object.assign(new RicochetBulletType(3.5, 11), {
 		width: 2,
 		height: 9,
 		ammoMultiplier: 3,
 		lifetime: 60,
 	}),
-	item.manganese, Object.assign(new RicochetBulletType(4, 27), {
+	Items.graphite, Object.assign(new RicochetBulletType(4, 17), {
+		width: 2,
+		height: 12,
+		reloadMultiplier: 0.75,
+		ammoMultiplier: 6,
+		lifetime: 50,
+	}),
+	Items.silicon, Object.assign(new BasicBulletType(4, 17), {
+		width: 2,
+		height: 12,
+		reloadMultiplier: 1.5,
+		ammoMultiplier: 6,
+		lifetime: 50,
+		homingRange: 32,
+		homingPower: 0.04,
+	}),
+	item.manganese, Object.assign(new RicochetBulletType(4, 21), {
 		width: 2,
 		height: 12,
 		shootEffect: Fx.shootBig,
 		smokeEffect: Fx.shootBigSmoke,
 		ammoMultiplier: 4,
-		reloadMultiplier: 1.2,
 		lifetime: 60,
-		fragBullets: 5,
+		fragBullets: 3,
 		fragBullet: Object.assign(new RicochetBulletType(3, 5), {
 			width: 5,
 			height: 12,
@@ -247,7 +246,14 @@ nexus.ammo(
 			despawnEffect: Fx.none,
 		})
 	}),
-	item.sulfone, Object.assign(new RicochetBulletType(3, 21), {
+	item.chromium, Object.assign(new BasicBulletType(4, 23), {
+		width: 2,
+		height: 9,
+		ammoMultiplier: 3,
+		lifetime: 60,
+		pierceCap: 3,
+	}),
+	item.sulfone, Object.assign(new RicochetBulletType(3, 19), {
 		width: 10,
 		height: 12,
 		frontColor: Color.valueOf("ede892"),
@@ -257,7 +263,8 @@ nexus.ammo(
 			Fx.hitBulletSmall,
 			Fx.fireHit
 		),
-		ammoMultiplier: 10,
+		ammoMultiplier: 8,
+		reloadMultiplier: 1.5,
 		splashDamage: 16,
 		splashDamageRadius: 32,
 		makeFire: true,
@@ -309,7 +316,7 @@ bomb.ammo(
 		collidesTiles: false,
 		splashDamageRadius: 24,
 		splashDamage: 33,
-		reloadMultiplier: 1.2,
+		reloadMultiplier: 1.5,
 		homingRange: 32,
 		homingPower: 0.04,
 	}),
@@ -319,14 +326,13 @@ bomb.ammo(
 		width: 11,
 		height: 11,
 		collidesTiles: false,
-		splashDamageRadius: 8 * 3.75,
-		splashDamage: 47,
+		splashDamageRadius: 24,
+		splashDamage: 37,
 		backColor: Color.valueOf("7e8ae6"),
 		frontColor: Color.white,
 		ammoMultiplier: 4,
-		reloadMultiplier: 1.25,
 		fragBullets: 3,
-		fragBullet: Object.assign(new BasicBulletType(3, 12), {
+		fragBullet: Object.assign(new BasicBulletType(3, 5), {
 			width: 5,
 			height: 12,
 			shrinkY: 1,
@@ -342,15 +348,15 @@ bomb.ammo(
 		width: 11,
 		height: 11,
 		collidesTiles: false,
-		splashDamageRadius: 8 * 3.75,
-		splashDamage: 60,
+		splashDamageRadius: 24,
+		splashDamage: 42,
 		backColor: Color.valueOf("fa7f7f"),
 		frontColor: Color.white,
 		ammoMultiplier: 4,
 		reloadMultiplier: 1.25,
 		fragBullets: 3,
 		fragBullet: Object.assign(new LightningBulletType(), {
-			damage: 13,
+			damage: 9,
 			collidesAir: false,
 			ammoMultiplier: 1,
 			lightningColor: Color.valueOf("fa7f7f"),
@@ -365,7 +371,7 @@ bomb.ammo(
 		width: 13,
 		height: 13,
 		collidesTiles: false,
-		splashDamageRadius: 25,
+		splashDamageRadius: 8 * 3.25,
 		splashDamage: 55,
 		status: StatusEffects.burning,
 		statusDuration: 60 * 15,
@@ -375,6 +381,7 @@ bomb.ammo(
 		makeFire: true,
 		trailEffect: Fx.incendTrail,
 		ammoMultiplier: 4,
+		reloadMultiplier: 1.25,
 	}),
 )
 
@@ -513,28 +520,6 @@ Object.assign(spiral, {
 		trailLength: 5,
 		hitEffect: Fx.hitBulletColor,
 		despawnEffect: Fx.hitBulletColor,
-		/*intervalBullet: Object.assign(new LightningBulletType(),{
-			damage: 9,
-			collidesAir: false,
-			ammoMultiplier: 1,
-			lightningColor: Pal.lancerLaser,
-			lightningLength: 3,
-			lightningLengthRand: 6,
-	
-			lightningType: Object.assign(new BulletType(0.0001, 0),{
-				lifetime: Fx.lightning.lifetime,
-				hitEffect: Fx.hitLancer,
-				despawnEffect: Fx.none,
-				status: StatusEffects.shocked,
-				statusDuration: 10,
-				hittable: false,
-				lightColor: Color.white,
-				buildingDamageMultiplier: 0.25,
-			})
-		}),
-		bulletInterval: 4,
-		intervalRandomSpread: 30,
-		intervalBullets: 2,*/
 		lightningColor: Pal.lancerLaser,
 		lightningDamage: 9,
 		lightning: 9,
@@ -542,10 +527,10 @@ Object.assign(spiral, {
 		lightningLengthRand: 6,
 	})
 })
-spiral.consumePower(4.7)
+spiral.consumePower(3.7)
 AddCoolant(spiral,0.15);
 
-const lacerate = extend(PowerTurret,"lacerate",{})
+const lacerate = new PowerTurret("lacerate");
 exports.lacerate = lacerate;
 Object.assign(lacerate, {
 	range: 176,
@@ -570,7 +555,7 @@ Object.assign(lacerate, {
 		item.manganese, 30,
 		item.crystal, 50,
 	),
-	shootType: Object.assign(new LaserBulletType(270), {
+	shootType: Object.assign(new LaserBulletType(230), {
 		chargeEffect: new MultiEffect(
 			Fx.lancerLaserCharge,
 			Fx.lancerLaserChargeBegin
@@ -584,7 +569,7 @@ Object.assign(lacerate, {
 		ammoMultiplier: 1,
 		pierce: true,
 		pierceArmor: true,
-		pierceCap: 5,
+		pierceCap: 3,
 	})
 })
 lacerate.consumePower(4.8);
@@ -592,7 +577,7 @@ lacerate.buildType = prov(() => extend(PowerTurret.PowerTurretBuild, lacerate, {
     update(){
         this.super$update()
         
-        if(this.isShooting() && this.timeScale <= 4){
+        if(this.isShooting() && this.timeScale <= 3){
             this.applyBoost(0.1 + this.timeScale, 10)
         }else{
             this.timeScale = Math.max(0, this.timeScale - 0.3)
@@ -628,7 +613,7 @@ Object.assign(lumen, {
 })
 AddCoolant(lumen,0.15);
 lumen.ammo(
-	item.crystal, Object.assign(new ReduceArmorBulletType(6, 550, 7), {
+	item.crystal, Object.assign(new ReduceArmorBulletType(6, 350, 7), {
 		ammoMultiplier: 1,
 		width: 7,
 		height: 21,
@@ -653,7 +638,17 @@ lumen.ammo(
 		bulletInterval: 2,
 		intervalBullet: Object.assign(new BasicBulletType(), {
 			lifetime: 1,
-			damage: 8,
+			damage: 12,
+			width: 3,
+			height: 3,
+			frontColor: Color.valueOf("7e8ae6"),
+			backColor: Color.valueOf("7e8ae6"),
+			hitColor: Color.valueOf("7e8ae6"),
+		}),
+		fragBullets: 13,
+		fragBullet: Object.assign(new BasicBulletType(), {
+			lifetime: 1,
+			damage: 12,
 			width: 3,
 			height: 3,
 			frontColor: Color.valueOf("7e8ae6"),
@@ -661,7 +656,7 @@ lumen.ammo(
 			hitColor: Color.valueOf("7e8ae6"),
 		})
 	}),
-	item.energic, Object.assign(new ReduceArmorBulletType(6, 570, 7), {
+	item.energic, Object.assign(new ReduceArmorBulletType(6, 370, 7), {
 		ammoMultiplier: 1,
 		width: 7,
 		height: 21,
@@ -689,13 +684,18 @@ lumen.ammo(
 		intervalSpread: 0,
 		intervalAngle: 180,
 		intervalBullet: Object.assign(new LightningBulletType(), {
-			damage: 13,
+			damage: 15,
 			collidesAir: false,
 			ammoMultiplier: 1,
 			lightningColor: Color.valueOf("fa7f7f"),
 			lightningLength: 2,
 			lightningLengthRand: 6,
-		})
+		}),
+		lightningColor: Color.valueOf("fa7f7f"),
+		lightningDamage: 15,
+		lightning: 7,
+		lightningLength: 1,
+		lightningLengthRand: 6,
 	})
 )
 
@@ -787,21 +787,21 @@ function ToxicAbility(damage, reload, range) {
 			}
 			if (this.j >= 15) {
 				Fx.titanSmoke.at(
-					unit.x + Mathf.range(range),
-					unit.y + Mathf.range(range),
+					unit.x + Mathf.range(range * 0.7071),
+					unit.y + Mathf.range(range * 0.7071),
 					Color.valueOf("92AB117F")
 				)
 				this.j -= 15
 			}
 		},
-		draw(unit){
+		/*draw(unit){
 		    Draw.color(Color.red)
 		    
 		    for(let i = 0; i < 2; i++){
                 let rot = i * 180 + Time.time * 1;
                 Lines.arc(unit.x, unit.y, range, 0.2, rot);
             }
-		}
+		}*/
 	})
 }
 
@@ -862,7 +862,7 @@ Object.assign(midnight,{
 	),
 })
 midnight.ammo(
-	liquid.yperite, Object.assign(new ArtilleryBulletType(4, 20), {
+	liquid.yperite, Object.assign(new ArtilleryBulletType(4, 150), {
 		lifetime: 130,
 		height: 19,
 		width: 17,

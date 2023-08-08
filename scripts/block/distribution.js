@@ -64,7 +64,7 @@ Object.assign(junction, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.nickel, 4,
+		item.nickel, 10,
 	),
 	speed: 1,
 	capacity: 1,
@@ -83,7 +83,7 @@ Object.assign(nickelBridge, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.nickel, 10,
+		item.nickel, 20,
 	),
 })
 
@@ -93,7 +93,7 @@ Object.assign(sorter, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.nickel, 4,
+		item.nickel, 10,
 	),
 })
 
@@ -103,7 +103,7 @@ Object.assign(invertedSorter, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.nickel, 4,
+		item.nickel, 10,
 	),
 	invert: true
 })
@@ -114,7 +114,7 @@ Object.assign(overflowGate, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.nickel, 4,
+		item.nickel, 10,
 	),
 })
 
@@ -124,7 +124,7 @@ Object.assign(underflowGate, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.nickel, 4,
+		item.nickel, 10,
 	),
 	invert: true
 })
@@ -145,7 +145,7 @@ Object.assign(distributor, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		item.nickel, 8,
+		item.nickel, 12,
 	),
 	size: 2
 })
@@ -156,8 +156,8 @@ Object.assign(heatPipe, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		Items.graphite, 10,
-		item.nickel, 10,
+		Items.graphite, 20,
+		item.nickel, 15,
 	),
 	size: 1,
 	drawer: new DrawMulti(
@@ -174,8 +174,8 @@ Object.assign(heatRouter,{
     buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
-		Items.graphite, 15,
-		item.nickel, 10,
+		Items.graphite, 25,
+		item.nickel, 15,
 	),
 	size: 1,
 	drawer: new DrawMulti(

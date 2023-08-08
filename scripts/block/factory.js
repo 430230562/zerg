@@ -25,8 +25,8 @@ const multiCompressor = new GenericCrafter("multi-compressor");
 exports.multiCompressor = multiCompressor;
 Object.assign(multiCompressor, {
 	craftEffect: Fx.pulverizeMedium,
-	outputItem: new ItemStack(Items.graphite, 8),
-	craftTime: 150,
+	outputItem: new ItemStack(Items.graphite, 3),
+	craftTime: 120,
 	itemCapacity: 30,
 	size: 3,
 	hasItems: true,
@@ -46,8 +46,8 @@ Object.assign(multiCompressor, {
 		item.manganese, 100,
 	)
 })
-multiCompressor.consumeItem(Items.coal, 9);
-multiCompressor.consumePower(108 / 60);
+multiCompressor.consumeItem(Items.coal, 4);
+multiCompressor.consumePower(2.1);
 multiCompressor.consumeLiquid(Liquids.water, 6 / 60);
 
 const smelter = new GenericCrafter("smelter");
@@ -81,7 +81,7 @@ smelter.consumeItems(ItemStack.with(
 	Items.coal, 2, 
 	Items.sand, 3,
 ));
-smelter.consumePower(0.50);
+smelter.consumePower(0.6);
 
 const biomassSmelter = new GenericCrafter("biomass-smelter");
 exports.biomassSmelter = biomassSmelter;
@@ -113,7 +113,7 @@ biomassSmelter.consumeItems(ItemStack.with(
 	item.nickel, 2,
 	item.manganese, 3,
 ));
-biomassSmelter.consumePower(3);
+biomassSmelter.consumePower(5);
 
 const biomassDissociator = new GenericCrafter("biomass-dissociator");
 exports.biomassDissociator = biomassDissociator
@@ -143,7 +143,7 @@ Object.assign(biomassDissociator,{
 biomassDissociator.consumeItems(ItemStack.with(
     item.biomass, 2,
 ));
-biomassDissociator.consumePower(1);
+biomassDissociator.consumePower(1.5);
 
 const dissolvantMixer = new GenericCrafter("dissolvant-mixer");
 exports.dissolvantMixer = dissolvantMixer;
@@ -172,7 +172,7 @@ dissolvantMixer.consumeItems(ItemStack.with(
 	item.amino, 2,
 ));
 dissolvantMixer.consumeLiquid(Liquids.water, 6 / 60);
-dissolvantMixer.consumePower(0.50);
+dissolvantMixer.consumePower(0.75);
 
 const oilRefinery = new GenericCrafter("oil-refinery");
 exports.oilRefinery = oilRefinery;
@@ -198,7 +198,7 @@ Object.assign(oilRefinery,{
 	)
 })
 oilRefinery.consumeLiquid(Liquids.arkycite, 0.05);
-oilRefinery.consumePower(1.5);
+oilRefinery.consumePower(1.7);
 
 const arkyciteExtractor = new GenericCrafter("arkycite-extractor");
 exports.arkyciteExtractor = arkyciteExtractor;
@@ -230,7 +230,7 @@ arkyciteExtractor.consumeLiquids(LiquidStack.with(
     Liquids.arkycite, 0.6,
     liquid.dissolvant, 0.05
 ));
-arkyciteExtractor.consumePower(0.75);
+arkyciteExtractor.consumePower(1.2);
 
 const displacer = new GenericCrafter("displacer");
 exports.displacer = displacer;
@@ -317,7 +317,7 @@ acetyleneSynthesizer.consumeItems(ItemStack.with(
     Items.coal, 2,
 	item.energic, 1,
 ));
-acetyleneSynthesizer.consumePower(0.8);
+acetyleneSynthesizer.consumePower(2.3);
 
 const oilDistillation = new GenericCrafter("oil-distillation");
 exports.oilDistillation = oilDistillation
@@ -344,7 +344,7 @@ Object.assign(oilDistillation,{
 	)
 })
 oilDistillation.consumeLiquid(Liquids.oil, 0.1);
-oilDistillation.consumePower(1.1);
+oilDistillation.consumePower(3.2);
 
 const biomassFermenter = new GenericCrafter("biomass-fermenter");
 exports.biomassFermenter = biomassFermenter;
@@ -378,7 +378,7 @@ biomassFermenter.consumeLiquid(Liquids.water, 2 / 60);
 biomassFermenter.consumeItems(ItemStack.with(
 	item.biomass, 1,
 ));
-biomassFermenter.consumePower(1.1);
+biomassFermenter.consumePower(1.7);
 
 const charger = new GenericCrafter("charger");
 exports.charger = charger;
@@ -405,7 +405,7 @@ Object.assign(charger,{
 	)
 })
 charger.consumeItem(item.crystal, 1);
-charger.consumePower(3);
+charger.consumePower(3.5);
 
 const synthesizer = new GenericCrafter("synthesizer");
 exports.synthesizer = synthesizer;
@@ -422,7 +422,7 @@ Object.assign(synthesizer, {
 		item.nickel, 25,
 	),
 })
-synthesizer.consumePower(0.35);
+synthesizer.consumePower(0.55);
 synthesizer.consumeItems(ItemStack.with(
 	item.salt, 3,
 	item.amino, 2,
@@ -457,7 +457,7 @@ Object.assign(incubator, {
 		Items.silicon, 20,
 	),
 })
-incubator.consumePower(70 / 60);
+incubator.consumePower(1.2);
 incubator.consumeLiquid(Liquids.water, 12 / 60);
 
 const incubatorLarge = new AttributeCrafter("incubator-large");

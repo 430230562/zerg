@@ -217,7 +217,7 @@ Object.assign(ash, {
 	alwaysUnlocked: true,
 	isFirstTier: true,
 	unitType: election,
-	health: 1750,
+	health: 1500,
 	itemCapacity: 5000,
 	size: 3,
 	unitCapModifier: 12,
@@ -235,10 +235,10 @@ Object.assign(albus, {
 	unitType: atom,
 	health: 5500,
 	armor: 3,
-	itemCapacity: 12000,
+	itemCapacity: 10000,
 	size: 4,
 	
-	unitCapModifier: 24,
+	unitCapModifier: 18,
 	researchCostMultiplier: 0.1,
 	
 	buildVisibility: BuildVisibility.shown,
@@ -258,9 +258,9 @@ Object.assign(annular, {
 	size: 5,
 	health: 8800,
 	armor: 5,
-	itemCapacity: 17500,
+	itemCapacity: 15000,
 	
-	unitCapModifier: 36,
+	unitCapModifier: 24,
 	researchCostMultiplier: 0.1,
 	
 	buildVisibility: BuildVisibility.shown,
@@ -283,7 +283,7 @@ Object.assign(nest,{
 	solid: false,
 	replaceable: true,
 	size: 3,
-	health: 1200,
+	health: 1500,
 	unitCapModifier: 0,
 	itemCapacity: 0,
 	buildVisibility: BuildVisibility.editorOnly,

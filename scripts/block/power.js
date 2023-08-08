@@ -100,7 +100,7 @@ deflagrationGenerator.consume(new ConsumeItemExplode());
 const fullEffectGenerator = new ConsumeGenerator("full-effect-generator");
 exports.fullEffectGenerator = fullEffectGenerator;
 Object.assign(fullEffectGenerator, {
-	powerProduction: 6.5,
+	powerProduction: 7.5,
 	itemDuration: 90,
 	hasLiquids: true,
 	size: 2,
@@ -133,7 +133,7 @@ fullEffectGenerator.consume(new ConsumeItemExplode());
 const pyrolysis = new ConsumeGenerator("pyrolysis");
 exports.pyrolysis = pyrolysis;
 Object.assign(pyrolysis,{
-	powerProduction: 10,
+	powerProduction: 12,
 	hasLiquids: true,
 	size: 3,
 	generateEffect: Fx.none,

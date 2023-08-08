@@ -5,7 +5,7 @@ const nickelDrill = new Drill("nickel-drill");
 exports.nickelDrill = nickelDrill;
 Object.assign(nickelDrill, {
 	tier: 3,
-	drillTime: 360,
+	drillTime: 720,
 	hardnessDrillMultiplier: 0,
 	size: 2,
 	alwaysUnlocked: true,
@@ -22,7 +22,7 @@ const manganeseDrill = new Drill("manganese-drill");
 exports.manganeseDrill = manganeseDrill;
 Object.assign(manganeseDrill, {
 	tier: 4,
-	drillTime: 300,
+	drillTime: 600,
 	hardnessDrillMultiplier: 0,
 	size: 2,
 	buildVisibility: BuildVisibility.shown,
@@ -38,7 +38,7 @@ const crystalDrill = new Drill("crystal-drill");
 exports.crystalDrill = crystalDrill;
 Object.assign(crystalDrill, {
 	tier: 4,
-	drillTime: 240,
+	drillTime: 480,
 	hardnessDrillMultiplier: 0,
 	size: 3,
 	buildVisibility: BuildVisibility.shown,
@@ -61,7 +61,7 @@ const biomassDrill = extend(Drill,"biomass-drill",{
 exports.biomassDrill = biomassDrill;
 Object.assign(biomassDrill, {
 	tier: 4,
-	drillTime: 180,
+	drillTime: 360,
 	hardnessDrillMultiplier: 0,
 	size: 4,
 	buildVisibility: BuildVisibility.shown,
@@ -119,19 +119,19 @@ biomassDrill.buildType = prov(() => extend(Drill.DrillBuild, biomassDrill,{
 const crystalCollector = new BeamDrill("crystal-collector");
 exports.crystalCollector = crystalCollector;
 Object.assign(crystalCollector, {
-	drillTime: 120 / 0.5,
+	drillTime: 180 / 0.5,
 	itemCapacity: 15,
 	optionalBoostIntensity: 4,
 	tier: 3,
 	size: 2,
-	range: 7,
+	range: 5,
 	fogRadius: 3,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.production,
 	requirements: ItemStack.with(
-	    Items.graphite, 10,
-		item.nickel, 30,
-		item.manganese, 25,
+	    Items.graphite, 50,
+		item.nickel, 60,
+		item.manganese, 50,
 	)
 })
 crystalCollector.consumeLiquid(Liquids.water, 3 / 60).boost();

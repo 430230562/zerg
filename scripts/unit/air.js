@@ -246,11 +246,11 @@ inductance.weapons.add(
 		mirror: false,
 		shoot: new ShootMulti(
     	    Object.assign(new ShootHelix(),{
-    			mag: 1,
+    			mag: 0.5,
     			scl: 6,
     		}),
     	    Object.assign(new ShootHelix(),{
-    			mag: 3,
+    			mag: 1.5,
     			scl: 4,
     		})
     	),
@@ -272,7 +272,7 @@ inductance.weapons.add(
 			despawnEffect: Fx.hitBulletColor,
 			lightningColor: Pal.lancerLaser,
 			lightningDamage: 9,
-			lightning: 9,
+			lightning: 5,
 			lightningLength: 1,
 			lightningLengthRand: 6,
 		})
@@ -452,7 +452,7 @@ Object.assign(shadow,{
 	drag: 0.017,
 	
 	health: 460,
-	armor: 3,
+	armor: 2,
 	hitSize: 13,
 	itemCapacity: 130,
 	mineTier: 4,

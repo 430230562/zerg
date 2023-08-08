@@ -26,8 +26,8 @@ Object.assign(pioneer, {
 	outlineColor: Color.valueOf("464a59"),
 	outlineRadius: 3,
 	rotateSpeed: 3,
-	health: 600,
-	armor: 4,
+	health: 400,
+	armor: 3,
 	itemCapacity: 0,
 	constructor: () => new TankUnit.create(),
 })
@@ -46,7 +46,7 @@ Object.assign(new StatWeapon("zerg-pioneer-weapon","reduceArmor",1), {
 	cooldownTime: 50,
 	shootSound: Sounds.mediumCannon,
 	
-	bullet: Object.assign(new ReduceArmorBulletType(4, 35, 1), {
+	bullet: Object.assign(new ReduceArmorBulletType(4, 25, 1), {
 		width: 5,
 		height: 7,
 		lifetime: 40,
@@ -72,8 +72,8 @@ Object.assign(brigadier, {
 	outlineColor: Color.valueOf("464a59"),
 	outlineRadius: 3,
 	rotateSpeed: 2.5,
-	health: 1300,
-	armor: 7,
+	health: 900,
+	armor: 5,
 	itemCapacity: 0,
 	constructor: () => new TankUnit.create(),
 })
@@ -93,7 +93,7 @@ Object.assign(new StatWeapon("zerg-brigadier-weapon","reduceArmor",2), {
 	shootSound: Sounds.mediumCannon,
 	shoot: new ShootAlternate(3.5),
 	
-	bullet: Object.assign(new ReduceArmorBulletType(4, 75, 2), {
+	bullet: Object.assign(new ReduceArmorBulletType(4, 55, 2), {
 		width: 7,
 		height: 9,
 		lifetime: 40,
@@ -122,8 +122,8 @@ Object.assign(kibbler,{
 	outlineColor: Color.valueOf("464a59"),
 	outlineRadius: 3,
 	rotateSpeed: 2.5,
-	health: 2100,
-	armor: 13,
+	health: 1700,
+	armor: 10,
 	itemCapacity: 0,
 	constructor: () => new TankUnit.create(),
 })
@@ -141,7 +141,7 @@ Object.assign(new StatWeapon("zerg-kibbler-weapon","reduceArmor",3),{
 	x: 0,
 	y: 0,
 	cooldownTime: 30,
-	bullet: Object.assign(new ReduceArmorBulletType(4, 110, 3), {
+	bullet: Object.assign(new ReduceArmorBulletType(4, 90, 3), {
 		width: 10,
 		height: 14,
 		lifetime: 48,
@@ -184,8 +184,8 @@ Object.assign(purge,{
 	treadFrames: 8,
 	hitSize: 29,
 	rotateSpeed: 2,
-	health: 12000,
-	armor: 17,
+	health: 9000,
+	armor: 13,
 	itemCapacity: 0,
 	crushDamage: 2,
 	constructor: () => new TankUnit.create(),
@@ -234,8 +234,8 @@ Object.assign(fearless, {
 	outlineRadius: 3,
 	hitSize: 38,
 	rotateSpeed: 1.5,
-	health: 32000,
-	armor: 24,
+	health: 26000,
+	armor: 17,
 	itemCapacity: 0,
 	crushDamage: 4,
 	constructor: () => new TankUnit.create(),
@@ -255,7 +255,7 @@ Object.assign(new StatWeapon("zerg-fearless-weapon","reduceArmor",5),{
 	cooldownTime: 50,
 	shootSound: Sounds.shotgun,
 	shoot: new ShootAlternate(8),
-	bullet: Object.assign(new ReduceArmorBulletType(8,320,5), {
+	bullet: Object.assign(new ReduceArmorBulletType(8,280,5), {
 		pierce: true,
 		pierceBuilding: true,
 		pierceCap: 4,
@@ -277,16 +277,15 @@ Object.assign(new StatWeapon("zerg-fearless-weapon","reduceArmor",5),{
 		splashDamage: 40,
 		despawnEffect: Fx.hitBulletColor,
 		hitEffect: Fx.hitBulletColor,
-		fragBullets:9,
+		fragBullets:7,
 		fragRandomSpread: 0,
-		fragSpread: 45 / 8,
-		fragVelocityMin: 8,
-		fragVelocityMax: 8,
+		fragSpread: 45 / 6,
+		fragVelocityMin: 2,
+		fragVelocityMax: 2,
 		fragLifeMin: 1,
 		fragLifeMax: 1,
-		fragBullet: Object.assign(new BasicBulletType(),{
+		fragBullet: Object.assign(new BasicBulletType(4,10),{
 			lifetime: 15,
-			damage: 10,
 			width: 6,
 			height: 6,
 			pierce: true,
@@ -310,7 +309,7 @@ Object.assign(gale, {
 	hitSize: 12,
 	treadPullOffset: 3,
 	rotateSpeed: 5,
-	health: 460,
+	health: 300,
 	armor: 2,
 	itemCapacity: 0,
 	targetAir: true,
@@ -355,7 +354,7 @@ Object.assign(hurricane, {
 	hitSize: 18,
 	treadPullOffset: 3,
 	rotateSpeed: 3,
-	health: 800,
+	health: 650,
 	armor: 3,
 	itemCapacity: 0,
 	targetAir: true,
@@ -371,7 +370,7 @@ hurricane.weapons.add(
 	layerOffset: 0.0001,
 	shootY: 3,
 	recoil: 1,
-	reload: 7,
+	reload: 10,
 	shootSound:	Sounds.missile,
 	shoot: Object.assign(new ShootAlternate(14 / 4), {
 		barrels: 3
@@ -425,7 +424,7 @@ Object.assign(new Weapon("zerg-tornado-weapon"),{
 	y: -0.25,
 	heatColor: Color.valueOf("7e8ae6"),
 	shootSound: Sounds.shockBlast,
-	bullet: Object.assign(new BasicBulletType(4.5,125), {
+	bullet: Object.assign(new BasicBulletType(4.5,100), {
 		shootEffect: new MultiEffect(
 			Fx.shootTitan,
 			Object.assign(new WaveEffect(), {
@@ -470,7 +469,7 @@ Object.assign(new Weapon("zerg-tornado-weapon"),{
 			waveRad: 40,
 		}),
 		intervalBullet: Object.assign(new LightningBulletType(),{
-			damage: 21,
+			damage: 17,
 			collidesAir: false,
 			ammoMultiplier: 1,
 			lightningColor: Color.valueOf("5c69cc"),
@@ -517,7 +516,7 @@ Object.assign(meteorite,{
 	omniMovement: false,
     rotateMoveFirst: true,
 	health: 6000,
-	armor: 8,
+	armor: 6,
 	itemCapacity: 0,
 	targetAir: false,
 	constructor: () => new TankUnit.create()
