@@ -506,10 +506,10 @@ Object.assign(spiral, {
 		item.nickel, 120,
 		item.manganese, 75,
 	),
-	shootType: Object.assign(new BasicBulletType(2, 30),{
+	shootType: Object.assign(new BasicBulletType(4, 30),{
 		width: 7,
 		height: 12,
-		lifetime: 64,
+		lifetime: 32,
 		shootEffect: Fx.sparkShoot,
 		smokeEffect: Fx.shootBigSmoke,
 		hitColor: Pal.lancerLaser,
@@ -630,6 +630,7 @@ lumen.ammo(
 		
 		pierce: true,
 		pierceBuilding: true,
+		collidesAir: false,
 		pierceCap: 20,
 		
 		knockback: 12,
@@ -673,6 +674,7 @@ lumen.ammo(
 		
 		pierce: true,
 		pierceBuilding: true,
+		collidesAir: false,
 		pierceCap: 15,
 		
 		reloadMultiplier: 1.25,
@@ -698,6 +700,94 @@ lumen.ammo(
 		lightningLengthRand: 6,
 	})
 )
+
+const deluge = new LiquidTurret("deluge");
+exports.deluge = deluge;
+Object.assign(deluge,{
+    size: 3,
+    recoil: 0,
+    reload: 12,
+    inaccuracy: 5,
+    velocityRnd: 0.2,
+    shootCone: 50,
+    liquidCapacity: 50,
+    shootEffect: Fx.shootLiquid,
+    shoot: Object.assign(new ShootAlternate(), {
+		shotDelay: 2,
+		shots: 8,
+		barrels: 4,
+		spread: 3,
+	}),
+    range: 200,
+    scaledHealth: 250,
+    category: Category.turret,
+	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+	    Items.silicon, 150,
+		item.nickel, 350,
+		item.manganese, 250,
+		item.crystal, 75,
+	),
+})
+deluge.ammo(
+    Liquids.water,Object.assign(new LiquidBulletType(Liquids.water),{
+        speed: 5.5,
+        knockback: 0.7,
+        drag: 0.01,
+        lifetime: 60,
+        layer: Layer.bullet - 2,
+    }),
+    Liquids.oil,Object.assign(new LiquidBulletType(Liquids.oil),{
+        speed: 5.5,
+        drag: 0.01,
+        lifetime: 60,
+        layer: Layer.bullet - 2,
+    }),
+    liquid.acid,Object.assign(new LiquidBulletType(liquid.acid),{
+        speed: 5.5,
+        damage: 5,
+        drag: 0.01,
+        lifetime: 60,
+        layer: Layer.bullet - 2,
+    }),
+    liquid.dissolvant,extend(LiquidBulletType,liquid.dissolvant,{
+        speed: 5.5,
+        damage: 3,
+        drag: 0.01,
+        lifetime: 60,
+        layer: Layer.bullet - 2,
+        update(b){
+            this.super$update(b);
+            
+            let tile = Vars.world.tileWorld(b.x,b.y);
+            if(tile != null){
+                let other = Puddles.get(tile);
+                if(other != null && other.liquid == Liquids.neoplasm){
+                    if(other.amount > 20){
+                        other.amount -= 20
+                        b.absorb()
+                    }else{
+                        other.remove()
+                    }
+                }
+            }
+        }
+    })
+)
+deluge.buildType = prov(() => extend(LiquidTurret.LiquidTurretBuild, deluge, {
+    findTarget() {
+        this.super$findTarget()
+        
+        if(this.liquids.current() == liquid.dissolvant){
+            this.tile.circle((this.block.range - 1) / 8, cons(tile => {
+                let other = Puddles.get(tile);
+                if(other != null && other.liquid == Liquids.neoplasm && other.amount > 0.01 && this.target == null){
+                    this.target = b.create(this,Team.derelict,tile.worldx(),tile.worldy(),this.rotation - 180)
+                }
+            }))
+        }
+    }
+}))
 
 const blowtorth = new ContinuousLiquidTurret("blowtorth");
 exports.blowtorth = blowtorth;
@@ -876,4 +966,120 @@ midnight.ammo(
 		hitSound: Sounds.none,
 		despawnUnit: bottle
 	})
+)
+
+const sange = new ItemTurret("sange");
+exports.sange = sange;
+Object.assign(sange,{
+    reload: 4,
+    range: 38 * 8,
+    shootCone: 20,
+    health: 3600,
+    size: 4,
+    rotateSpeed: 5,
+    recoil: 0.5,
+    recoilTime: 30,
+    shake: 3,
+    ammoPerShot: 3,
+    shootSound: Sounds.shootBig,
+    shoot: new ShootMulti(
+	    new ShootPattern(),
+		new ShootPattern(),
+		extend(ShootPattern,{
+            shoot(totalShots, handler, barrelIncrementer){
+                handler.shoot(0, 0, Mathf.range(45 / 2), 0)
+                handler.shoot(0, 0, Mathf.range(45 / 2), 0)
+            }
+        })
+	),
+    category: Category.turret,
+	buildVisibility: BuildVisibility.shown,
+})
+sange.ammo(
+    Items.graphite, Object.assign(new BasicBulletType(6, 38),{
+        sprite: "missile-large",
+
+        lifetime: 52,
+        width: 12,
+        height: 22,
+
+        hitSize: 7,
+        shootEffect: Fx.shootSmokeSquareBig,
+        smokeEffect: Fx.shootSmokeDisperse,
+        ammoMultiplier: 4,
+        reloadMultiplier: 1.2,
+        knockback: 0.3,
+        frontColor: Color.white,
+        trailWidth: 3,
+        trailLength: 12,
+        hitEffect: Fx.hitBulletColor,
+        despawnEffect: Fx.hitBulletColor,
+
+        trailEffect: Fx.colorSpark,
+        trailRotation: true,
+        trailInterval: 3,
+
+        despawnShake: 3,
+
+        collidesGround: true,
+    }),
+    item.chromium, Object.assign(new BasicBulletType(8, 66),{
+        sprite: "missile-large",
+
+        lifetime: 40,
+        width: 12,
+        height: 22,
+
+        hitSize: 7,
+        shootEffect: Fx.shootSmokeSquareBig,
+        smokeEffect: Fx.shootSmokeDisperse,
+        ammoMultiplier: 2,
+        knockback: 0.7,
+        pierceCap: 3,
+        frontColor: Color.white,
+        trailWidth: 3,
+        trailLength: 12,
+        hitEffect: Fx.hitBulletColor,
+        despawnEffect: Fx.hitBulletColor,
+
+        trailEffect: Fx.colorSpark,
+        trailRotation: true,
+        trailInterval: 3,
+
+        despawnShake: 3,
+
+        collidesGround: true,
+    }),
+    item.sulfone, Object.assign(new BasicBulletType(6, 45),{
+        sprite: "missile-large",
+
+        lifetime: 52,
+        width: 12,
+        height: 22,
+
+        hitSize: 7,
+        shootEffect: Fx.shootSmokeSquareBig,
+        smokeEffect: Fx.shootSmokeDisperse,
+        ammoMultiplier: 4,
+        knockback: 0.5,
+        pierceCap: 2,
+        frontColor: Color.valueOf("ede892"),
+		backColor: Color.valueOf("d9c668"),
+        hitColor: Color.valueOf("ede892"),
+        trailColor: Color.valueOf("ede892"),
+        trailWidth: 3,
+        trailLength: 12,
+        hitEffect: Fx.hitBulletColor,
+        despawnEffect: Fx.hitBulletColor,
+
+        trailEffect: Fx.colorSpark,
+        trailRotation: true,
+        trailInterval: 3,
+
+        despawnShake: 3,
+
+        collidesGround: true,
+        status: StatusEffects.burning,
+		statusDuration: 60 * 15,
+    })
 )

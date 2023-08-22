@@ -1,10 +1,14 @@
 {
   "ExpandedNodes": [
     "",
+    "\\bundles",
     "\\scripts",
     "\\scripts\\block",
-    "\\scripts\\unit"
+    "\\scripts\\unit",
+    "\\sprites",
+    "\\sprites\\blocks",
+    "\\sprites\\blocks\\turret"
   ],
-  "SelectedNode": "\\scripts\\status.js",
+  "SelectedNode": "\\bundles\\bundle_zh_TW.properties",
   "PreviewInSolutionExplorer": false
 }

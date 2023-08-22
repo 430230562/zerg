@@ -51,7 +51,11 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                 }),
                 nodeProduce(liquid.acid, () => {
                     nodeProduce(item.salt, () => {}),
-                    nodeProduce(Liquids.hydrogen, () => {})
+                    nodeProduce(Liquids.hydrogen, () => {
+                        nodeProduce(liquid.acetylene, () => {
+                            nodeProduce(liquid.yperite, () => {})
+                        })
+                    })
                 }),
                 nodeProduce(item.energic, () => {})
             }),
@@ -117,13 +121,18 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
             })
         }),
         node(factory.displacer, () => {
-            node(factory.synthesizer, () => {})
+            node(factory.synthesizer, () => {}),
+            node(factory.acetyleneSynthesizer, () => {
+                node(factory.additiver, () => {})
+            })
         })
     }),
     node(production.nickelDrill, () => {
         node(production.manganeseDrill, () => {
             node(production.crystalCollector, () => {
-                node(production.crystalDrill, () => {})
+                node(production.crystalDrill, () => {
+                    node(production.biomassDrill, () => {})
+                })
             })
         }),
         node(liquidBlock.nickelPump, () => {
@@ -140,7 +149,8 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                         node(liquidBlock.crystalConduitBridge, () => {})
                     })
                 })
-            })
+            }),
+            node(liquidBlock.waterExtractor, () => {})
         })
     }),
     node(power.deflagrationGenerator, () => {
@@ -175,20 +185,28 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     node(turret.guard, () => {
         node(turret.obstruct, () => {}),
         node(turret.sniper, () => {
-            node(turret.lumen, () => {})
+            node(turret.lumen, () => {
+                node(turret.sange, () => {})
+            })
         }),
         node(turret.nexus, () => {
-            node(turret.bomb, () => {}),
+            node(turret.bomb, () => {
+                node(turret.midnight, () => {})
+            }),
             node(turret.spiral, () => {
                 node(turret.lacerate, () => {
                     node(turret.blowtorth, () => {})
                 }),
-                node(turret.soak, () => {})
+                node(turret.soak, () => {
+                    node(turret.deluge, () => {})
+                })
             })
         })
     }),
     node(unitFactory.tankFactory, () => {
-        node(unitFactory.reconstructor, () => {}),
+        node(unitFactory.reconstructor, () => {
+            node(unitFactory.deepReconstructor, () => {})
+        }),
         node(tank.pioneer, () => {
             node(tank.brigadier, () => {
                 node(tank.kibbler, () => {
@@ -202,16 +220,8 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                     node(tank.tornado, () => {})
                 })
             }),
-            node(tank.alter, ItemStack.with(
-		        Items.silicon, 50 * 50,
-			    item.nickel, 20 * 50,
-			    item.manganese, 40 * 50,
-		    ) ,() => {
-                node(tank.bewitch, ItemStack.with(
-		            Items.graphite, 40 * 50,
-	                Items.silicon, 50 * 50,
-	                item.crystal, 30 * 50,
-		        ), () => {})
+            node(tank.alter, () => {
+                node(tank.bewitch, () => {})
             })
         }),
         node(unitFactory.airFactory,() => {
@@ -269,6 +279,9 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                 node(wall.biomassWall, () => {
                     node(wall.biomassWallLarge, () => {})
                 })
+            }),
+            node(wall.manganeseDoor, () => {
+                node(wall.manganeseDoorLarge, () => {})
             })
         })
     }),
@@ -278,7 +291,14 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
         ), () => {
             node(planet.coldJunction, Seq.with(
             new SectorComplete(planet.valleyPlain)
-            ), () => {}),
+            ), () => {
+                node(planet.twilightSea, Seq.with(
+                new SectorComplete(planet.coldJunction)
+                ), () => {}),
+                node(planet.intertwinedGlacier, Seq.with(
+                new SectorComplete(planet.coldJunction)
+                ), () => {})
+            }),
             node(planet.crystalOutpost, Seq.with(
             new SectorComplete(planet.valleyPlain)
             ), () => {})

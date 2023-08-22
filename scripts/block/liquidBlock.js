@@ -36,6 +36,7 @@ exports.waterExtractor = waterExtractor;
 Object.assign(waterExtractor,{
     result: Liquids.water,
     pumpAmount: 0.11,
+    attribute: Attribute.water,
     size: 2,
     liquidCapacity: 30,
     rotateSpeed: 1.4,

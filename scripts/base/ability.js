@@ -61,19 +61,3 @@ function DeathNeoplasmAbility(range,amount){
     })
 }
 exports.DeathNeoplasmAbility = DeathNeoplasmAbility;
-
-function UAVSpawnAbility(unitType,regen,amount){
-    return extend(Ability,{
-        update(unit){
-            if(unit.shield <= unitType.health)unit.shield += regen * Time.delta
-            if(unit.shield >= unitType.health && unit.team.data().countType(unitType) <= unit.team.data().countType(unit.type) * amount){
-                Fx.spawn.at(unit)
-                unitType.spawn(unit.team,unit.x,unit.y)
-                
-                unit.shield -= unitType.health
-            }
-        }
-        
-    })
-}
-exports.UAVSpawnAbility = UAVSpawnAbility

@@ -5,7 +5,7 @@ const nickelDrill = new Drill("nickel-drill");
 exports.nickelDrill = nickelDrill;
 Object.assign(nickelDrill, {
 	tier: 3,
-	drillTime: 720,
+	drillTime: 480,
 	hardnessDrillMultiplier: 0,
 	size: 2,
 	alwaysUnlocked: true,
@@ -22,7 +22,7 @@ const manganeseDrill = new Drill("manganese-drill");
 exports.manganeseDrill = manganeseDrill;
 Object.assign(manganeseDrill, {
 	tier: 4,
-	drillTime: 600,
+	drillTime: 400,
 	hardnessDrillMultiplier: 0,
 	size: 2,
 	buildVisibility: BuildVisibility.shown,
@@ -38,7 +38,7 @@ const crystalDrill = new Drill("crystal-drill");
 exports.crystalDrill = crystalDrill;
 Object.assign(crystalDrill, {
 	tier: 4,
-	drillTime: 480,
+	drillTime: 320,
 	hardnessDrillMultiplier: 0,
 	size: 3,
 	buildVisibility: BuildVisibility.shown,
@@ -61,7 +61,7 @@ const biomassDrill = extend(Drill,"biomass-drill",{
 exports.biomassDrill = biomassDrill;
 Object.assign(biomassDrill, {
 	tier: 4,
-	drillTime: 360,
+	drillTime: 240,
 	hardnessDrillMultiplier: 0,
 	size: 4,
 	buildVisibility: BuildVisibility.shown,

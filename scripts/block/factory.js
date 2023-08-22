@@ -281,7 +281,7 @@ exports.acetyleneSynthesizer = acetyleneSynthesizer;
 Object.assign(acetyleneSynthesizer,{
     outputItem: new ItemStack(item.crystal, 1),
     outputLiquid: new LiquidStack(liquid.acetylene, 0.05),
-	liquidCapacity: 120,
+	liquidCapacity: 30,
 	craftTime: 60,
 	size: 3,
 	hasPower: true,
@@ -318,6 +318,31 @@ acetyleneSynthesizer.consumeItems(ItemStack.with(
 	item.energic, 1,
 ));
 acetyleneSynthesizer.consumePower(2.3);
+
+const additiver = new GenericCrafter("additiver");
+exports.additiver = additiver;
+Object.assign(additiver,{
+    outputLiquid: new LiquidStack(liquid.yperite, 0.05),
+	liquidCapacity: 30,
+	craftTime: 60,
+	size: 3,
+	hasPower: true,
+	hasLiquids: true,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+	    Items.graphite, 50,
+		item.nickel, 55,
+		item.manganese, 45,
+		item.crystal, 75,
+	)
+})
+additiver.consumeLiquids(LiquidStack.with(
+    liquid.acid, 0.1,
+    liquid.acetylene, 0.05
+));
+additiver.consumeItem(item.salt, 1);
+additiver.consumePower(2.3);
 
 const oilDistillation = new GenericCrafter("oil-distillation");
 exports.oilDistillation = oilDistillation

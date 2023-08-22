@@ -115,9 +115,23 @@ Object.assign(coldJunction,{
 	difficulty: 4,
 })
 
+const intertwinedGlacier = new SectorPreset("intertwinedGlacier",greavar,91);
+exports.intertwinedGlacier = intertwinedGlacier;
+Object.assign(intertwinedGlacier,{
+    captureWave: 25,
+	difficulty: 4,
+})
+
 const crystalOutpost = new SectorPreset("crystalOutpost", greavar, 27);
 exports.crystalOutpost = crystalOutpost;
 Object.assign(crystalOutpost,{
     captureWave: 45,
 	difficulty: 5,
+})
+
+const twilightSea = new SectorPreset("twilightSea",greavar,17);
+exports.twilightSea = twilightSea;
+Object.assign(twilightSea,{
+    captureWave: 30,
+	difficulty: 6,
 })
