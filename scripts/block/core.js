@@ -93,7 +93,7 @@ Object.assign(new Weapon("bugs-election-weapon"), {
 election.abilities.add(
 	Object.assign(new RegenAbility(), {
 		percentAmount: 1 / (60 * 60) * 100,
-	}),
+	})
 )
 
 const atom = new UnitType("atom");

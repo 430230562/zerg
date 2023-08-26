@@ -61,3 +61,17 @@ function DeathNeoplasmAbility(range,amount){
     })
 }
 exports.DeathNeoplasmAbility = DeathNeoplasmAbility;
+
+function FlashAbility(suffix,color1,color2){
+    return extend(Ability,{
+        i: false,
+        draw(unit){
+            if(this.i) Draw.color(color1)
+            else Draw.color(color2)
+            Draw.rect(unit.type.name + suffix,unit.x,unit.y,unit.rotation - 90)
+            
+            if(Time.time % 15 <= 1)this.i = !this.i
+        }
+    })
+}
+exports.FlashAbility = FlashAbility

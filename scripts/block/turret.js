@@ -795,7 +795,7 @@ Object.assign(blowtorth,{
 	liquidConsumed: 18 / 60,
 	targetInterval: 5,
 	range: 140,
-	shootY: 4,
+	shootY: 0,
 	
 	size: 3,
 	
@@ -841,19 +841,19 @@ blowtorth.ammo(
 		ammoMultiplier: 0.75,
 		
 		colors: [
-			Color.valueOf("CA1FF58d"),
-			Color.valueOf("D757F8b3"),
-			Color.valueOf("E48FFAcd"),
-			Color.valueOf("F2C7FCff"),
+			Color.valueOf("ca1ff58d"),
+    		Color.valueOf("d757f8b3"),
+			Color.valueOf("e48ffacd"),
+			Color.valueOf("f2c7fcff"),
 			Color.white
 		],
 		
 		status: StatusEffects.melting,
 		statusDuration: 120,
 		
-		flareColor: Color.valueOf("CA1FF58d"),
-		lightColor: Color.valueOf("CA1FF58d"),
-		hitColor: Color.valueOf("CA1FF58d"),
+		flareColor: Color.valueOf("ca1ff58d"),
+		lightColor: Color.valueOf("ca1ff58d"),
+		hitColor: Color.valueOf("ca1ff58d"),
 	})
 )
 
@@ -920,7 +920,7 @@ Object.assign(bottle,{
 	deathSound: Sounds.none,
 })
 bottle.abilities.add(
-	new ToxicAbility(50,60,80)
+	new ToxicAbility(10,15,80)
 )
 bottle.immunities.addAll(status.poisoned)
 
@@ -967,6 +967,25 @@ midnight.ammo(
 		despawnUnit: bottle
 	})
 )
+midnight.drawer = new DrawTurret();
+midnight.drawer.parts.addAll(
+    Object.assign(new RegionPart("-barrel"),{
+        progress: DrawPart.PartProgress.recoil.curve(Interp.pow2In),
+        moveY: -5 * 4 / 3,
+        heatColor: Color.valueOf("f03b0e"),
+        mirror: false,
+    }),
+    Object.assign(new RegionPart("-side"),{
+        heatProgress: DrawPart.PartProgress.recoil,
+        progress: DrawPart.PartProgress.warmup,
+        mirror: true,
+        moveX: 2 * 4 / 3,
+        moveY: -0.5,
+        moveRot: -40,
+        under: true,
+        heatColor: Color.red
+    })
+);
 
 const sange = new ItemTurret("sange");
 exports.sange = sange;
