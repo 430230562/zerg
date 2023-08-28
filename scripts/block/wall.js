@@ -73,7 +73,7 @@ Object.assign(manganeseDoor,{
 const manganeseDoorLarge = new AutoDoor("manganese-door-large");
 exports.manganeseDoorLarge = manganeseDoorLarge;
 Object.assign(manganeseDoorLarge,{
-    health: 640 *.4,
+    health: 640 * 4,
 	armor: 7,
 	size: 2,
 	buildVisibility: BuildVisibility.shown,

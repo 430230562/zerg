@@ -635,8 +635,8 @@ lumen.ammo(
 		
 		knockback: 12,
 		
-		intervalBullets: 5,
-		bulletInterval: 2,
+		intervalBullets: 3,
+		bulletInterval: 1,
 		intervalBullet: Object.assign(new BasicBulletType(), {
 			lifetime: 1,
 			damage: 12,
@@ -648,7 +648,7 @@ lumen.ammo(
 		}),
 		fragBullets: 13,
 		fragBullet: Object.assign(new BasicBulletType(), {
-			lifetime: 1,
+			lifetime: 3,
 			damage: 12,
 			width: 3,
 			height: 3,
@@ -1100,5 +1100,121 @@ sange.ammo(
         collidesGround: true,
         status: StatusEffects.burning,
 		statusDuration: 60 * 15,
+    })
+)
+function CometMissile(name,bullet){
+    return extend(MissileUnitType,name,{
+        speed: 18,
+        maxRange: 6,
+        lifetime: 180,
+        engineColor: Pal.techBlue,
+        trailColor: Pal.techBlue,
+        engineLayer: Layer.effect,
+        engineSize: 3.1,
+        engineOffset: 10,
+        rotateSpeed: 0.25,
+        trailLength: 18,
+        missileAccelTime: 180,
+        lowAltitude: true,
+        loopSound: Sounds.missileTrail,
+        loopSoundVolume: 0.6,
+        deathSound: Sounds.largeExplosion,
+        deathExplosionEffect: Fx.massiveExplosion,
+        targetAir: false,
+    
+        fogRadius: 6,
+    
+        health: 210,
+        init(){
+			this.super$init();
+			
+			this.weapons.add(
+                Object.assign(new Weapon(),{
+                    shootCone: 360,
+                    mirror: false,
+                    reload: 1,
+                    shootOnDeath: true,
+                    shake: 10,
+                    bullet: bullet
+                })
+            )
+	    }
+    })
+}
+
+const comet = new ItemTurret("comet")
+exports.comet = comet
+Object.assign(comet,{
+    reload: 600,
+    range: 160 * 8,
+    shootCone: 10,
+    unitSort: UnitSorts.farthest,
+    health: 5250,
+    size: 5,
+    rotateSpeed: 3,
+    recoil: 0.5,
+    recoilTime: 30,
+    shake: 5,
+    maxAmmo: 60,
+    ammoPerShot: 30,
+    shootSound: Sounds.shootBig,
+    category: Category.turret,
+	buildVisibility: BuildVisibility.shown,
+})
+
+comet.ammo(
+    Items.graphite, Object.assign(new BasicBulletType(0, 1),{
+        shootEffect: Fx.shootBig,
+        smokeEffect: Fx.shootSmokeMissile,
+        ammoMultiplier: 2,
+
+        spawnUnit: CometMissile("comet-graphite-missile",Object.assign(new ExplosionBulletType(1600, 65),{
+                hitColor: Pal.techBlue,
+                shootEffect: new MultiEffect(
+                    Fx.massiveExplosion,
+                    Fx.scatheExplosion,
+                    Fx.scatheLight,
+                    Object.assign(new WaveEffect(),{
+                        lifetime: 10,
+                        strokeFrom: 4,
+                        sizeTo: 130,
+                        color: Pal.techBlue,
+                    })
+                ),
+        
+                collidesAir: false,
+                buildingDamageMultiplier: 0.3,
+        
+                ammoMultiplier: 1,
+                fragLifeMin: 0.1,
+                fragBullets: 7,
+                fragBullet: Object.assign(new ArtilleryBulletType(3.4, 32),{
+                    buildingDamageMultiplier: 0.3,
+                    drag: 0.02,
+                    hitEffect: Fx.massiveExplosion,
+                    despawnEffect: Fx.scatheSlash,
+                    knockback: 0.8,
+                    lifetime: 23,
+                    width: 18,
+                    height: 18,
+                    collidesTiles: false,
+                    splashDamageRadius: 40,
+                    splashDamage: 80,
+                    backColor: Pal.techBlue,
+                    trailColor: Pal.techBlue,
+                    hitColor: Pal.techBlue,
+                    frontColor: Color.white,
+                    smokeEffect: Fx.shootBigSmoke2,
+                    despawnShake: 7,
+                    lightRadius: 30,
+                    lightColor: Pal.techBlue,
+                    lightOpacity: 0.5,
+        
+                    trailLength: 20,
+                    trailWidth: 3.5,
+                    trailEffect: Fx.none,
+                }),
+            })
+        )
     })
 )

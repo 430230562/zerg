@@ -394,10 +394,7 @@ const tornado = new TankUnitType("tornado")
 exports.tornado = tornado;
 Object.assign(tornado,{
 	speed: 7.5 * 8 / 60,
-	treadRects: [
-		new Rect(16 - 60,48 - 70,30,75),
-		new Rect(44 - 60,17 - 70,17,60)
-	],
+	treadRects: [new Rect(16 - 60,48 - 70,30,75)],
 	treadFrames: 8,
 	outlineColor: Color.valueOf("464a59"),
 	outlineRadius: 3,
@@ -415,13 +412,13 @@ tornado.weapons.add(
 Object.assign(new Weapon("zerg-tornado-weapon"),{
 	layerOffset: 0.0001,
 	reload: 60,
-	shootY: 0.75,
+	shootY: 4,
 	recoil: 3,
 	rotate: true,
 	rotateSpeed: 3.7,
 	mirror: false,
 	x: 0,
-	y: -0.25,
+	y: 2,
 	heatColor: Color.valueOf("7e8ae6"),
 	shootSound: Sounds.shockBlast,
 	bullet: Object.assign(new BasicBulletType(4.5,100), {

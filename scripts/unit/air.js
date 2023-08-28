@@ -6,7 +6,7 @@ Object.assign(mist,{
 	health: 150,
 	speed: 3.5,
 	flying: true,
-	hitSize: 4,
+	hitSize: 8,
 	engineOffset: 5.75,
 	armor: 1,
 	accel: 0.08,
@@ -15,13 +15,13 @@ Object.assign(mist,{
 	targetGround: false,
 	playerControllable: false,
 	logicControllable: false,
-	physics: false,
-	range: 800,
+	physics: true,
+	range: 1600,
 	constructor: () => new UnitEntity.create(),
 	aiController: () => extend(FlyingAI,{
 	    updateMovement(){
 	        if(this.target != null && this.target instanceof Unit){
-	            this.circleAttack(150)
+	            this.circle(this.target, 150)
 	        }else if(this.unit.team.core() != null){
 	            this.circle(this.unit.team.core(), 120)
 	        }
@@ -30,11 +30,14 @@ Object.assign(mist,{
 })
 mist.weapons.add(
 	Object.assign(new Weapon("zerg-mist-weapon"),{
-		x: -18 / 4,
+		x: 0,
 		y: -0.5,
 		shootY: 0,
 		layerOffset : -0.0001,
 		reload: 5,
+		rotate: true,
+	    rotateSpeed: 7.3,
+	    mirror: false,
 		shootCone: 30,
 		shootSound: Sounds.missile,
 		bullet: Object.assign(new MissileBulletType(4,11),{
@@ -42,9 +45,11 @@ mist.weapons.add(
 			height: 4,
 			shrinkY: 0,
 			homingRange: 60,
-			keepVelocity: true,
+			keepVelocity: false,
 			lifetime: 50,
 			trailChance: 0.1,
+			splashDamage: 18,
+			splashDamageRadius: 16,
 		})
 	})
 )
