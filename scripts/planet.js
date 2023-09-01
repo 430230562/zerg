@@ -1,5 +1,5 @@
-const item = require('item');
-const core = require('block/core');
+const item = require('zerg/item');
+const core = require('zerg/block/core');
 
 const greavar = new Planet("greavar", Planets.sun, 1, 2);
 Object.assign(greavar, {

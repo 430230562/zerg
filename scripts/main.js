@@ -1,25 +1,24 @@
-require('item');
-require('liquid');
-require('status');
+require('zerg/item');
+require('zerg/liquid');
+require('zerg/status');
 
-require('unit/insect');
-require('unit/crystive');
-require('unit/air');
-require('unit/tank');
+require('zerg/unit/insect');
+require('zerg/unit/crystive');
+require('zerg/unit/air');
+require('zerg/unit/tank');
 
-require('block/core');
-require('block/distribution');
-require('block/environment');
-require('block/factory');
-require('block/liquidBlock')
-require('block/other');
-require('block/power');
-require('block/production');
-require('block/turret');
-require('block/unitFactory');
-require('block/wall');
+require('zerg/block/core');
+require('zerg/block/distribution');
+require('zerg/block/environment');
+require('zerg/block/factory');
+require('zerg/block/liquidBlock')
+require('zerg/block/other');
+require('zerg/block/power');
+require('zerg/block/production');
+require('zerg/block/turret');
+require('zerg/block/unitFactory');
+require('zerg/block/wall');
 
-require('weather');
-require('planet');
-require('tree');
-require('report');
+require('zerg/planet');
+require('zerg/tree');
+require('zerg/report');

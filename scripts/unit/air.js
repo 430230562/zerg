@@ -1,4 +1,4 @@
-const item = require('item');
+const item = require('zerg/item');
 
 const mist = new UnitType("mist");
 exports.mist = mist;

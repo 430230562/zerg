@@ -1,4 +1,4 @@
-const item = require('item');
+const item = require('zerg/item');
 
 const nickelPump = new Pump("nickel-pump");
 exports.nickelPump = nickelPump;

@@ -1,4 +1,4 @@
-const status = require("status");
+const status = require("zerg/status");
 
 Liquids.neoplasm.spreadTarget = null;
 Liquids.neoplasm.viscosity = 0.95;

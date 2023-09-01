@@ -69,14 +69,14 @@ Object.assign(new Weapon("zerg-anatase-weapon"), {
 		width: 6,
 		height: 8,
 		hitEffect: Fx.flakExplosion,
-		splashDamage: 15,
+		splashDamage: 21,
 		splashDamageRadius: 24,
 		backColor: Color.valueOf("7e8ae6"),
 		trailColor: Color.valueOf("7e8ae6"),
 		trailWidth: 2,
 		trailLength: 5,
 		frontColor: Color.white,
-		fragBullets: 3,
+		fragBullets: 5,
 		fragBullet: Object.assign(new BasicBulletType(3, 7, "bullet"), {
 			width: 5,
 			height: 12,
@@ -129,7 +129,7 @@ Object.assign(new Weapon("zerg-asbestos-weapon"), {
 	smoothReloadSpeed: 0.15,
 	recoil: 2,
 	shootSound: Sounds.shootSnap,
-	bullet: Object.assign(new BasicBulletType(3.5, 17), {
+	bullet: Object.assign(new ArtilleryBulletType(3.5, 17), {
 		backColor: Color.valueOf("7e8ae6"),
 		trailColor: Color.valueOf("7e8ae6"),
 		hitColor: Color.valueOf("7e8ae6"),

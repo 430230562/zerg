@@ -1,5 +1,5 @@
-const item = require('item');
-const liquid = require('liquid');
+const item = require('zerg/item');
+const liquid = require('zerg/liquid');
 
 const nickelDrill = new Drill("nickel-drill");
 exports.nickelDrill = nickelDrill;

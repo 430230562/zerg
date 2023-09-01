@@ -1,4 +1,4 @@
-const item = require("item");
+const item = require("zerg/item");
 
 const resurrection = new MendProjector("resurrection");
 exports.resurrection = resurrection;

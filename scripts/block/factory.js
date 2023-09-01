@@ -1,6 +1,6 @@
-const item = require('item');
-const liquid = require('liquid');
-const { DrawShakeRegion } = require("base/draw")
+const item = require('zerg/item');
+const liquid = require('zerg/liquid');
+const { DrawShakeRegion } = require("zerg/base/draw")
 
 const compressor = new GenericCrafter("compressor");
 exports.compressor = compressor

@@ -1,7 +1,7 @@
-const status = require('status');
-const liquid = require('liquid');
-const { Acid } = require('base/bulletType');
-const { DeathNeoplasmAbility, MoveLiquidAbility } = require("base/ability")
+const status = require('zerg/status');
+const liquid = require('zerg/liquid');
+const { Acid } = require('zerg/base/bulletType');
+const { DeathNeoplasmAbility, MoveLiquidAbility } = require("zerg/base/ability")
 
 function Insect(name){
 	return extend(UnitType, name, {
@@ -291,14 +291,14 @@ const mosquito = new Insect("mosquito");
 exports.mosquito = mosquito;
 Object.assign(mosquito, {
 	constructor: () => new UnitEntity.create(),
-	aiController: UnitTypes.quell.aiController,
 	health: 180,
-	speed: 2.5,
+	speed: 3.5,
 	flying: true,
 	lowAltitude: true,
 	hitSize: 8,
 	engineOffset: 5.5,
-	armor: 1
+	armor: 1,
+	aiController: () => new FlyingFollowAI()
 })
 mosquito.weapons.add(
 Object.assign(new Weapon("zerg-mosquito-weapon"), {

@@ -1,4 +1,4 @@
-const item = require('item');
+const item = require('zerg/item');
 
 const nickelConveyor = new Conveyor("nickel-conveyor");
 exports.nickelConveyor = nickelConveyor;

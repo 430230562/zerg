@@ -1,8 +1,8 @@
-const insect = require('unit/insect');
-const crystive = require('unit/crystive');
-const tank = require('unit/tank');
-const air = require('unit/air');
-const item = require('item');
+const insect = require('zerg/unit/insect');
+const crystive = require('zerg/unit/crystive');
+const tank = require('zerg/unit/tank');
+const air = require('zerg/unit/air');
+const item = require('zerg/item');
 
 const UnitPlan = UnitFactory.UnitPlan;
 

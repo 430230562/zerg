@@ -1,7 +1,7 @@
-const status = require('status');
-const liquid = require('liquid');
-const Ef = require('effect');
-const { ReduceArmorBulletType } = require('base/bulletType')
+const status = require('zerg/status');
+const liquid = require('zerg/liquid');
+const Ef = require('zerg/effect');
+const { ReduceArmorBulletType } = require('zerg/base/bulletType')
 
 function StatWeapon(name, stat, num){
     return extend(Weapon, {
@@ -394,7 +394,7 @@ const tornado = new TankUnitType("tornado")
 exports.tornado = tornado;
 Object.assign(tornado,{
 	speed: 7.5 * 8 / 60,
-	treadRects: [new Rect(16 - 60,48 - 70,30,75)],
+	treadRects: [new Rect(-48,-48,35,104)],
 	treadFrames: 8,
 	outlineColor: Color.valueOf("464a59"),
 	outlineRadius: 3,
@@ -499,10 +499,7 @@ const meteorite = new UnitType("meteorite");
 exports.meteorite = meteorite;
 Object.assign(meteorite,{
     speed: 0.24,
-	treadRects: [
-		new Rect(16 - 60,48 - 70,30,75),
-		new Rect(44 - 60,17 - 70,17,60)
-	],
+	treadRects: [new Rect(-72,-92,42,168)],
 	treadFrames: 8,
 	outlineColor: Color.valueOf("464a59"),
 	outlineRadius: 3,
@@ -521,7 +518,7 @@ Object.assign(meteorite,{
 meteorite.weapons.add(
 Object.assign(new Weapon("zerg-meteorite-weapon"),{
     reload: 4.5 * 60,
-	shootY: 0,
+	shootY: 72/4,
 	recoil: 0,
 	rotate: true,
 	rotateSpeed: 1.5,

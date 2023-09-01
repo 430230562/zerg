@@ -1,4 +1,4 @@
-const item = require("item");
+const item = require("zerg/item");
 
 const nickelWall = new Wall("nickel-wall");
 exports.nickelWall = nickelWall;

@@ -1,9 +1,9 @@
-const item = require("item");
-const status = require("status");
-const ab = require('base/ability');
-const insect = require('unit/insect');
+const item = require("zerg/item");
+const status = require("zerg/status");
+const ab = require('zerg/base/ability');
+const insect = require('zerg/unit/insect');
 
-const { frame,matrix } = require("block/other")
+const { frame,matrix } = require("zerg/block/other")
 
 function Pay(block) {
 	return new BuildPayload(block, Team.derelict)

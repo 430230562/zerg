@@ -4,25 +4,25 @@ const node = TechTree.node;
 const SectorComplete = Objectives.SectorComplete;
 const Research = Objectives.Research;
 
-const core = require("block/core");
-const distribution = require("block/distribution");
-const factory = require("block/factory");
-const liquidBlock = require("block/liquidBlock");
-const other = require("block/other");
-const power = require("block/power");
-const production = require("block/production");
-const turret = require("block/turret");
-const unitFactory = require("block/unitFactory");
-const wall = require("block/wall");
+const core = require("zerg/block/core");
+const distribution = require("zerg/block/distribution");
+const factory = require("zerg/block/factory");
+const liquidBlock = require("zerg/block/liquidBlock");
+const other = require("zerg/block/other");
+const power = require("zerg/block/power");
+const production = require("zerg/block/production");
+const turret = require("zerg/block/turret");
+const unitFactory = require("zerg/block/unitFactory");
+const wall = require("zerg/block/wall");
 
-const air = require("unit/air");
-const crystive = require('unit/crystive');
-const insect = require("unit/insect");
-const tank = require("unit/tank");
+const air = require("zerg/unit/air");
+const crystive = require('zerg/unit/crystive');
+const insect = require("zerg/unit/insect");
+const tank = require("zerg/unit/tank");
 
-const item = require("item");
-const liquid = require("liquid");
-const planet = require("planet");
+const item = require("zerg/item");
+const liquid = require("zerg/liquid");
+const planet = require("zerg/planet");
 
 planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
     nodeProduce(item.nickel, () => {

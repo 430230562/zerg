@@ -1,4 +1,4 @@
-const Ef = require("effect");
+const Ef = require("zerg/effect");
 
 let reduceArmor = Stat("reduceArmor");
 let disabled = Stat("disabled");

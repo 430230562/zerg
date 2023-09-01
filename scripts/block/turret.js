@@ -1,8 +1,8 @@
-const item = require('item');
-const liquid = require('liquid');
-const status = require('status');
-const { ReduceArmorBulletType, RicochetBulletType, SniperBulletType } = require('base/bulletType');
-const { SniperRailEffect } = require("effect");
+const item = require('zerg/item');
+const liquid = require('zerg/liquid');
+const status = require('zerg/status');
+const { ReduceArmorBulletType, RicochetBulletType, SniperBulletType } = require('zerg/base/bulletType');
+const { SniperRailEffect } = require("zerg/effect");
 
 function AddCoolant(turret,amount){
 	return turret.coolant = turret.consumeCoolant(amount);
@@ -36,10 +36,10 @@ Object.assign(guard,{
     health: 360,
     inaccuracy: 1,
     rotateSpeed: 10,
-    shoot: Object.assign(new ShootPattern(), {
+    shoot: Object.assign(new ShootPattern(),{
+        shots: 3,
 		shotDelay: 3,
-		shots: 3,
-	}),
+    }),
 	alwaysUnlocked: true,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.turret,
@@ -588,6 +588,35 @@ lacerate.buildType = prov(() => extend(PowerTurret.PowerTurretBuild, lacerate, {
     }
 }))
 
+/*const parallax = new TractorBeamTurret("parallax")
+Object.assign(parallax,{
+    category: Category.turret,
+	buildVisibility: BuildVisibility.shown,
+	size: 2,
+    force: 0,
+    scaledForce: 0,
+    range: 240,
+    damage: 0.3,
+    status: StatusEffects.unmoving,
+    targetGround: true,
+    scaledHealth: 160,
+    rotateSpeed: 10,
+    hasPower: true
+})
+parallax.consumePower(3)
+parallax.buildType = prov(() => extend(TractorBeamTurret.TractorBeamBuild, parallax, {
+    updateTile(){
+        this.super$updateTile();
+        if(this.target != null){
+            this.target.impulse(
+                Math.cos(Angles.angle(this.x, this.y, this.target.x, this.target.y)* Math.PI / 180) * this.target.type.hitSize * this.target.type.hitSize,
+                Math.sin(Angles.angle(this.x, this.y, this.target.x, this.target.y)* Math.PI / 180) * this.target.type.hitSize * this.target.type.hitSize
+            )
+        }
+    }
+}))
+requirements(Category.turret, with(Items.silicon, 120, Items.titanium, 90, Items.graphite, 30));*/
+
 const lumen = new ItemTurret("lumen");
 exports.lumen = lumen;
 Object.assign(lumen, {
@@ -857,6 +886,122 @@ blowtorth.ammo(
 	})
 )
 
+const sange = new ItemTurret("sange");
+exports.sange = sange;
+Object.assign(sange,{
+    reload: 4,
+    range: 38 * 8,
+    shootCone: 20,
+    health: 3600,
+    size: 4,
+    rotateSpeed: 5,
+    recoil: 0.5,
+    recoilTime: 30,
+    shake: 3,
+    ammoPerShot: 3,
+    shootSound: Sounds.shootBig,
+    shoot: new ShootMulti(
+	    new ShootPattern(),
+		new ShootPattern(),
+		extend(ShootPattern,{
+            shoot(totalShots, handler, barrelIncrementer){
+                handler.shoot(0, 0, Mathf.range(45 / 2), 0)
+                handler.shoot(0, 0, Mathf.range(45 / 2), 0)
+            }
+        })
+	),
+    category: Category.turret,
+	buildVisibility: BuildVisibility.shown,
+})
+sange.ammo(
+    Items.graphite, Object.assign(new BasicBulletType(6, 38),{
+        sprite: "missile-large",
+
+        lifetime: 52,
+        width: 12,
+        height: 22,
+
+        hitSize: 7,
+        shootEffect: Fx.shootSmokeSquareBig,
+        smokeEffect: Fx.shootSmokeDisperse,
+        ammoMultiplier: 4,
+        reloadMultiplier: 1.2,
+        knockback: 0.3,
+        frontColor: Color.white,
+        trailWidth: 3,
+        trailLength: 12,
+        hitEffect: Fx.hitBulletColor,
+        despawnEffect: Fx.hitBulletColor,
+
+        trailEffect: Fx.colorSpark,
+        trailRotation: true,
+        trailInterval: 3,
+
+        despawnShake: 3,
+
+        collidesGround: true,
+    }),
+    item.chromium, Object.assign(new BasicBulletType(8, 66),{
+        sprite: "missile-large",
+
+        lifetime: 40,
+        width: 12,
+        height: 22,
+
+        hitSize: 7,
+        shootEffect: Fx.shootSmokeSquareBig,
+        smokeEffect: Fx.shootSmokeDisperse,
+        ammoMultiplier: 2,
+        knockback: 0.7,
+        pierceCap: 3,
+        frontColor: Color.white,
+        trailWidth: 3,
+        trailLength: 12,
+        hitEffect: Fx.hitBulletColor,
+        despawnEffect: Fx.hitBulletColor,
+
+        trailEffect: Fx.colorSpark,
+        trailRotation: true,
+        trailInterval: 3,
+
+        despawnShake: 3,
+
+        collidesGround: true,
+    }),
+    item.sulfone, Object.assign(new BasicBulletType(6, 45),{
+        sprite: "missile-large",
+
+        lifetime: 52,
+        width: 12,
+        height: 22,
+
+        hitSize: 7,
+        shootEffect: Fx.shootSmokeSquareBig,
+        smokeEffect: Fx.shootSmokeDisperse,
+        ammoMultiplier: 4,
+        knockback: 0.5,
+        pierceCap: 2,
+        frontColor: Color.valueOf("ede892"),
+		backColor: Color.valueOf("d9c668"),
+        hitColor: Color.valueOf("ede892"),
+        trailColor: Color.valueOf("ede892"),
+        trailWidth: 3,
+        trailLength: 12,
+        hitEffect: Fx.hitBulletColor,
+        despawnEffect: Fx.hitBulletColor,
+
+        trailEffect: Fx.colorSpark,
+        trailRotation: true,
+        trailInterval: 3,
+
+        despawnShake: 3,
+
+        collidesGround: true,
+        status: StatusEffects.burning,
+		statusDuration: 60 * 15,
+    })
+)
+
 function ToxicAbility(damage, reload, range) {
 	return extend(Ability, {
 	    i: 0,
@@ -987,121 +1132,6 @@ midnight.drawer.parts.addAll(
     })
 );
 
-const sange = new ItemTurret("sange");
-exports.sange = sange;
-Object.assign(sange,{
-    reload: 4,
-    range: 38 * 8,
-    shootCone: 20,
-    health: 3600,
-    size: 4,
-    rotateSpeed: 5,
-    recoil: 0.5,
-    recoilTime: 30,
-    shake: 3,
-    ammoPerShot: 3,
-    shootSound: Sounds.shootBig,
-    shoot: new ShootMulti(
-	    new ShootPattern(),
-		new ShootPattern(),
-		extend(ShootPattern,{
-            shoot(totalShots, handler, barrelIncrementer){
-                handler.shoot(0, 0, Mathf.range(45 / 2), 0)
-                handler.shoot(0, 0, Mathf.range(45 / 2), 0)
-            }
-        })
-	),
-    category: Category.turret,
-	buildVisibility: BuildVisibility.shown,
-})
-sange.ammo(
-    Items.graphite, Object.assign(new BasicBulletType(6, 38),{
-        sprite: "missile-large",
-
-        lifetime: 52,
-        width: 12,
-        height: 22,
-
-        hitSize: 7,
-        shootEffect: Fx.shootSmokeSquareBig,
-        smokeEffect: Fx.shootSmokeDisperse,
-        ammoMultiplier: 4,
-        reloadMultiplier: 1.2,
-        knockback: 0.3,
-        frontColor: Color.white,
-        trailWidth: 3,
-        trailLength: 12,
-        hitEffect: Fx.hitBulletColor,
-        despawnEffect: Fx.hitBulletColor,
-
-        trailEffect: Fx.colorSpark,
-        trailRotation: true,
-        trailInterval: 3,
-
-        despawnShake: 3,
-
-        collidesGround: true,
-    }),
-    item.chromium, Object.assign(new BasicBulletType(8, 66),{
-        sprite: "missile-large",
-
-        lifetime: 40,
-        width: 12,
-        height: 22,
-
-        hitSize: 7,
-        shootEffect: Fx.shootSmokeSquareBig,
-        smokeEffect: Fx.shootSmokeDisperse,
-        ammoMultiplier: 2,
-        knockback: 0.7,
-        pierceCap: 3,
-        frontColor: Color.white,
-        trailWidth: 3,
-        trailLength: 12,
-        hitEffect: Fx.hitBulletColor,
-        despawnEffect: Fx.hitBulletColor,
-
-        trailEffect: Fx.colorSpark,
-        trailRotation: true,
-        trailInterval: 3,
-
-        despawnShake: 3,
-
-        collidesGround: true,
-    }),
-    item.sulfone, Object.assign(new BasicBulletType(6, 45),{
-        sprite: "missile-large",
-
-        lifetime: 52,
-        width: 12,
-        height: 22,
-
-        hitSize: 7,
-        shootEffect: Fx.shootSmokeSquareBig,
-        smokeEffect: Fx.shootSmokeDisperse,
-        ammoMultiplier: 4,
-        knockback: 0.5,
-        pierceCap: 2,
-        frontColor: Color.valueOf("ede892"),
-		backColor: Color.valueOf("d9c668"),
-        hitColor: Color.valueOf("ede892"),
-        trailColor: Color.valueOf("ede892"),
-        trailWidth: 3,
-        trailLength: 12,
-        hitEffect: Fx.hitBulletColor,
-        despawnEffect: Fx.hitBulletColor,
-
-        trailEffect: Fx.colorSpark,
-        trailRotation: true,
-        trailInterval: 3,
-
-        despawnShake: 3,
-
-        collidesGround: true,
-        status: StatusEffects.burning,
-		statusDuration: 60 * 15,
-    })
-)
 function CometMissile(name,bullet){
     return extend(MissileUnitType,name,{
         speed: 18,
@@ -1157,7 +1187,7 @@ Object.assign(comet,{
     shake: 5,
     maxAmmo: 60,
     ammoPerShot: 30,
-    shootSound: Sounds.shootBig,
+    shootSound: Sounds.dullExplosion,
     category: Category.turret,
 	buildVisibility: BuildVisibility.shown,
 })
@@ -1165,10 +1195,68 @@ Object.assign(comet,{
 comet.ammo(
     Items.graphite, Object.assign(new BasicBulletType(0, 1),{
         shootEffect: Fx.shootBig,
-        smokeEffect: Fx.shootSmokeMissile,
+        //smokeEffect: Fx.shootSmokeMissile,
         ammoMultiplier: 2,
 
-        spawnUnit: CometMissile("comet-graphite-missile",Object.assign(new ExplosionBulletType(1600, 65),{
+        spawnUnit: CometMissile("comet-graphite-missile",Object.assign(new ExplosionBulletType(1600, 88),{
+            hitColor: Pal.techBlue,
+            shootEffect: new MultiEffect(
+                Fx.massiveExplosion,
+                Fx.scatheExplosion,
+                Fx.scatheLight,
+                Object.assign(new WaveEffect(),{
+                    lifetime: 10,
+                    strokeFrom: 4,
+                    sizeTo: 130,
+                    colorFrom: Pal.techBlue,
+                    colorTo: Pal.techBlue,
+                    lightColor: Pal.techBlue
+                })
+            ),
+        
+            collidesAir: false,
+            buildingDamageMultiplier: 0.3,
+        
+            ammoMultiplier: 1,
+            fragVelocityMin: 3,
+            fragVelocityMax: 4,
+            fragLifeMin: 0.8,
+            fragLifeMax: 1.25,
+            fragBullets: 6,
+            fragRandomSpread: 60,
+            fragBullet: Object.assign(new ArtilleryBulletType(1, 38),{
+                buildingDamageMultiplier: 0.3,
+                drag: 0.02,
+                hitEffect: Fx.massiveExplosion,
+                despawnEffect: Fx.scatheSlash,
+                knockback: 0.8,
+                lifetime: 10,
+                width: 18,
+                height: 18,
+                collidesTiles: false,
+                splashDamageRadius: 24,
+                backColor: Pal.techBlue,
+                trailColor: Pal.techBlue,
+                hitColor: Pal.techBlue,
+                frontColor: Color.white,
+                smokeEffect: Fx.shootBigSmoke2,
+                despawnShake: 7,
+                lightRadius: 30,
+                lightColor: Pal.techBlue,
+                lightOpacity: 0.5,
+        
+                trailLength: 20,
+                trailWidth: 3.5,
+                trailEffect: Fx.none,
+            }),
+        }))
+    }),
+    item.biomassSteel, Object.assign(new BasicBulletType(0, 1),{
+            shootEffect: Fx.shootBig,
+            //smokeEffect: Fx.shootSmokeMissile,
+            ammoMultiplier: 1,
+
+            spawnUnit: CometMissile("comet-biomass-steel-missile",Object.assign(new ExplosionBulletType(3000, 8 * 11.5),{
                 hitColor: Pal.techBlue,
                 shootEffect: new MultiEffect(
                     Fx.massiveExplosion,
@@ -1178,28 +1266,33 @@ comet.ammo(
                         lifetime: 10,
                         strokeFrom: 4,
                         sizeTo: 130,
-                        color: Pal.techBlue,
+                        colorFrom: Pal.techBlue,
+                        colorTo: Pal.techBlue,
+                        lightColor: Pal.techBlue
                     })
                 ),
-        
+
                 collidesAir: false,
                 buildingDamageMultiplier: 0.3,
-        
+
                 ammoMultiplier: 1,
-                fragLifeMin: 0.1,
-                fragBullets: 7,
-                fragBullet: Object.assign(new ArtilleryBulletType(3.4, 32),{
+                fragVelocityMin: 1,
+                fragVelocityMax: 4,
+                fragLifeMin: 0.8,
+                fragLifeMax: 1.25,
+                fragBullets: 10,
+                fragRandomSpread: 36,
+                fragBullet: Object.assign(new ArtilleryBulletType(1, 48),{
                     buildingDamageMultiplier: 0.3,
                     drag: 0.02,
                     hitEffect: Fx.massiveExplosion,
                     despawnEffect: Fx.scatheSlash,
                     knockback: 0.8,
-                    lifetime: 23,
+                    lifetime: 10,
                     width: 18,
                     height: 18,
                     collidesTiles: false,
-                    splashDamageRadius: 40,
-                    splashDamage: 80,
+                    splashDamageRadius: 24,
                     backColor: Pal.techBlue,
                     trailColor: Pal.techBlue,
                     hitColor: Pal.techBlue,
@@ -1209,12 +1302,11 @@ comet.ammo(
                     lightRadius: 30,
                     lightColor: Pal.techBlue,
                     lightOpacity: 0.5,
-        
+
                     trailLength: 20,
                     trailWidth: 3.5,
                     trailEffect: Fx.none,
                 }),
-            })
-        )
-    })
+            }))
+        })
 )

@@ -1,5 +1,5 @@
-const item = require('item');
-const liquid = require('liquid');
+const item = require('zerg/item');
+const liquid = require('zerg/liquid');
 
 const nickelPowerNode = new PowerNode("nickel-power-node");
 exports.nickelPowerNode = nickelPowerNode;
