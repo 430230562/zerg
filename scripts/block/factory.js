@@ -341,7 +341,7 @@ additiver.consumeLiquids(LiquidStack.with(
     liquid.acid, 0.1,
     liquid.acetylene, 0.05
 ));
-additiver.consumeItem(item.salt, 1);
+additiver.consumeItem(item.sulfone, 1);
 additiver.consumePower(2.3);
 
 const oilDistillation = new GenericCrafter("oil-distillation");

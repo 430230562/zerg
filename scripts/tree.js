@@ -75,7 +75,9 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
         node(distribution.manganeseConveyor, () => {
             node(other.box, () => {
                 node(other.unloader, () => {}),
-                node(other.launchPad, () => {})
+                node(other.launchPad, Seq.with(
+                new SectorComplete(planet.crystalOutpost)
+                ), () => {})
             }),
             node(distribution.biomassConveyor, () => {}),
             node(distribution.armoredConveyor, () => {})

@@ -912,6 +912,12 @@ Object.assign(sange,{
 	),
     category: Category.turret,
 	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+	    Items.silicon, 250,
+		item.nickel, 400,
+		item.crystal, 300,
+		item.manganese, 250,
+	),
 })
 sange.ammo(
     Items.graphite, Object.assign(new BasicBulletType(6, 38),{
