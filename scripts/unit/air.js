@@ -54,9 +54,9 @@ mist.weapons.add(
 	})
 )
 
-const thoud = new UnitType("thoud");
-exports.thoud = thoud;
-Object.assign(thoud,{
+const cirrus = new UnitType("cirrus");
+exports.cirrus = cirrus;
+Object.assign(cirrus,{
 	health: 680,
 	speed: 1.85,
 	flying: true,
@@ -69,8 +69,8 @@ Object.assign(thoud,{
 	itemCapacity: 0,
 	constructor: () => new UnitEntity.create(),
 })
-thoud.weapons.add(
-	Object.assign(new Weapon("zerg-thoud-weapon"),{
+cirrus.weapons.add(
+	Object.assign(new Weapon("zerg-cirrus-weapon"),{
 		x: 4,
 		y: 0,
 		shootY: 0,

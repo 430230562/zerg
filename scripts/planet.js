@@ -15,9 +15,9 @@ Object.assign(greavar, {
 	}),
 	meshLoader: prov(() => new HexMesh(greavar, 4)),
 	cloudMeshLoader: () => new MultiMesh(
-		new HexSkyMesh(greavar, 2, 0.15, 0.14, 5, Color.valueOf("f2ff90bf"), 2, 0.42, 1, 0.43)
+		new HexSkyMesh(greavar, 2, 0.15, 0.14, 5, Color.valueOf("f2fff7bf"), 2, 0.42, 1, 0.43)
 	),
-	atmosphereColor: Color.valueOf("3c7141"),
+	atmosphereColor: Color.valueOf("fbda41"),
 	landCloudColor: Color.valueOf("3c7141"),
 	atmosphereRadIn: 0,
 	atmosphereRadOut: 0.2,

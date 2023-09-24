@@ -222,13 +222,11 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                     node(tank.tornado, () => {})
                 })
             }),
-            node(tank.alter, () => {
-                node(tank.bewitch, () => {})
-            })
+            node(tank.alter, () => {})
         }),
         node(unitFactory.airFactory,() => {
             node(air.mist, () => {
-                node(air.thoud, () => {
+                node(air.cirrus, () => {
                     node(air.cloud, () => {})
                 }),
                 node(air.electron, () => {

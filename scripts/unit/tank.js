@@ -619,6 +619,15 @@ Object.assign(new Weapon("zerg-alter-weapon"), {
 			
 			this.super$hitEntity(b, entity, health);
 		},
+		hitTile(b,build,x,y,initialHealth,direct){
+		    if(build.team != b.team && build.health <= 100){
+		        build.remove()
+		        
+		        build.tile.setBlock(build.block,b.team,build.rotation)
+		    }
+            
+		    this.super$hitTile(b,build,x,y,initialHealth,direct);
+		},
 		speed: 3.5,
 		damage: 25,
 		sprite: "zerg-wave",
@@ -636,79 +645,3 @@ Object.assign(new Weapon("zerg-alter-weapon"), {
 	})
 })
 )
-
-const bewitch = new UnitType("bewitch");
-exports.bewitch = bewitch;
-Object.assign(bewitch,{
-    targetPriority: -1.5,
-	envDisabled: Env.none,
-	squareShape: true,
-	omniMovement: false,
-	rotateMoveFirst: true,
-	speed: 0.75,
-	hitSize: 14,
-	treadRects: [new Rect(4, -20, 11, 36)],
-	treadFrames: 8,
-	treadPullOffset: 3,
-	rotateSpeed: 3,
-	health: 540,
-	armor: 3,
-	itemCapacity: 0,
-	constructor: () => new TankUnit.create()
-})
-bewitch.weapons.add(
-Object.assign(new Weapon("zerg-bewitch-weapon"), {
-	layerOffset: 0.0001,
-	reload: 60,
-	shootY: 1.5,
-	recoil: 0,
-	rotate: true,
-	rotateSpeed: 5.7,
-	mirror: false,
-	x: 0,
-	y: 0,
-	heatColor: Color.valueOf("f9350f"),
-	cooldownTime: 90,
-	shootSound: Sounds.lasershoot,
-	
-	bullet: extend(BasicBulletType, {
-		hitEntity(b, entity, health) {
-			if(entity instanceof Unit) {
-			    
-				if (entity.health <= 100) {
-					entity.remove();
-					
-					entity.type.spawn(b.team,entity.x,entity.y)
-				}
-			}
-			
-			this.super$hitEntity(b, entity, health);
-		},
-		hitTile(b,build,x,y,initialHealth,direct){
-		    if(build.team != b.team && build.health <= 100){
-		        build.remove()
-		        
-		        build.tile.setBlock(build.block,b.team,build.rotation)
-		    }
-            
-		    this.super$hitTile(b,build,x,y,initialHealth,direct);
-		},
-		speed: 3.5,
-		damage: 50,
-		sprite: "zerg-wave",
-		width: 13,
-		height: 17,
-		lifetime: 52,
-		despawnEffect: Ef.interfere,
-		hitEffect: Ef.interfere,
-		backColor: Color.valueOf("afffff"),
-		frontColor: Color.valueOf("ffffff"),
-		hittable: false,
-		pierceArmor: true,
-		homingRange: 60,
-		homingPower: 0.1,
-	})
-})
-)
-
-//蛊惑→同化

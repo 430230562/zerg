@@ -135,53 +135,6 @@ obstruct.ammo(
     })
 )
 
-const sniper = new ItemTurret('sniper');
-exports.sniper = sniper
-Object.assign(sniper, {
-	reload: 180,
-	size: 2,
-	range: 8 * 45,
-	shootCone: 5,
-	health: 1040,
-	inaccuracy: 0,
-	rotateSpeed: 2.7,
-	ammoUseEffect: Fx.casing1,
-	shootSound: Sounds.mediumCannon,
-    unitSort: UnitSorts.strongest,
-	shoot: Object.assign(new ShootPattern(), {
-		firstShotDelay: 15
-	}),
-	category: Category.turret,
-	buildVisibility: BuildVisibility.shown,
-	requirements: ItemStack.with(
-		Items.graphite, 80,
-		item.nickel, 100,
-	),
-})
-AddCoolant(sniper,0.2)
-sniper.ammo(
-    item.nickel, new SniperBulletType("00c49b",45.5 * 8,120),
-	item.manganese, Object.assign(new SniperBulletType("ecaae2",45.5 * 8,220) ,{
-		reloadMultiplier: 1.25,
-	}),
-	item.chromium, Object.assign(new SniperBulletType("e45018",50.5 * 8,350) ,{
-		reloadMultiplier: 1.25,
-		rangeChange: 40,
-	}),
-)
-sniper.buildType = prov(() => extend(ItemTurret.ItemTurretBuild, sniper, {
-    handleBullet(bullet, offsetX, offsetY, angleOffset) {
-        if(this.target != null){
-		    bullet.damage *= this.target.maxHealth / this.target.health
-		}
-	},
-	findTarget(){
-	    if(this.target == null)Units.nearby(null, this.x, this.y, this.range(), other => {
-	        if(other.team != this.team && Mathf.chance(0.25)) this.target = other
-	    })
-	}
-}))
-
 const nexus = new ItemTurret("nexus");
 exports.nexus = nexus;
 Object.assign(nexus, {

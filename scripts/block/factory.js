@@ -294,14 +294,14 @@ Object.assign(acetyleneSynthesizer,{
 	    }),
 	    Object.assign(new DrawParticles(), {
 			alpha: 0.35,
-			particleRad: 12,
+			particleRad: 8,
 			particleSize: 9,
 			particleLife: 120,
 			particles: 15,
 			reverse: true,
 			color: Color.valueOf("d1e4ff"), 
 		}),
-	    new DrawDefault()
+		new DrawDefault()
 	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
@@ -325,9 +325,33 @@ Object.assign(additiver,{
     outputLiquid: new LiquidStack(liquid.yperite, 0.05),
 	liquidCapacity: 30,
 	craftTime: 60,
-	size: 3,
+	size: 4,
 	hasPower: true,
 	hasLiquids: true,
+	drawer: new DrawMulti(
+	    new DrawRegion("-bottom"),
+	    new DrawWarmupRegion(),
+	    Object.assign(new DrawParticles(), {
+			alpha: 0.35,
+			particleRad: 12,
+			particleSize: 9,
+			particleLife: 120,
+			particles: 15,
+			reverse: true,
+			color: Color.valueOf("d1e4ff"), 
+		}),
+		Object.assign(new DrawParticles(), {
+			alpha: 0.35,
+			particleRad: 12,
+			particleSize: 9,
+			particleLife: 120,
+			particles: 15,
+			rotateScl: -3,
+			reverse: true,
+			color: Color.valueOf("9cb664"), 
+		}),
+		new DrawDefault()
+	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(

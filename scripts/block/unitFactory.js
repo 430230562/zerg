@@ -81,8 +81,7 @@ Object.assign(reconstructor, {
 })
 reconstructor.addUpgrade(tank.pioneer, tank.brigadier);
 reconstructor.addUpgrade(tank.gale, tank.hurricane);
-reconstructor.addUpgrade(tank.alter,tank.bewitch)
-reconstructor.addUpgrade(air.mist, air.thoud);
+reconstructor.addUpgrade(air.mist, air.cirrus);
 reconstructor.addUpgrade(air.electron, air.inductance);
 reconstructor.addUpgrade(air.phantom, air.shadow)
 reconstructor.consumePower(3.1);
@@ -110,7 +109,7 @@ Object.assign(deepReconstructor, {
 deepReconstructor.addUpgrade(tank.brigadier, tank.kibbler);
 deepReconstructor.addUpgrade(tank.hurricane, tank.tornado);
 //deepReconstructor.addUpgrade(tank.alter,tank.bewitch)
-deepReconstructor.addUpgrade(air.thoud, air.cloud);
+deepReconstructor.addUpgrade(air.cirrus, air.cloud);
 deepReconstructor.addUpgrade(air.inductance, air.ampere);
 deepReconstructor.consumePower(6.8);
 deepReconstructor.consumeItems(ItemStack.with(
