@@ -14,8 +14,8 @@ function Insect(name){
 			this.super$init();
 			
 			this.abilities.add(
-			    new DeathNeoplasmAbility(this.hitSize * 2, this.health),
-			    Object.assign(new RegenAbility(), {
+				new DeathNeoplasmAbility(this.hitSize * 2, this.health),
+				Object.assign(new RegenAbility(), {
 					percentAmount: 1 / (90 * 60) * 100,
 				}),
 				Object.assign(new LiquidRegenAbility(), {
@@ -161,13 +161,13 @@ Object.assign(new Weapon(), {
 )
 
 const groupMissile = extend(MissileUnitType,"group-missile",{
-    update(unit){
-        if(unit.getDuration(status.dissolved) >= 1){
-            unit.damageMultiplier = 0
-            
-            unit.kill();
-        }
-    }
+	update(unit){
+		if(unit.getDuration(status.dissolved) >= 1){
+			unit.damageMultiplier = 0
+			
+			unit.kill();
+		}
+	}
 })
 Object.assign(groupMissile, {
 	hitSize: 4,
@@ -337,16 +337,16 @@ Object.assign(new Weapon("zerg-mosquito-weapon"), {
 })
 )
 mosquito.parts.add(
-    Object.assign(new RegionPart("-wing"),{
-        mirror: true,
-        x: 0.5,
-        y: 0,
-        rotation: -45,
-        moveX: 0,
-        moveY: 0,
-        moveRot: 30,
-        progress: DrawPart.PartProgress.smoothReload.sin(1,5)
-    })
+	Object.assign(new RegionPart("-wing"),{
+		mirror: true,
+		x: 0.5,
+		y: 0,
+		rotation: -45,
+		moveX: 0,
+		moveY: 0,
+		moveRot: 30,
+		progress: DrawPart.PartProgress.smoothReload.sin(1,5)
+	})
 )
 
 const burst = new Insect("burst");
@@ -401,16 +401,16 @@ Object.assign(new Weapon(), {
 })
 )
 burst.parts.add(
-    Object.assign(new RegionPart("-wing"),{
-        mirror: true,
-        x: 0.5,
-        y: 0,
-        rotation: -45,
-        moveX: 0,
-        moveY: 0,
-        moveRot: 30,
-        progress: DrawPart.PartProgress.smoothReload.sin(1,5)
-    })
+	Object.assign(new RegionPart("-wing"),{
+		mirror: true,
+		x: 0.5,
+		y: 0,
+		rotation: -45,
+		moveX: 0,
+		moveY: 0,
+		moveRot: 30,
+		progress: DrawPart.PartProgress.smoothReload.sin(1,5)
+	})
 )
 
 const buffer = new UnitType("buffer");
@@ -456,20 +456,20 @@ Object.assign(new Weapon(), {
 const spread = new UnitType("spread");
 exports.spread = spread;
 Object.assign(spread,{
-    constructor: () => new CrawlUnit.create(),
+	constructor: () => new CrawlUnit.create(),
 	speed: 1,
 	hitSize: 12,
 	targetPriority: 1,
 	health: 400,
 	omniMovement: false,
-    rotateSpeed: 2.5,
-    segments: 3,
-    drawBody: false,
-    aiController: () => new HugAI(),
+	rotateSpeed: 2.5,
+	segments: 3,
+	drawBody: false,
+	aiController: () => new HugAI(),
 
-    segmentScl: 3,
-    segmentPhase: 5,
-    segmentMag: 0.5,
+	segmentScl: 3,
+	segmentPhase: 5,
+	segmentMag: 0.5,
 	outlineColor: Pal.neoplasmOutline,
 	envDisabled: Env.none,
 	healFlash: true,
@@ -486,22 +486,22 @@ s.healthMultiplier = 5;
 s.show = false;
 
 const egg = extend(UnitType,"egg",{
-     u:[buffer,spider,mosquito],
-     update(unit){
-        unit.maxHealth += 0.01;
-        unit.heal(0.2)
-        if(unit.maxHealth >= 112){
-            this.u[Math.floor(Math.random() * 3)].spawn(unit.team,unit.x,unit.y)
-            
-            unit.remove();
-        }
-        if(unit.getDuration(s) <= 10){
-            unit.apply(s,20 * 60);
-        }
-        if(unit.getDuration(status.dissolved) >= 1){
-            unit.kill();
-        }
-     }
+	 u:[buffer,spider,mosquito,spread],
+	 update(unit){
+		unit.maxHealth += 0.01;
+		unit.heal(0.2)
+		if(unit.maxHealth >= 112){
+			this.u[Math.floor(Math.random() * 3)].spawn(unit.team,unit.x,unit.y)
+			
+			unit.remove();
+		}
+		if(unit.getDuration(s) <= 10){
+			unit.apply(s,20 * 60);
+		}
+		if(unit.getDuration(status.dissolved) >= 1){
+			unit.kill();
+		}
+	 }
 })
 exports.egg = egg;
 Object.assign(egg, {
@@ -560,7 +560,7 @@ Object.assign(carrier, {
 carrier.abilities.add(
 	new UnitSpawnAbility(egg, 60 * 20, 0, 0),
 	Object.assign(new SpawnDeathAbility(egg, 2, 20),{
-	    randAmount: 4,
+		randAmount: 4,
 	}),
 	new DeathNeoplasmAbility(30, 800),
 );

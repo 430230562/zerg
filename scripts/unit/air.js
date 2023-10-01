@@ -19,13 +19,13 @@ Object.assign(mist,{
 	range: 1600,
 	constructor: () => new UnitEntity.create(),
 	aiController: () => extend(FlyingAI,{
-	    updateMovement(){
-	        if(this.target != null && this.target instanceof Unit){
-	            this.circle(this.target, 150)
-	        }else if(this.unit.team.core() != null){
-	            this.circle(this.unit.team.core(), 120)
-	        }
-	    }
+		updateMovement(){
+			if(this.target != null && this.target instanceof Unit){
+				this.circle(this.target, 150)
+			}else if(this.unit.team.core() != null){
+				this.circle(this.unit.team.core(), 120)
+			}
+		}
 	})
 })
 mist.weapons.add(
@@ -36,8 +36,8 @@ mist.weapons.add(
 		layerOffset : -0.0001,
 		reload: 5,
 		rotate: true,
-	    rotateSpeed: 7.3,
-	    mirror: false,
+		rotateSpeed: 7.3,
+		mirror: false,
 		shootCone: 30,
 		shootSound: Sounds.missile,
 		bullet: Object.assign(new MissileBulletType(4,11),{
@@ -114,7 +114,7 @@ Object.assign(cloud,{
 })
 cloud.weapons.add(
 	Object.assign(new Weapon(),{
-	    x: 4,
+		x: 4,
 		y: -2,
 		shootY: 0,
 		reload: 120,
@@ -145,7 +145,7 @@ cloud.weapons.add(
 		})
 	}),
 	Object.assign(new Weapon("zerg-cloud-weapon"),{
-	    shootSound: Sounds.blaster,
+		shootSound: Sounds.blaster,
 		reload: 70,
 		x: 0,
 		y: 6.5,
@@ -250,15 +250,15 @@ inductance.weapons.add(
 		rotate: false,
 		mirror: false,
 		shoot: new ShootMulti(
-    	    Object.assign(new ShootHelix(),{
-    			mag: 0.5,
-    			scl: 6,
-    		}),
-    	    Object.assign(new ShootHelix(),{
-    			mag: 1.5,
-    			scl: 4,
-    		})
-    	),
+			Object.assign(new ShootHelix(),{
+				mag: 0.5,
+				scl: 6,
+			}),
+			Object.assign(new ShootHelix(),{
+				mag: 1.5,
+				scl: 4,
+			})
+		),
 
 		bullet: Object.assign(new BasicBulletType(4, 15),{
 			width: 7,
@@ -408,8 +408,8 @@ Object.assign(phantom,{
 	constructor: () => new UnitEntity.create()
 })
 phantom.mineItems.addAll(
-    item.nickel,
-    item.manganese,
+	item.nickel,
+	item.manganese,
 );
 phantom.weapons.add(
 	Object.assign(new Weapon("zerg-phantom-weapon"), {
@@ -450,7 +450,7 @@ phantom.abilities.add(
 const shadow = new UnitType("shadow");
 exports.shadow = shadow;
 Object.assign(shadow,{
-    targetPriority: -0.5,
+	targetPriority: -0.5,
 	
 	speed: 12 * 8 / 60,
 	accel: 0.06,
@@ -472,7 +472,7 @@ Object.assign(shadow,{
 	payloadCapacity: 64
 })
 shadow.mineItems.addAll(
-    item.nickel,
-    item.manganese,
-    item.chromium
+	item.nickel,
+	item.manganese,
+	item.chromium
 );

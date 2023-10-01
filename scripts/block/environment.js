@@ -12,8 +12,8 @@ Blocks.snow.attributes.set(Attribute.water, 0.5);
 
 const flower = new Prop("flower");
 Object.assign(flower,{
-    variants: 6,
-    hasShadow: false,
+	variants: 6,
+	hasShadow: false,
 })
 
 //tundra
@@ -89,7 +89,7 @@ const hyphaFloor = new Floor("hypha-floor");
 //crystal
 const crystallineWall = new StaticWall("crystalline-wall");
 Object.assign(crystallineWall,{
-    itemDrop: item.crystal,
+	itemDrop: item.crystal,
 })
 
 const crystallineFloor = new Floor("crystalline-floor");
@@ -100,7 +100,7 @@ Object.assign(crystallineFloor, {
 
 const acidPool = new Floor("acid-pool");
 Object.assign(acidPool,{
-    speedMultiplier: 0.5,
+	speedMultiplier: 0.5,
 	variants: 0,
 	status: status.corroding,
 	statusDuration: 120,

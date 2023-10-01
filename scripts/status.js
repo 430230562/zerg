@@ -6,11 +6,11 @@ let percentDamage = Stat("percentDamage");
 let armorLimit = Stat("armorLimit");
 
 exports.corroding = extend(StatusEffect,"corroding",{
-    update(unit, time){
+	update(unit, time){
 		this.super$update(unit, time);
 		
 		if(unit.armor >= 0){
-		    unit.armor -= 0.5 / 60
+			unit.armor -= 0.5 / 60
 		}
 	},
 	setStats(){
@@ -22,7 +22,7 @@ exports.corroding = extend(StatusEffect,"corroding",{
 });
 
 exports.dissolved = extend(StatusEffect,"dissolved",{
-    update(unit, time){
+	update(unit, time){
 		this.super$update(unit, time);
 		
 		if(unit.type.outlineColor === Pal.neoplasmOutline){
@@ -32,7 +32,7 @@ exports.dissolved = extend(StatusEffect,"dissolved",{
 			unit.abilities = []
 			
 			if(unit.getDuration(this) <= 10){
-			    unit.apply(this, 180)
+				unit.apply(this, 180)
 			}
 		}
 	},
@@ -46,15 +46,21 @@ exports.dissolved = extend(StatusEffect,"dissolved",{
 		this.opposite(StatusEffects.tarred)
 	},
 	effect: Fx.unitDust,
-    color: Color.valueOf("b3e5fa"),
+	color: Color.valueOf("b3e5fa"),
 })
 
 const poisoned = extend(StatusEffect,"poisoned",{
-    color: Color.valueOf("92ab11"),
+	color: Color.valueOf("92ab11"),
 	damage: 15 / 60,
 	effect: Fx.mineSmall,
 	damageMultiplier: 1,
 	healthMultiplier: 0.8,
-	speedMultiplier: 0.6,
 })
 exports.poisoned = poisoned
+
+const adhering = extend(StatusEffect,"adhering",{
+	color: Color.valueOf("9e172c"),
+	effect: Fx.mineSmall,
+	speedMultiplier: 0.8,
+	reloadMultiplier: 0.6
+})

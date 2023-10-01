@@ -23,7 +23,7 @@ Object.assign(screwPump, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	requirements: ItemStack.with(
-	    Items.silicon, 20,
+		Items.silicon, 20,
 		item.nickel, 70,
 		item.manganese, 35,
 		item.crystal, 50,
@@ -34,19 +34,19 @@ screwPump.consumePower(0.35);
 const waterExtractor = new SolidPump("water-extractor")
 exports.waterExtractor = waterExtractor;
 Object.assign(waterExtractor,{
-    result: Liquids.water,
-    pumpAmount: 0.11,
-    attribute: Attribute.water,
-    size: 2,
-    liquidCapacity: 30,
-    rotateSpeed: 1.4,
-    buildVisibility: BuildVisibility.shown,
+	result: Liquids.water,
+	pumpAmount: 0.11,
+	attribute: Attribute.water,
+	size: 2,
+	liquidCapacity: 30,
+	rotateSpeed: 1.4,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
-    requirements: ItemStack.with(
-        Items.graphite, 30,
-        item.nickel, 30,
-        item.crystal, 30
-    )
+	requirements: ItemStack.with(
+		Items.graphite, 30,
+		item.nickel, 30,
+		item.crystal, 30
+	)
 })
 waterExtractor.consumePower(1.5);
 

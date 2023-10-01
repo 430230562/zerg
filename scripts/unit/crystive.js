@@ -1,6 +1,6 @@
 function CrystalUnit(name){
 	return extend(UnitType, name, {
-	    outlineColor: Color.valueOf("2e3466"),
+		outlineColor: Color.valueOf("2e3466"),
 		healColor: Color.valueOf("7e8ae6"),
 		envDisabled: Env.none,
 		lightOpacity: 0.1,
@@ -8,7 +8,7 @@ function CrystalUnit(name){
 			this.super$init();
 			
 			this.abilities.add(
-			    Object.assign(new RegenAbility(), {
+				Object.assign(new RegenAbility(), {
 					percentAmount: 1 / (120 * 60) * 100,
 				}),
 			)
@@ -97,7 +97,7 @@ Object.assign(asbestos, {
 	drag: 0.1,
 	hitSize: 12,
 	rotateSpeed: 3,
-	health: 840,
+	health: 1100,
 	armor: 7,
 	stepShake: 0,
 	legCount: 4,
@@ -114,8 +114,6 @@ Object.assign(asbestos, {
 	hovering: true,
 	shadowElevation: 0.2,
 	groundLayer: 74,
-	
-	targetPriority: 1,
 	
 	constructor: () => new LegsUnit.create()
 })
@@ -189,6 +187,17 @@ for(let i = 0; i < 5; i++){
 		})
 	)
 }
+asbestos.abilities.add(
+	Object.assign(ShieldArcAbility(),{
+		radius: 36,
+		angle: 60,
+		regen: 0.05,
+		cooldown: 60 * 15,
+		max: 200,
+		y: -20,
+		width: 4,
+	})
+)
 
 const quartz = new CrystalUnit("quartz");
 exports.quartz = quartz;
@@ -197,15 +206,15 @@ Object.assign(quartz, {
 	drag: 0.4,
 	hitSize: 16,
 	rotateSpeed: 3,
-	health: 1100,
+	health: 3000,
+	armor: 12,
 	legCount: 6,
 	legLength: 13,
-	legForwardScl: 0.8,
 	legMoveSpace: 1.4,
 	legBaseOffset: 2,
+	legContinuousMove: true,
 	hovering: true,
 	targetAir: false,
-	armor: 11,
 	shadowElevation: 0.3,
 	groundLayer: 75,
 	constructor: () => new LegsUnit.create()
@@ -215,18 +224,18 @@ Object.assign(new Weapon("zerg-quartz-weapon"), {
 	x: 8.5,
 	y: -1.5,
 	top: false,
-	reload: 60,
+	reload: 45,
 	recoil: 4,
 	shake: 2,
 	ejectEffect: Fx.casing2,
 	shootSound: Sounds.artillery,
 	shootStatus: StatusEffects.slow,
-	shootStatusDuration: 90,
+	shootStatusDuration: 50,
 	shoot: Object.assign(new ShootPattern(), {
-		shots: 2,
+		shots: 3,
 		shotDelay: 5,
 	}),
-	bullet: Object.assign(new ArtilleryBulletType(3, 20), {
+	bullet: Object.assign(new ArtilleryBulletType(3, 100), {
 		knockback: 0.8,
 		lifetime: 80,
 		width: 11,
@@ -236,8 +245,8 @@ Object.assign(new Weapon("zerg-quartz-weapon"), {
 		splashDamage: 77,
 		backColor: Color.valueOf("7e8ae6"),
 		frontColor: Color.white,
-		fragBullets: 5,
-		fragBullet: Object.assign(new BasicBulletType(3, 6, "bullet"), {
+		fragBullets: 7,
+		fragBullet: Object.assign(new BasicBulletType(3, 7, "bullet"), {
 			width: 5,
 			height: 12,
 			shrinkY: 1,
@@ -248,4 +257,15 @@ Object.assign(new Weapon("zerg-quartz-weapon"), {
 		})
 	}),
 })
+)
+quartz.abilities.add(
+	Object.assign(ShieldArcAbility(),{
+		radius: 60,
+		angle: 60,
+		regen: 0.1,
+		cooldown: 60 * 15,
+		max: 600,
+		y: -26,
+		width: 6,
+	})
 )

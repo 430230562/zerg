@@ -13,8 +13,8 @@ Object.assign(resurrection, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-	    Items.silicon, 200,
-	    Items.graphite, 150,
+		Items.silicon, 200,
+		Items.graphite, 150,
 		item.nickel, 250,
 		item.manganese, 175,
 	)
@@ -36,7 +36,7 @@ Object.assign(catalyzer, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-	    Items.silicon, 75,
+		Items.silicon, 75,
 		item.nickel, 100,
 		item.manganese, 75,
 	)
@@ -53,13 +53,13 @@ Object.assign(frame, {
 	hasLiquids: true,
 	cooldownNormal: 40 / 60,
 	cooldownLiquid: 20 / 60,
-    coolantConsumption: 0.05,
+	coolantConsumption: 0.05,
 	cooldownBrokenBase: 20 / 60,
 	size: 1,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-	    Items.silicon, 25,
+		Items.silicon, 25,
 		item.nickel, 50,
 		item.crystal, 25,
 	)
@@ -69,19 +69,19 @@ frame.consumePower(0.8);
 const matrix = new ForceProjector("matrix");
 exports.matrix = matrix;
 Object.assign(matrix,{
-    radius: 64,
+	radius: 64,
 	shieldHealth: 1200,
 	consumeCoolant: true,
 	hasLiquids: true,
 	cooldownNormal: 80 / 60,
 	cooldownLiquid: 40 / 60,
-    coolantConsumption: 0.1,
+	coolantConsumption: 0.1,
 	cooldownBrokenBase: 40 / 60,
 	size: 2,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-	    Items.silicon, 75,
+		Items.silicon, 75,
 		item.nickel, 100,
 		item.manganese, 50,
 		item.crystal, 125,
@@ -92,19 +92,19 @@ matrix.consumePower(2.4)
 const clan = new ForceProjector("clan");
 exports.clan = clan
 Object.assign(clan,{
-    radius: 128,
+	radius: 128,
 	shieldHealth: 2400,
 	consumeCoolant: true,
 	hasLiquids: true,
 	cooldownNormal: 150 / 60,
 	cooldownLiquid: 60 / 60,
-    coolantConsumption: 0.15,
+	coolantConsumption: 0.15,
 	cooldownBrokenBase: 100 / 60,
 	size: 3,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-	    Items.silicon, 125,
+		Items.silicon, 125,
 		item.nickel, 120,
 		item.manganese, 75,
 		item.chromium, 25,
@@ -122,7 +122,7 @@ Object.assign(box, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-	    item.nickel, 25,
+		item.nickel, 25,
 		item.manganese, 75,
 	)
 })
@@ -135,7 +135,7 @@ Object.assign(unloader, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-	    Items.silicon, 20,
+		Items.silicon, 20,
 		item.manganese, 30,
 	)
 })
@@ -150,7 +150,7 @@ Object.assign(launchPad,{
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-	    Items.silicon, 150,
+		Items.silicon, 150,
 		item.nickel, 550,
 		item.manganese, 150,
 	),
@@ -158,14 +158,14 @@ Object.assign(launchPad,{
 launchPad.consumePower(4);
 
 const lamp = extend(LightBlock,"lamp",{
-    drawPlace(x,y,rotation,valid){
-        Drawf.dashCircle(x * 8 + this.offset, y * 8 + this.offset, this.radius * 2, Pal.accent);
-    },
-    setStats(){
-        this.super$setStats();
-        this.stats.add(Stat.shootRange, (this.radius / 8) * 2, StatUnit.blocks);
-    },
-    size: 2,
+	drawPlace(x,y,rotation,valid){
+		Drawf.dashCircle(x * 8 + this.offset, y * 8 + this.offset, this.radius * 2, Pal.accent);
+	},
+	setStats(){
+		this.super$setStats();
+		this.stats.add(Stat.shootRange, (this.radius / 8) * 2, StatUnit.blocks);
+	},
+	size: 2,
 	brightness: 0.9,
 	radius: 120,
 	buildVisibility: BuildVisibility.shown,

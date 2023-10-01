@@ -10,8 +10,8 @@ Object.assign(greavar, {
 			return Color.valueOf("9cb664").write(Color.valueOf("3c7141")).lerp(Color.valueOf("84a94b"),Mathf.clamp(Mathf.round(depth, 0.25)));
 		},
 		getDefaultLoadout() {
-		    return Schematics.readBase64("bXNjaAF4nBXLUQqAIBBF0WdKRa2lFUUfow45oBaN7b+Ey/m7sLAOrlJhWNKESRtTkYhFQ+JCTYJijazhkbvJVQGMmTxnxbAfBrN/T936CpjezwfPPBUT");
-	    },
+			return Schematics.readBase64("bXNjaAF4nBXLUQqAIBBF0WdKRa2lFUUfow45oBaN7b+Ey/m7sLAOrlJhWNKESRtTkYhFQ+JCTYJijazhkbvJVQGMmTxnxbAfBrN/T936CpjezwfPPBUT");
+		},
 	}),
 	meshLoader: prov(() => new HexMesh(greavar, 4)),
 	cloudMeshLoader: () => new MultiMesh(
@@ -94,9 +94,9 @@ Planets.erekir.hiddenItems.addAll(
 const iceField = SectorPreset("iceField", greavar, 88);
 exports.iceField = iceField
 Object.assign(iceField,{
-    captureWave: 10,
+	captureWave: 10,
 	difficulty: 1,
-    addStartingItems: true,
+	addStartingItems: true,
 	alwaysUnlocked: true,
 	startWaveTimeMultiplier: 3,
 })
@@ -111,27 +111,27 @@ Object.assign(valleyPlain, {
 const coldJunction = new SectorPreset("coldJunction", greavar, 18);
 exports.coldJunction = coldJunction;
 Object.assign(coldJunction,{
-    captureWave: 25,
+	captureWave: 25,
 	difficulty: 4,
 })
 
 const intertwinedGlacier = new SectorPreset("intertwinedGlacier",greavar,91);
 exports.intertwinedGlacier = intertwinedGlacier;
 Object.assign(intertwinedGlacier,{
-    captureWave: 25,
+	captureWave: 25,
 	difficulty: 4,
 })
 
 const crystalOutpost = new SectorPreset("crystalOutpost", greavar, 27);
 exports.crystalOutpost = crystalOutpost;
 Object.assign(crystalOutpost,{
-    captureWave: 45,
+	captureWave: 50,
 	difficulty: 5,
 })
 
 const twilightSea = new SectorPreset("twilightSea",greavar,17);
 exports.twilightSea = twilightSea;
 Object.assign(twilightSea,{
-    captureWave: 30,
+	captureWave: 30,
 	difficulty: 6,
 })

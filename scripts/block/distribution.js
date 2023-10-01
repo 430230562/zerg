@@ -171,7 +171,7 @@ Object.assign(heatPipe, {
 const heatRouter = new HeatConductor("heat-router");
 exports.heatRouter = heatRouter;
 Object.assign(heatRouter,{
-    buildVisibility: BuildVisibility.shown,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
 		Items.graphite, 25,

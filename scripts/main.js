@@ -12,6 +12,7 @@ require('zerg/block/distribution');
 require('zerg/block/environment');
 require('zerg/block/factory');
 require('zerg/block/liquidBlock')
+require('zerg/block/logic');
 require('zerg/block/other');
 require('zerg/block/power');
 require('zerg/block/production');

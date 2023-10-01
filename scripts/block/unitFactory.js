@@ -3,8 +3,12 @@ const crystive = require('zerg/unit/crystive');
 const tank = require('zerg/unit/tank');
 const air = require('zerg/unit/air');
 const item = require('zerg/item');
+const liquid = require('zerg/liquid');
+
+const wall = require('zerg/block/wall');
 
 const UnitPlan = UnitFactory.UnitPlan;
+const AssemblerUnitPlan = UnitAssembler.AssemblerUnitPlan;
 
 const tankFactory = new UnitFactory("tank-factory");
 exports.tankFactory = tankFactory;
@@ -13,21 +17,21 @@ Object.assign(tankFactory, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.units,
 	requirements: ItemStack.with(
-	    Items.silicon, 120,
+		Items.silicon, 120,
 		item.nickel, 150,
 	),
 	plans: Seq.with(
 		new UnitPlan(tank.pioneer, 60 * 30, ItemStack.with(
-		    Items.silicon, 20,
+			Items.silicon, 20,
 			item.nickel, 40,
 		)),
 		new UnitPlan(tank.gale, 60 * 50, ItemStack.with(
-		    Items.silicon, 40,
+			Items.silicon, 40,
 			item.nickel, 20,
 			item.crystal, 10,
 		)),
 		new UnitPlan(tank.alter, 60 * 90, ItemStack.with(
-		    Items.silicon, 50,
+			Items.silicon, 50,
 			item.nickel, 20,
 			item.manganese, 40,
 		))
@@ -38,28 +42,28 @@ tankFactory.consumePower(1.8);
 const airFactory = new UnitFactory("air-factory");
 exports.airFactory = airFactory;
 Object.assign(airFactory,{
-    size: 3,
+	size: 3,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.units,
 	requirements: ItemStack.with(
-	    Items.graphite, 30,
-	    Items.silicon, 60,
+		Items.graphite, 30,
+		Items.silicon, 60,
 		item.nickel, 120,
 	),
 	plans: Seq.with(
 		new UnitPlan(air.mist, 60 * 25, ItemStack.with(
-		    Items.silicon, 40,
+			Items.silicon, 40,
 			item.nickel, 20,
 		)),
 		new UnitPlan(air.electron, 60 * 50, ItemStack.with(
-		    Items.silicon, 40,
+			Items.silicon, 40,
 			item.nickel, 20,
 			item.energic, 20,
 		)),
 		new UnitPlan(air.phantom, 60 * 70, ItemStack.with(
-		    Items.silicon, 40,
-		    item.nickel, 60,
-		    item.manganese, 30,
+			Items.silicon, 40,
+			item.nickel, 60,
+			item.manganese, 30,
 		))
 	)
 })
@@ -74,7 +78,7 @@ Object.assign(reconstructor, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.units,
 	requirements: ItemStack.with(
-	    Items.silicon, 100,
+		Items.silicon, 100,
 		item.nickel, 200,
 		item.manganese, 200,
 	),
@@ -100,7 +104,7 @@ Object.assign(deepReconstructor, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.units,
 	requirements: ItemStack.with(
-	    Items.silicon, 400,
+		Items.silicon, 400,
 		item.nickel, 650,
 		item.manganese, 350,
 		item.chromium, 200,
@@ -108,7 +112,6 @@ Object.assign(deepReconstructor, {
 })
 deepReconstructor.addUpgrade(tank.brigadier, tank.kibbler);
 deepReconstructor.addUpgrade(tank.hurricane, tank.tornado);
-//deepReconstructor.addUpgrade(tank.alter,tank.bewitch)
 deepReconstructor.addUpgrade(air.cirrus, air.cloud);
 deepReconstructor.addUpgrade(air.inductance, air.ampere);
 deepReconstructor.consumePower(6.8);
@@ -137,9 +140,13 @@ Object.assign(unitIncubator, {
 			item.biomass, 5,
 			item.amino, 10,
 		)),
+		new UnitPlan(insect.spread, 60 * 15, ItemStack.with(
+			item.biomass, 25,
+			item.amino, 35,
+		))
 	),
 	requirements: ItemStack.with(
-	    Items.silicon, 100,
+		Items.silicon, 100,
 		item.nickel, 150,
 	),
 })
@@ -148,19 +155,18 @@ unitIncubator.consumePower(1.7);
 const reincubator = new Reconstructor("reincubator");
 exports.reincubator = reincubator;
 Object.assign(reincubator,{
-    size: 3,
-    constructTime: 60 * 10,
-    liquidCapacity: 30,
+	size: 3,
+	constructTime: 60 * 10,
+	liquidCapacity: 30,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.units,
 	requirements: ItemStack.with(
-	    Items.silicon, 100,
-	    Items.graphite, 75,
+		Items.silicon, 100,
+		Items.graphite, 75,
 		item.nickel, 200,
 		item.manganese, 100,
 	),
 })
-reincubator.addUpgrade(insect.buffer, insect.spread);
 reincubator.addUpgrade(insect.spider, insect.tarantula);
 reincubator.addUpgrade(insect.mosquito, insect.burst);
 reincubator.consumePower(2.7);
@@ -168,6 +174,59 @@ reincubator.consumeItems(ItemStack.with(
 	item.biomass, 40,
 	item.amino, 80,
 ));
+
+const hyperplasia = new Reconstructor("hyperplasia");
+exports.hyperplasia = hyperplasia;
+Object.assign(hyperplasia,{
+	size: 5,
+	constructTime: 60 * 30,
+	liquidCapacity: 30,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.units,
+	requirements: ItemStack.with(
+		Items.silicon, 500,
+		Items.graphite, 275,
+		item.nickel, 600,
+		item.manganese, 500,
+		item.biomassSteel, 400,
+	),
+})
+hyperplasia.addUpgrade(insect.tarantula, insect.group);
+//hyperplasia.addUpgrade(insect.burst);
+hyperplasia.consumePower(7.7);
+hyperplasia.consumeItems(ItemStack.with(
+	item.biomass, 40,
+	item.amino, 80,
+));
+
+const metamorphosiser = new UnitAssembler("metamorphosiser");
+exports.metamorphosiser = metamorphosiser;
+Object.assign(metamorphosiser,{
+	size: 5,
+	areaSize: 13,
+	plans: Seq.with(
+		/*new AssemblerUnitPlan(tank.corona, 60 * 20, PayloadStack.list(
+			tank.lightTank, 1,
+			tank.fireTank, 1,
+			Blocks.plastaniumWall, 4,
+		)),
+		new AssemblerUnitPlan(tank.fearless, 60 * 50, PayloadStack.list(
+			tank.heavyTank, 2, 
+			tank.ripper, 2,
+			Blocks.plastaniumWall, 10,
+		))*/
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.units,
+	/*requirements: ItemStack.with(
+		Items.lead, 650,
+		Items.thorium, 650,
+		Items.silicon, 450,
+		item.iridium, 350,
+	);*/
+})
+metamorphosiser.consumePower(6);
+metamorphosiser.consumeLiquid(Liquids.neoplasm, 12 / 60);
 
 const laboratory = new Reconstructor("laboratory")
 exports.laboratory = laboratory
@@ -184,14 +243,57 @@ Object.assign(laboratory, {
 	),
 })
 laboratory.addUpgrade(insect.spider, crystive.anatase);
-laboratory.addUpgrade(insect.tarantula, crystive.asbestos);
-laboratory.addUpgrade(insect.group, crystive.quartz);
 laboratory.consumePower(3.2);
 laboratory.consumeItems(ItemStack.with(
 	item.biomass, 20,
 	item.crystal, 50,
 	item.amino, 30,
 ))
+
+const conflater = new UnitAssembler("conflater");
+exports.conflater = conflater;
+Object.assign(conflater,{
+	size: 5,
+	areaSize: 13,
+	plans: Seq.with(
+		new AssemblerUnitPlan(crystive.asbestos, 60 * 30, PayloadStack.list(
+			crystive.anatase, 2,
+			wall.crystalWall, 6,
+		)),
+		new AssemblerUnitPlan(crystive.quartz, 60 * 110, PayloadStack.list(
+			crystive.asbestos, 1,
+			wall.crystalWallLarge, 4,
+			wall.energicWall, 6,
+		))
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.units,
+	requirements: ItemStack.with(
+		item.nickel, 650,
+		item.manganese, 450,
+		item.chromium, 300,
+		item.iridium, 350,
+		Items.silicon, 450,
+	)
+})
+conflater.consumePower(6);
+conflater.consumeLiquid(liquid.dissolvant, 12 / 60);
+
+const assemblerModule = new UnitAssemblerModule("assembler-module");
+exports.assemblerModule = assemblerModule;
+Object.assign(assemblerModule, {
+	requirements: ItemStack.with(
+		item.nickel, 65, 
+		item.manganese, 35, 
+		item.chromium, 55,
+		Items.silicon, 50,
+	),
+	category: Category.units,
+	buildVisibility: BuildVisibility.shown,
+	size: 1,
+	tier: 1,
+});
+assemblerModule.consumePower(0.5);
 
 const payloadConveyor = new PayloadConveyor("payload-conveyor");
 exports.payloadConveyor = payloadConveyor;
@@ -250,3 +352,22 @@ Object.assign(fixTurret,{
 		item.manganese, 100,
 	)
 })
+
+const buildingConstructor = Constructor('building-constructor');
+exports.buildingConstructor = buildingConstructor;
+Object.assign(buildingConstructor, {
+	buildSpeed: 0.2,
+	minBlockSize: 1,
+	maxBlockSize: 2,
+	size: 3,
+	configurable: true,
+	clearOnDoubleTap: true,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.units,
+	requirements: ItemStack.with(
+		item.nickel, 50,
+		item.chromium, 80,
+		Items.silicon, 150,
+	),
+})
+buildingConstructor.consumePower(1.2);

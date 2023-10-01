@@ -12,13 +12,13 @@ function CoreTurret(build, block, ammo){
 				}
 				p.update(null, this);
 				for(let i of ammo){
-				    if(this.team.core().items.get(i) >= 1){
-				        if(p.build.acceptItem(this, i)){
-				            this.team.core().items.remove(i, 1)
-					        p.build.handleItem(this, i);
-					    }
-					    break;
-				    }
+					if(this.team.core().items.get(i) >= 1){
+						if(p.build.acceptItem(this, i)){
+							this.team.core().items.remove(i, 1)
+							p.build.handleItem(this, i);
+						}
+						break;
+					}
 				}
 				p.set(this.x, this.y, p.build.payloadRotation);
 			},

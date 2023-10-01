@@ -36,7 +36,7 @@ Object.assign(manganeseWall, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 	requirements: ItemStack.with(
-	    item.nickel, 2,
+		item.nickel, 2,
 		item.manganese, 4,
 	),
 })
@@ -58,13 +58,13 @@ Object.assign(manganeseWallLarge, {
 const manganeseDoor = new AutoDoor("manganese-door");
 exports.manganeseDoor = manganeseDoor;
 Object.assign(manganeseDoor,{
-    health: 640,
+	health: 640,
 	armor: 7,
 	size: 1,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 	requirements: ItemStack.with(
-	    Items.silicon, 4,
+		Items.silicon, 4,
 		item.nickel, 2,
 		item.manganese, 4,
 	),
@@ -73,13 +73,13 @@ Object.assign(manganeseDoor,{
 const manganeseDoorLarge = new AutoDoor("manganese-door-large");
 exports.manganeseDoorLarge = manganeseDoorLarge;
 Object.assign(manganeseDoorLarge,{
-    health: 640 * 4,
+	health: 640 * 4,
 	armor: 7,
 	size: 2,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 	requirements: ItemStack.with(
-	    Items.silicon, 4 * 4,
+		Items.silicon, 4 * 4,
 		item.nickel, 2 * 4,
 		item.manganese, 4 * 4,
 	),
@@ -152,7 +152,7 @@ Object.assign(energicWallLarge, {
 const chromiumWall = new Wall("chromium-wall");
 exports.chromiumWall = chromiumWall;
 Object.assign(chromiumWall,{
-    health: 700,
+	health: 700,
 	armor: 9,
 	size: 1,
 	buildVisibility: BuildVisibility.shown,
@@ -165,7 +165,7 @@ Object.assign(chromiumWall,{
 const chromiumWallLarge = new Wall("chromium-wall-large");
 exports.chromiumWallLarge = chromiumWallLarge;
 Object.assign(chromiumWallLarge,{
-    health: 700 * 4,
+	health: 700 * 4,
 	armor: 9,
 	size: 2,
 	buildVisibility: BuildVisibility.shown,

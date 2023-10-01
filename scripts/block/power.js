@@ -151,10 +151,10 @@ Object.assign(pyrolysis,{
 		new DrawRegion("-bottom"),
 		new DrawLiquidTile(Liquids.neoplasm),
 		Object.assign(new DrawPistons(),{
-            sinMag: 1
-        }),
-	    new DrawRegion("-rotator0", 2.5, false),
-	    new DrawRegion("-rotator1", 3.5, false),
+			sinMag: 1
+		}),
+		new DrawRegion("-rotator0", 2.5, false),
+		new DrawRegion("-rotator1", 3.5, false),
 		new DrawDefault(),
 		Object.assign(new DrawSoftParticles(), {
 			alpha: 0.35,
@@ -279,8 +279,8 @@ Object.assign(biomassReactor, {
 })
 biomassReactor.consumeLiquid(Liquids.water, 36 / 60)
 biomassReactor.consumeItems(ItemStack.with(
-    item.biomass, 1,
-    item.salt, 1
+	item.biomass, 1,
+	item.salt, 1
 ));
 
 const extremeGenerator = new VariableReactor('extreme-generator');

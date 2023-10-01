@@ -29,9 +29,9 @@ function CoreBuild(build, block, liquid) {
 			drawSelect() {
 				this.super$drawSelect();
 				if(block.range != undefined){
-				    Drawf.dashCircle(this.x, this.y, block.range, Pal.accent);
+					Drawf.dashCircle(this.x, this.y, block.range, Pal.accent);
 				}else{
-				    Drawf.dashCircle(this.x, this.y, block.radius, Pal.accent);
+					Drawf.dashCircle(this.x, this.y, block.radius, Pal.accent);
 				}
 			}
 		})
@@ -80,7 +80,7 @@ Object.assign(new Weapon("bugs-election-weapon"), {
 		shootEffect: Fx.sparkShoot,
 		smokeEffect: Fx.shootBigSmoke,
 		backColor: Pal.heal,
-        trailColor: Pal.heal,
+		trailColor: Pal.heal,
 		frontColor: Color.white,
 		hitEffect: Fx.hitLaser,
 		despawnEffect: Fx.hitLaser,
@@ -139,7 +139,7 @@ Object.assign(new Weapon("bugs-atom-weapon"), {
 		shootEffect: Fx.sparkShoot,
 		smokeEffect: Fx.shootBigSmoke,
 		backColor: Pal.heal,
-        trailColor: Pal.heal,
+		trailColor: Pal.heal,
 		frontColor: Color.white,
 		trailWidth: 1.5,
 		trailLength: 5,
@@ -284,20 +284,21 @@ Object.assign(nest,{
 	replaceable: true,
 	size: 3,
 	health: 1500,
+	variants: 2,
 	unitCapModifier: 0,
 	itemCapacity: 0,
 	buildVisibility: BuildVisibility.editorOnly,
 	category: Category.effect,
 })
 nest.buildType = prov(() => extend(CoreBlock.CoreBuild,nest,{
-    i : 0,
+	i : 0,
 	updateTile(){
 		this.i += Time.delta
 		
 		if(this.i >= 60 * 10){
-            let a = Math.random() * 5
+			let a = Math.random() * 5
 			for(let i = 0; i < a;i++){
-			    insect.egg.spawn(this.team,this.tile.worldx() + Math.random(),this.tile.worldy() + Math.random());
+				insect.egg.spawn(this.team,this.tile.worldx() + Math.random(),this.tile.worldy() + Math.random());
 			}
 			
 			this.i = 0
@@ -312,20 +313,20 @@ nest.buildType = prov(() => extend(CoreBlock.CoreBuild,nest,{
 
 const column = new Block("column");
 Object.assign(column,{
-    buildVisibility: BuildVisibility.editorOnly,
-    category: Category.effect,
-    update: true,
+	buildVisibility: BuildVisibility.editorOnly,
+	category: Category.effect,
+	update: true,
 })
 column.buildType = prov(() => extend(Building,{
-    updateTile(){
-        this.tile.circle(5, cons(tile => {
-            if(tile.block() == Blocks.coreShard){
-                tile.setBlock(ash,this.team);
-            }
-        }))
-        this.team.core().items.add(item.nickel, 200)
-        this.team.core().items.add(Items.graphite, 100)
-        
-        this.tile.setBlock(Blocks.air)
-    }
+	updateTile(){
+		this.tile.circle(5, cons(tile => {
+			if(tile.block() == Blocks.coreShard){
+				tile.setBlock(ash,this.team);
+			}
+		}))
+		this.team.core().items.add(item.nickel, 200)
+		this.team.core().items.add(Items.graphite, 100)
+		
+		this.tile.setBlock(Blocks.air)
+	}
 }))

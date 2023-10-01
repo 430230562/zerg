@@ -1,8 +1,6 @@
 const amino = new Item("amino",Color.valueOf("d6dbe7"));
 exports.amino = amino;
-Object.assign(amino,{
-    
-})
+Object.assign(amino,{})
 
 const biomass = new Item("biomass", Color.valueOf("84a94b"));
 exports.biomass = biomass;
@@ -54,6 +52,13 @@ const biomassSteel = new Item("biomass-steel", Color.valueOf("98ba53"));
 exports.biomassSteel = biomassSteel;
 Object.assign(biomassSteel, {
 	cost: 1.25,
+	healthScaling: 0.5,
+})
+
+const iridium = new Item("iridium",Color.valueOf("c9dae3"));
+exports.iridium = iridium;
+Object.assign(iridium,{
+    cost: 1.5,
 	healthScaling: 0.5,
 })
 

@@ -4,14 +4,14 @@ const Ef = require('zerg/effect');
 const { ReduceArmorBulletType } = require('zerg/base/bulletType')
 
 function StatWeapon(name, stat, num){
-    return extend(Weapon, {
-        name: name,
-        addStats(u, t){
-            this.super$addStats(u, t);
-            t.row();
-            t.add(Core.bundle.format(stat, num));
-        }
-    });
+	return extend(Weapon, {
+		name: name,
+		addStats(u, t){
+			this.super$addStats(u, t);
+			t.row();
+			t.add(Core.bundle.format(stat, num));
+		}
+	});
 }
 
 const pioneer = new TankUnitType("pioneer");
@@ -173,7 +173,7 @@ Object.assign(new StatWeapon("zerg-kibbler-weapon","reduceArmor",3),{
 const purge = new TankUnitType("purge");
 exports.purge = purge;
 Object.assign(purge,{
-    squareShape: true,
+	squareShape: true,
 	omniMovement: false,
 	rotateMoveFirst: true,
 	envDisabled: 0,
@@ -191,35 +191,35 @@ Object.assign(purge,{
 	constructor: () => new TankUnit.create(),
 })
 purge.weapons.add(
-    Object.assign(new Weapon("zerg-purge-weapon"),{
-        reload: 180,
-        cooldownTime: 120,
-        mirror: false,
-        x: 0,
-        y: 0,
-        rotateSpeed: 1.4,
-        rotate: true,
-        shootY: 0.25,
-        shake: 6,
-        shootSound: Sounds.railgun,
+	Object.assign(new Weapon("zerg-purge-weapon"),{
+		reload: 180,
+		cooldownTime: 120,
+		mirror: false,
+		x: 0,
+		y: 0,
+		rotateSpeed: 1.4,
+		rotate: true,
+		shootY: 0.25,
+		shake: 6,
+		shootSound: Sounds.railgun,
 
-        ejectEffect: Fx.none,
-        recoil: 5.5,
+		ejectEffect: Fx.none,
+		recoil: 5.5,
 
-        bullet: Object.assign(new RailBulletType(),{
-            shootEffect: Fx.railShoot,
-            length: 401,
-            pointEffectSpace: 60,
-            pierceEffect: Fx.railHit,
-            pointEffect: Fx.railTrail,
-            hitEffect: Fx.massiveExplosion,
-            smokeEffect: Fx.shootBig2,
-            damage: 750,
-            pierceDamageFactor: 0.8,
-            buildingDamageMultiplier: 1.1,
-            recoil: 0.8,
-        })
-    })
+		bullet: Object.assign(new RailBulletType(),{
+			shootEffect: Fx.railShoot,
+			length: 401,
+			pointEffectSpace: 60,
+			pierceEffect: Fx.railHit,
+			pointEffect: Fx.railTrail,
+			hitEffect: Fx.massiveExplosion,
+			smokeEffect: Fx.shootBig2,
+			damage: 750,
+			pierceDamageFactor: 0.8,
+			buildingDamageMultiplier: 1.1,
+			recoil: 0.8,
+		})
+	})
 )
 
 const fearless = new TankUnitType("fearless")
@@ -498,7 +498,7 @@ Object.assign(new Weapon("zerg-tornado-weapon"),{
 const meteorite = new UnitType("meteorite");
 exports.meteorite = meteorite;
 Object.assign(meteorite,{
-    speed: 0.24,
+	speed: 0.24,
 	treadRects: [new Rect(-72,-92,42,168)],
 	treadFrames: 8,
 	outlineColor: Color.valueOf("464a59"),
@@ -508,7 +508,7 @@ Object.assign(meteorite,{
 	crushDamage: 0.5,
 	rotateSpeed: 0.75,
 	omniMovement: false,
-    rotateMoveFirst: true,
+	rotateMoveFirst: true,
 	health: 6000,
 	armor: 6,
 	itemCapacity: 0,
@@ -517,7 +517,7 @@ Object.assign(meteorite,{
 })
 meteorite.weapons.add(
 Object.assign(new Weapon("zerg-meteorite-weapon"),{
-    reload: 4.5 * 60,
+	reload: 4.5 * 60,
 	shootY: 72/4,
 	recoil: 0,
 	rotate: true,
@@ -532,42 +532,42 @@ Object.assign(new Weapon("zerg-meteorite-weapon"),{
 	shootSound: Sounds.mediumCannon,
 	
 	bullet: Object.assign(new ArtilleryBulletType(2.5, 160, "shell"),{
-        hitEffect: new MultiEffect(
-            Fx.titanExplosion,
-            Fx.titanSmoke
-        ),
-        despawnEffect: Fx.none,
-        knockback: 2,
-        lifetime: 184,
-        height: 21,
-        width: 19,
-        splashDamageRadius: 72,
-        splashDamage: 650,
-        scaledSplashDamage: true,
-        pierceArmor: true,
-        backColor: Color.valueOf("5c69cccd"),
-        hitColor: Color.valueOf("5c69cccd"),
-        trailColor: Color.valueOf("5c69cccd"),
-        frontColor: Color.white,
-        ammoMultiplier: 1,
-        hitSound: Sounds.titanExplosion,
+		hitEffect: new MultiEffect(
+			Fx.titanExplosion,
+			Fx.titanSmoke
+		),
+		despawnEffect: Fx.none,
+		knockback: 2,
+		lifetime: 184,
+		height: 21,
+		width: 19,
+		splashDamageRadius: 72,
+		splashDamage: 650,
+		scaledSplashDamage: true,
+		pierceArmor: true,
+		backColor: Color.valueOf("5c69cccd"),
+		hitColor: Color.valueOf("5c69cccd"),
+		trailColor: Color.valueOf("5c69cccd"),
+		frontColor: Color.white,
+		ammoMultiplier: 1,
+		hitSound: Sounds.titanExplosion,
 
-        status: StatusEffects.blasted,
+		status: StatusEffects.blasted,
 
-        trailLength: 32,
-        trailWidth: 3.35,
-        trailSinScl: 2.5,
-        trailSinMag: 0.5,
-        trailEffect: Fx.none,
-        despawnShake: 7,
+		trailLength: 32,
+		trailWidth: 3.35,
+		trailSinScl: 2.5,
+		trailSinMag: 0.5,
+		trailEffect: Fx.none,
+		despawnShake: 7,
 
-        shootEffect: Fx.shootTitan,
-        smokeEffect: Fx.shootSmokeTitan,
+		shootEffect: Fx.shootTitan,
+		smokeEffect: Fx.shootSmokeTitan,
 
-        trailInterp: v => Math.max(Mathf.slope(v), 0.8),
-        shrinkX: 0.2,
-        shrinkY: 0.1,
-    })
+		trailInterp: v => Math.max(Mathf.slope(v), 0.8),
+		shrinkX: 0.2,
+		shrinkY: 0.1,
+	})
 }))
 
 const alter = new UnitType("alter");
@@ -620,13 +620,13 @@ Object.assign(new Weapon("zerg-alter-weapon"), {
 			this.super$hitEntity(b, entity, health);
 		},
 		hitTile(b,build,x,y,initialHealth,direct){
-		    if(build.team != b.team && build.health <= 100){
-		        build.remove()
-		        
-		        build.tile.setBlock(build.block,b.team,build.rotation)
-		    }
-            
-		    this.super$hitTile(b,build,x,y,initialHealth,direct);
+			if(build.team != b.team && build.health <= 100){
+				build.remove()
+				
+				build.tile.setBlock(build.block,b.team,build.rotation)
+			}
+			
+			this.super$hitTile(b,build,x,y,initialHealth,direct);
 		},
 		speed: 3.5,
 		damage: 25,
