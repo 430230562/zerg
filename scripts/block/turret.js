@@ -8,23 +8,6 @@ function AddCoolant(turret,amount){
 	return turret.coolant = turret.consumeCoolant(amount);
 }
 
-function ShootEncircle(range,speed){
-	return extend(ShootPattern,{
-		shoot(totalShots, handler, barrelIncrementer){
-			handler.shoot(0, 0, 0, 0,
-			b => b.moveRelative(
-				Angles.trnsx(b.time * 6 * speed, 0, range),
-				Angles.trnsy(b.time * 6 * speed, 0, range)
-			))
-			handler.shoot(0, 0, 0, 0,
-			b => b.moveRelative(
-				Angles.trnsx(b.time * 6 * speed, 0, -1 * range),
-				Angles.trnsy(b.time * 6 * speed, 0, -1 * range)
-			))
-		}
-	})
-}
-
 const guard = new ItemTurret("guard");
 exports.guard = guard;
 Object.assign(guard,{
@@ -443,7 +426,7 @@ Object.assign(spiral, {
 	reload: 60,
 	shootCone: 12,
 	size: 2,
-	range: 16 * 8,
+	range: 20 * 8,
 	health: 1050,
 	rotateSpeed: 6,
 	recoil: 2,
@@ -470,7 +453,7 @@ Object.assign(spiral, {
 	shootType: Object.assign(new BasicBulletType(4, 30),{
 		width: 7,
 		height: 12,
-		lifetime: 32,
+		lifetime: 48,
 		shootEffect: Fx.sparkShoot,
 		smokeEffect: Fx.shootBigSmoke,
 		hitColor: Pal.lancerLaser,

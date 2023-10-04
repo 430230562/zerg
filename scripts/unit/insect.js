@@ -103,7 +103,7 @@ exports.tarantula = tarantula;
 Object.assign(tarantula, {
 	constructor: () => new LegsUnit.create(),
 	
-	speed: 0.63,
+	speed: 0.6,
 	drag: 0.4,
 	hitSize: 12,
 	rotateSpeed: 3,
@@ -231,7 +231,7 @@ Object.assign(group, {
 	drag: 0.1,
 	hitSize: 21,
 	rotateSpeed: 3,
-	health: 900,
+	health: 1100,
 	armor: 4,
 	
 	fogRadius: 40,
@@ -285,6 +285,56 @@ group.weapons.add(Object.assign(new Weapon("zerg-group-weapon"), {
 	}),
 	shootStatus: StatusEffects.slow,
 	shootStatusDuration: 130,
+}))
+
+const mantis = new Insect("mantis");
+exports.mantis = mantis;
+Object.assign(mantis,{
+	speed: 0.95,
+	drag: 0.1,
+	hitSize: 16,
+	rotateSpeed: 3,
+	health: 4000,
+	armor: 9,
+	
+	fogRadius: 40,
+	stepShake: 0,
+	legCount: 4,
+	legLength: 18,
+	legGroupSize: 3,
+	lockLegBase: true,
+	legContinuousMove: true,
+	legExtension: -3,
+	legBaseOffset: 7,
+	legMaxLength: 1.1,
+	legMinLength: 0.2,
+	legLengthScl: 0.95,
+	legForwardScl: 0.9,
+	
+	legMoveSpace: 1,
+	hovering: true,
+	
+	shadowElevation: 0.2,
+	groundLayer: 74,
+	constructor: () => new LegsUnit.create(),
+})
+mantis.weapons.add(
+Object.assign(new Weapon("zerg-mantis-weapon"), {
+	mirror: true,
+	x: 8,
+	y: 0,
+	shootY: 4,
+	reload: 20,
+	shoot: new ShootSpread(2, 15),
+	shootCone: 60,
+	cooldownTime: 42,
+	shootSound: Sounds.shotgun,
+	bullet: Object.assign(new ShrapnelBulletType(), {
+		length: 72,
+		damage: 100,
+		width: 13,
+		lightOpacity: 0,
+	})
 }))
 
 const mosquito = new Insect("mosquito");
@@ -413,6 +463,97 @@ burst.parts.add(
 	})
 )
 
+const dragonfly = new Insect("dragonfly");
+exports.dragonfly = dragonfly;
+Object.assign(dragonfly,{
+	constructor: () => new UnitEntity.create(),
+	health: 900,
+	speed: 1.667,
+	accel: 0.08,
+	drag: 0.016,
+	flying: true,
+	hitSize: 16,
+	targetAir: true,
+	range: 140,
+	faceTarget: true,
+	armor: 6,
+	itemCapacity: 0,
+	engineOffset: 7.8,
+})
+dragonfly.weapons.add(
+	Object.assign(new Weapon("zerg-dragonfly-weapon-1"),{
+		x: 4,
+		y: 0,
+		mirror: true,
+		shootCone: 30,
+		shootY: 0,
+		reload: 38,
+		ejectEffect: Fx.none,
+		shootSound: Sounds.plantBreak,
+		bullet: Object.assign(new MissileBulletType(6, 16), {
+			backColor: Color.valueOf("84a94b"),
+			frontColor: Color.valueOf("84a94b"),
+			hitEffect: Fx.none,
+			despawnEffect: Fx.none,
+			trailColor: Color.valueOf("84a94b"),
+			
+			status: status.corroding,
+			statusDuration: 120,
+			
+			splashDamageRadius: 24,
+			splashDamage: 45,
+			
+			recoil: 0.8,
+			lifetime: 25,
+			homingRange: 80,
+			homingPower: 0.05,
+			trailWidth: 0.8,
+			trailLength: 14,
+			trailChance: 0,
+			
+			lightOpacity: 0,
+			
+			fragBullets: 2,
+			fragBullet: new Acid(18)
+		})
+	}),
+	Object.assign(new Weapon("zerg-dragonfly-weapon-2"),{
+		x: 0,
+		y: 0,
+		mirror: false,
+		shootCone: 30,
+		shootY: 0,
+		reload: 10,
+		ejectEffect: Fx.none,
+		shootSound: Sounds.sap,
+		bullet: Object.assign(SapBulletType(),{
+			sapStrength: 0.8,
+			length: 60,
+			damage: 18,
+			shootEffect: Fx.shootSmall,
+			hitColor: Color.valueOf("bf92f9"),
+			color: Color.valueOf("bf92f9"),
+			despawnEffect: Fx.none,
+			width: 0.54,
+			lightOpacity: 0,
+			lifetime: 25,
+			knockback: -1,
+		})
+	})
+)
+dragonfly.parts.add(
+	Object.assign(new RegionPart("-wing"),{
+		mirror: true,
+		x: 0.5,
+		y: 0,
+		rotation: -45,
+		moveX: 0,
+		moveY: 0,
+		moveRot: 30,
+		progress: DrawPart.PartProgress.smoothReload.sin(1,5)
+	})
+)
+
 const buffer = new UnitType("buffer");
 exports.buffer = buffer;
 Object.assign(buffer, {
@@ -458,7 +599,7 @@ exports.spread = spread;
 Object.assign(spread,{
 	constructor: () => new CrawlUnit.create(),
 	speed: 1,
-	hitSize: 12,
+	hitSize: 8,
 	targetPriority: 1,
 	health: 400,
 	omniMovement: false,
@@ -477,7 +618,7 @@ Object.assign(spread,{
 	lightRadius: 0,
 })
 spread.abilities.add(
-	new DeathNeoplasmAbility(32,680),
+	new DeathNeoplasmAbility(32,800),
 	new MoveLiquidAbility(Liquids.neoplasm,12,5)
 )
 

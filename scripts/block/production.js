@@ -153,6 +153,7 @@ Object.assign(borehole,{
 	)
 })
 borehole.consumePower(8);
+borehole.consumeLiquid(Liquids.water, 0.05);
 
 const crystalCollector = new BeamDrill("crystal-collector");
 exports.crystalCollector = crystalCollector;

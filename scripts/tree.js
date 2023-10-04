@@ -39,9 +39,7 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 					nodeProduce(Liquids.neoplasm, () => {}),
 					nodeProduce(item.biomass, () => {
 						nodeProduce(item.amino, () => {
-							nodeProduce(liquid.dissolvant, () => {
-								nodeProduce(item.hypha, () => {})
-							}),
+							nodeProduce(liquid.dissolvant, () => {}),
 							nodeProduce(item.sulfone, () => {})
 						}),
 						nodeProduce(item.biomassSteel, () => {})
@@ -60,7 +58,11 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 				}),
 				nodeProduce(item.energic, () => {})
 			}),
-			nodeProduce(item.chromium, () => {})
+			nodeProduce(item.chromium, () => {
+				nodeProduce(Liquids.slag, () => {
+					nodeProduce(item.iridium, () => {})
+				})
+			})
 		})
 	}),
 	node(core.ash, () => {
@@ -183,7 +185,9 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 					node(other.clan, () => {}),
 					node(other.resurrection, () => {})
 				}),
-				node(other.catalyzer, () => {})
+				node(other.catalyzer, () => {
+					node(other.prophet, () => {})
+				})
 			})
 		})
 	}),
@@ -242,18 +246,20 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 		}),
 		node(unitFactory.unitIncubator, () => {
 			node(unitFactory.reincubator, () => {
-			    node(unitFactory.hyperplasia, () => {
-			        node(unitFactory.metamorphosiser, () => {})
-			    }),
+				node(unitFactory.hyperplasia, () => {
+					node(unitFactory.metamorphosiser, () => {})
+				}),
 				node(unitFactory.laboratory, () => {
-				    node(unitFactory.conflater, () => {})
+					node(unitFactory.conflater, () => {})
 				})
 			}),
 			node(insect.buffer, () => {
 				node(insect.spread, () => {}),
 				node(insect.spider, () => {
 					node(insect.tarantula, () => {
-						node(insect.group, () => {})
+						node(insect.group, () => {
+							node(insect.mantis, () => {})
+						})
 					}),
 					node(crystive.anatase, () => {
 						node(crystive.asbestos, () => {})
@@ -261,16 +267,18 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 					})
 				}),
 				node(insect.mosquito, () => {
-					node(insect.burst, () => {})
+					node(insect.burst, () => {
+						node(insect.dragonfly, () => {})
+					})
 				})
 			})
 		}),
 		node(unitFactory.payloadConveyor, () => {
 			node(unitFactory.payloadRouter, () => {})
-		    node(unitFactory.fixPoint, () => {
-			    node(unitFactory.fixTurret, () => {}),
-			    node(unitFactory.assemblerModule, () => {}),
-			    node(unitFactory.buildingConstructor, () => {})
+			node(unitFactory.fixPoint, () => {
+				node(unitFactory.fixTurret, () => {}),
+				node(unitFactory.assemblerModule, () => {}),
+				node(unitFactory.buildingConstructor, () => {})
 			})
 		})
 	}),

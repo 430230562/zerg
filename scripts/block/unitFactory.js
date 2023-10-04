@@ -32,8 +32,8 @@ Object.assign(tankFactory, {
 		)),
 		new UnitPlan(tank.alter, 60 * 90, ItemStack.with(
 			Items.silicon, 50,
-			item.nickel, 20,
-			item.manganese, 40,
+			item.nickel, 40,
+			item.manganese, 60,
 		))
 	)
 })
@@ -192,7 +192,7 @@ Object.assign(hyperplasia,{
 	),
 })
 hyperplasia.addUpgrade(insect.tarantula, insect.group);
-//hyperplasia.addUpgrade(insect.burst);
+hyperplasia.addUpgrade(insect.burst, insect.dragonfly);
 hyperplasia.consumePower(7.7);
 hyperplasia.consumeItems(ItemStack.with(
 	item.biomass, 40,
@@ -205,12 +205,11 @@ Object.assign(metamorphosiser,{
 	size: 5,
 	areaSize: 13,
 	plans: Seq.with(
-		/*new AssemblerUnitPlan(tank.corona, 60 * 20, PayloadStack.list(
-			tank.lightTank, 1,
-			tank.fireTank, 1,
-			Blocks.plastaniumWall, 4,
-		)),
-		new AssemblerUnitPlan(tank.fearless, 60 * 50, PayloadStack.list(
+		new AssemblerUnitPlan(insect.mantis, 60 * 30, PayloadStack.list(
+			insect.group, 1,
+			wall.biomassWall, 4,
+		))
+		/*new AssemblerUnitPlan(tank.fearless, 60 * 50, PayloadStack.list(
 			tank.heavyTank, 2, 
 			tank.ripper, 2,
 			Blocks.plastaniumWall, 10,
@@ -254,7 +253,7 @@ const conflater = new UnitAssembler("conflater");
 exports.conflater = conflater;
 Object.assign(conflater,{
 	size: 5,
-	areaSize: 13,
+	areaSize: 9,
 	plans: Seq.with(
 		new AssemblerUnitPlan(crystive.asbestos, 60 * 30, PayloadStack.list(
 			crystive.anatase, 2,

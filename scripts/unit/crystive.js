@@ -76,6 +76,7 @@ Object.assign(new Weapon("zerg-anatase-weapon"), {
 		trailWidth: 2,
 		trailLength: 5,
 		frontColor: Color.white,
+		lightOpacity: 0.3,
 		fragBullets: 5,
 		fragBullet: Object.assign(new BasicBulletType(3, 7, "bullet"), {
 			width: 5,
@@ -84,6 +85,7 @@ Object.assign(new Weapon("zerg-anatase-weapon"), {
 			lifetime: 20,
 			backColor: Color.valueOf("7e8ae6"),
 			frontColor: Color.white,
+			lightOpacity: 0.3,
 			despawnEffect: Fx.none,
 		})
 	})
@@ -132,6 +134,7 @@ Object.assign(new Weapon("zerg-asbestos-weapon"), {
 		trailColor: Color.valueOf("7e8ae6"),
 		hitColor: Color.valueOf("7e8ae6"),
 		frontColor: Color.white,
+		lightOpacity: 0.3,
 		width: 7.5,
 		height: 10,
 		lifetime: 60,
@@ -148,6 +151,7 @@ Object.assign(new Weapon("zerg-asbestos-weapon"), {
 			lifetime: 20,
 			backColor: Color.valueOf("7e8ae6"),
 			frontColor: Color.white,
+			lightOpacity: 0.3,
 			despawnEffect: Fx.none,
 		}),
 		hitEffect: new MultiEffect(
@@ -245,6 +249,7 @@ Object.assign(new Weapon("zerg-quartz-weapon"), {
 		splashDamage: 77,
 		backColor: Color.valueOf("7e8ae6"),
 		frontColor: Color.white,
+		lightOpacity: 0.3,
 		fragBullets: 7,
 		fragBullet: Object.assign(new BasicBulletType(3, 7, "bullet"), {
 			width: 5,
@@ -253,6 +258,7 @@ Object.assign(new Weapon("zerg-quartz-weapon"), {
 			lifetime: 20,
 			backColor: Color.valueOf("7e8ae6"),
 			frontColor: Color.white,
+			lightOpacity: 0.3,
 			despawnEffect: Fx.none,
 		})
 	}),

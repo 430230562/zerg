@@ -9,14 +9,6 @@ Object.assign(biomass, {
 	buildable: false,
 })
 
-const hypha = new Item("hypha",Color.valueOf("7457ce"));
-exports.hypha = hypha;
-Object.assign(hypha,{
-	hardness: 3,
-	cost: 2,
-	healthScaling: 1.5,
-})
-
 const nickel = new Item("nickel", Color.valueOf("00c49b"));
 exports.nickel = nickel
 Object.assign(nickel, {

@@ -14,6 +14,23 @@ function StatWeapon(name, stat, num){
 	});
 }
 
+function ShootEncircle(range,speed){
+	return extend(ShootPattern,{
+		shoot(totalShots, handler, barrelIncrementer){
+			handler.shoot(0, 0, 0, 0,
+			b => b.moveRelative(
+				Angles.trnsx(b.time * 6 * speed, 0, range),
+				Angles.trnsy(b.time * 6 * speed, 0, range)
+			))
+			handler.shoot(0, 0, 0, 0,
+			b => b.moveRelative(
+				Angles.trnsx(b.time * 6 * speed, 0, -1 * range),
+				Angles.trnsy(b.time * 6 * speed, 0, -1 * range)
+			))
+		}
+	})
+}
+
 const pioneer = new TankUnitType("pioneer");
 exports.pioneer = pioneer;
 Object.assign(pioneer, {
@@ -273,8 +290,6 @@ Object.assign(new StatWeapon("zerg-fearless-weapon","reduceArmor",5),{
 		frontColor: Color.valueOf("ffffff"),
 		trailWidth: 2.2,
 		trailLength: 12,
-		splashDamageRadius: 20,
-		splashDamage: 40,
 		despawnEffect: Fx.hitBulletColor,
 		hitEffect: Fx.hitBulletColor,
 		fragBullets:7,
@@ -411,7 +426,7 @@ Object.assign(tornado,{
 tornado.weapons.add(
 Object.assign(new Weapon("zerg-tornado-weapon"),{
 	layerOffset: 0.0001,
-	reload: 60,
+	reload: 120,
 	shootY: 4,
 	recoil: 3,
 	rotate: true,
@@ -419,6 +434,7 @@ Object.assign(new Weapon("zerg-tornado-weapon"),{
 	mirror: false,
 	x: 0,
 	y: 2,
+	shoot: new ShootEncircle(1,1.2),
 	heatColor: Color.valueOf("7e8ae6"),
 	shootSound: Sounds.shockBlast,
 	bullet: Object.assign(new BasicBulletType(4.5,100), {
@@ -582,12 +598,12 @@ Object.assign(alter, {
 	omniMovement: false,
 	rotateMoveFirst: true,
 	speed: 0.9,
-	hitSize: 7,
-	treadRects: [new Rect(4, -20, 11, 36)],
+	hitSize: 11,
+	treadRects: [new Rect(4, -20, 21, 80)],
 	treadFrames: 8,
 	treadPullOffset: 3,
 	rotateSpeed: 3.3,
-	health: 240,
+	health: 420,
 	armor: 1,
 	itemCapacity: 0,
 	constructor: () => new TankUnit.create()
@@ -595,8 +611,8 @@ Object.assign(alter, {
 alter.weapons.add(
 Object.assign(new Weapon("zerg-alter-weapon"), {
 	layerOffset: 0.0001,
-	reload: 90,
-	shootY: 1.5,
+	reload: 60,
+	shootY: 2,
 	recoil: 0,
 	rotate: true,
 	rotateSpeed: 5.7,
@@ -610,7 +626,7 @@ Object.assign(new Weapon("zerg-alter-weapon"), {
 	bullet: extend(BasicBulletType, {
 		hitEntity(b, entity, health) {
 			if(entity instanceof Unit) {
-				if (entity.health <= 50) {
+				if (entity.health <= 100) {
 					entity.remove();
 					
 					entity.type.spawn(b.team,entity.x,entity.y)
@@ -629,14 +645,14 @@ Object.assign(new Weapon("zerg-alter-weapon"), {
 			this.super$hitTile(b,build,x,y,initialHealth,direct);
 		},
 		speed: 3.5,
-		damage: 25,
+		damage: 50,
 		sprite: "zerg-wave",
 		width: 10,
 		height: 13,
 		lifetime: 52,
 		despawnEffect: Ef.interfere,
 		hitEffect: Ef.interfere,
-		backColor: Color.valueOf("afffff"),
+		backColor: Color.valueOf("bf92f9"),
 		frontColor: Color.valueOf("ffffff"),
 		hittable: false,
 		pierceArmor: true,

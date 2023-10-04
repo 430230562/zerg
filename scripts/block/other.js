@@ -44,6 +44,28 @@ Object.assign(catalyzer, {
 catalyzer.consumeItem(item.manganese, 1).boost();
 catalyzer.consumePower(2.5);
 
+const prophet = new OverdriveProjector("prophet");
+exports.prophet = prophet;
+Object.assign(prophet,{
+    reload: 60,
+	range: 120,
+	speedBoost: 2.1,
+	speedBoostPhase: 0,
+	useTime: 120,
+	phaseRangeBoost: 0,
+	hasBoost: true,
+	size: 3,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.effect,
+	requirements: ItemStack.with(
+		Items.silicon, 125,
+		item.manganese, 275,
+		item.chromium, 75,
+		item.biomassSteel, 50,
+	)
+})
+prophet.consumePower(4.2);
+
 const frame = new ForceProjector("frame");
 exports.frame = frame;
 Object.assign(frame, {

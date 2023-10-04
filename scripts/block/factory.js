@@ -477,6 +477,34 @@ synthesizer.consumeItems(ItemStack.with(
 	item.amino, 2,
 ));
 
+const chromatographier = new Separator("chromatographier");
+exports.chromatographier = chromatographier;
+Object.assign(chromatographier,{
+    results: ItemStack.with(
+        item.chromium, 3,
+        item.iridium, 2
+    ),
+    hasPower: true,
+    craftTime: 60,
+    size: 3,
+    drawer: new DrawMulti(
+        new DrawRegion("-bottom"),
+        new DrawLiquidTile(),
+        new DrawShakeRegion("-shake",360,120),
+        new DrawDefault()
+    ),
+    buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.graphite, 350,
+		item.nickel, 350,
+		item.chromium, 250,
+		item.crystal, 150
+	),
+})
+chromatographier.consumePower(3.5);
+chromatographier.consumeLiquid(Liquids.slag, 9 / 60);
+
 const incubator = new AttributeCrafter("incubator");
 exports.incubator = incubator;
 Object.assign(incubator, {
