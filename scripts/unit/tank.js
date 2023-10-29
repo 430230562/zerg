@@ -609,7 +609,7 @@ Object.assign(alter, {
 	constructor: () => new TankUnit.create()
 })
 alter.weapons.add(
-Object.assign(new Weapon("zerg-alter-weapon"), {
+Object.assign(new StatWeapon("zerg-alter-weapon","alter",100), {
 	layerOffset: 0.0001,
 	reload: 60,
 	shootY: 2,

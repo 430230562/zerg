@@ -155,10 +155,14 @@ cloud.weapons.add(
 		layerOffset: -0.01,
 		rotate: false,
 		mirror: false,
-		shoot: Object.assign(new ShootHelix(),{
-			mag: 2,
-			scl: 3,
-		}),
+		shoot: new ShootMulti(
+    		new ShootPattern(),
+    		Object.assign(new ShootHelix(),{
+    			mag: 3,
+    			scl: 4,
+    		}),
+    		new ShootPattern()
+		),
 
 		bullet: Object.assign(new BasicBulletType(4, 60),{
 			width: 7,
@@ -313,7 +317,7 @@ ampere.weapons.add(
 		heatColor: Pal.lancerLaser,
 		cooldownTime: 50,
 		shootSound: Sounds.shockBlast,
-		bullet: Object.assign(new BasicBulletType(3,125), {
+		bullet: Object.assign(new BasicBulletType(3,155), {
 			shootEffect: new MultiEffect(
 				Fx.shootTitan,
 				Object.assign(new WaveEffect(), {

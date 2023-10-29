@@ -208,3 +208,29 @@ Object.assign(biomassWallLarge, {
 		item.biomassSteel, 6 * 4,
 	),
 })
+
+const iridiumWall = new Wall("iridium-wall");
+exports.iridiumWall = iridiumWall;
+Object.assign(iridiumWall,{
+    health: 1200,
+	armor: 11,
+	size: 1,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+		item.iridium, 6,
+	),
+})
+
+const iridiumWallLarge = new Wall("iridium-wall-large");
+exports.iridiumWallLarge = iridiumWallLarge;
+Object.assign(iridiumWallLarge,{
+    health: 1200 * 4,
+	armor: 11,
+	size: 2,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+		item.iridium, 6 * 4,
+	),
+})

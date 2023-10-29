@@ -13,6 +13,7 @@ function Insect(name){
 		init(){
 			this.super$init();
 			
+			this.immunities.add(status.adhering)
 			this.abilities.add(
 				new DeathNeoplasmAbility(this.hitSize * 2, this.health),
 				Object.assign(new RegenAbility(), {
@@ -481,65 +482,44 @@ Object.assign(dragonfly,{
 	engineOffset: 7.8,
 })
 dragonfly.weapons.add(
-	Object.assign(new Weapon("zerg-dragonfly-weapon-1"),{
-		x: 4,
-		y: 0,
-		mirror: true,
-		shootCone: 30,
+	Object.assign(new Weapon("zerg-dragonfly-weapon"),{
+		x: 0,
+		y: 4,
+		mirror: false,
+		shootCone: 15,
 		shootY: 0,
-		reload: 38,
+		reload: 90,
 		ejectEffect: Fx.none,
 		shootSound: Sounds.plantBreak,
-		bullet: Object.assign(new MissileBulletType(6, 16), {
-			backColor: Color.valueOf("84a94b"),
-			frontColor: Color.valueOf("84a94b"),
-			hitEffect: Fx.none,
-			despawnEffect: Fx.none,
-			trailColor: Color.valueOf("84a94b"),
-			
-			status: status.corroding,
-			statusDuration: 120,
-			
-			splashDamageRadius: 24,
-			splashDamage: 45,
-			
-			recoil: 0.8,
-			lifetime: 25,
-			homingRange: 80,
-			homingPower: 0.05,
-			trailWidth: 0.8,
-			trailLength: 14,
-			trailChance: 0,
-			
-			lightOpacity: 0,
-			
-			fragBullets: 2,
-			fragBullet: new Acid(18)
-		})
-	}),
-	Object.assign(new Weapon("zerg-dragonfly-weapon-2"),{
-		x: 0,
-		y: 0,
-		mirror: false,
-		shootCone: 30,
-		shootY: 0,
-		reload: 10,
-		ejectEffect: Fx.none,
-		shootSound: Sounds.sap,
-		bullet: Object.assign(SapBulletType(),{
-			sapStrength: 0.8,
-			length: 60,
-			damage: 18,
-			shootEffect: Fx.shootSmall,
-			hitColor: Color.valueOf("bf92f9"),
-			color: Color.valueOf("bf92f9"),
-			despawnEffect: Fx.none,
-			width: 0.54,
-			lightOpacity: 0,
-			lifetime: 25,
-			knockback: -1,
-		})
-	})
+		bullet: Object.assign(new BasicBulletType(6, 200), {
+    		ammoMultiplier: 1,
+    		width: 7,
+    		height: 21,
+    		lifetime: 33.4,
+    		hitSize: 4,
+    		hitColor: Color.valueOf("84a94b"),
+    		backColor: Color.valueOf("84a94b"),
+    		trailColor: Color.valueOf("84a94b"),
+    		frontColor: Color.white,
+    		trailWidth: 2,
+    		trailLength: 5,
+    		
+    		hitEffect: Fx.flakExplosionBig,
+    		
+    		pierce: true,
+    		pierceBuilding: true,
+    		collidesAir: true,
+    		pierceCap: 5,
+    		
+    		knockback: 12,
+    		
+    		intervalBullets: 3,
+    		bulletInterval: 1,
+    		intervalBullet: new Acid(18),
+    		fragBullets: 13,
+    		fragBullet: new Acid(18)
+    	})
+    })
 )
 dragonfly.parts.add(
 	Object.assign(new RegionPart("-wing"),{
@@ -593,6 +573,7 @@ Object.assign(new Weapon(), {
 	bullet: new ExplosionBulletType(90, 48),
 })
 )
+buffer.immunities.add(status.adhering)
 
 const spread = new UnitType("spread");
 exports.spread = spread;
@@ -621,18 +602,19 @@ spread.abilities.add(
 	new DeathNeoplasmAbility(32,800),
 	new MoveLiquidAbility(Liquids.neoplasm,12,5)
 )
+spread.immunities.add(status.adhering)
 
 const s = new StatusEffect("s");
 s.healthMultiplier = 5;
 s.show = false;
 
 const egg = extend(UnitType,"egg",{
-	 u:[buffer,spider,mosquito,spread],
+	 u:[buffer,buffer,spider,spider,spider,mosquito,mosquito,spread],
 	 update(unit){
 		unit.maxHealth += 0.01;
 		unit.heal(0.2)
 		if(unit.maxHealth >= 112){
-			this.u[Math.floor(Math.random() * 3)].spawn(unit.team,unit.x,unit.y)
+			this.u[Math.floor(Math.random() * this.u.length)].spawn(unit.team,unit.x,unit.y)
 			
 			unit.remove();
 		}
@@ -665,7 +647,7 @@ Object.assign(egg, {
 	logicControllable: false,
 	allowedInPayloads: false,
 })
-egg.immunities.addAll(status.corroding);
+egg.immunities.addAll(status.corroding,status.adhering);
 
 const carrier = new Insect("carrier");
 exports.carrier = carrier;
@@ -705,3 +687,44 @@ carrier.abilities.add(
 	}),
 	new DeathNeoplasmAbility(30, 800),
 );
+
+const eggLarge = extend(UnitType,"egg-large",{
+	 u:[tarantula,burst,tarantula,burst,tarantula,burst,carrier],
+	 update(unit){
+		unit.maxHealth += 0.01;
+		unit.heal(0.2)
+		if(unit.maxHealth >= 124){
+			this.u[Math.floor(Math.random() * this.u.length)].spawn(unit.team,unit.x,unit.y)
+			
+			unit.remove();
+		}
+		if(unit.getDuration(s) <= 10){
+			unit.apply(s,20 * 60);
+		}
+		if(unit.getDuration(status.dissolved) >= 1){
+			unit.kill();
+		}
+	 }
+})
+exports.eggLarge = eggLarge;
+Object.assign(eggLarge, {
+	drawCell: false,
+	lightRadius: 0,
+	envDisabled: Env.none,
+	constructor: () => new MechUnit.create(),
+	speed: 0,
+	hitSize: 8,
+	health: 100,
+	armor: 30,
+	targetPriority: -2,
+	healColor: Pal.neoplasm1,
+	targetable: true,
+	hittable: true,
+	canAttack: false,
+	hidden: true,
+	isEnemy: false,
+	playerControllable: false,
+	logicControllable: false,
+	allowedInPayloads: false,
+})
+eggLarge.immunities.addAll(status.corroding,status.adhering);

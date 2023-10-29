@@ -64,3 +64,4 @@ const adhering = extend(StatusEffect,"adhering",{
 	speedMultiplier: 0.8,
 	reloadMultiplier: 0.6
 })
+exports.adhering = adhering;

@@ -98,16 +98,17 @@ reconstructor.consumeItems(ItemStack.with(
 const deepReconstructor = new Reconstructor("deep-reconstructor");
 exports.deepReconstructor = deepReconstructor;
 Object.assign(deepReconstructor, {
-	size: 3,
+	size: 5,
 	constructTime: 60 * 60,
 	
 	buildVisibility: BuildVisibility.shown,
 	category: Category.units,
 	requirements: ItemStack.with(
 		Items.silicon, 400,
-		item.nickel, 650,
+		item.nickel, 550,
 		item.manganese, 350,
 		item.chromium, 200,
+		item.iridium, 100,
 	),
 })
 deepReconstructor.addUpgrade(tank.brigadier, tank.kibbler);
@@ -117,8 +118,9 @@ deepReconstructor.addUpgrade(air.inductance, air.ampere);
 deepReconstructor.consumePower(6.8);
 deepReconstructor.consumeItems(ItemStack.with(
 	Items.silicon, 150,
-	item.manganese, 120,
+	item.chromium, 75,
 	item.crystal, 100,
+	item.iridium, 20,
 ));
 
 const unitIncubator = new UnitFactory("unit-incubator");
@@ -151,6 +153,27 @@ Object.assign(unitIncubator, {
 	),
 })
 unitIncubator.consumePower(1.7);
+unitIncubator.buildType = prov(() => extend(UnitFactory.UnitFactoryBuild, unitIncubator,{
+    a: 0,
+    draw(){
+        this.super$draw()
+        
+        if(this.currentPlan != -1){
+            var plan = this.block.plans.get(this.currentPlan);
+        }
+        
+        if(this.progress <= 60){
+            this.a = (this.progress / 60)
+        }else if(this.progress >= plan.time - 60){
+            this.a = (plan.time - this.progress) / 60
+        }else{
+            this.a = 1
+        }
+        
+        Draw.z(35.05);
+        LiquidBlock.drawTiledFrames(2, this.x, this.y, 0, Liquids.neoplasm, this.a * 0.7)
+    }
+}))
 
 const reincubator = new Reconstructor("reincubator");
 exports.reincubator = reincubator;
@@ -174,6 +197,23 @@ reincubator.consumeItems(ItemStack.with(
 	item.biomass, 40,
 	item.amino, 80,
 ));
+reincubator.buildType = prov(() => extend(Reconstructor.ReconstructorBuild, reincubator,{
+    a: 0,
+    draw(){
+        this.super$draw()
+        
+        if(this.progress <= 60){
+            this.a = (this.progress / 60)
+        }else if(this.progress >= 60 * 9){
+            this.a = (60 * 10 - this.progress) / 60
+        }else{
+            this.a = 1
+        }
+        
+        Draw.z(35.05);
+        LiquidBlock.drawTiledFrames(2, this.x, this.y, 0, Liquids.neoplasm, this.a * 0.7)
+    }
+}))
 
 const hyperplasia = new Reconstructor("hyperplasia");
 exports.hyperplasia = hyperplasia;
@@ -198,6 +238,23 @@ hyperplasia.consumeItems(ItemStack.with(
 	item.biomass, 40,
 	item.amino, 80,
 ));
+hyperplasia.buildType = prov(() => extend(Reconstructor.ReconstructorBuild, hyperplasia,{
+    a: 0,
+    draw(){
+        this.super$draw()
+        
+        if(this.progress <= 60){
+            this.a = (this.progress / 60)
+        }else if(this.progress >= 60 * 29){
+            this.a = (60 * 30 - this.progress) / 60
+        }else{
+            this.a = 1
+        }
+        
+        Draw.z(35.05);
+        LiquidBlock.drawTiledFrames(3, this.x, this.y, 0, Liquids.neoplasm, this.a * 0.7)
+    }
+}))
 
 const metamorphosiser = new UnitAssembler("metamorphosiser");
 exports.metamorphosiser = metamorphosiser;

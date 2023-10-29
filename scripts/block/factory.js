@@ -477,15 +477,12 @@ synthesizer.consumeItems(ItemStack.with(
 	item.amino, 2,
 ));
 
-const chromatographier = new Separator("chromatographier");
-exports.chromatographier = chromatographier;
-Object.assign(chromatographier,{
-    results: ItemStack.with(
-        item.chromium, 3,
-        item.iridium, 2
-    ),
+const iridiumPurification = new GenericCrafter("iridium-purification");
+exports.iridiumPurification = iridiumPurification;
+Object.assign(iridiumPurification,{
+    outputItem: new ItemStack(item.iridium, 1),
     hasPower: true,
-    craftTime: 60,
+    craftTime: 120,
     size: 3,
     drawer: new DrawMulti(
         new DrawRegion("-bottom"),
@@ -502,8 +499,14 @@ Object.assign(chromatographier,{
 		item.crystal, 150
 	),
 })
-chromatographier.consumePower(3.5);
-chromatographier.consumeLiquid(Liquids.slag, 9 / 60);
+iridiumPurification.consumePower(3.5);
+iridiumPurification.consumeLiquids(LiquidStack.with(
+    Liquids.slag, 9 / 60,
+    liquid.acid, 6 / 60
+));
+iridiumPurification.consumeItems(ItemStack.with(
+	item.manganese, 2
+));
 
 const incubator = new AttributeCrafter("incubator");
 exports.incubator = incubator;

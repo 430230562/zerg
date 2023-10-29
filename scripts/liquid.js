@@ -2,6 +2,7 @@ const status = require("zerg/status");
 
 Liquids.neoplasm.spreadTarget = null;
 Liquids.neoplasm.viscosity = 0.95;
+Liquids.neoplasm.effect = status.adhering;
 
 const acid = extend(Liquid,"acid",Color.valueOf("84a94b"),{
 	update(puddle){
