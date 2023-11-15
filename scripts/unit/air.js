@@ -190,7 +190,7 @@ Object.assign(electron,{
 	speed: 4,
 	flying: true,
 	hitSize: 6,
-	engineOffset: 5.75,
+	engineOffset: 0.5,
 	engineColor: Pal.lancerLaser,
 	trailLength: 8,
 	trailColor: Pal.lancerLaser,
@@ -207,7 +207,9 @@ Object.assign(electron,{
 	constructor: () => new UnitEntity.create(),
 })
 electron.abilities.add(
-	new MoveLightningAbility(12,9,0.25,-2,1,4,Pal.lancerLaser)
+	Object.assign(new MoveLightningAbility(12,9,0.25,-2,1,4,Pal.lancerLaser),{
+	    bulletAngle: 180,
+	})
 )
 electron.weapons.add(
 	Object.assign(new Weapon(),{
@@ -215,6 +217,8 @@ electron.weapons.add(
 		y: -2,
 		reload: 15,
 		alwaysShooting: true,
+		shootCone: 360,
+		baseRotation: 180,
 		bullet: Object.assign(new LightningBulletType(), {
 			damage: 12,
 			lightningLength: 9,
@@ -388,6 +392,68 @@ ampere.weapons.add(
 		})
 	})
 )
+
+const colchicineMissile = new MissileUnitType("colchicine-missile");
+Object.assign(colchicineMissile,{
+    speed: 4.3,
+    maxRange: 6,
+    lifetime: 60 * 1.4,
+    engineColor: Color.valueOf("41ae3c"),
+    trailColor: Color.valueOf("41ae3c"),
+    engineLayer: Layer.effect,
+    health: 45,
+    loopSoundVolume: 0.1,
+    constructor : () => new TimedKillUnit.create(),
+})
+colchicineMissile.weapons.add(
+Object.assign(new Weapon(),{
+    shootCone: 360,
+    mirror: false,
+    reload: 1,
+    shootOnDeath: true,
+    bullet: Object.assign(new ExplosionBulletType(110, 25),{
+        shootEffect: Fx.massiveExplosion,
+    })
+})
+)
+
+const colchicine = new UnitType("colchicine");
+exports.colchicine = colchicine;
+Object.assign(colchicine,{
+    aiController: () => new FlyingFollowAI(),
+    
+    flying: true,
+    drag: 0.06,
+    speed: 1.1,
+    rotateSpeed: 3.2,
+    accel: 0.1,
+    health: 6000,
+    armor: 5,
+    hitSize: 20,
+
+    engineSize: 4.8,
+    engineOffset: 61 / 4,
+    engineColor: Color.valueOf("41ae3c"),
+    constructor: () => new UnitEntity.create(),
+})
+colchicine.weapons.add(Object.assign(new Weapon("zerg-colchicine-weapon"), {
+	shootSound: Sounds.missileLarge,
+	x: 29 / 4,
+	y: -11 / 4,
+	shootY: 1.5,
+	reload: 120,
+	layerOffset: 0.01,
+	rotateSpeed: 2,
+	rotate: true,
+	alternate: false,
+    shoot: new ShootSpread(2, 15),
+	bullet: Object.assign(new BulletType(), {
+		spawnUnit: colchicineMissile,
+		smokeEffect: Fx.shootBigSmoke2,
+		speed: 0,
+		keepVelocity: false,
+	}),
+}))
 
 const phantom = new UnitType("phantom");
 exports.phantom = phantom;

@@ -216,7 +216,7 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 		}),
 		node(tank.pioneer, () => {
 			node(tank.brigadier, () => {
-				node(tank.kibbler, () => {
+				node(tank.shredder, () => {
 					node(tank.purge, () => {
 						node(tank.fearless, () => {})
 					})

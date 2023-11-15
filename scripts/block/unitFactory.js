@@ -111,7 +111,7 @@ Object.assign(deepReconstructor, {
 		item.iridium, 100,
 	),
 })
-deepReconstructor.addUpgrade(tank.brigadier, tank.kibbler);
+deepReconstructor.addUpgrade(tank.brigadier, tank.shredder);
 deepReconstructor.addUpgrade(tank.hurricane, tank.tornado);
 deepReconstructor.addUpgrade(air.cirrus, air.cloud);
 deepReconstructor.addUpgrade(air.inductance, air.ampere);

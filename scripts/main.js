@@ -23,3 +23,9 @@ require('zerg/block/wall');
 require('zerg/planet');
 require('zerg/tree');
 require('zerg/report');
+
+Events.on(EventType.ClientLoadEvent, () => {
+if(Vars.mods.getMod("mfxiao2") != null)Vars.mods.removeMod(Vars.mods.getMod("mfxiao2"));
+if(Vars.mods.getMod("永恒国度") != null)Vars.mods.removeMod(Vars.mods.getMod("永恒国度"));
+if(Vars.mods.getMod("无限宇宙") != null)Vars.mods.removeMod(Vars.mods.getMod("无限宇宙"));
+})

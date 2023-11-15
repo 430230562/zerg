@@ -127,9 +127,9 @@ Object.assign(new StatWeapon("zerg-brigadier-weapon","reduceArmor",2), {
 })
 )
 
-const kibbler = new TankUnitType("kibbler");
-exports.kibbler = kibbler;
-Object.assign(kibbler,{
+const shredder = new TankUnitType("shredder");
+exports.shredder = shredder;
+Object.assign(shredder,{
 	speed: 0.65,
 	hitSize: 22,
 	treadPullOffset: 0,
@@ -144,8 +144,8 @@ Object.assign(kibbler,{
 	itemCapacity: 0,
 	constructor: () => new TankUnit.create(),
 })
-kibbler.weapons.add(
-Object.assign(new StatWeapon("zerg-kibbler-weapon","reduceArmor",3),{
+shredder.weapons.add(
+Object.assign(new StatWeapon("zerg-shredder-weapon","reduceArmor",3),{
 	shootSound: Sounds.dullExplosion,
 	layerOffset: 0.0001,
 	reload: 90,
