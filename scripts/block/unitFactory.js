@@ -274,12 +274,13 @@ Object.assign(metamorphosiser,{
 	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.units,
-	/*requirements: ItemStack.with(
-		Items.lead, 650,
-		Items.thorium, 650,
-		Items.silicon, 450,
+	requirements: ItemStack.with(
+		item.nickel, 650,
+		item.manganese, 450,
+		item.chromium, 300,
 		item.iridium, 350,
-	);*/
+		Items.silicon, 450,
+	)
 })
 metamorphosiser.consumePower(6);
 metamorphosiser.consumeLiquid(Liquids.neoplasm, 12 / 60);

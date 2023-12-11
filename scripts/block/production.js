@@ -126,6 +126,7 @@ Object.assign(borehole,{
 	size: 3,
 	hasPower: true,
 	hasLiquids: true,
+	rotateDraw: false,
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
 		new DrawLiquidTile(Liquids.slag),

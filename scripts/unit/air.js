@@ -71,9 +71,9 @@ Object.assign(cirrus,{
 })
 cirrus.weapons.add(
 	Object.assign(new Weapon("zerg-cirrus-weapon"),{
-		x: 4,
+		x: -3.75,
 		y: 0,
-		shootY: 0,
+		shootY: 30 / 4,
 		reload: 45,
 		shoot: Object.assign(new ShootAlternate(), {
 			shotDelay: 3,
@@ -190,7 +190,7 @@ Object.assign(electron,{
 	speed: 4,
 	flying: true,
 	hitSize: 6,
-	engineOffset: 0.5,
+	engineOffset: 1,
 	engineColor: Pal.lancerLaser,
 	trailLength: 8,
 	trailColor: Pal.lancerLaser,
@@ -416,6 +416,18 @@ Object.assign(new Weapon(),{
     })
 })
 )
+colchicineMissile.abilities.add(
+	Object.assign(new ShieldArcAbility(),{
+		radius: 16,
+		angle: 60,
+		regen: 0.05,
+		cooldown: 9999,
+		max: 50,
+		y: -10,
+		width: 4,
+		whenShooting: false,
+	})
+)
 
 const colchicine = new UnitType("colchicine");
 exports.colchicine = colchicine;
@@ -432,10 +444,13 @@ Object.assign(colchicine,{
     hitSize: 20,
 
     engineSize: 4.8,
-    engineOffset: 61 / 4,
+    engineOffset: 15,
     engineColor: Color.valueOf("41ae3c"),
     constructor: () => new UnitEntity.create(),
 })
+colchicine.setEnginesMirror(
+    new UnitType.UnitEngine(8.5, -10, 4.5, -40.36)
+);
 colchicine.weapons.add(Object.assign(new Weapon("zerg-colchicine-weapon"), {
 	shootSound: Sounds.missileLarge,
 	x: 29 / 4,
@@ -463,6 +478,7 @@ Object.assign(phantom,{
 	speed: 15 * 8 / 60,
 	accel: 0.06,
 	drag: 0.017,
+	engineOffset: 5,
 	
 	health: 220,
 	armor: 2,
@@ -532,6 +548,8 @@ Object.assign(shadow,{
 	itemCapacity: 130,
 	mineTier: 4,
 	mineSpeed: 7.5,
+	engineSize: 0,
+    engineOffset: 0,
 	mineWalls: true,
 	buildSpeed: 0.75,
 	controller: UnitTypes.mono.controller,
@@ -541,6 +559,9 @@ Object.assign(shadow,{
 	
 	payloadCapacity: 64
 })
+shadow.setEnginesMirror(
+    new UnitType.UnitEngine(8, -8, 4, -45),
+);
 shadow.mineItems.addAll(
 	item.nickel,
 	item.manganese,

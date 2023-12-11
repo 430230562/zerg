@@ -330,7 +330,10 @@ Object.assign(additiver,{
 	hasLiquids: true,
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
-		new DrawWarmupRegion(),
+		Object.assign(new DrawArcSmelt(),{
+			flameColor: Color.valueOf("fa7f7f"),
+			midColor: Color.valueOf("ff9999")
+		}),
 		Object.assign(new DrawParticles(), {
 			alpha: 0.35,
 			particleRad: 12,

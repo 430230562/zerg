@@ -121,15 +121,16 @@ Object.assign(asbestos, {
 })
 asbestos.weapons.add(
 Object.assign(new Weapon("zerg-asbestos-weapon"), {
-	x: 14 / 4,
-	y: 33 / 4,
-	reload: 30,
-	layerOffset: -0.002,
-	alternate: false,
+	x: 0,
+	y: 0,
+	shootY: 28 / 4,
+	mirror: false,
+	top: false,
+	reload: 60,
 	smoothReloadSpeed: 0.15,
 	recoil: 2,
 	shootSound: Sounds.shootSnap,
-	bullet: Object.assign(new ArtilleryBulletType(3.5, 17), {
+	bullet: Object.assign(new ArtilleryBulletType(3.5, 37), {
 		backColor: Color.valueOf("7e8ae6"),
 		trailColor: Color.valueOf("7e8ae6"),
 		hitColor: Color.valueOf("7e8ae6"),
@@ -141,9 +142,9 @@ Object.assign(new Weapon("zerg-asbestos-weapon"), {
 		trailWidth: 2,
 		trailLength: 5,
 		recoil: 0.1,
-		splashDamageRadius: 16,
-		splashDamage: 20,
-		fragBullets: 3,
+		splashDamageRadius: 24,
+		splashDamage: 35,
+		fragBullets: 5,
 		fragBullet: Object.assign(new BasicBulletType(3, 7, "bullet"), {
 			width: 5,
 			height: 12,
@@ -179,25 +180,24 @@ Object.assign(new Weapon("zerg-asbestos-weapon"), {
 	})
 })
 )
-for(let i = 0; i < 5; i++){
-	asbestos.parts.add(
-		Object.assign(new RegionPart("-spine"), {
-			y: 21 / 4 - 45 / 4 * i / 4,
-			moveX: 21 / 4 + Mathf.slope(i / 4) * 1.25,
-			moveRot: 10 - i * 14,
-			progress: DrawPart.PartProgress.reload.inv().mul(1.3).add(0.1).sustain(i / 4 * 0.34, 0.14, 0.14),
-			layerOffset: -0.001,
-			mirror: true,
-		})
-	)
-}
+asbestos.parts.add(
+	Object.assign(new RegionPart("-spine"), {
+	    x: 0,
+		y: 0,
+		moveX: 1,
+		moveRot: 30,
+		progress: DrawPart.PartProgress.warmup,
+		mirror: true,
+		under: false,
+	})
+)
 asbestos.abilities.add(
-	Object.assign(ShieldArcAbility(),{
+	Object.assign(new ShieldArcAbility(),{
 		radius: 36,
 		angle: 60,
 		regen: 0.05,
 		cooldown: 60 * 15,
-		max: 200,
+		max: 300,
 		y: -20,
 		width: 4,
 	})
