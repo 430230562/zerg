@@ -13,7 +13,6 @@ function Insect(name){
 		init(){
 			this.super$init();
 			
-			this.immunities.add(status.adhering)
 			this.abilities.add(
 				new DeathNeoplasmAbility(this.hitSize * 2, this.health),
 				Object.assign(new RegenAbility(), {
@@ -295,7 +294,7 @@ Object.assign(mantis,{
 	drag: 0.1,
 	hitSize: 16,
 	rotateSpeed: 3,
-	health: 4000,
+	health: 3800,
 	armor: 9,
 	
 	fogRadius: 40,
@@ -331,8 +330,8 @@ Object.assign(new Weapon("zerg-mantis-weapon"), {
 	cooldownTime: 42,
 	shootSound: Sounds.shotgun,
 	bullet: Object.assign(new ShrapnelBulletType(), {
-		length: 72,
-		damage: 100,
+		length: 40,
+		damage: 90,
 		width: 13,
 		lightOpacity: 0,
 	})
@@ -573,7 +572,6 @@ Object.assign(new Weapon(), {
 	bullet: new ExplosionBulletType(90, 48),
 })
 )
-buffer.immunities.add(status.adhering)
 
 const spread = new UnitType("spread");
 exports.spread = spread;
@@ -602,7 +600,6 @@ spread.abilities.add(
 	new DeathNeoplasmAbility(32,800),
 	new MoveLiquidAbility(Liquids.neoplasm,12,5)
 )
-spread.immunities.add(status.adhering)
 
 const s = new StatusEffect("s");
 s.healthMultiplier = 5;
@@ -647,7 +644,7 @@ Object.assign(egg, {
 	logicControllable: false,
 	allowedInPayloads: false,
 })
-egg.immunities.addAll(status.corroding,status.adhering);
+egg.immunities.addAll(status.corroding)
 
 const carrier = new Insect("carrier");
 exports.carrier = carrier;
@@ -727,4 +724,4 @@ Object.assign(eggLarge, {
 	logicControllable: false,
 	allowedInPayloads: false,
 })
-eggLarge.immunities.addAll(status.corroding,status.adhering);
+eggLarge.immunities.addAll(status.corroding);

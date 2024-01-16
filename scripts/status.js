@@ -1,5 +1,3 @@
-const Ef = require("zerg/effect");
-
 let reduceArmor = Stat("reduceArmor");
 let disabled = Stat("disabled");
 let percentDamage = Stat("percentDamage");
@@ -49,19 +47,10 @@ exports.dissolved = extend(StatusEffect,"dissolved",{
 	color: Color.valueOf("b3e5fa"),
 })
 
-const poisoned = extend(StatusEffect,"poisoned",{
+exports.dissolved = extend(StatusEffect,"poisoned",{
 	color: Color.valueOf("92ab11"),
 	damage: 15 / 60,
 	effect: Fx.mineSmall,
 	damageMultiplier: 1,
 	healthMultiplier: 0.8,
-})
-exports.poisoned = poisoned
-
-const adhering = extend(StatusEffect,"adhering",{
-	color: Color.valueOf("9e172c"),
-	effect: Fx.mineSmall,
-	speedMultiplier: 0.8,
-	reloadMultiplier: 0.6
-})
-exports.adhering = adhering;
+});

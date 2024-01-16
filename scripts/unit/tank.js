@@ -252,7 +252,7 @@ Object.assign(fearless, {
 	hitSize: 38,
 	rotateSpeed: 1.5,
 	health: 26000,
-	armor: 17,
+	armor: 20,
 	itemCapacity: 0,
 	crushDamage: 4,
 	constructor: () => new TankUnit.create(),
@@ -260,7 +260,7 @@ Object.assign(fearless, {
 fearless.weapons.add(
 Object.assign(new StatWeapon("zerg-fearless-weapon","reduceArmor",5),{
 	layerOffset: 0.0001,
-	reload: 45 / 2,
+	reload: 45,
 	shootY: 6,
 	recoil: 4,
 	rotate: true,
@@ -271,7 +271,9 @@ Object.assign(new StatWeapon("zerg-fearless-weapon","reduceArmor",5),{
 	heatColor: Color.red,
 	cooldownTime: 50,
 	shootSound: Sounds.shotgun,
-	shoot: new ShootAlternate(8),
+	shoot: Object.assign(new ShootAlternate(8), {
+		shots: 2,
+	}),
 	bullet: Object.assign(new ReduceArmorBulletType(8,280,5), {
 		pierce: true,
 		pierceBuilding: true,

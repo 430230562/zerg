@@ -42,7 +42,10 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 							nodeProduce(liquid.dissolvant, () => {}),
 							nodeProduce(item.sulfone, () => {})
 						}),
-						nodeProduce(item.biomassSteel, () => {})
+						nodeProduce(item.biomassSteel, () => {}),
+						nodeProduce(item.autiumFruit, () => {
+						    nodeProduce(liquid.colchicine, () => {})
+						})
 					})
 				}),
 				nodeProduce(Liquids.arkycite, () => {
@@ -148,7 +151,8 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 				})
 			}),
 			node(liquidBlock.waterExtractor, () => {})
-		})
+		}),
+		node(production.picker, () => {})
 	}),
 	node(power.deflagrationGenerator, () => {
 		node(power.fullEffectGenerator, () => {

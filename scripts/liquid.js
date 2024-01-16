@@ -1,7 +1,7 @@
 const status = require("zerg/status");
 
-Liquids.neoplasm.viscosity = 0.85;
-Liquids.neoplasm.effect = status.adhering;
+Liquids.neoplasm.viscosity = 0.95;
+Liquids.neoplasm.spreadTarget = null;
 
 const acid = extend(Liquid,"acid",Color.valueOf("84a94b"),{
 	update(puddle){
@@ -34,6 +34,12 @@ Object.assign(dissolvant,{
 	viscosity: 0.3,
 	coolant: false,
 	effect: status.dissolved,
+})
+
+const colchicine = new Liquid("colchicine",Color.valueOf("6e8b74"));
+exports.colchicine = colchicine;
+Object.assign(colchicine,{
+    coolant: false
 })
 
 const acetylene = new Liquid("acetylene",Color.valueOf("848a86"))

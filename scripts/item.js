@@ -9,6 +9,12 @@ Object.assign(biomass, {
 	buildable: false,
 })
 
+const autiumFruit = new Item("autium-fruit",Color.valueOf("6e8b74"));
+exports.autiumFruit = autiumFruit;
+Object.assign(autiumFruit,{
+    buildable: false,
+})
+
 const nickel = new Item("nickel", Color.valueOf("00c49b"));
 exports.nickel = nickel
 Object.assign(nickel, {

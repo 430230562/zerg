@@ -112,6 +112,114 @@ Object.assign(acidPool,{
 	liquidMultiplier: 0.5,
 })
 
+//autium
+
+const autiumFruit = new Wall("autiumFruit");
+Object.assign(autiumFruit,{
+    buildVisibility: BuildVisibility.hidden,
+	requirements: ItemStack.with(
+		item.autiumFruit, 2,
+	)
+})
+exports.autiumFruit = autiumFruit;
+
+const wildAutium = new TreeBlock("wild-autium");
+Object.assign(wildAutium,{
+    buildVisibility: BuildVisibility.hidden,
+	requirements: ItemStack.with(
+		item.autiumFruit, 24,
+	)
+})
+
+const autium2 = extend(Block,"autium-2",{
+	update: true,
+});
+autium2.buildType = prov(() => extend(Building, {
+    i: 0,
+    drawSelect(){
+	    this.super$drawSelect();
+	    
+		Drawf.dashSquare(Pal.accent, this.x, this.y, 25)
+	},
+	updateTile(){
+		this.super$updateTile();
+		
+		this.i += Time.delta
+		
+		if(this.i >= 60 * 20){
+		    this.tile.circle(2, cons(tile => {
+		        if(Mathf.chance(0.25) && tile.block() == Blocks.air){
+		            tile.setBlock(autiumFruit,this.team);
+		        }
+		    }))
+		    this.i = 0
+		}
+	},
+	write(write) {
+		this.super$write(write);
+		write.f(this.i);
+	},
+	read(read, revision) {
+		this.super$read(read, revision);
+		this.i = read.f();
+	}
+}))
+
+
+const autium1 = extend(Block,"autium-1",{
+    drawPlace(x, y, rotation, valid){
+        this.super$drawPlace(x, y, rotation, valid);
+        
+        Drawf.dashSquare(Pal.accent, x * 8, y * 8, 25)
+    },
+    setBars() {
+		this.super$setBars();
+		this.addBar("growthProgress", func(e => new Bar(
+			prov(() => Core.bundle.get("bar.growthProgress", Strings.fixed(e.getGrowthProgress() * 100, 0))),
+			prov(() => Pal.powerBar),
+			floatp(() => e.getGrowthProgress())
+		)));
+	}
+});
+autium1.buildType = prov(() => extend(Building, {
+    i: 0,
+    drawSelect(){
+	    this.super$drawSelect();
+	    
+		Drawf.dashSquare(Pal.accent, this.x, this.y, 25)
+	},
+	updateTile(){
+		this.super$updateTile();
+		
+		this.i += Time.delta
+		
+		if(this.i >= 60 * 60){
+		    this.tile.setBlock(autium2,this.team);
+		}
+	},
+	getGrowthProgress(){
+	    return this.i / 3600
+	},
+	write(write) {
+		this.super$write(write);
+		write.f(this.i);
+	},
+	read(read, revision) {
+		this.super$read(read, revision);
+		this.i = read.f();
+	}
+}))
+exports.autium1 = autium1;
+Object.assign(autium1,{
+    buildVisibility: BuildVisibility.shown,
+    category: Category.effect,
+	requirements: ItemStack.with(
+		item.autiumFruit, 1,
+	),
+	update: true,
+	researchCostMultiplier: 0.05,
+})
+
 new OreBlock("ore-nickel",item.nickel);
 new OreBlock("ore-manganese",item.manganese);
 new OreBlock("ore-chromium", item.chromium);

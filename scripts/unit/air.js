@@ -393,7 +393,7 @@ ampere.weapons.add(
 	})
 )
 
-const colchicineMissile = new MissileUnitType("colchicine-missile");
+/*const colchicineMissile = new MissileUnitType("colchicine-missile");
 Object.assign(colchicineMissile,{
     speed: 4.3,
     maxRange: 6,
@@ -468,7 +468,7 @@ colchicine.weapons.add(Object.assign(new Weapon("zerg-colchicine-weapon"), {
 		speed: 0,
 		keepVelocity: false,
 	}),
-}))
+}))*/
 
 const phantom = new UnitType("phantom");
 exports.phantom = phantom;

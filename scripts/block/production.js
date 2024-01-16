@@ -1,5 +1,6 @@
 const item = require('zerg/item');
 const liquid = require('zerg/liquid');
+const env = require('zerg/block/environment');
 
 const nickelDrill = new Drill("nickel-drill");
 exports.nickelDrill = nickelDrill;
@@ -115,6 +116,69 @@ biomassDrill.buildType = prov(() => extend(Drill.DrillBuild, biomassDrill,{
 		}
 	}
 }))
+
+const picker = extend(Block,"picker",{
+    ox:[],
+    oy:[],
+    drawPlace(x, y, rotation, valid){
+		this.super$drawPlace(x, y, rotation, valid);
+		
+		this.ox = [Angles.trnsx(rotation * 90, 1, -1),Angles.trnsx(rotation * 90, 1, 0),Angles.trnsx(rotation * 90, 1, 1)];
+        this.oy = [Angles.trnsy(rotation * 90, 1, -1),Angles.trnsy(rotation * 90, 1, 0),Angles.trnsy(rotation * 90, 1, 1)];
+        for(let i = 0;i <= 3;i ++){
+		    Drawf.dashSquare(
+		        Pal.accent,
+		        x * 8 + this.offset + this.ox[i] * 8,
+		        y * 8 + this.offset + this.oy[i] * 8,
+		        8
+		    );
+		}
+	}
+});
+Object.assign(picker,{
+    size: 1,
+    health: 80,
+    solid: true,
+    update: true,
+    hasShadow: true,
+    destructible: true,
+    rotate: true,
+    hasItems: true,
+    buildVisibility: BuildVisibility.shown,
+    category: Category.production,
+    requirements: ItemStack.with(
+		Items.graphite, 10,
+		item.nickel, 18,
+	),
+});
+picker.buildType = prov(() => extend(Building, {
+    t:0,
+    ox:[],
+    oy:[],
+    updateTile(){
+        this.super$updateTile();
+        
+        this.dump();
+        
+        this.t += Time.delta;
+        
+        if(this.t >= 300){
+        
+            this.ox = [Angles.trnsx(this.rotation * 90, 1, -1),Angles.trnsx(this.rotation * 90, 1, 0),Angles.trnsx(this.rotation * 90, 1, 1)];
+            this.oy = [Angles.trnsy(this.rotation * 90, 1, -1),Angles.trnsy(this.rotation * 90, 1, 0),Angles.trnsy(this.rotation * 90, 1, 1)];
+            
+            for(let i = 0;i < 3;i++){
+                if(Vars.world.tile(this.tileX() + this.ox[i],this.tileY() + this.oy[i]).block() == env.autiumFruit){
+                    this.items.add(item.autiumFruit, 2);
+                    Vars.world.tile(this.tileX() + this.ox[i],this.tileY() + this.oy[i]).setBlock(Blocks.air)
+                }
+            }
+            
+        this.t = 0;
+        }
+    }
+}))
+exports.picker = picker;
 
 const borehole = new HeatProducer("borehole");
 exports.borehole = borehole;

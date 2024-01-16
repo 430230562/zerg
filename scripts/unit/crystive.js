@@ -275,3 +275,83 @@ quartz.abilities.add(
 		width: 6,
 	})
 )
+
+const prism = new CrystalUnit("prism");
+Object.assign(prism,{
+    speed: 0.35,
+	drag: 0.4,
+	hitSize: 21,
+	rotateSpeed: 0.5,
+	health: 10000,
+	armor: 14,
+	
+	lockLegBase: true,
+    legContinuousMove: true,
+    legGroupSize: 3,
+    legStraightness: 0.4,
+    baseLegStraightness: 0.5,
+    legMaxLength: 1.3,
+	
+	hovering: true,
+	targetAir: false,
+	shadowElevation: 0.3,
+	groundLayer: 75,
+	constructor: () => new LegsUnit.create()
+})
+prism.abilities.add(
+	Object.assign(ShieldArcAbility(),{
+		radius: 60,
+		angle: 120,
+		regen: 0.6,
+		cooldown: 60 * 20,
+		max: 1750,
+		y: -26,
+		width: 6,
+		whenShooting: false,
+	})
+)
+prism.weapons.add(
+Object.assign(new Weapon("zerg-prism-weapon"), {
+    mirror: false,
+    top: false,
+    shake: 4,
+    shootY: 14,
+    x: 0,
+    y: 0,
+    rotateSpeed: 0.5,
+    
+    shoot: Object.assign(new ShootPattern(), {
+        firstShotDelay: 40
+	}),
+
+    reload: 180,
+    recoil: 0,
+    chargeSound: Sounds.lasercharge2,
+    shootSound: Sounds.beam,
+    continuous: true,
+    cooldownTime: 300,
+    bullet: Object.assign(new ContinuousLaserBulletType(),{
+        drawSize:240,
+        damage:40,
+        width:4,
+        length:240,
+        lifetime: 180,
+        hitEffect:Fx.none,
+        colors: [
+            Color.valueOf("5c69cc"),
+            Color.valueOf("7a8ae6"),
+            Color.valueOf("a6afff"),
+            Color.white,
+        ],
+        incendAmount: 0,
+        incendSpread: 0,
+        incendChance: 0,
+        knockback:0,
+        fragBullets: 1,
+        fragBullet: Object.assign(new LightningBulletType(),{
+            damage: 12,
+            lightningLength: 4,
+        })
+    })
+})
+)
