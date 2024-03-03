@@ -95,9 +95,9 @@ reconstructor.consumeItems(ItemStack.with(
 	item.crystal, 30,
 ));
 
-const deepReconstructor = new Reconstructor("deep-reconstructor");
-exports.deepReconstructor = deepReconstructor;
-Object.assign(deepReconstructor, {
+const primeReconstructor = new Reconstructor("prime-reconstructor");
+exports.primeReconstructor = primeReconstructor;
+Object.assign(primeReconstructor, {
 	size: 5,
 	constructTime: 60 * 60,
 	
@@ -108,19 +108,51 @@ Object.assign(deepReconstructor, {
 		item.nickel, 550,
 		item.manganese, 350,
 		item.chromium, 200,
-		item.iridium, 100,
+		item.biomassSteel, 100,
 	),
 })
-deepReconstructor.addUpgrade(tank.brigadier, tank.shredder);
-deepReconstructor.addUpgrade(tank.hurricane, tank.tornado);
-deepReconstructor.addUpgrade(air.cirrus, air.cloud);
-deepReconstructor.addUpgrade(air.inductance, air.ampere);
-deepReconstructor.consumePower(6.8);
-deepReconstructor.consumeItems(ItemStack.with(
+primeReconstructor.addUpgrade(tank.brigadier, tank.shredder);
+primeReconstructor.addUpgrade(tank.hurricane, tank.tornado);
+primeReconstructor.addUpgrade(air.cirrus, air.cloud);
+primeReconstructor.addUpgrade(air.inductance, air.ampere);
+primeReconstructor.consumePower(6.8);
+primeReconstructor.consumeItems(ItemStack.with(
 	Items.silicon, 150,
 	item.chromium, 75,
 	item.crystal, 100,
-	item.iridium, 20,
+	item.biomassSteel, 30,
+));
+
+const seniorReconstructor = Reconstructor("senior-reconstructor");
+exports.seniorReconstructor = seniorReconstructor;
+Object.assign(seniorReconstructor,{
+    size: 7,
+	constructTime: 60 * 90,
+	
+	buildVisibility: BuildVisibility.shown,
+	category: Category.units,
+	requirements: ItemStack.with(
+		Items.silicon, 1000,
+		Items.graphite, 750,
+		item.nickel, 1500,
+		item.manganese, 750,
+		item.chromium, 500,
+		item.biomassSteel, 500,
+		item.iridium, 1000,
+	),
+})
+seniorReconstructor.addUpgrade(tank.shredder, tank.purge);
+seniorReconstructor.addUpgrade(tank.tornado, tank.meteorite);
+seniorReconstructor.consumePower(13);
+seniorReconstructor.consumeItems(ItemStack.with(
+	Items.silicon, 750,
+	item.chromium, 500,
+	item.energic, 500,
+	item.biomassSteel, 250,
+	item.iridium, 200,
+));
+seniorReconstructor.consumeLiquids(LiquidStack.with(
+	Liquids.water, 1.5
 ));
 
 const unitIncubator = new UnitFactory("unit-incubator");
@@ -214,6 +246,9 @@ reincubator.buildType = prov(() => extend(Reconstructor.ReconstructorBuild, rein
         LiquidBlock.drawTiledFrames(2, this.x, this.y, 0, Liquids.neoplasm, this.a * 0.7)
     }
 }))
+reincubator.consumeLiquids(LiquidStack.with(
+	liquid.colchicine, 0.1
+));
 
 const hyperplasia = new Reconstructor("hyperplasia");
 exports.hyperplasia = hyperplasia;
@@ -237,6 +272,10 @@ hyperplasia.consumePower(7.7);
 hyperplasia.consumeItems(ItemStack.with(
 	item.biomass, 40,
 	item.amino, 80,
+));
+hyperplasia.consumeLiquids(LiquidStack.with(
+	Liquids.neoplasm, 0.1,
+	liquid.colchicine, 0.2
 ));
 hyperplasia.buildType = prov(() => extend(Reconstructor.ReconstructorBuild, hyperplasia,{
     a: 0,
@@ -283,7 +322,10 @@ Object.assign(metamorphosiser,{
 	)
 })
 metamorphosiser.consumePower(6);
-metamorphosiser.consumeLiquid(Liquids.neoplasm, 12 / 60);
+metamorphosiser.consumeLiquids(LiquidStack.with(
+	Liquids.neoplasm, 0.5,
+	liquid.colchicine, 1
+));
 
 const laboratory = new Reconstructor("laboratory")
 exports.laboratory = laboratory
@@ -306,6 +348,7 @@ laboratory.consumeItems(ItemStack.with(
 	item.crystal, 50,
 	item.amino, 30,
 ))
+laboratory.consumeLiquid(liquid.dissolvant, 12 / 60);
 
 const conflater = new UnitAssembler("conflater");
 exports.conflater = conflater;
@@ -334,7 +377,7 @@ Object.assign(conflater,{
 	)
 })
 conflater.consumePower(6);
-conflater.consumeLiquid(liquid.dissolvant, 12 / 60);
+conflater.consumeLiquid(liquid.dissolvant, 48 / 60);
 
 const assemblerModule = new UnitAssemblerModule("assembler-module");
 exports.assemblerModule = assemblerModule;

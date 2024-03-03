@@ -80,5 +80,4 @@ exports.sulfone = sulfone;
 Object.assign(sulfone, {
 	flammability: 1.9,
 	explosiveness: 0.4,
-	buildable: false,
 })

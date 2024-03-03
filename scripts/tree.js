@@ -6,6 +6,7 @@ const Research = Objectives.Research;
 
 const core = require("zerg/block/core");
 const distribution = require("zerg/block/distribution");
+const env = require("zerg/block/environment");
 const factory = require("zerg/block/factory");
 const liquidBlock = require("zerg/block/liquidBlock");
 const logic = require('zerg/block/logic');
@@ -108,7 +109,9 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 		node(factory.multiCompressor, () => {}),
 		node(factory.smelter, () => {
 			node(factory.incubator, () => {
-				node(factory.biomassSmelter, () => {}),
+				node(factory.biomassSmelter, () => {
+				    node(factory.lowTemperatureSmelter, () => {})
+				}),
 				node(factory.biomassDissociator, () => {
 					node(factory.dissolvantMixer, () => {})
 				}),
@@ -124,7 +127,8 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 			node(factory.synthesizer, () => {}),
 			node(factory.acetyleneSynthesizer, () => {
 				node(factory.additiver, () => {})
-			})
+			}),
+			node(factory.evaporator, () => {})
 		})
 	}),
 	node(production.nickelDrill, () => {
@@ -152,7 +156,9 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 			}),
 			node(liquidBlock.waterExtractor, () => {})
 		}),
-		node(production.picker, () => {})
+		node(production.picker, () => {
+		    node(env.autium1, () => {})
+		})
 	}),
 	node(power.deflagrationGenerator, () => {
 		node(power.fullEffectGenerator, () => {
@@ -161,9 +167,7 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 				node(power.extremeGenerator, () => {})
 			}),
 			node(power.crystalPanel, () => {
-				node(power.crystalPanelMedium, () => {
-					node(power.crystalPanelLarge, () => {})
-				})
+				node(power.crystalPanelLarge, () => {})
 			})
 		}),
 		node(power.nickelPowerNode, () => {
@@ -189,9 +193,7 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 					node(other.clan, () => {}),
 					node(other.resurrection, () => {})
 				}),
-				node(other.catalyzer, () => {
-					node(other.prophet, () => {})
-				})
+				node(other.catalyzer, () => {})
 			})
 		})
 	}),
@@ -216,7 +218,9 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 	}),
 	node(unitFactory.tankFactory, () => {
 		node(unitFactory.reconstructor, () => {
-			node(unitFactory.deepReconstructor, () => {})
+			node(unitFactory.primeReconstructor, () => {
+			    node(unitFactory.seniorReconstructor, () => {})
+			})
 		}),
 		node(tank.pioneer, () => {
 			node(tank.brigadier, () => {
@@ -267,7 +271,9 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 					}),
 					node(crystive.anatase, () => {
 						node(crystive.asbestos, () => {})
-						node(crystive.quartz, () => {})
+						node(crystive.quartz, () => {
+						    node(crystive.prism, () => {})
+						})
 					})
 				}),
 				node(insect.mosquito, () => {
@@ -323,7 +329,11 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 			}),
 			node(planet.crystalOutpost, Seq.with(
 			new SectorComplete(planet.valleyPlain)
-			), () => {})
+			), () => {
+			    node(planet.borderMines, Seq.with(
+			    new SectorComplete(planet.crystalOutpost)
+			    ), () => {})
+			})
 		})
 	})
 })

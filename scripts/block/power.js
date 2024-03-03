@@ -111,12 +111,8 @@ Object.assign(fullEffectGenerator, {
 	
 	drawer: new DrawMulti(
 		new DrawDefault(),
+		new DrawLiquidTile(Liquids.water),
 		new DrawWarmupRegion(),
-		new DrawRegion("-rotator0", 1),
-		new DrawRegion("-rotator1", 2),
-		new DrawRegion("-rotator2", 3),
-		new DrawRegion("-rotator3", 4),
-		new DrawLiquidRegion()
 	),
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
@@ -133,7 +129,7 @@ fullEffectGenerator.consume(new ConsumeItemExplode());
 const pyrolysis = new ConsumeGenerator("pyrolysis");
 exports.pyrolysis = pyrolysis;
 Object.assign(pyrolysis,{
-	powerProduction: 12,
+	powerProduction: 6,
 	hasLiquids: true,
 	size: 3,
 	generateEffect: Fx.none,
@@ -149,22 +145,15 @@ Object.assign(pyrolysis,{
 	
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.neoplasm),
-		Object.assign(new DrawPistons(),{
-			sinMag: 1
+		new DrawLiquidTile(Liquids.neoplasm, 2),
+		Object.assign(new DrawCells(), {
+			color: Color.valueOf("c33e2b"),
+			particleColorFrom: Color.valueOf("e8803f"),
+			particleColorTo: Color.valueOf("8c1225"),
+			particles: 75,
+			range: 4,
 		}),
-		new DrawRegion("-rotator0", 2.5, false),
-		new DrawRegion("-rotator1", 3.5, false),
 		new DrawDefault(),
-		Object.assign(new DrawSoftParticles(), {
-			alpha: 0.35,
-			particleRad: 12,
-			particleSize: 9,
-			particleLife: 120,
-			particles: 15,
-			color: Color.valueOf("e3ae6f"), 
-			color2: Color.valueOf("d04d46"),
-		})
 	),
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
@@ -180,18 +169,6 @@ pyrolysis.consumeLiquid(Liquids.neoplasm, 0.2);
 const crystalPanel = new SolarGenerator("crystal-panel");
 exports.crystalPanel = crystalPanel;
 Object.assign(crystalPanel,{
-	category: Category.power,
-	buildVisibility: BuildVisibility.shown,
-	requirements: ItemStack.with(
-		item.nickel, 10,
-		item.crystal, 15,
-	),
-	powerProduction: 0.05,
-})
-
-const crystalPanelMedium = new SolarGenerator("crystal-panel-medium");
-exports.crystalPanelMedium = crystalPanelMedium;
-Object.assign(crystalPanelMedium,{
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
@@ -265,7 +242,7 @@ Object.assign(biomassReactor, {
 	
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.water),
+		new DrawLiquidTile(Liquids.water, 4),
 		Object.assign(new DrawCells(), {
 			color: Color.valueOf("c33e2b"),
 			particleColorFrom: Color.valueOf("e8803f"),
@@ -277,11 +254,11 @@ Object.assign(biomassReactor, {
 		new DrawHeatOutput(),
 	)
 })
-biomassReactor.consumeLiquid(Liquids.water, 36 / 60)
-biomassReactor.consumeItems(ItemStack.with(
-	item.biomass, 1,
-	item.salt, 1
-));
+biomassReactor.consumeLiquids(LiquidStack.with(
+    liquid.colchicine, 12 / 60,
+    Liquids.water, 24 / 60
+))
+biomassReactor.consumeItem(item.biomass, 1);
 
 const extremeGenerator = new VariableReactor('extreme-generator');
 exports.extremeGenerator = extremeGenerator;
@@ -301,7 +278,7 @@ Object.assign(extremeGenerator, {
 	),
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.water),
+		new DrawLiquidTile(Liquids.water, 3),
 		new DrawDefault(),
 		new DrawHeatInput(),
 		Object.assign(new DrawSoftParticles(), {

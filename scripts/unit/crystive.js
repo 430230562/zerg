@@ -277,6 +277,7 @@ quartz.abilities.add(
 )
 
 const prism = new CrystalUnit("prism");
+exports.prism = prism;
 Object.assign(prism,{
     speed: 0.35,
 	drag: 0.4,

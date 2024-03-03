@@ -115,6 +115,44 @@ biomassSmelter.consumeItems(ItemStack.with(
 ));
 biomassSmelter.consumePower(5);
 
+const lowTemperatureSmelter = GenericCrafter("low-temperature-smelter");
+exports.lowTemperatureSmelter = lowTemperatureSmelter;
+Object.assign(lowTemperatureSmelter,{
+	health: 360,
+	craftEffect: Fx.smeltsmoke,
+	outputItem: new ItemStack(item.biomassSteel, 5),
+	craftTime: 200,
+	itemCapacity: 20,
+	size: 4,
+	hasPower: true,
+	hasLiquids: false,
+	drawer: new DrawMulti(
+	    new DrawRegion("-bottom"),
+	    new DrawLiquidTile(liquid.dissolvant),
+		new DrawFlame(Color.valueOf("c7d9a37f")),
+		new DrawDefault(),
+	),
+	ambientSound: Sounds.smelter,
+	ambientSoundVolume: 0.14,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.silicon, 150,
+		item.nickel, 200,
+		item.manganese, 200,
+		item.crystal, 75,
+		item.biomassSteel, 125
+	)
+})
+lowTemperatureSmelter.consumeItems(ItemStack.with(
+	item.biomass, 3,
+	item.nickel, 4,
+	item.manganese, 3,
+	item.salt, 1,
+));
+lowTemperatureSmelter.consumeLiquid(liquid.dissolvant, 0.05)
+lowTemperatureSmelter.consumePower(3);
+
 const biomassDissociator = new GenericCrafter("biomass-dissociator");
 exports.biomassDissociator = biomassDissociator
 Object.assign(biomassDissociator,{
@@ -232,6 +270,38 @@ arkyciteExtractor.consumeLiquids(LiquidStack.with(
 ));
 arkyciteExtractor.consumePower(1.2);
 
+const juicer = new GenericCrafter("juicer");
+exports.juicer = juicer;
+Object.assign(juicer,{
+    outputLiquid: new LiquidStack(liquid.colchicine, 0.05),
+	liquidCapacity: 30,
+	craftTime: 15,
+	size: 3,
+	hasPower: true,
+	hasLiquids: true,
+	drawer: new DrawMulti(
+		new DrawRegion("-bottom"),
+		new DrawLiquidTile(liquid.colchicine),
+		new DrawShakeRegion("-shake",360,120),
+		new DrawDefault()
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.silicon, 150,
+		item.nickel, 155,
+		item.crystal, 70,
+		item.manganese, 100,
+	)
+})
+juicer.consumeLiquids(LiquidStack.with(
+	Liquids.water, 0.05,
+));
+juicer.consumeItems(ItemStack.with(
+	item.autiumFruit, 1,
+));
+juicer.consumePower(1.2);
+
 const displacer = new GenericCrafter("displacer");
 exports.displacer = displacer;
 Object.assign(displacer,{
@@ -325,7 +395,7 @@ Object.assign(additiver,{
 	outputLiquid: new LiquidStack(liquid.yperite, 0.05),
 	liquidCapacity: 30,
 	craftTime: 60,
-	size: 4,
+	size: 3,
 	hasPower: true,
 	hasLiquids: true,
 	drawer: new DrawMulti(
@@ -335,19 +405,20 @@ Object.assign(additiver,{
 			midColor: Color.valueOf("ff9999")
 		}),
 		Object.assign(new DrawParticles(), {
-			alpha: 0.35,
+			alpha: 0.15,
 			particleRad: 12,
 			particleSize: 9,
-			particleLife: 120,
+			particleLife: 110,
 			particles: 15,
+			rotateScl: -3,
 			reverse: true,
 			color: Color.valueOf("d1e4ff"), 
 		}),
 		Object.assign(new DrawParticles(), {
-			alpha: 0.35,
+			alpha: 0.15,
 			particleRad: 12,
 			particleSize: 9,
-			particleLife: 120,
+			particleLife: 110,
 			particles: 15,
 			rotateScl: -3,
 			reverse: true,
@@ -370,6 +441,32 @@ additiver.consumeLiquids(LiquidStack.with(
 ));
 additiver.consumeItem(item.sulfone, 1);
 additiver.consumePower(2.3);
+
+const evaporator = new GenericCrafter("evaporator");
+exports.evaporator = evaporator;
+Object.assign(evaporator,{
+    outputItem: new ItemStack(item.salt, 12),
+	liquidCapacity: 180,
+	craftTime: 120,
+	size: 5,
+	hasPower: true,
+	hasLiquids: true,
+	drawer: new DrawMulti(
+		new DrawRegion("-bottom"),
+		new DrawLiquidTile(Liquids.water),
+		new DrawDefault()
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.graphite, 150,
+		Items.silicon, 150,
+		item.nickel, 75,
+		item.crystal, 25,
+	)
+})
+evaporator.consumePower(4.5);
+evaporator.consumeLiquid(Liquids.water, 1.2);
 
 const oilDistillation = new GenericCrafter("oil-distillation");
 exports.oilDistillation = oilDistillation
@@ -483,14 +580,19 @@ synthesizer.consumeItems(ItemStack.with(
 const iridiumPurification = new GenericCrafter("iridium-purification");
 exports.iridiumPurification = iridiumPurification;
 Object.assign(iridiumPurification,{
-    outputItem: new ItemStack(item.iridium, 1),
+    outputItems: ItemStack.with(
+	    item.iridium, 1,
+	    item.salt, 3
+    ),
     hasPower: true,
+    hasLiquids: true,
     craftTime: 120,
     size: 3,
     drawer: new DrawMulti(
         new DrawRegion("-bottom"),
-        new DrawLiquidTile(),
-        new DrawShakeRegion("-shake",360,120),
+        new DrawLiquidTile(liquid.acid),
+        new DrawRegion("-middle"),
+        new DrawLiquidRegion(Liquids.slag),
         new DrawDefault()
     ),
     buildVisibility: BuildVisibility.shown,

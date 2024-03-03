@@ -10,6 +10,7 @@ require('zerg/unit/tank');
 require('zerg/block/core');
 require('zerg/block/distribution');
 require('zerg/block/environment');
+require('zerg/block/enemy');
 require('zerg/block/factory');
 require('zerg/block/liquidBlock')
 require('zerg/block/logic');

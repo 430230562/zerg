@@ -1,4 +1,5 @@
 const environment = require("zerg/block/environment")
+const status = require("zerg/status")
 
 function MendFieldAbility(amount,reload,range){
 	return extend(Ability,{
@@ -41,7 +42,7 @@ function MoveLiquidAbility(liquid,range,amount){
 	return extend(Ability,{
 		update(unit){
 			unit.tileOn().circle(range / 8,cons(tile => {
-				Puddles.deposit(tile,liquid,amount);
+				if(tile != null)Puddles.deposit(tile,liquid,amount);
 			}))
 		}
 	})
@@ -52,7 +53,7 @@ function DeathNeoplasmAbility(range,amount){
 	return extend(Ability,{
 		death(unit){
 			unit.tileOn().circle(range / 8,cons(tile => {
-				Puddles.deposit(tile,Liquids.neoplasm,amount);
+				if(tile != null)Puddles.deposit(tile,Liquids.neoplasm,amount);
 			}))
 		},
 		localized(){
@@ -61,3 +62,42 @@ function DeathNeoplasmAbility(range,amount){
 	})
 }
 exports.DeathNeoplasmAbility = DeathNeoplasmAbility;
+
+function ToxicAbility(damage, reload, range) {
+	return extend(Ability, {
+		i: 0,
+		j: 75,
+		update(unit) {
+			this.i += Time.delta
+			this.j += Time.delta
+			if (this.i >= reload) {
+				Units.nearby(null, unit.x, unit.y, range, other => {
+					other.health -= damage;
+					other.apply(status.poisoned, 60 * 15);
+				})
+				Units.nearbyBuildings(unit.x, unit.y, range, b => {
+					b.health -= damage / 4
+					if(b.health <= 0){b.kill()}
+				})
+				this.i = 0
+			}
+			if (this.j >= 15) {
+				Fx.titanSmoke.at(
+					unit.x + Mathf.range(range * 0.7071),
+					unit.y + Mathf.range(range * 0.7071),
+					Color.valueOf("92AB117F")
+				)
+				this.j -= 15
+			}
+		},
+		/*draw(unit){
+			Draw.color(Color.red)
+			
+			for(let i = 0; i < 2; i++){
+				let rot = i * 180 + Time.time * 1;
+				Lines.arc(unit.x, unit.y, range, 0.2, rot);
+			}
+		}*/
+	})
+}
+exports.ToxicAbility = ToxicAbility

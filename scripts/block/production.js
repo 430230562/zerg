@@ -188,6 +188,7 @@ Object.assign(borehole,{
 	liquidCapacity: 30,
 	craftTime: 60,
 	size: 3,
+	buildCostMultiplier: 3,
 	hasPower: true,
 	hasLiquids: true,
 	rotateDraw: false,

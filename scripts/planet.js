@@ -131,6 +131,12 @@ Object.assign(crystalOutpost,{
 	difficulty: 5,
 })
 
+const borderMines = new SectorPreset("borderMines",greavar,67);
+exports.borderMines = borderMines;
+Object.assign(borderMines,{
+    difficulty: 6,
+})
+
 const twilightSea = new SectorPreset("twilightSea",greavar,17);
 exports.twilightSea = twilightSea;
 Object.assign(twilightSea,{

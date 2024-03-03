@@ -7,7 +7,7 @@ const { frame,matrix } = require("zerg/block/other")
 function Pay(block) {
 	return new BuildPayload(block, Team.derelict)
 }
-function CoreBuild(build, block, liquid) {
+function CoreBuild(build, draw, block, liquid) {
 	build.buildType = prov(() => {
 		const p = Pay(block);
 		return extend(CoreBlock.CoreBuild, build, {
@@ -27,9 +27,9 @@ function CoreBuild(build, block, liquid) {
 			},
 			drawSelect() {
 				this.super$drawSelect();
-				if(block.range != undefined){
+				if(block.range != undefined && draw){
 					Drawf.dashCircle(this.x, this.y, block.range, Pal.accent);
-				}else{
+				}else if(draw){
 					Drawf.dashCircle(this.x, this.y, block.radius, Pal.accent);
 				}
 			}
@@ -248,7 +248,7 @@ Object.assign(albus, {
 		Items.silicon, 2000,
 	)
 })
-CoreBuild(albus, frame, Liquids.water)
+CoreBuild(albus, false, frame, Liquids.water)
 
 const annular = new CoreBlock("annular");
 exports.annular = annular
@@ -270,7 +270,7 @@ Object.assign(annular, {
 		item.chromium, 4000,
 	)
 })
-CoreBuild(annular, matrix, Liquids.water)
+CoreBuild(annular, false, matrix, Liquids.water)
 
 const column = new Block("column");
 Object.assign(column,{

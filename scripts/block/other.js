@@ -44,28 +44,6 @@ Object.assign(catalyzer, {
 catalyzer.consumeItem(item.manganese, 1).boost();
 catalyzer.consumePower(2.5);
 
-const prophet = new OverdriveProjector("prophet");
-exports.prophet = prophet;
-Object.assign(prophet,{
-    reload: 60,
-	range: 120,
-	speedBoost: 2.1,
-	speedBoostPhase: 0,
-	useTime: 120,
-	phaseRangeBoost: 0,
-	hasBoost: true,
-	size: 3,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.effect,
-	requirements: ItemStack.with(
-		Items.silicon, 125,
-		item.manganese, 275,
-		item.chromium, 75,
-		item.biomassSteel, 50,
-	)
-})
-prophet.consumePower(4.2);
-
 const frame = new ForceProjector("frame");
 exports.frame = frame;
 Object.assign(frame, {
@@ -189,7 +167,7 @@ const lamp = extend(LightBlock,"lamp",{
 	},
 	size: 2,
 	brightness: 0.9,
-	radius: 120,
+	radius: 180,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
@@ -207,3 +185,38 @@ lamp.buildType = prov(() => {
 	})
 });
 lamp.consumePower(0.1);
+
+const lavaMine = new Block("lava-mine");
+Object.assign(lavaMine,{
+    update: true,
+    destructible: true,
+    solid: false,
+    targetable: false,
+    hasShadow: false,
+    health: 800,
+    size: 2,
+    crushDamageMultiplier: 0,
+    category: Category.effect,
+	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+		Items.graphite, 20,
+		Items.silicon, 20,
+		item.nickel, 40,
+		item.iridium, 10,
+		item.sulfone, 25,
+	)
+})
+lavaMine.buildType = prov(() => extend(Building,{
+    i:0,
+    updateTile(){
+        this.i += Time.delta
+    },
+    unitOn(unit){
+        if(unit.team != this.team && unit.type.hitSize >= 16 && this.i >= 48){
+            unit.damage(160 * Math.log(8 * unit.type.hitSize) + 810)
+            this.damage(401)
+            this.i = 0
+            Puddles.deposit(unit.tileOn(),Liquids.slag,100)
+        }
+    }
+}))

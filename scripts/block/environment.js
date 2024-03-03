@@ -123,14 +123,6 @@ Object.assign(autiumFruit,{
 })
 exports.autiumFruit = autiumFruit;
 
-const wildAutium = new TreeBlock("wild-autium");
-Object.assign(wildAutium,{
-    buildVisibility: BuildVisibility.hidden,
-	requirements: ItemStack.with(
-		item.autiumFruit, 24,
-	)
-})
-
 const autium2 = extend(Block,"autium-2",{
 	update: true,
 });
@@ -218,6 +210,7 @@ Object.assign(autium1,{
 	),
 	update: true,
 	researchCostMultiplier: 0.05,
+	buildCostMultiplier: 50,
 })
 
 new OreBlock("ore-nickel",item.nickel);

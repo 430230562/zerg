@@ -20,7 +20,7 @@ Object.assign(mist,{
 	constructor: () => new UnitEntity.create(),
 	aiController: () => extend(FlyingAI,{
 		updateMovement(){
-			if(this.target != null && this.target instanceof Unit){
+			if(this.target != null && this.target instanceof Unit && this.health >= 75){
 				this.circle(this.target, 150)
 			}else if(this.unit.team.core() != null){
 				this.circle(this.unit.team.core(), 120)
@@ -146,7 +146,7 @@ cloud.weapons.add(
 	}),
 	Object.assign(new Weapon("zerg-cloud-weapon"),{
 		shootSound: Sounds.blaster,
-		reload: 70,
+		reload: 50,
 		x: 0,
 		y: 6.5,
 		shootY: 5,
@@ -155,16 +155,8 @@ cloud.weapons.add(
 		layerOffset: -0.01,
 		rotate: false,
 		mirror: false,
-		shoot: new ShootMulti(
-    		new ShootPattern(),
-    		Object.assign(new ShootHelix(),{
-    			mag: 3,
-    			scl: 4,
-    		}),
-    		new ShootPattern()
-		),
 
-		bullet: Object.assign(new BasicBulletType(4, 60),{
+		bullet: Object.assign(new BasicBulletType(4, 80),{
 			width: 7,
 			height: 12,
 			lifetime: 50,

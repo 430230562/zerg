@@ -47,7 +47,7 @@ exports.dissolved = extend(StatusEffect,"dissolved",{
 	color: Color.valueOf("b3e5fa"),
 })
 
-exports.dissolved = extend(StatusEffect,"poisoned",{
+exports.poisoned = extend(StatusEffect,"poisoned",{
 	color: Color.valueOf("92ab11"),
 	damage: 15 / 60,
 	effect: Fx.mineSmall,
