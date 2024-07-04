@@ -150,24 +150,6 @@ Object.assign(distributor, {
 	size: 2
 })
 
-const golgiApparatus = new MassDriver("golgi-apparatus");
-exports.golgiApparatus = golgiApparatus;
-Object.assign(golgiApparatus,{
-    size: 5,
-    itemCapacity: 500,
-    reload: 300,
-    range: 65.5 * 8,
-    buildVisibility: BuildVisibility.shown,
-	category: Category.distribution,
-	requirements: ItemStack.with(
-	    Items.silicon, 300,
-		item.nickel, 250,
-		item.manganese, 200,
-		item.biomassSteel, 200,
-	),
-})
-golgiApparatus.consumePower(1.2);
-
 const heatPipe = new HeatConductor("heat-pipe")
 exports.heatPipe = heatPipe;
 Object.assign(heatPipe, {

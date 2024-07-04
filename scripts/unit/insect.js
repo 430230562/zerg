@@ -1,7 +1,7 @@
 const status = require('zerg/status');
 const liquid = require('zerg/liquid');
 const { Acid } = require('zerg/base/bulletType');
-const { DeathNeoplasmAbility, MoveLiquidAbility } = require("zerg/base/ability")
+const { DeathNeoplasmAbility, MoveLiquidAbility, DeathStatusAbility, DropAbility } = require("zerg/base/ability")
 
 function Insect(name){
 	return extend(UnitType, name, {
@@ -21,16 +21,17 @@ function Insect(name){
 				Object.assign(new LiquidRegenAbility(), {
 					liquid: Liquids.neoplasm,
 					slurpEffect: Fx.neoplasmHeal,
+					regenPerSlurp: 3.2
 				})
 			);
 		}
 	})
 }
 
-const spider = new Insect("spider");
-exports.spider = spider;
-Object.assign(spider, {
-	speed: 0.72,
+const haploid = new Insect("haploid");
+exports.haploid = haploid;
+Object.assign(haploid, {
+	speed: 0.75,
 	drag: 0.11,
 	hitSize: 11,
 	rotateSpeed: 3,
@@ -62,8 +63,8 @@ Object.assign(spider, {
 	
 	constructor: () => new LegsUnit.create()
 })
-spider.weapons.add(
-Object.assign(new Weapon("zerg-spider-weapon"), {
+haploid.weapons.add(
+Object.assign(new Weapon("zerg-haploid-weapon"), {
 	mirror: false,
 	x: 0,
 	y: 1,
@@ -98,12 +99,12 @@ Object.assign(new Weapon("zerg-spider-weapon"), {
 })
 )
 
-const tarantula = new Insect("tarantula")
-exports.tarantula = tarantula;
-Object.assign(tarantula, {
+const diploid = new Insect("diploid")
+exports.diploid = diploid;
+Object.assign(diploid, {
 	constructor: () => new LegsUnit.create(),
 	
-	speed: 0.6,
+	speed: 0.65,
 	drag: 0.4,
 	hitSize: 12,
 	rotateSpeed: 3,
@@ -119,7 +120,7 @@ Object.assign(tarantula, {
 	
 	range: 8 * 28,
 })
-tarantula.weapons.add(
+diploid.weapons.add(
 Object.assign(new Weapon(), {
 	mirror: false,
 	x: 0,
@@ -160,7 +161,7 @@ Object.assign(new Weapon(), {
 })
 )
 
-const groupMissile = extend(MissileUnitType,"group-missile",{
+const polarBody = extend(MissileUnitType,"polar-body",{
 	update(unit){
 		if(unit.getDuration(status.dissolved) >= 1){
 			unit.damageMultiplier = 0
@@ -169,7 +170,7 @@ const groupMissile = extend(MissileUnitType,"group-missile",{
 		}
 	}
 })
-Object.assign(groupMissile, {
+Object.assign(polarBody, {
 	hitSize: 4,
 	constructor: () => new TimedKillUnit.create(),
 	trailColor: Color.valueOf("e05438"),
@@ -184,7 +185,7 @@ Object.assign(groupMissile, {
 	health: 35,
 	lowAltitude: true,
 })
-groupMissile.parts.add(
+polarBody.parts.add(
 Object.assign(new FlarePart(),{
 	progress: DrawPart.PartProgress.life.slope().curve(Interp.pow2In),
 	color1: Color.valueOf("e05438"),
@@ -196,7 +197,7 @@ Object.assign(new FlarePart(),{
 	followRotation: true,
 }))
 
-groupMissile.weapons.add(
+polarBody.weapons.add(
 Object.assign(new Weapon(), {
 	shootCone: 360,
 	mirror: false,
@@ -220,14 +221,14 @@ Object.assign(new Weapon(), {
 	})
 })
 )
-groupMissile.abilities.add(
+polarBody.abilities.add(
 	new DeathNeoplasmAbility(16,150)
 )
 
-const group = new Insect("group");
-exports.group = group;
-Object.assign(group, {
-	speed: 0.5,
+const triploid = new Insect("triploid");
+exports.triploid = triploid;
+Object.assign(triploid, {
+	speed: 0.52,
 	drag: 0.1,
 	hitSize: 21,
 	rotateSpeed: 3,
@@ -256,7 +257,7 @@ Object.assign(group, {
 	constructor: () => new LegsUnit.create(),
 })
 for(let i = 0; i < 3; i++){
-	group.parts.add(
+	triploid.parts.add(
 		Object.assign(new RegionPart("-blade"), {
 			layerOffset: -0.001,
 			x: 2,
@@ -268,7 +269,8 @@ for(let i = 0; i < 3; i++){
 		})
 	)
 }
-group.weapons.add(Object.assign(new Weapon("zerg-group-weapon"), {
+triploid.weapons.add(Object.assign(
+new Weapon("zerg-triploid-weapon"), {
 	shootSound: Sounds.missileLarge,
 	x: 29 / 4,
 	y: -11 / 4,
@@ -278,24 +280,26 @@ group.weapons.add(Object.assign(new Weapon("zerg-group-weapon"), {
 	rotateSpeed: 2,
 	rotate: true,
 	bullet: Object.assign(new BulletType(), {
-		spawnUnit: groupMissile,
+		spawnUnit: polarBody,
 		smokeEffect: Fx.shootBigSmoke2,
 		speed: 0,
 		keepVelocity: false,
 	}),
 	shootStatus: StatusEffects.slow,
 	shootStatusDuration: 130,
-}))
+})
+)
 
-const mantis = new Insect("mantis");
-exports.mantis = mantis;
-Object.assign(mantis,{
-	speed: 0.95,
+const bivalents = new Insect("bivalents");
+exports.bivalents = bivalents;
+Object.assign(bivalents,{
+	speed: 1,
 	drag: 0.1,
 	hitSize: 16,
 	rotateSpeed: 3,
-	health: 3800,
+	health: 3500,
 	armor: 9,
+	targetPriority: 1,
 	
 	fogRadius: 40,
 	stepShake: 0,
@@ -318,8 +322,8 @@ Object.assign(mantis,{
 	groundLayer: 74,
 	constructor: () => new LegsUnit.create(),
 })
-mantis.weapons.add(
-Object.assign(new Weapon("zerg-mantis-weapon"), {
+bivalents.weapons.add(
+Object.assign(new Weapon("zerg-bivalents-weapon"), {
 	mirror: true,
 	x: 8,
 	y: 0,
@@ -337,9 +341,9 @@ Object.assign(new Weapon("zerg-mantis-weapon"), {
 	})
 }))
 
-const mosquito = new Insect("mosquito");
-exports.mosquito = mosquito;
-Object.assign(mosquito, {
+const ribosome = new Insect("ribosome");
+exports.ribosome = ribosome;
+Object.assign(ribosome, {
 	constructor: () => new UnitEntity.create(),
 	health: 180,
 	speed: 3.5,
@@ -350,8 +354,8 @@ Object.assign(mosquito, {
 	armor: 1,
 	aiController: () => new FlyingFollowAI()
 })
-mosquito.weapons.add(
-Object.assign(new Weapon("zerg-mosquito-weapon"), {
+ribosome.weapons.add(
+Object.assign(new Weapon("zerg-ribosome-weapon"), {
 	mirror: false,
 	x: 0,
 	y: 1,
@@ -386,7 +390,7 @@ Object.assign(new Weapon("zerg-mosquito-weapon"), {
 	})
 })
 )
-mosquito.parts.add(
+ribosome.parts.add(
 	Object.assign(new RegionPart("-wing"),{
 		mirror: true,
 		x: 0.5,
@@ -399,9 +403,9 @@ mosquito.parts.add(
 	})
 )
 
-const burst = new Insect("burst");
-exports.burst = burst;
-Object.assign(burst, {
+const lysosome = new Insect("lysosome");
+exports.lysosome = lysosome;
+Object.assign(lysosome, {
 	constructor: () => new UnitEntity.create(),
 	health: 420,
 	speed: 2,
@@ -418,7 +422,7 @@ Object.assign(burst, {
 	targetFlags: [BlockFlag.drill,BlockFlag.battery,null],
 	engineOffset: 7.8,
 })
-burst.weapons.add(
+lysosome.weapons.add(
 Object.assign(new Weapon(), {
 	x: 0,
 	y: 0,
@@ -450,7 +454,7 @@ Object.assign(new Weapon(), {
 	})
 })
 )
-burst.parts.add(
+lysosome.parts.add(
 	Object.assign(new RegionPart("-wing"),{
 		mirror: true,
 		x: 0.5,
@@ -463,9 +467,9 @@ burst.parts.add(
 	})
 )
 
-const dragonfly = new Insect("dragonfly");
-exports.dragonfly = dragonfly;
-Object.assign(dragonfly,{
+const trichocyst = new Insect("trichocyst");
+exports.trichocyst = trichocyst;
+Object.assign(trichocyst,{
 	constructor: () => new UnitEntity.create(),
 	health: 900,
 	speed: 1.667,
@@ -480,8 +484,8 @@ Object.assign(dragonfly,{
 	itemCapacity: 0,
 	engineOffset: 7.8,
 })
-dragonfly.weapons.add(
-	Object.assign(new Weapon("zerg-dragonfly-weapon"),{
+trichocyst.weapons.add(
+	Object.assign(new Weapon("zerg-trichocyst-weapon"),{
 		x: 0,
 		y: 4,
 		mirror: false,
@@ -508,7 +512,7 @@ dragonfly.weapons.add(
     		pierce: true,
     		pierceBuilding: true,
     		collidesAir: true,
-    		pierceCap: 5,
+    		pierceCap: 2,
     		
     		knockback: 12,
     		
@@ -520,7 +524,7 @@ dragonfly.weapons.add(
     	})
     })
 )
-dragonfly.parts.add(
+trichocyst.parts.add(
 	Object.assign(new RegionPart("-wing"),{
 		mirror: true,
 		x: 0.5,
@@ -533,11 +537,60 @@ dragonfly.parts.add(
 	})
 )
 
-const buffer = new UnitType("buffer");
-exports.buffer = buffer;
-Object.assign(buffer, {
+const centrosome = Insect("centrosome");
+exports.centrosome = centrosome;
+Object.assign(centrosome,{
+    aiController: () => new FlyingFollowAI(),
+    
+    flying: true,
+    drag: 0.06,
+    speed: 1.25,
+    rotateSpeed: 3.2,
+    accel: 0.1,
+    health: 4000,
+    armor: 5,
+    hitSize: 20,
+
+    engineSize: 4.8,
+    engineOffset: 15,
+    constructor: () => new UnitEntity.create(),
+})
+centrosome.parts.add(
+	Object.assign(new RegionPart("-wing"),{
+		mirror: true,
+		x: 0.5,
+		y: 0,
+		rotation: -45,
+		moveX: 0,
+		moveY: 0,
+		moveRot: 30,
+		progress: DrawPart.PartProgress.smoothReload.sin(1,5)
+	})
+)
+centrosome.weapons.add(Object.assign(new Weapon("zerg-centrosome-weapon"), {
+	shootSound: Sounds.missileLarge,
+	x: 29 / 4,
+	y: -11 / 4,
+	shootY: 1.5,
+	reload: 120,
+	layerOffset: 0.01,
+	rotateSpeed: 2,
+	rotate: true,
+	alternate: false,
+    shoot: new ShootSpread(2, 15),
+	bullet: Object.assign(new BulletType(), {
+		spawnUnit: polarBody,
+		smokeEffect: Fx.shootBigSmoke2,
+		speed: 0,
+		keepVelocity: false,
+	}),
+}))
+
+const apoptoticBody = new UnitType("apoptotic-body");
+exports.apoptoticBody = apoptoticBody;
+Object.assign(apoptoticBody, {
 	constructor: () => new MechUnit.create(),
-	speed: 1.25,
+	speed: 1.2,
 	armor: 3,
 	hitSize: 6,
 	health: 180,
@@ -550,13 +603,13 @@ Object.assign(buffer, {
 	healColor: Pal.neoplasm1,
 	lightRadius: 0,
 })
-buffer.abilities.add(
+apoptoticBody.abilities.add(
 	new DeathNeoplasmAbility(18,400),
 	Object.assign(new RegenAbility(), {
 		percentAmount: 1 / (90 * 60) * 100,
 	}),
 )
-buffer.weapons.add(
+apoptoticBody.weapons.add(
 Object.assign(new Weapon(), {
 	shootOnDeath: true,
 	reload: 24,
@@ -573,9 +626,9 @@ Object.assign(new Weapon(), {
 })
 )
 
-const spread = new UnitType("spread");
-exports.spread = spread;
-Object.assign(spread,{
+const glycocalyx = new UnitType("glycocalyx");
+exports.glycocalyx = glycocalyx;
+Object.assign(glycocalyx,{
 	constructor: () => new CrawlUnit.create(),
 	speed: 1,
 	hitSize: 8,
@@ -596,21 +649,40 @@ Object.assign(spread,{
 	healColor: Pal.neoplasm1,
 	lightRadius: 0,
 })
-spread.abilities.add(
+glycocalyx.abilities.add(
 	new DeathNeoplasmAbility(32,800),
 	new MoveLiquidAbility(Liquids.neoplasm,12,5)
+)
+
+const cytokine = new Insect("cytokine");
+exports.cytokine = cytokine;
+Object.assign(cytokine, {
+	constructor: () => new MechUnit.create(),
+	speed: 0.62,
+	armor: 5,
+	hitSize: 11,
+	health: 500,
+	mechSideSway: 0.25,
+	outlineColor: Pal.neoplasmOutline,
+	envDisabled: Env.none,
+	healFlash: true,
+	healColor: Pal.neoplasm1,
+	lightRadius: 0,
+})
+cytokine.abilities.add(
+	new StatusFieldAbility(status.pheromoneAlpha,660,600,80),
 )
 
 const s = new StatusEffect("s");
 s.healthMultiplier = 5;
 s.show = false;
 
-const egg = extend(UnitType,"egg",{
-	 u:[buffer,buffer,spider,spider,spider,mosquito,mosquito,spread],
+const primeFruitingBody = extend(UnitType,"prime-fruiting-body",{
+	 u:[apoptoticBody,apoptoticBody,haploid,haploid,haploid,ribosome,ribosome,glycocalyx],
 	 update(unit){
 		unit.maxHealth += 0.01;
 		unit.heal(0.2)
-		if(unit.maxHealth >= 112){
+		if(unit.maxHealth + unit.shield >= 112){
 			this.u[Math.floor(Math.random() * this.u.length)].spawn(unit.team,unit.x,unit.y)
 			
 			unit.remove();
@@ -623,8 +695,8 @@ const egg = extend(UnitType,"egg",{
 		}
 	 }
 })
-exports.egg = egg;
-Object.assign(egg, {
+exports.primeFruitingBody = primeFruitingBody;
+Object.assign(primeFruitingBody, {
 	drawCell: false,
 	lightRadius: 0,
 	envDisabled: Env.none,
@@ -638,19 +710,110 @@ Object.assign(egg, {
 	targetable: true,
 	hittable: true,
 	canAttack: false,
-	hidden: true,
+	hidden: false,
 	isEnemy: false,
 	playerControllable: false,
 	logicControllable: false,
 	allowedInPayloads: false,
 })
-egg.immunities.addAll(status.corroding)
+primeFruitingBody.immunities.addAll(status.corroding)
 
-const carrier = new Insect("carrier");
-exports.carrier = carrier;
-Object.assign(carrier, {
+const seniorFruitingBody = extend(UnitType,"senior-fruiting-body",{
+	 u:[diploid,diploid,diploid,lysosome,lysosome,cytokine],
+	 update(unit){
+		unit.maxHealth += 0.01;
+		unit.heal(0.2)
+		if(unit.maxHealth + unit.shield >= 124){
+			this.u[Math.floor(Math.random() * this.u.length)].spawn(unit.team,unit.x,unit.y)
+			
+			unit.remove();
+		}
+		if(unit.getDuration(s) <= 10){
+			unit.apply(s,20 * 60);
+		}
+		if(unit.getDuration(status.dissolved) >= 1){
+			unit.kill();
+		}
+	 }
+})
+exports.seniorFruitingBody = seniorFruitingBody;
+Object.assign(seniorFruitingBody, {
+	drawCell: false,
+	lightRadius: 0,
+	envDisabled: Env.none,
+	constructor: () => new MechUnit.create(),
+	speed: 0,
+	hitSize: 8,
+	health: 100,
+	armor: 30,
+	targetPriority: -2,
+	healColor: Pal.neoplasm1,
+	targetable: true,
+	hittable: true,
+	canAttack: false,
+	hidden: false,
+	isEnemy: false,
+	playerControllable: false,
+	logicControllable: false,
+	allowedInPayloads: false,
+})
+seniorFruitingBody.immunities.addAll(status.corroding);
+
+const cancer = new UnitType("cancer");
+exports.cancer = cancer;
+Object.assign(cancer, {
+	constructor: () => new MechUnit.create(),
+	speed: 0.67,
+	armor: 0,
+	hitSize: 6,
+	health: 500,
+	mechSideSway: 0.25,
+    targetPriority: 2,
+	targetAir: false,
+	outlineColor: Pal.neoplasmOutline,
+	envDisabled: Env.none,
+	healFlash: true,
+	healColor: Pal.neoplasm1,
+	lightRadius: 0,
+})
+cancer.abilities.add(
+    Object.assign(new RegenAbility(), {
+		percentAmount: -1 / (100 * 60) * 100,
+	}),
+	Object.assign(new LiquidRegenAbility(), {
+		liquid: Liquids.neoplasm,
+		slurpEffect: Fx.neoplasmHeal,
+		slurpSpeed: 27,
+		regenPerSlurp: 3.2
+	}),
+	extend(Ability,{
+	    update(unit){
+	        this.super$update(unit);
+	        
+	        unit.maxHealth = Math.floor(Math.min(20000,Math.max(unit.health + 10,unit.maxHealth)))
+	        unit.hitSize = Math.pow(unit.maxHealth / 500, 0.5) * 8
+	    },
+	    death(unit){
+			unit.tileOn().circle(unit.hitSize * 0.75,cons(tile => {
+				if(tile != null)Puddles.deposit(tile,Liquids.neoplasm,unit.maxHealth / 10);
+			}))
+			
+			for(let i = 0;i < unit.maxHealth / 500;i++){
+    			let u = primeFruitingBody.create(unit.team);
+                u.set(unit.x, unit.y);
+                u.rotation = unit.rotation;
+                u.maxHealth = 120
+                u.add();
+            }
+		},
+	})
+)
+
+const mitosis = new Insect("mitosis");
+exports.mitosis = mitosis;
+Object.assign(mitosis, {
 	targetPriority: -1,
-	speed: 0.35,
+	speed: 0.4,
 	drag: 0.1,
 	hitSize: 15,
 	rotateSpeed: 3,
@@ -677,51 +840,64 @@ Object.assign(carrier, {
 	groundLayer: 74,
 	constructor: () => new LegsUnit.create()
 })
-carrier.abilities.add(
-	new UnitSpawnAbility(egg, 60 * 20, 0, 0),
-	Object.assign(new SpawnDeathAbility(egg, 2, 20),{
+mitosis.abilities.add(
+	new UnitSpawnAbility(primeFruitingBody, 60 * 20, 0, 0),
+	Object.assign(new SpawnDeathAbility(primeFruitingBody, 2, 20),{
 		randAmount: 4,
 	}),
 	new DeathNeoplasmAbility(30, 800),
 );
 
-const eggLarge = extend(UnitType,"egg-large",{
-	 u:[tarantula,burst,tarantula,burst,tarantula,burst,carrier],
-	 update(unit){
-		unit.maxHealth += 0.01;
-		unit.heal(0.2)
-		if(unit.maxHealth >= 124){
-			this.u[Math.floor(Math.random() * this.u.length)].spawn(unit.team,unit.x,unit.y)
-			
-			unit.remove();
-		}
-		if(unit.getDuration(s) <= 10){
-			unit.apply(s,20 * 60);
-		}
-		if(unit.getDuration(status.dissolved) >= 1){
-			unit.kill();
-		}
-	 }
+const meiosis = new Insect("meiosis");
+exports.meiosis = meiosis;
+Object.assign(meiosis, {
+	targetPriority: -1,
+	speed: 0.35,
+	drag: 0.1,
+	hitSize: 24,
+	rotateSpeed: 3,
+	health: 750,
+	armor: 1,
+	stepShake: 0,
+	
+	legCount: 4,
+	legLength: 14,
+	lockLegBase: true,
+	legContinuousMove: true,
+	legExtension: -3,
+	legBaseOffset: 5,
+	legMaxLength: 1.1,
+	legMinLength: 0.2,
+	legLengthScl: 0.95,
+	legForwardScl: 0.7,
+
+	legMoveSpace: 1,
+	hovering: true,
+	allowLegStep: false,
+
+	shadowElevation: 0.2,
+	groundLayer: 74,
+	constructor: () => new LegsUnit.create()
 })
-exports.eggLarge = eggLarge;
-Object.assign(eggLarge, {
-	drawCell: false,
-	lightRadius: 0,
-	envDisabled: Env.none,
-	constructor: () => new MechUnit.create(),
-	speed: 0,
-	hitSize: 8,
-	health: 100,
-	armor: 30,
-	targetPriority: -2,
-	healColor: Pal.neoplasm1,
-	targetable: true,
-	hittable: true,
-	canAttack: false,
-	hidden: true,
-	isEnemy: false,
-	playerControllable: false,
-	logicControllable: false,
-	allowedInPayloads: false,
-})
-eggLarge.immunities.addAll(status.corroding);
+meiosis.abilities.addAll(
+	new UnitSpawnAbility(primeFruitingBody, 60 * 20, -5, -4),
+	new UnitSpawnAbility(primeFruitingBody, 60 * 20, 5, -4),
+	new UnitSpawnAbility(seniorFruitingBody, 60 * 40, 0, 2),
+	Object.assign(new SpawnDeathAbility(primeFruitingBody, 4, 20),{
+		randAmount: 4,
+	}),
+	Object.assign(new SpawnDeathAbility(seniorFruitingBody, 1, 20),{
+		randAmount: 2,
+	}),
+	new DeathNeoplasmAbility(42, 1600),
+);
+
+if(Vars.mods.getMod("zerg-dlc1") != null){
+    haploid.abilities.addAll(new DropAbility(1,0))
+    diploid.abilities.addAll(new DropAbility(5,0))
+    triploid.abilities.addAll(new DropAbility(8,2))
+    bivalents.abilities.addAll(new DropAbility(25,13))
+    ribosome.abilities.addAll(new DropAbility(1,0))
+    
+    glycocalyx.abilities.addAll(new DropAbility(0,1))
+}

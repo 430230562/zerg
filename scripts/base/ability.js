@@ -1,5 +1,6 @@
 const environment = require("zerg/block/environment")
 const status = require("zerg/status")
+const item = require("zerg/item")
 
 function MendFieldAbility(amount,reload,range){
 	return extend(Ability,{
@@ -83,8 +84,8 @@ function ToxicAbility(damage, reload, range) {
 			}
 			if (this.j >= 15) {
 				Fx.titanSmoke.at(
-					unit.x + Mathf.range(range * 0.7071),
-					unit.y + Mathf.range(range * 0.7071),
+					unit.x + Mathf.range(range * 0.7071 - 20),
+					unit.y + Mathf.range(range * 0.7071 - 20),
 					Color.valueOf("92AB117F")
 				)
 				this.j -= 15
@@ -101,3 +102,18 @@ function ToxicAbility(damage, reload, range) {
 	})
 }
 exports.ToxicAbility = ToxicAbility
+
+if(Vars.mods.getMod("zerg-dlc1") != null){
+    function DropAbility(amount1,amount2){
+        return extend(Ability,{
+    		death(unit){
+    			Team.sharded.core().items.add(item.connective, amount1)
+    			Team.sharded.core().items.add(item.meristem, amount2)
+    		},
+    		localized(){
+    			return Core.bundle.format("ability.drop");
+    		}
+    	})
+    }
+    exports.DropAbility = DropAbility;
+}

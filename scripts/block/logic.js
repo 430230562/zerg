@@ -25,20 +25,6 @@ Object.assign(switchBlock,{
 const processor = new LogicBlock("processor");
 exports.processor = processor;
 Object.assign(processor,{
-	instructionsPerTick: 3,
-	size: 1,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.logic,
-	requirements: ItemStack.with(
-		Items.graphite, 20,
-		Items.silicon, 30,
-		item.nickel, 50,
-	),
-})
-
-const processorLarge = new LogicBlock("processor-large");
-exports.processorLarge = processorLarge;
-Object.assign(processorLarge,{
 	instructionsPerTick: 13,
 	range: 8 * 22,
 	size: 2,
@@ -62,19 +48,5 @@ Object.assign(memoryCell,{
 		Items.graphite, 30,
 		Items.silicon, 30,
 		item.nickel, 30,
-	),
-})
-
-const logicDisplay = new LogicDisplay("logic-display");
-exports.logicDisplay = logicDisplay;
-Object.assign(logicDisplay,{
-	displaySize: 128,
-	size: 5,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.logic,
-	requirements: ItemStack.with(
-		Items.silicon, 30,
-		item.nickel, 50,
-		item.crystal, 75,
 	),
 })

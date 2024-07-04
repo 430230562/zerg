@@ -19,7 +19,7 @@ function CrystalUnit(name){
 const anatase = new CrystalUnit("anatase");
 exports.anatase = anatase;
 Object.assign(anatase, {
-	speed: 0.6,
+	speed: 0.72,
 	drag: 0.11,
 	hitSize: 8,
 	rotateSpeed: 3,
@@ -279,7 +279,7 @@ quartz.abilities.add(
 const prism = new CrystalUnit("prism");
 exports.prism = prism;
 Object.assign(prism,{
-    speed: 0.35,
+    speed: 0.47,
 	drag: 0.4,
 	hitSize: 21,
 	rotateSpeed: 0.5,
@@ -338,6 +338,7 @@ Object.assign(new Weapon("zerg-prism-weapon"), {
         length:240,
         lifetime: 180,
         hitEffect:Fx.none,
+        pierceCap: 3,
         colors: [
             Color.valueOf("5c69cc"),
             Color.valueOf("7a8ae6"),

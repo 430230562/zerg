@@ -81,11 +81,6 @@ Object.assign(neoplasm, {
 	drownTime: 60 * 1.2,
 })
 
-//hypha
-const hyphaWall = new StaticWall("hypha-wall");
-
-const hyphaFloor = new Floor("hypha-floor");
-
 //crystal
 const crystallineWall = new StaticWall("crystalline-wall");
 Object.assign(crystallineWall,{
@@ -116,15 +111,13 @@ Object.assign(acidPool,{
 
 const autiumFruit = new Wall("autiumFruit");
 Object.assign(autiumFruit,{
-    buildVisibility: BuildVisibility.hidden,
-	requirements: ItemStack.with(
-		item.autiumFruit, 2,
-	)
+	targetable: false,
 })
 exports.autiumFruit = autiumFruit;
 
-const autium2 = extend(Block,"autium-2",{
+const autium2 = extend(TreeBlock,"autium-2",{
 	update: true,
+	targetable: false,
 });
 autium2.buildType = prov(() => extend(Building, {
     i: 0,
@@ -158,7 +151,7 @@ autium2.buildType = prov(() => extend(Building, {
 }))
 
 
-const autium1 = extend(Block,"autium-1",{
+const autium1 = extend(TreeBlock,"autium-1",{
     drawPlace(x, y, rotation, valid){
         this.super$drawPlace(x, y, rotation, valid);
         
@@ -211,7 +204,59 @@ Object.assign(autium1,{
 	update: true,
 	researchCostMultiplier: 0.05,
 	buildCostMultiplier: 50,
+	targetable: false,
 })
+
+const lichen = extend(Block,"lichen",{
+    update: true,
+    buildVisibility: BuildVisibility.shown,
+    category: Category.effect,
+    requirements: ItemStack.with(
+		item.lichen, 1,
+	),
+    targetable: false,
+    setBars() {
+		this.super$setBars();
+		this.addBar("growthProgress", func(e => new Bar(
+			prov(() => Core.bundle.get("bar.growthProgress", Strings.fixed(e.getGrowthProgress() * 100, 0))),
+			prov(() => Pal.powerBar),
+			floatp(() => e.getGrowthProgress())
+		)));
+	},
+	canReplace(other){
+	    return true
+	}
+});
+exports.lichen = lichen;
+lichen.buildType = prov(() => extend(Building, {
+    i: 0,
+    updateTile(){
+        this.super$updateTile();
+		
+		this.i += Time.delta
+		
+		if(this.i >= 60 * 60){
+		    this.tile.circle(2, cons(tile => {
+		        if(tile != null && Mathf.chance(0.15) && tile.block() == Blocks.air){
+		            tile.setBlock(lichen,this.team);
+		        }
+		    }))
+		    
+		    this.i = 0
+		}
+    },
+    getGrowthProgress(){
+	    return this.i / 3600
+	},
+	write(write) {
+		this.super$write(write);
+		write.f(this.i);
+	},
+	read(read, revision) {
+		this.super$read(read, revision);
+		this.i = read.f();
+	}
+}))
 
 new OreBlock("ore-nickel",item.nickel);
 new OreBlock("ore-manganese",item.manganese);

@@ -1,9 +1,9 @@
-let reduceArmor = Stat("reduceArmor");
+let armorReduce = Stat("armorReduce");
 let disabled = Stat("disabled");
 let percentDamage = Stat("percentDamage");
-let armorLimit = Stat("armorLimit");
+let shieldAdd = Stat("shieldAdd")
 
-exports.corroding = extend(StatusEffect,"corroding",{
+const corroding = extend(StatusEffect,"corroding",{
 	update(unit, time){
 		this.super$update(unit, time);
 		
@@ -18,8 +18,9 @@ exports.corroding = extend(StatusEffect,"corroding",{
 	},
 	damage: 0.2
 });
+exports.corroding = corroding;
 
-exports.dissolved = extend(StatusEffect,"dissolved",{
+const dissolved = extend(StatusEffect,"dissolved",{
 	update(unit, time){
 		this.super$update(unit, time);
 		
@@ -46,11 +47,19 @@ exports.dissolved = extend(StatusEffect,"dissolved",{
 	effect: Fx.unitDust,
 	color: Color.valueOf("b3e5fa"),
 })
+exports.dissolved = dissolved
 
-exports.poisoned = extend(StatusEffect,"poisoned",{
+const poisoned = extend(StatusEffect,"poisoned",{
 	color: Color.valueOf("92ab11"),
 	damage: 15 / 60,
 	effect: Fx.mineSmall,
 	damageMultiplier: 1,
 	healthMultiplier: 0.8,
 });
+exports.poisoned = poisoned;
+
+const pheromoneAlpha = extend(StatusEffect,"pheromone-alpha",{
+	reloadMultiplier: 1.5,
+	healthMultiplier: 1.2,
+})
+exports.pheromoneAlpha = pheromoneAlpha

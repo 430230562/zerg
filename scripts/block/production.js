@@ -29,8 +29,9 @@ Object.assign(manganeseDrill, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.production,
 	requirements: ItemStack.with(
+	    Items.graphite, 10,
 		item.nickel, 35,
-		item.manganese, 10,
+		item.manganese, 15,
 	),
 })
 manganeseDrill.consumeLiquid(Liquids.water, 0.04).boost()
@@ -123,8 +124,8 @@ const picker = extend(Block,"picker",{
     drawPlace(x, y, rotation, valid){
 		this.super$drawPlace(x, y, rotation, valid);
 		
-		this.ox = [Angles.trnsx(rotation * 90, 1, -1),Angles.trnsx(rotation * 90, 1, 0),Angles.trnsx(rotation * 90, 1, 1)];
-        this.oy = [Angles.trnsy(rotation * 90, 1, -1),Angles.trnsy(rotation * 90, 1, 0),Angles.trnsy(rotation * 90, 1, 1)];
+		this.ox = [Angles.trnsx(rotation * 90, -1, -1),Angles.trnsx(rotation * 90, -1, 0),Angles.trnsx(rotation * 90, -1, 1)];
+        this.oy = [Angles.trnsy(rotation * 90, -1, -1),Angles.trnsy(rotation * 90, -1, 0),Angles.trnsy(rotation * 90, -1, 1)];
         for(let i = 0;i <= 3;i ++){
 		    Drawf.dashSquare(
 		        Pal.accent,
@@ -133,6 +134,9 @@ const picker = extend(Block,"picker",{
 		        8
 		    );
 		}
+	},
+	icons(){
+		return [Core.atlas.find("zerg-picker"),Core.atlas.find("zerg-picker-top")]
 	}
 });
 Object.assign(picker,{
@@ -143,6 +147,7 @@ Object.assign(picker,{
     hasShadow: true,
     destructible: true,
     rotate: true,
+    rotateDraw: false,
     hasItems: true,
     buildVisibility: BuildVisibility.shown,
     category: Category.production,
@@ -162,28 +167,50 @@ picker.buildType = prov(() => extend(Building, {
         
         this.t += Time.delta;
         
-        if(this.t >= 300){
+        this.ox = [Angles.trnsx(this.rotation * 90, -1, -1),Angles.trnsx(this.rotation * 90, -1, 0),Angles.trnsx(this.rotation * 90, -1, 1)];
+        this.oy = [Angles.trnsy(this.rotation * 90, -1, -1),Angles.trnsy(this.rotation * 90, -1, 0),Angles.trnsy(this.rotation * 90, -1, 1)];
         
-            this.ox = [Angles.trnsx(this.rotation * 90, 1, -1),Angles.trnsx(this.rotation * 90, 1, 0),Angles.trnsx(this.rotation * 90, 1, 1)];
-            this.oy = [Angles.trnsy(this.rotation * 90, 1, -1),Angles.trnsy(this.rotation * 90, 1, 0),Angles.trnsy(this.rotation * 90, 1, 1)];
+        if(this.t >= 300){
             
             for(let i = 0;i < 3;i++){
                 if(Vars.world.tile(this.tileX() + this.ox[i],this.tileY() + this.oy[i]).block() == env.autiumFruit){
                     this.items.add(item.autiumFruit, 2);
                     Vars.world.tile(this.tileX() + this.ox[i],this.tileY() + this.oy[i]).setBlock(Blocks.air)
                 }
+                if(Vars.world.tile(this.tileX() + this.ox[i],this.tileY() + this.oy[i]).block() == env.lichen){
+                    this.items.add(item.lichen, 2);
+                    Vars.world.tile(this.tileX() + this.ox[i],this.tileY() + this.oy[i]).setBlock(Blocks.air)
+                }
             }
             
         this.t = 0;
         }
-    }
+    },
+    draw(){
+		Draw.rect(Core.atlas.find("zerg-picker"), this.x, this.y);
+		Draw.z(30.1);
+		
+		Draw.rect(Core.atlas.find("zerg-picker-top"), this.x, this.y, this.rotation * 90 + 90)
+	},
+	drawSelect() {
+		this.super$drawSelect();
+		
+        for(let i = 0;i <= 3;i ++){
+		    Drawf.dashSquare(
+		        Pal.accent,
+		        this.x + this.offset + this.ox[i],
+		        this.y + this.offset + this.oy[i],
+		        8
+		    );
+		}
+	}
 }))
 exports.picker = picker;
 
-const borehole = new HeatProducer("borehole");
-exports.borehole = borehole;
-Object.assign(borehole,{
-    outputLiquid: new LiquidStack(Liquids.slag, 0.15),
+const geothermalExploration = new HeatProducer("geothermal-exploration");
+exports.geothermalExploration = geothermalExploration;
+Object.assign(geothermalExploration,{
+    outputLiquid: new LiquidStack(Liquids.slag, 0.1),
     heatOutput: 10,
 	liquidCapacity: 30,
 	craftTime: 60,
@@ -213,13 +240,14 @@ Object.assign(borehole,{
 	category: Category.production,
 	requirements: ItemStack.with(
 		Items.silicon, 200,
-		item.nickel, 650,
-		item.crystal, 250,
+		item.nickel, 400,
+		item.manganese, 250,
+		item.organistal, 200,
 		item.chromium, 250,
 	)
 })
-borehole.consumePower(8);
-borehole.consumeLiquid(Liquids.water, 0.05);
+geothermalExploration.consumePower(10);
+geothermalExploration.consumeLiquid(Liquids.water, 0.05);
 
 const crystalCollector = new BeamDrill("crystal-collector");
 exports.crystalCollector = crystalCollector;

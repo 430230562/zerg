@@ -42,9 +42,9 @@ Object.assign(colchicine,{
     coolant: false
 })
 
-const acetylene = new Liquid("acetylene",Color.valueOf("848a86"))
-exports.acetylene = acetylene;
-Object.assign(acetylene,{
+const naturalGas = new Liquid("natural-gas",Color.valueOf("848a86"))
+exports.naturalGas = naturalGas;
+Object.assign(naturalGas,{
 	gas: true,
 	flammability: 1.5,
 	explosiveness: 1,

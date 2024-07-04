@@ -202,8 +202,7 @@ Object.assign(lavaMine,{
 		Items.graphite, 20,
 		Items.silicon, 20,
 		item.nickel, 40,
-		item.iridium, 10,
-		item.sulfone, 25,
+		item.iridium, 10
 	)
 })
 lavaMine.buildType = prov(() => extend(Building,{

@@ -28,39 +28,36 @@ const planet = require("zerg/planet");
 
 planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 	nodeProduce(item.nickel, () => {
-		nodeProduce(Items.sand, () => {
-			nodeProduce(Items.silicon, () => {})
-		}),
 		nodeProduce(Items.coal, () => {
-			nodeProduce(Items.graphite, () => {})
+			nodeProduce(Items.graphite, () => {
+			    nodeProduce(item.autiumFruit, () => {
+					nodeProduce(liquid.colchicine, () => {})
+				})
+			}),
+			nodeProduce(Items.sand, () => {
+			    nodeProduce(Items.silicon, () => {})
+		    })
 		}),
 		nodeProduce(item.manganese, () => {
 			nodeProduce(item.crystal, () => {
 				nodeProduce(Liquids.water, () => {
 					nodeProduce(Liquids.neoplasm, () => {}),
 					nodeProduce(item.biomass, () => {
+					    nodeProduce(liquid.acid, () => {}),
+        				nodeProduce(liquid.naturalGas, () => {
+        					nodeProduce(liquid.yperite, () => {})
+        				}),
 						nodeProduce(item.amino, () => {
 							nodeProduce(liquid.dissolvant, () => {}),
-							nodeProduce(item.sulfone, () => {})
+							nodeProduce(Items.pyratite, () => {})
 						}),
-						nodeProduce(item.biomassSteel, () => {}),
-						nodeProduce(item.autiumFruit, () => {
-						    nodeProduce(liquid.colchicine, () => {})
-						})
-					})
+						nodeProduce(item.biomassSteel, () => {})
+					}),
+					nodeProduce(item.salt, () => {})
 				}),
-				nodeProduce(Liquids.arkycite, () => {
-					nodeProduce(Liquids.oil, () => {})
-				}),
-				nodeProduce(liquid.acid, () => {
-					nodeProduce(item.salt, () => {}),
-					nodeProduce(Liquids.hydrogen, () => {
-						nodeProduce(liquid.acetylene, () => {
-							nodeProduce(liquid.yperite, () => {})
-						})
-					})
-				}),
-				nodeProduce(item.energic, () => {})
+				nodeProduce(item.energic, () => {
+				    nodeProduce(item.organistal, () => {})
+				})
 			}),
 			nodeProduce(item.chromium, () => {
 				nodeProduce(Liquids.slag, () => {
@@ -108,27 +105,38 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 	node(factory.compressor, () => {
 		node(factory.multiCompressor, () => {}),
 		node(factory.smelter, () => {
-			node(factory.incubator, () => {
+			node(factory.incubator, Seq.with(
+			    new SectorComplete(planet.plantation032)
+			), () => {
+			    node(factory.incubatorLarge, () => {})
 				node(factory.biomassSmelter, () => {
-				    node(factory.lowTemperatureSmelter, () => {})
+				    node(factory.lowTemperatureSmelter, () => {}),
+				    node(factory.iridiumPurification, () => {})
 				}),
 				node(factory.biomassDissociator, () => {
-					node(factory.dissolvantMixer, () => {})
-				}),
-				node(factory.biomassFermenter, () => {})
+					node(factory.dissolvantMixer, () => {}),
+					node(factory.biomassAcidification, () => {
+					    node(factory.biomassFermenter, () => {})
+					})
+				})
 			}),
-			node(factory.charger, () => {}),
-			node(factory.oilRefinery, () => {
-				node(factory.arkyciteExtractor, () => {}),
-				node(factory.oilDistillation, () => {})
+			node(factory.charger, Seq.with(
+			    new SectorComplete(planet.crystalOutpost)
+			), () => {
+			    node(factory.organistalSynthesizer, Seq.with(
+			        new SectorComplete(planet.experimental035),
+			        new Research(factory.synthesizer)
+			    ), () => {})
 			})
 		}),
-		node(factory.displacer, () => {
-			node(factory.synthesizer, () => {}),
-			node(factory.acetyleneSynthesizer, () => {
-				node(factory.additiver, () => {})
+		node(factory.evaporator, () => {
+			node(factory.synthesizer, () => {
+			    node(factory.additiver, () => {})
 			}),
-			node(factory.evaporator, () => {})
+			node(factory.disintegrator, () => {}),
+			node(factory.juicer, () => {
+			    node(factory.lichenDisintegrator, () => {})
+			})
 		})
 	}),
 	node(production.nickelDrill, () => {
@@ -136,13 +144,14 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 			node(production.crystalCollector, () => {
 				node(production.crystalDrill, () => {
 					node(production.biomassDrill, () => {})
-				})
+				}),
+				node(production.geothermalExploration, () => {})
 			})
 		}),
 		node(liquidBlock.nickelPump, () => {
 			node(liquidBlock.screwPump, () => {}),
 			node(liquidBlock.crystalConduit, () => {
-				node(liquidBlock.manganeseConduit, () => {
+				node(liquidBlock.organistalConduit, () => {
 					node(liquidBlock.armoredConduit, () => {})
 				}),
 				node(liquidBlock.crystalLiquidJunction, () => {
@@ -156,8 +165,11 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 			}),
 			node(liquidBlock.waterExtractor, () => {})
 		}),
-		node(production.picker, () => {
-		    node(env.autium1, () => {})
+		node(production.picker,Seq.with(
+		    new SectorComplete(planet.plantation032)
+		), () => {
+		    node(env.autium1, () => {}),
+		    node(env.lichen, () => {})
 		})
 	}),
 	node(power.deflagrationGenerator, () => {
@@ -178,17 +190,16 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 				})
 			}),
 			node(other.lamp, () => {
-				node(logic.processor, () => {
-					node(logic.processorLarge, () => {}),
-					node(logic.switchBlock, () => {
-						node(logic.message, () => {
-							node(logic.logicDisplay, () => {}),
-							node(logic.memoryCell, () => {})
-						})
-					})
+				node(logic.switchBlock, () => {
+					node(logic.message, () => {
+						node(logic.memoryCell, () => {})
+					}),
+					node(logic.processor, () => {})
 				})
 			}),
-			node(other.frame, () => {
+			node(other.frame,Seq.with(
+			    new SectorComplete(planet.crystalOutpost)
+			), () => {
 				node(other.matrix, () => {
 					node(other.clan, () => {}),
 					node(other.resurrection, () => {})
@@ -198,22 +209,28 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 		})
 	}),
 	node(turret.guard, () => {
-		node(turret.obstruct, () => {}),
-		node(turret.lumen, () => {
-			node(turret.sange, () => {})
-		}),
-		node(turret.nexus, () => {
-			node(turret.bomb, () => {
-				node(turret.midnight, () => {})
-			}),
-			node(turret.spiral, () => {
-				node(turret.lacerate, () => {
-					node(turret.blowtorth, () => {})
-				}),
-				node(turret.soak, () => {
-					node(turret.deluge, () => {})
+		node(turret.obstruct, () => {
+		    node(turret.nexus, () => {
+		        node(turret.soak, () => {
+					node(turret.deluge, () => {
+					    node(turret.blowtorth, () => {})
+					}),
+					node(turret.midnight, () => {})
 				})
-			})
+		    }),
+		    node(turret.bomb, () => {
+		        node(turret.spiral, () => {
+		            node(turret.lacerate, () => {
+		                node(turret.lumen, () => {})
+		            }),
+		            node(turret.skyfire, () => {
+		                node(turret.sange, () => {
+		                    node(turret.aurora, () => {})
+		                }),
+		                node(turret.comet,() => {})
+		            })
+		        })
+		    })
 		})
 	}),
 	node(unitFactory.tankFactory, () => {
@@ -255,30 +272,36 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 		node(unitFactory.unitIncubator, () => {
 			node(unitFactory.reincubator, () => {
 				node(unitFactory.hyperplasia, () => {
-					node(unitFactory.metamorphosiser, () => {})
+					node(unitFactory.airMetamorphosiser, () => {}),
+					node(unitFactory.legsMetamorphosiser, () => {})
 				}),
 				node(unitFactory.laboratory, () => {
 					node(unitFactory.conflater, () => {})
 				})
 			}),
-			node(insect.buffer, () => {
-				node(insect.spread, () => {}),
-				node(insect.spider, () => {
-					node(insect.tarantula, () => {
-						node(insect.group, () => {
-							node(insect.mantis, () => {})
+			node(insect.apoptoticBody, () => {
+				node(insect.glycocalyx, () => {
+				    node(insect.cytokine, () => {})
+				}),
+				node(insect.haploid, () => {
+					node(insect.diploid, () => {
+						node(insect.triploid, () => {
+							node(insect.bivalents, () => {})
 						})
 					}),
 					node(crystive.anatase, () => {
-						node(crystive.asbestos, () => {})
-						node(crystive.quartz, () => {
-						    node(crystive.prism, () => {})
+						node(crystive.asbestos, () => {
+						    node(crystive.quartz, () => {
+						        node(crystive.prism, () => {})
+						    })
 						})
 					})
 				}),
-				node(insect.mosquito, () => {
-					node(insect.burst, () => {
-						node(insect.dragonfly, () => {})
+				node(insect.ribosome, () => {
+					node(insect.lysosome, () => {
+						node(insect.trichocyst, () => {
+						    node(insect.centrosome, () => {})
+						})
 					})
 				})
 			})
@@ -314,26 +337,27 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 		})
 	}),
 	node(planet.iceField, () => {
-		node(planet.valleyPlain, Seq.with(
-		new SectorComplete(planet.iceField)
-		), () => {
-			node(planet.coldJunction, Seq.with(
-			new SectorComplete(planet.valleyPlain)
-			), () => {
-				node(planet.twilightSea, Seq.with(
-				new SectorComplete(planet.coldJunction)
-				), () => {}),
-				node(planet.intertwinedGlacier, Seq.with(
-				new SectorComplete(planet.coldJunction)
-				), () => {})
-			}),
-			node(planet.crystalOutpost, Seq.with(
-			new SectorComplete(planet.valleyPlain)
-			), () => {
-			    node(planet.borderMines, Seq.with(
-			    new SectorComplete(planet.crystalOutpost)
-			    ), () => {})
-			})
-		})
+	    node(planet.valleyPlain, Seq.with(
+	        new SectorComplete(planet.iceField)
+	    ), () => {
+	        node(planet.plantation032, Seq.with(
+	            new SectorComplete(planet.valleyPlain)
+	        ), () => {
+	            node(planet.crystalOutpost, Seq.with(
+	                new SectorComplete(planet.plantation032)
+	            ), () => {
+	                node(planet.experimental035, Seq.with(
+	                    new SectorComplete(planet.crystalOutpost)
+	                ), () => {}),
+	                node(planet.spikeValley, Seq.with(
+	                    new SectorComplete(planet.crystalOutpost),
+	                    new SectorComplete(planet.coldJunction)
+	                ), () => {})
+	            })
+	        }),
+	        node(planet.coldJunction, Seq.with(
+	            new SectorComplete(planet.valleyPlain)
+	        ), () => {})
+	    })
 	})
 })

@@ -96,12 +96,12 @@ shockCrystal.buildType = prov(() => extend(Building,{
 	}
 }))
 
-const nest = extend(CoreBlock,"nest",{
+const prokaryote = extend(CoreBlock,"prokaryote",{
 	canPlaceOn(tile,team,rotation){
 		return true
 	},
 });
-Object.assign(nest,{
+Object.assign(prokaryote,{
 	update: true,
 	solid: false,
 	replaceable: true,
@@ -113,7 +113,7 @@ Object.assign(nest,{
 	buildVisibility: BuildVisibility.editorOnly,
 	category: Category.effect,
 })
-nest.buildType = prov(() => extend(CoreBlock.CoreBuild,nest,{
+prokaryote.buildType = prov(() => extend(CoreBlock.CoreBuild,prokaryote,{
 	i : 0,
 	updateTile(){
 		this.i += Time.delta
@@ -121,7 +121,7 @@ nest.buildType = prov(() => extend(CoreBlock.CoreBuild,nest,{
 		if(this.i >= 60 * 10){
 			let a = Math.random() * 5
 			for(let i = 0; i < a;i++){
-				insect.egg.spawn(this.team,this.tile.worldx() + Math.random(),this.tile.worldy() + Math.random());
+				insect.primeFruitingBody.spawn(this.team,this.tile.worldx() + Math.random(),this.tile.worldy() + Math.random());
 			}
 			
 			this.i = 0
@@ -134,12 +134,12 @@ nest.buildType = prov(() => extend(CoreBlock.CoreBuild,nest,{
 	}
 }))
 
-const nestLarge = extend(CoreBlock,"nest-large",{
+const eukaryote = extend(CoreBlock,"eukaryote",{
 	canPlaceOn(tile,team,rotation){
 		return true
 	},
 });
-Object.assign(nestLarge,{
+Object.assign(eukaryote,{
 	update: true,
 	solid: false,
 	replaceable: true,
@@ -151,7 +151,7 @@ Object.assign(nestLarge,{
 	buildVisibility: BuildVisibility.editorOnly,
 	category: Category.effect,
 })
-nestLarge.buildType = prov(() => extend(CoreBlock.CoreBuild,nestLarge,{
+eukaryote.buildType = prov(() => extend(CoreBlock.CoreBuild,eukaryote,{
 	i : 0,
 	updateTile(){
 		this.i += Time.delta
@@ -160,9 +160,9 @@ nestLarge.buildType = prov(() => extend(CoreBlock.CoreBuild,nestLarge,{
 			let a = Math.random() * 13
 			for(let i = 0; i < a;i++){
 				if(i < 8){
-				    insect.egg.spawn(this.team,this.tile.worldx() + Math.random(),this.tile.worldy() + Math.random());
+				    insect.primeFruitingBody.spawn(this.team,this.tile.worldx() + Math.random(),this.tile.worldy() + Math.random());
 				}else{
-				    insect.eggLarge.spawn(this.team,this.tile.worldx() + Math.random(),this.tile.worldy() + Math.random());
+				    insect.seniorFruitingBody.spawn(this.team,this.tile.worldx() + Math.random(),this.tile.worldy() + Math.random());
 				}
 			}
 			
@@ -176,9 +176,9 @@ nestLarge.buildType = prov(() => extend(CoreBlock.CoreBuild,nestLarge,{
 	}
 }))
 
-const spit = new LiquidTurret("spit");
-exports.spit = spit
-Object.assign(spit,{
+const contractileVacuole = new LiquidTurret("contractile-vacuole");
+exports.contractileVacuole = contractileVacuole;
+Object.assign(contractileVacuole,{
 	size: 2,
 	recoil: 0,
 	reload: 60,
@@ -193,7 +193,7 @@ Object.assign(spit,{
 	category: Category.turret,
 	buildVisibility: BuildVisibility.editorOnly,
 })
-spit.ammo(
+contractileVacuole.ammo(
 	liquid.acid,Object.assign(new ArtilleryBulletType(1.5, 120), {
 		knockback: 0.8,
 		lifetime: 120,
@@ -224,7 +224,7 @@ spit.ammo(
 		fragBullet:new Acid(18)
 	}),
 )
-spit.buildType = prov(() => extend(LiquidTurret.LiquidTurretBuild, spit, {
+contractileVacuole.buildType = prov(() => extend(LiquidTurret.LiquidTurretBuild, contractileVacuole, {
 	updateTile(){
 	    this.super$updateTile();
 	    
@@ -235,6 +235,7 @@ spit.buildType = prov(() => extend(LiquidTurret.LiquidTurretBuild, spit, {
 const mineralWall = new Wall("mineral-wall");
 Object.assign(mineralWall,{
     health: 320,
+    variants: 3,
 	armor: 1,
 	size: 1,
 	buildVisibility: BuildVisibility.editorOnly,
@@ -244,6 +245,7 @@ Object.assign(mineralWall,{
 const mineralWallLarge = new Wall("mineral-wall-large");
 Object.assign(mineralWallLarge,{
     health: 320 * 4,
+    variants: 2,
 	armor: 1,
 	size: 2,
 	buildVisibility: BuildVisibility.editorOnly,
@@ -253,6 +255,7 @@ Object.assign(mineralWallLarge,{
 const mineralWallHuge = new Wall("mineral-wall-huge");
 Object.assign(mineralWallHuge,{
     health: 320 * 9,
+    variants: 2,
 	armor: 1,
 	size: 3,
 	buildVisibility: BuildVisibility.editorOnly,

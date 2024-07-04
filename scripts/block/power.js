@@ -110,8 +110,8 @@ Object.assign(fullEffectGenerator, {
 	ambientSoundVolume: 0.06,
 	
 	drawer: new DrawMulti(
+	    new DrawLiquidTile(Liquids.water),
 		new DrawDefault(),
-		new DrawLiquidTile(Liquids.water),
 		new DrawWarmupRegion(),
 	),
 	category: Category.power,
@@ -255,7 +255,7 @@ Object.assign(biomassReactor, {
 	)
 })
 biomassReactor.consumeLiquids(LiquidStack.with(
-    liquid.colchicine, 12 / 60,
+    liquid.colchicine, 6 / 60,
     Liquids.water, 24 / 60
 ))
 biomassReactor.consumeItem(item.biomass, 1);

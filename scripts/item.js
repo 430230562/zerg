@@ -9,10 +9,16 @@ Object.assign(biomass, {
 	buildable: false,
 })
 
+const agar = new Item("agar")
+exports.agar = agar;
+
 const autiumFruit = new Item("autium-fruit",Color.valueOf("6e8b74"));
 exports.autiumFruit = autiumFruit;
-Object.assign(autiumFruit,{
-    buildable: false,
+
+const lichen = new Item("lichen",Color.valueOf("ffffff"));
+exports.lichen = lichen;
+Object.assign(lichen,{
+    flammability: 0.8,
 })
 
 const nickel = new Item("nickel", Color.valueOf("00c49b"));
@@ -35,6 +41,13 @@ exports.crystal = crystal;
 Object.assign(crystal, {
 	hardness: 3,
 	cost: 2,
+	healthScaling: 0.25,
+})
+
+const organistal = new Item("organistal",Color.valueOf("f9c116"));
+exports.organistal = organistal;
+Object.assign(organistal,{
+	cost: 3,
 	healthScaling: 0.5,
 })
 
@@ -75,9 +88,7 @@ Object.assign(salt,{
 	buildable: false,
 })
 
-const sulfone = new Item("sulfone", Color.valueOf("ede892"));
-exports.sulfone = sulfone;
-Object.assign(sulfone, {
-	flammability: 1.9,
-	explosiveness: 0.4,
-})
+if(Vars.mods.getMod("zerg-dlc1") != null){
+    exports.connective = new Item("connective",Color.valueOf("c3c1bb"))
+    exports.meristem = new Item("meristem",Color.valueOf("c3c1bb"))
+}

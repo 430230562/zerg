@@ -33,8 +33,12 @@ Object.assign(multiCompressor, {
 	hasLiquids: true,
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
-		new DrawRegion("-rotator", 4.5, true),
-		new DrawDefault()
+		Object.assign(new DrawPistons(),{
+		    sinMag: 2,
+		    sinScl: 3
+		}),
+		new DrawDefault(),
+		new DrawLiquidRegion(Liquids.water)
 	),
 	
 	buildVisibility: BuildVisibility.shown,
@@ -88,7 +92,7 @@ exports.biomassSmelter = biomassSmelter;
 Object.assign(biomassSmelter,{
 	health: 360,
 	craftEffect: Fx.smeltsmoke,
-	outputItem: new ItemStack(item.biomassSteel, 3),
+	outputItem: new ItemStack(item.biomassSteel, 2),
 	craftTime: 180,
 	itemCapacity: 20,
 	size: 3,
@@ -103,9 +107,10 @@ Object.assign(biomassSmelter,{
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
-		Items.silicon, 80,
-		item.nickel, 70,
-		item.manganese, 80
+		Items.silicon, 120,
+		item.nickel, 100,
+		item.chromium, 70,
+		item.organistal, 50,
 	)
 })
 biomassSmelter.consumeItems(ItemStack.with(
@@ -129,8 +134,18 @@ Object.assign(lowTemperatureSmelter,{
 	drawer: new DrawMulti(
 	    new DrawRegion("-bottom"),
 	    new DrawLiquidTile(liquid.dissolvant),
+	    new DrawDefault(),
 		new DrawFlame(Color.valueOf("c7d9a37f")),
-		new DrawDefault(),
+		Object.assign(new DrawParticles(), {
+			alpha: 0.5,
+			particleRad: 24,
+			particleSize: 2,
+			particleLife: 300,
+			particles: 12,
+			rotateScl: 527,
+			reverse: true,
+			color: Pal.vent,
+		})
 	),
 	ambientSound: Sounds.smelter,
 	ambientSoundVolume: 0.14,
@@ -139,8 +154,8 @@ Object.assign(lowTemperatureSmelter,{
 	requirements: ItemStack.with(
 		Items.silicon, 150,
 		item.nickel, 200,
-		item.manganese, 200,
-		item.crystal, 75,
+		item.chromium, 200,
+		item.organistal, 155,
 		item.biomassSteel, 125
 	)
 })
@@ -194,16 +209,17 @@ Object.assign(dissolvantMixer, {
 	hasLiquids: true,
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.water),
-		new DrawLiquidTile(liquid.dissolvant),
+		new DrawLiquidTile(Liquids.water, 1),
+		new DrawLiquidTile(liquid.dissolvant, 1),
 		new DrawDefault()
 	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
-		Items.silicon, 20,
+		Items.silicon, 50,
 		item.nickel, 65,
 		item.manganese, 50,
+		item.crystal, 25,
 	)
 })
 dissolvantMixer.consumeItems(ItemStack.with(
@@ -212,86 +228,27 @@ dissolvantMixer.consumeItems(ItemStack.with(
 dissolvantMixer.consumeLiquid(Liquids.water, 6 / 60);
 dissolvantMixer.consumePower(0.75);
 
-const oilRefinery = new GenericCrafter("oil-refinery");
-exports.oilRefinery = oilRefinery;
-Object.assign(oilRefinery,{
-	outputLiquid: new LiquidStack(Liquids.oil, 2 / 60),
-	liquidCapacity: 15,
-	craftTime: 60,
-	size: 2,
-	hasPower: true,
-	hasLiquids: true,
-	drawer: new DrawMulti(
-		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.arkycite),
-		new DrawLiquidTile(Liquids.oil),
-		new DrawDefault()
-	),
-	buildVisibility: BuildVisibility.shown,
-	category: Category.crafting,
-	requirements: ItemStack.with(
-		Items.silicon, 20,
-		item.nickel, 65,
-		item.crystal, 30,
-	)
-})
-oilRefinery.consumeLiquid(Liquids.arkycite, 0.05);
-oilRefinery.consumePower(1.7);
-
-const arkyciteExtractor = new GenericCrafter("arkycite-extractor");
-exports.arkyciteExtractor = arkyciteExtractor;
-Object.assign(arkyciteExtractor,{
-	outputLiquid: new LiquidStack(Liquids.oil, 0.5),
-	outputItem: new ItemStack(item.biomass, 1),
-	liquidCapacity: 60,
-	craftTime: 30,
-	size: 3,
-	hasPower: true,
-	hasLiquids: true,
-	drawer: new DrawMulti(
-		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.arkycite),
-		new DrawLiquidTile(Liquids.oil),
-		new DrawDefault()
-	),
-	buildVisibility: BuildVisibility.shown,
-	category: Category.crafting,
-	requirements: ItemStack.with(
-		Items.silicon, 50,
-		item.nickel, 155,
-		item.crystal, 70,
-		item.manganese, 100,
-		item.chromium, 75,
-	)
-})
-arkyciteExtractor.consumeLiquids(LiquidStack.with(
-	Liquids.arkycite, 0.6,
-	liquid.dissolvant, 0.05
-));
-arkyciteExtractor.consumePower(1.2);
-
 const juicer = new GenericCrafter("juicer");
 exports.juicer = juicer;
 Object.assign(juicer,{
     outputLiquid: new LiquidStack(liquid.colchicine, 0.05),
 	liquidCapacity: 30,
-	craftTime: 15,
+	craftTime: 60,
 	size: 3,
 	hasPower: true,
 	hasLiquids: true,
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
 		new DrawLiquidTile(liquid.colchicine),
-		new DrawShakeRegion("-shake",360,120),
 		new DrawDefault()
 	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
 		Items.silicon, 150,
+		Items.graphite, 75,
 		item.nickel, 155,
-		item.crystal, 70,
-		item.manganese, 100,
+		item.crystal, 25,
 	)
 })
 juicer.consumeLiquids(LiquidStack.with(
@@ -302,97 +259,11 @@ juicer.consumeItems(ItemStack.with(
 ));
 juicer.consumePower(1.2);
 
-const displacer = new GenericCrafter("displacer");
-exports.displacer = displacer;
-Object.assign(displacer,{
-	outputLiquid: new LiquidStack(Liquids.hydrogen, 0.1),
-	outputItem: new ItemStack(item.salt, 1),
-	craftTime: 60,
-	liquidCapacity: 30,
-	size: 2,
-	hasPower: true,
-	hasLiquids: true,
-	drawer: new DrawMulti(
-		new DrawRegion("-bottom"),
-		new DrawLiquidTile(liquid.acid),
-		Object.assign(new DrawBubbles(Color.valueOf("befa9b")),{
-			sides: 10,
-			recurrence: 5,
-			timeScl: 15,
-			spread: 6,
-			radius: 1.5,
-			amount: 5
-		}),
-		Object.assign(new DrawBubbles(Color.valueOf("befa9b")),{
-			sides: 10,
-			recurrence: 5,
-			timeScl: 15,
-			spread: 6,
-			radius: 1.5,
-			amount: 5
-		}),
-		new DrawDefault()
-	),
-	buildVisibility: BuildVisibility.shown,
-	category: Category.crafting,
-	requirements: ItemStack.with(
-		Items.graphite, 40,
-		item.nickel, 65,
-		item.crystal, 100
-	)
-})
-displacer.consumeItems(ItemStack.with(
-	item.nickel, 1,
-));
-displacer.consumeLiquid(liquid.acid, 6 / 60);
-
-const acetyleneSynthesizer = GenericCrafter("acetylene-synthesizer");
-exports.acetyleneSynthesizer = acetyleneSynthesizer;
-Object.assign(acetyleneSynthesizer,{
-	outputItem: new ItemStack(item.crystal, 1),
-	outputLiquid: new LiquidStack(liquid.acetylene, 0.05),
-	liquidCapacity: 30,
-	craftTime: 60,
-	size: 3,
-	hasPower: true,
-	hasLiquids: true,
-	drawer: new DrawMulti(
-		new DrawRegion("-bottom"),
-		Object.assign(new DrawArcSmelt(),{
-			flameColor: Color.valueOf("fa7f7f"),
-			midColor: Color.valueOf("ff9999")
-		}),
-		Object.assign(new DrawParticles(), {
-			alpha: 0.35,
-			particleRad: 8,
-			particleSize: 9,
-			particleLife: 120,
-			particles: 15,
-			reverse: true,
-			color: Color.valueOf("d1e4ff"), 
-		}),
-		new DrawDefault()
-	),
-	buildVisibility: BuildVisibility.shown,
-	category: Category.crafting,
-	requirements: ItemStack.with(
-		Items.graphite, 50,
-		item.nickel, 55,
-		item.manganese, 45,
-		item.crystal, 75,
-	)
-})
-acetyleneSynthesizer.consumeLiquid(Liquids.hydrogen, 0.1);
-acetyleneSynthesizer.consumeItems(ItemStack.with(
-	Items.coal, 2,
-	item.energic, 1,
-));
-acetyleneSynthesizer.consumePower(2.3);
-
 const additiver = new GenericCrafter("additiver");
 exports.additiver = additiver;
 Object.assign(additiver,{
 	outputLiquid: new LiquidStack(liquid.yperite, 0.05),
+	outputItem: new ItemStack(item.crystal, 1),
 	liquidCapacity: 30,
 	craftTime: 60,
 	size: 3,
@@ -429,24 +300,30 @@ Object.assign(additiver,{
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
-		Items.graphite, 50,
+	    Items.silicon, 75,
+		Items.graphite, 150,
 		item.nickel, 55,
-		item.manganese, 45,
-		item.crystal, 75,
+		item.manganese, 55,
+		item.chromium, 75,
+		item.organistal, 75,
 	)
 })
 additiver.consumeLiquids(LiquidStack.with(
 	liquid.acid, 0.1,
-	liquid.acetylene, 0.05
+	liquid.naturalGas, 0.05
 ));
-additiver.consumeItem(item.sulfone, 1);
+additiver.consumeItems(ItemStack.with(
+	Items.pyratite, 1,
+	item.energic, 1
+));
 additiver.consumePower(2.3);
 
 const evaporator = new GenericCrafter("evaporator");
 exports.evaporator = evaporator;
 Object.assign(evaporator,{
-    outputItem: new ItemStack(item.salt, 12),
+    outputItem: new ItemStack(item.salt, 6),
 	liquidCapacity: 180,
+	itemCapacity: 12,
 	craftTime: 120,
 	size: 5,
 	hasPower: true,
@@ -454,7 +331,17 @@ Object.assign(evaporator,{
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
 		new DrawLiquidTile(Liquids.water),
-		new DrawDefault()
+		new DrawDefault(),
+		Object.assign(new DrawParticles(), {
+			alpha: 0.25,
+			particleRad: 24,
+			particleSize: 2,
+			particleLife: 300,
+			particles: 24,
+			rotateScl: 527,
+			reverse: true,
+			color: Color.white,
+		})
 	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
@@ -468,36 +355,64 @@ Object.assign(evaporator,{
 evaporator.consumePower(4.5);
 evaporator.consumeLiquid(Liquids.water, 1.2);
 
-const oilDistillation = new GenericCrafter("oil-distillation");
-exports.oilDistillation = oilDistillation
-Object.assign(oilDistillation,{
-	outputItem: new ItemStack(Items.coal, 1),
-	outputLiquid: new LiquidStack(liquid.acetylene, 0.05),
-	liquidCapacity: 60,
+const disintegrator = new Separator("disintegrator");
+exports.disintegrator = disintegrator;
+Object.assign(disintegrator,{
+    results: ItemStack.with(
+        Items.sand, 7,
+        item.salt, 2,
+        item.crystal, 1,
+    ),
 	craftTime: 20,
-	size: 3,
+	size: 1,
 	hasPower: true,
-	hasLiquids: true,
 	drawer: new DrawMulti(
-		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.oil),
-		new DrawShakeRegion("-shake",360,120),
+	    new DrawRegion("-bottom"),
+	    new DrawRegion("-rotator",3,true),
 		new DrawDefault()
 	),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
-		Items.graphite, 50,
-		item.nickel, 45,
-		item.manganese, 45,
+	    Items.graphite, 20,
+		item.nickel, 50,
 	)
 })
-oilDistillation.consumeLiquid(Liquids.oil, 0.1);
-oilDistillation.consumePower(3.2);
+disintegrator.consumePower(0.5);
+disintegrator.consumeItems(ItemStack.with(
+	Items.scrap, 1,
+));
 
-const biomassFermenter = new GenericCrafter("biomass-fermenter");
-exports.biomassFermenter = biomassFermenter;
-Object.assign(biomassFermenter,{
+const lichenDisintegrator = new GenericCrafter("lichen-disintegrator");
+exports.lichenDisintegrator = lichenDisintegrator;
+Object.assign(lichenDisintegrator,{
+    outputItem: new ItemStack(item.agar, 1),
+    craftTime: 45,
+	size: 2,
+	hasPower: true,
+	hasLiquids: true,
+	drawer: new DrawMulti(
+		new DrawRegion("-bottom"),
+		new DrawLiquidTile(liquid.colchicine),
+		new DrawDefault()
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.silicon, 150,
+		Items.graphite, 75,
+		item.nickel, 155,
+		item.crystal, 25,
+	)
+})
+lichenDisintegrator.consumeItems(ItemStack.with(
+	item.lichen, 1,
+));
+lichenDisintegrator.consumeLiquid(Liquids.water, 0.2);
+
+const biomassAcidification = new GenericCrafter("biomass-acidification")
+exports.biomassAcidification = biomassAcidification;
+Object.assign(biomassAcidification,{
 	outputLiquid: new LiquidStack(liquid.acid, 2 / 60),
 	liquidCapacity: 15,
 	craftTime: 180,
@@ -518,16 +433,51 @@ Object.assign(biomassFermenter,{
 	category: Category.crafting,
 	requirements: ItemStack.with(
 		Items.silicon, 50,
+		item.nickel, 200,
+		item.crystal, 70,
+	)
+})
+biomassAcidification.consumeLiquid(Liquids.water, 2 / 60);
+biomassAcidification.consumeItems(ItemStack.with(
+	item.biomass, 1,
+));
+biomassAcidification.consumePower(1.7);
+
+const biomassFermenter = new GenericCrafter("biomass-fermenter");
+exports.biomassFermenter = biomassFermenter;
+Object.assign(biomassFermenter,{
+	outputLiquid: new LiquidStack(liquid.naturalGas, 3 / 60),
+	liquidCapacity: 15,
+	craftTime: 60,
+	size: 3,
+	hasPower: true,
+	hasLiquids: true,
+	drawer: new DrawMulti(
+		new DrawRegion("-bottom"),
+		new DrawLiquidTile(Liquids.water),
+		Object.assign(new DrawCultivator(), {
+			plantColor: Color.valueOf("9cb664"),
+			plantColorLight: Color.valueOf("cbd97f"),
+		}),
+		Object.assign(new DrawLiquidTile(liquid.naturalGas),{
+		    alpha: 0.4
+		}),
+		new DrawDefault()
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.silicon, 50,
 		item.nickel, 155,
 		item.crystal, 70,
 		item.manganese, 100,
 	)
 })
-biomassFermenter.consumeLiquid(Liquids.water, 2 / 60);
+biomassFermenter.consumeLiquid(Liquids.water, 6 / 60);
 biomassFermenter.consumeItems(ItemStack.with(
-	item.biomass, 1,
+	item.biomass, 2,
 ));
-biomassFermenter.consumePower(1.7);
+biomassFermenter.consumePower(2.3);
 
 const charger = new GenericCrafter("charger");
 exports.charger = charger;
@@ -563,7 +513,7 @@ Object.assign(synthesizer, {
 	hasLiquids: false,
 	hasPower: true,
 	size: 2,
-	outputItem: new ItemStack(item.sulfone, 2),
+	outputItem: new ItemStack(Items.pyratite, 2),
 	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
@@ -575,6 +525,31 @@ synthesizer.consumePower(0.55);
 synthesizer.consumeItems(ItemStack.with(
 	item.salt, 3,
 	item.amino, 2,
+));
+
+const organistalSynthesizer = new GenericCrafter("organistal-synthesizer");
+exports.organistalSynthesizer = organistalSynthesizer;
+Object.assign(organistalSynthesizer, {
+	hasItems: true,
+	hasLiquids: false,
+	hasPower: true,
+	size: 3,
+	outputItem: new ItemStack(item.organistal, 1),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.graphite, 60,
+		Items.silicon, 100,
+		item.nickel, 125,
+		item.manganese, 75,
+		item.crystal, 50,
+	),
+})
+organistalSynthesizer.consumePower(0.55);
+organistalSynthesizer.consumeItems(ItemStack.with(
+	item.crystal, 2,
+	item.amino, 3,
+	item.salt, 1
 ));
 
 const iridiumPurification = new GenericCrafter("iridium-purification");
@@ -590,10 +565,11 @@ Object.assign(iridiumPurification,{
     size: 3,
     drawer: new DrawMulti(
         new DrawRegion("-bottom"),
-        new DrawLiquidTile(liquid.acid),
+        new DrawLiquidTile(liquid.acid, 2),
         new DrawRegion("-middle"),
         new DrawLiquidRegion(Liquids.slag),
-        new DrawDefault()
+        new DrawDefault(),
+        new DrawRegion("-rotator",3,true),
     ),
     buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
@@ -601,7 +577,8 @@ Object.assign(iridiumPurification,{
 		Items.graphite, 350,
 		item.nickel, 350,
 		item.chromium, 250,
-		item.crystal, 150
+		item.organistal, 150,
+		item.biomassSteel, 200
 	),
 })
 iridiumPurification.consumePower(3.5);
@@ -650,7 +627,7 @@ exports.incubatorLarge = incubatorLarge;
 Object.assign(incubatorLarge, {
 	craftEffect: Fx.none,
 	outputItem: new ItemStack(item.biomass, 1),
-	craftTime: 30,
+	craftTime: 40,
 	size: 3,
 	hasPower: true,
 	hasLiquids: true,
@@ -673,9 +650,10 @@ Object.assign(incubatorLarge, {
 	requirements: ItemStack.with(
 		Items.silicon, 100,
 		Items.graphite, 125,
-		item.nickel, 250,
+		item.agar, 250,
+		item.nickel, 200,
 		item.manganese, 175,
 	),
 })
 incubatorLarge.consumePower(210 / 60);
-incubatorLarge.consumeLiquid(Liquids.neoplasm, 12 / 60);
+incubatorLarge.consumeLiquid(Liquids.water, 36 / 60);

@@ -44,20 +44,3 @@ function ReduceArmorBulletType(speed, damage, amount) {
 	});
 }
 exports.ReduceArmorBulletType = ReduceArmorBulletType;
-
-function RicochetBulletType(speed,damage){
-	return extend(BasicBulletType, speed, damage, {
-		hitEntity(b, entity, health){
-			if(entity instanceof Unit){
-				if(Mathf.chance(Math.pow(entity.armor / b.damage,3))){
-					b.vel.setAngle(b.rotation() + Mathf.range(60) + 180)
-				}else{
-					this.super$hitEntity(b, entity, health);
-					b.remove()
-				}
-			}
-		},
-		pierce: true
-	});
-}
-exports.RicochetBulletType = RicochetBulletType

@@ -64,33 +64,31 @@ greavar.hiddenItems.addAll(
 );
 exports.greavar = greavar;
 
-//sifakit
-
 Planets.serpulo.hiddenItems.addAll(
-	item.salt,
 	item.biomass,
+	item.amino,
+	item.autiumFruit,
 	item.nickel,
 	item.manganese,
 	item.crystal,
 	item.chromium,
+	item.iridium,
 	item.biomassSteel,
-	item.sulfone,
-	item.amino,
-	item.hypha,
-	item.energic
+	item.energic,
+	item.salt
 );
 Planets.erekir.hiddenItems.addAll(
-	item.salt,
 	item.biomass,
+	item.amino,
+	item.autiumFruit,
 	item.nickel,
 	item.manganese,
 	item.crystal,
 	item.chromium,
+	item.iridium,
 	item.biomassSteel,
-	item.sulfone,
-	item.amino,
-	item.hypha,
-	item.energic
+	item.energic,
+	item.salt
 );
 
 const iceField = SectorPreset("iceField", greavar, 88);
@@ -108,30 +106,50 @@ exports.valleyPlain = valleyPlain;
 Object.assign(valleyPlain, {
 	captureWave: 15,
 	difficulty: 2,
+	startWaveTimeMultiplier: 2.5,
+})
+
+const plantation032 = new SectorPreset("plantation032", greavar, 32);
+exports.plantation032 = plantation032;
+Object.assign(plantation032,{
+    captureWave: 25,
+	difficulty: 4,
+	startWaveTimeMultiplier: 2.2,
 })
 
 const coldJunction = new SectorPreset("coldJunction", greavar, 18);
 exports.coldJunction = coldJunction;
 Object.assign(coldJunction,{
-	captureWave: 25,
-	difficulty: 4,
-})
-
-const intertwinedGlacier = new SectorPreset("intertwinedGlacier",greavar,91);
-exports.intertwinedGlacier = intertwinedGlacier;
-Object.assign(intertwinedGlacier,{
-	captureWave: 25,
-	difficulty: 4,
+	captureWave: 30,
+	difficulty: 5,
+	startWaveTimeMultiplier: 3,
 })
 
 const crystalOutpost = new SectorPreset("crystalOutpost", greavar, 27);
 exports.crystalOutpost = crystalOutpost;
 Object.assign(crystalOutpost,{
-	captureWave: 50,
-	difficulty: 5,
+	captureWave: 45,
+	difficulty: 6,
+	startWaveTimeMultiplier: 1,
 })
 
-const borderMines = new SectorPreset("borderMines",greavar,67);
+const experimental035 = new SectorPreset("experimental035",greavar,35);
+exports.experimental035 = experimental035;
+Object.assign(experimental035,{
+    captureWave: 40,
+	difficulty: 6,
+	startWaveTimeMultiplier: 3,
+})
+
+const spikeValley = new SectorPreset("spikeValley",greavar,49)
+exports.spikeValley = spikeValley;
+Object.assign(spikeValley,{
+    captureWave: 35,
+	difficulty: 6,
+	startWaveTimeMultiplier: 1,
+})
+
+/*const borderMines = new SectorPreset("borderMines",greavar,67);
 exports.borderMines = borderMines;
 Object.assign(borderMines,{
     difficulty: 6,
@@ -142,4 +160,4 @@ exports.twilightSea = twilightSea;
 Object.assign(twilightSea,{
 	captureWave: 30,
 	difficulty: 6,
-})
+})*/

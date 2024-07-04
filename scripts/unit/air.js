@@ -291,7 +291,7 @@ Object.assign(ampere,{
 	speed: 2.5,
 	flying: true,
 	hitSize: 16,
-	engineOffset: 7.8,
+	engineOffset: 11,
 	armor: 4,
 	accel: 0.08,
 	drag: 0.016,

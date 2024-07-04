@@ -162,19 +162,19 @@ Object.assign(unitIncubator, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.units,
 	plans: Seq.with(
-		new UnitPlan(insect.spider, 60 * 6, ItemStack.with(
+		new UnitPlan(insect.haploid, 60 * 6, ItemStack.with(
 			item.biomass, 15,
 			item.amino, 20,
 		)),
-		new UnitPlan(insect.mosquito, 60 * 7.5, ItemStack.with(
+		new UnitPlan(insect.ribosome, 60 * 7.5, ItemStack.with(
 			item.biomass, 15,
 			item.amino, 25,
 		)),
-		new UnitPlan(insect.buffer, 60 * 3, ItemStack.with(
+		new UnitPlan(insect.apoptoticBody, 60 * 3, ItemStack.with(
 			item.biomass, 5,
 			item.amino, 10,
 		)),
-		new UnitPlan(insect.spread, 60 * 15, ItemStack.with(
+		new UnitPlan(insect.glycocalyx, 60 * 15, ItemStack.with(
 			item.biomass, 25,
 			item.amino, 35,
 		))
@@ -220,14 +220,17 @@ Object.assign(reincubator,{
 		Items.graphite, 75,
 		item.nickel, 200,
 		item.manganese, 100,
+		item.agar, 150,
 	),
 })
-reincubator.addUpgrade(insect.spider, insect.tarantula);
-reincubator.addUpgrade(insect.mosquito, insect.burst);
+reincubator.addUpgrade(insect.haploid, insect.diploid);
+reincubator.addUpgrade(insect.ribosome, insect.lysosome);
+reincubator.addUpgrade(insect.glycocalyx, insect.cytokine)
 reincubator.consumePower(2.7);
 reincubator.consumeItems(ItemStack.with(
 	item.biomass, 40,
-	item.amino, 80,
+	item.agar, 20,
+	item.amino, 60,
 ));
 reincubator.buildType = prov(() => extend(Reconstructor.ReconstructorBuild, reincubator,{
     a: 0,
@@ -261,17 +264,20 @@ Object.assign(hyperplasia,{
 	requirements: ItemStack.with(
 		Items.silicon, 500,
 		Items.graphite, 275,
+		item.agar, 250,
 		item.nickel, 600,
 		item.manganese, 500,
 		item.biomassSteel, 400,
 	),
 })
-hyperplasia.addUpgrade(insect.tarantula, insect.group);
-hyperplasia.addUpgrade(insect.burst, insect.dragonfly);
+hyperplasia.addUpgrade(insect.diploid, insect.triploid);
+hyperplasia.addUpgrade(insect.lysosome, insect.trichocyst);
 hyperplasia.consumePower(7.7);
 hyperplasia.consumeItems(ItemStack.with(
 	item.biomass, 40,
-	item.amino, 80,
+	item.agar, 50,
+	item.amino, 60,
+	item.biomassSteel, 20,
 ));
 hyperplasia.consumeLiquids(LiquidStack.with(
 	Liquids.neoplasm, 0.1,
@@ -295,14 +301,14 @@ hyperplasia.buildType = prov(() => extend(Reconstructor.ReconstructorBuild, hype
     }
 }))
 
-const metamorphosiser = new UnitAssembler("metamorphosiser");
-exports.metamorphosiser = metamorphosiser;
-Object.assign(metamorphosiser,{
+const legsMetamorphosiser = new UnitAssembler("legs-metamorphosiser");
+exports.legsMetamorphosiser = legsMetamorphosiser;
+Object.assign(legsMetamorphosiser,{
 	size: 5,
 	areaSize: 13,
 	plans: Seq.with(
-		new AssemblerUnitPlan(insect.mantis, 60 * 30, PayloadStack.list(
-			insect.group, 1,
+		new AssemblerUnitPlan(insect.bivalents, 60 * 30, PayloadStack.list(
+			insect.triploid, 1,
 			wall.biomassWall, 4,
 		))
 		/*new AssemblerUnitPlan(tank.fearless, 60 * 50, PayloadStack.list(
@@ -321,8 +327,40 @@ Object.assign(metamorphosiser,{
 		Items.silicon, 450,
 	)
 })
-metamorphosiser.consumePower(6);
-metamorphosiser.consumeLiquids(LiquidStack.with(
+legsMetamorphosiser.consumePower(6);
+legsMetamorphosiser.consumeLiquids(LiquidStack.with(
+	Liquids.neoplasm, 0.5,
+	liquid.colchicine, 1
+));
+
+const airMetamorphosiser = new UnitAssembler("air-metamorphosiser");
+exports.airMetamorphosiser = airMetamorphosiser;
+Object.assign(airMetamorphosiser,{
+	size: 5,
+	areaSize: 13,
+	plans: Seq.with(
+		new AssemblerUnitPlan(insect.centrosome, 60 * 30, PayloadStack.list(
+			insect.trichocyst, 1,
+			wall.biomassWall, 4,
+		))
+		/*new AssemblerUnitPlan(tank.fearless, 60 * 50, PayloadStack.list(
+			tank.heavyTank, 2, 
+			tank.ripper, 2,
+			Blocks.plastaniumWall, 10,
+		))*/
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.units,
+	requirements: ItemStack.with(
+		item.nickel, 650,
+		item.manganese, 450,
+		item.chromium, 300,
+		item.iridium, 350,
+		Items.silicon, 450,
+	)
+})
+airMetamorphosiser.consumePower(6);
+airMetamorphosiser.consumeLiquids(LiquidStack.with(
 	Liquids.neoplasm, 0.5,
 	liquid.colchicine, 1
 ));
@@ -341,7 +379,7 @@ Object.assign(laboratory, {
 		item.manganese, 100,
 	),
 })
-laboratory.addUpgrade(insect.spider, crystive.anatase);
+laboratory.addUpgrade(insect.haploid, crystive.anatase);
 laboratory.consumePower(3.2);
 laboratory.consumeItems(ItemStack.with(
 	item.biomass, 20,
@@ -369,11 +407,11 @@ Object.assign(conflater,{
 	buildVisibility: BuildVisibility.shown,
 	category: Category.units,
 	requirements: ItemStack.with(
+	    Items.silicon, 450,
 		item.nickel, 650,
 		item.manganese, 450,
 		item.chromium, 300,
-		item.iridium, 350,
-		Items.silicon, 450,
+		item.organistal, 250,
 	)
 })
 conflater.consumePower(6);

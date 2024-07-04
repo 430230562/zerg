@@ -55,7 +55,7 @@ exports.crystalConduit = crystalConduit;
 Object.assign(crystalConduit, {
 	health: 45,
 	liquidCapacity: 10,
-	liquidPressure: 1.05,
+	liquidPressure: 1,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	requirements: ItemStack.with(
@@ -63,17 +63,16 @@ Object.assign(crystalConduit, {
 	)
 })
 
-const manganeseConduit = new Conduit("manganese-conduit");
-exports.manganeseConduit = manganeseConduit;
-Object.assign(manganeseConduit, {
-	health: 90,
-	liquidCapacity: 16,
+const organistalConduit = new Conduit("organistal-conduit");
+exports.organistalConduit = organistalConduit;
+Object.assign(organistalConduit, {
+	health: 55,
+	liquidCapacity: 12,
 	liquidPressure: 1.25,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	requirements: ItemStack.with(
-		item.manganese, 2,
-		item.crystal, 1
+		item.organistal, 1
 	)
 })
 
@@ -81,14 +80,13 @@ const armoredConduit = new ArmoredConduit("armored-conduit");
 exports.armoredConduit = armoredConduit;
 Object.assign(armoredConduit,{
 	health: 260,
-	liquidCapacity: 16,
+	liquidCapacity: 12,
 	liquidPressure: 1.25,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	requirements: ItemStack.with(
 		item.chromium, 2,
-		item.crystal, 1,
-		item.biomassSteel, 1,
+		item.organistal, 1,
 	)
 })
 
@@ -159,7 +157,7 @@ Object.assign(crystalConduitBridge, {
 
 crystalConduit.junctionReplacement = crystalLiquidJunction;
 crystalConduit.bridgeReplacement = crystalConduitBridge;
-manganeseConduit.junctionReplacement = crystalLiquidJunction;
-manganeseConduit.bridgeReplacement = crystalConduitBridge;
+organistalConduit.junctionReplacement = crystalLiquidJunction;
+organistalConduit.bridgeReplacement = crystalConduitBridge;
 armoredConduit.junctionReplacement = crystalLiquidJunction;
 armoredConduit.bridgeReplacement = crystalConduitBridge;

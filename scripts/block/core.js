@@ -2,12 +2,36 @@ const item = require("zerg/item");
 const status = require("zerg/status");
 const ab = require('zerg/base/ability');
 
-const { frame,matrix } = require("zerg/block/other")
+const frame = new ForceProjector("frame-core");
+Object.assign(frame, {
+	radius: 32,
+	shieldHealth: 400,
+	consumeCoolant: true,
+	hasLiquids: true,
+	cooldownNormal: 40 / 60,
+	cooldownLiquid: 20 / 60,
+	coolantConsumption: 0.05,
+	cooldownBrokenBase: 20 / 60,
+	size: 1,
+})
+
+const matrix = new ForceProjector("matrix-core");
+Object.assign(matrix,{
+	radius: 64,
+	shieldHealth: 1200,
+	consumeCoolant: true,
+	hasLiquids: true,
+	cooldownNormal: 80 / 60,
+	cooldownLiquid: 40 / 60,
+	coolantConsumption: 0.1,
+	cooldownBrokenBase: 40 / 60,
+	size: 2,
+})
 
 function Pay(block) {
 	return new BuildPayload(block, Team.derelict)
 }
-function CoreBuild(build, draw, block, liquid) {
+function CoreBuild(build, block, liquid) {
 	build.buildType = prov(() => {
 		const p = Pay(block);
 		return extend(CoreBlock.CoreBuild, build, {
@@ -23,13 +47,14 @@ function CoreBuild(build, draw, block, liquid) {
 			},
 			draw() {
 				this.super$draw();
-				p.draw();
+				Draw.z(34);
+				p.draw()
 			},
 			drawSelect() {
 				this.super$drawSelect();
-				if(block.range != undefined && draw){
+				if(block.range != undefined){
 					Drawf.dashCircle(this.x, this.y, block.range, Pal.accent);
-				}else if(draw){
+				}else{
 					Drawf.dashCircle(this.x, this.y, block.radius, Pal.accent);
 				}
 			}
@@ -248,7 +273,7 @@ Object.assign(albus, {
 		Items.silicon, 2000,
 	)
 })
-CoreBuild(albus, false, frame, Liquids.water)
+CoreBuild(albus, frame, Liquids.water)
 
 const annular = new CoreBlock("annular");
 exports.annular = annular
@@ -270,7 +295,7 @@ Object.assign(annular, {
 		item.chromium, 4000,
 	)
 })
-CoreBuild(annular, false, matrix, Liquids.water)
+CoreBuild(annular, matrix, Liquids.water)
 
 const column = new Block("column");
 Object.assign(column,{
