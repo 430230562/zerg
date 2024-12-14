@@ -1,5 +1,6 @@
 const status = require('zerg/status');
 const liquid = require('zerg/liquid');
+const item = require('zerg/item');
 const Ef = require('zerg/effect');
 const { ReduceArmorBulletType } = require('zerg/base/bulletType')
 
@@ -14,22 +15,23 @@ function StatWeapon(name, stat, num){
 	});
 }
 
-function ShootEncircle(range,speed){
+function ShootEncircle(radius,k){
 	return extend(ShootPattern,{
 		shoot(totalShots, handler, barrelIncrementer){
 			handler.shoot(0, 0, 0, 0,
 			b => b.moveRelative(
-				Angles.trnsx(b.time * 6 * speed, 0, range),
-				Angles.trnsy(b.time * 6 * speed, 0, range)
+				Angles.trnsx(b.time * k, 0, radius),
+				Angles.trnsy(b.time * k, 0, radius)
 			))
 			handler.shoot(0, 0, 0, 0,
 			b => b.moveRelative(
-				Angles.trnsx(b.time * 6 * speed, 0, -1 * range),
-				Angles.trnsy(b.time * 6 * speed, 0, -1 * range)
+				Angles.trnsx(b.time * k, 0, -1 * radius),
+				Angles.trnsy(b.time * k, 0, -1 * radius)
 			))
 		}
 	})
 }
+exports.ShootEncircle = ShootEncircle;
 
 const pioneer = new TankUnitType("pioneer");
 exports.pioneer = pioneer;
@@ -315,6 +317,62 @@ Object.assign(new StatWeapon("zerg-fearless-weapon","reduceArmor",5),{
 })
 )
 
+/*const b = Object.assign(new ArtilleryBulletType(0.1, 160, "shell"),{
+    		hitEffect: new MultiEffect(
+    			Fx.titanExplosion,
+    			Fx.titanSmoke
+    		),
+    		despawnEffect: Fx.none,
+    		knockback: 2,
+    		lifetime: 1,
+    		height: 21,
+    		width: 19,
+    		splashDamageRadius: 80,
+    		splashDamage: 1960,
+    		scaledSplashDamage: true,
+    		backColor: Color.valueOf("d9c668cd"),
+    		hitColor: Color.valueOf("d9c668cd"),
+    		trailColor: Color.valueOf("d9c668cd"),
+    		frontColor: Color.white,
+    		ammoMultiplier: 1,
+    		hitSound: Sounds.titanExplosion,
+    
+    		status: StatusEffects.blasted,
+    		
+    		despawnShake: 7,
+    
+    		shootEffect: Fx.shootTitan,
+    		smokeEffect: Fx.shootSmokeTitan,
+    		
+    		fragBullets: 12,
+    		fragRandomSpread: 360,
+    		fragSpread: 0,
+    		fragVelocityMin: 1,
+    		fragVelocityMax: 5,
+    		fragLifeMin: 3,
+    		fragLifeMax: 4,
+    		fragBullet: Object.assign(new BasicBulletType(1, 40), {
+        		ammoMultiplier: 1,
+        		width: 7,
+        		height: 21,
+        		lifetime: 10,
+        		hitSize: 4,
+        		knockback: 16,
+        		hitColor: Pal.lightOrange,
+        		backColor: Pal.lightOrange,
+        		frontColor: Color.white,
+        		
+        		hitEffect: Fx.flakExplosionBig,
+        		
+        		collidesAir: false
+        	})
+	    })
+fearless.abilities.add(extend(Ability, {
+    death(unit){
+        b.create(unit,unit.team,unit.x,unit.y,0)
+    }
+}))*/
+
 const gale = new TankUnitType("gale");
 exports.gale = gale;
 Object.assign(gale, {
@@ -352,10 +410,10 @@ Object.assign(new Weapon("zerg-gale-weapon"), {
 		splashDamageRadius: 24,
 		splashDamage: 40,
 		trailChance: 0.1,
-		hitColor: Color.valueOf("5c69cc"),
-		backColor: Color.valueOf("5c69cc"),
-		trailColor: Color.valueOf("5c69cc"),
-		frontColor: Color.white,
+		hitColor: Color.valueOf("6d78c7"),
+		backColor: Color.valueOf("6d78c7"),
+		trailColor: Color.valueOf("6d78c7"),
+		frontColor: Color.valueOf("959de6"),
 	})
 })
 )
@@ -399,10 +457,10 @@ hurricane.weapons.add(
 		splashDamageRadius: 24,
 		splashDamage: 40,
 		trailChance: 0.1,
-		hitColor: Color.valueOf("5c69cc"),
-		backColor: Color.valueOf("5c69cc"),
-		trailColor: Color.valueOf("5c69cc"),
-		frontColor: Color.white,
+		hitColor: Color.valueOf("6d78c7"),
+		backColor: Color.valueOf("6d78c7"),
+		trailColor: Color.valueOf("6d78c7"),
+		frontColor: Color.valueOf("959de6"),
 	})
 })
 )
@@ -443,14 +501,14 @@ Object.assign(new Weapon("zerg-tornado-weapon"),{
 		shootEffect: new MultiEffect(
 			Fx.shootTitan,
 			Object.assign(new WaveEffect(), {
-				colorTo: Color.valueOf("5c69cc"),
+				colorTo: Color.valueOf("6d78c7"),
 				sizeTo: 26,
 				lifetime: 14,
 				strokeFrom: 4,
 			})
 		),
 		smokeEffect: Fx.shootSmokeTitan,
-		hitColor: Color.valueOf("5c69cc"),
+		hitColor: Color.valueOf("6d78c7"),
 		despawnSound: Sounds.spark,
 	
 		sprite: "large-orb",
@@ -462,24 +520,24 @@ Object.assign(new Weapon("zerg-tornado-weapon"),{
 		pierceCap: 1,
 		width: 15,
 		height: 15,
-		backColor: Color.valueOf("5c69cc"),
-		frontColor: Color.valueOf("5c69cc"),
+		backColor: Color.valueOf("6d78c7"),
+		frontColor: Color.valueOf("6d78c7"),
 		shrinkX: 0,
 		shrinkY: 0,
-		trailColor: Color.valueOf("5c69cc"),
+		trailColor: Color.valueOf("6d78c7"),
 		trailLength: 12,
 		trailWidth: 2.2,
 		despawnEffect: Object.assign(new ExplosionEffect(),{
-			waveColor: Color.valueOf("5c69cc"),
+			waveColor: Color.valueOf("6d78c7"),
 			smokeColor: Color.gray,
-			sparkColor: Color.valueOf("5c69cc"),
+			sparkColor: Color.valueOf("6d78c7"),
 			waveStroke: 4,
 			waveRad: 40,
 		}),
 		hitEffect: Object.assign(new ExplosionEffect(),{
-			waveColor: Color.valueOf("5c69cc"),
+			waveColor: Color.valueOf("6d78c7"),
 			smokeColor: Color.gray,
-			sparkColor: Color.valueOf("5c69cc"),
+			sparkColor: Color.valueOf("6d78c7"),
 			waveStroke: 4,
 			waveRad: 40,
 		}),
@@ -487,7 +545,7 @@ Object.assign(new Weapon("zerg-tornado-weapon"),{
 			damage: 17,
 			collidesAir: false,
 			ammoMultiplier: 1,
-			lightningColor: Color.valueOf("5c69cc"),
+			lightningColor: Color.valueOf("6d78c7"),
 			lightningLength: 3,
 			lightningLengthRand: 6,
 	
@@ -498,13 +556,13 @@ Object.assign(new Weapon("zerg-tornado-weapon"),{
 				status: StatusEffects.shocked,
 				statusDuration: 10,
 				hittable: false,
-				lightColor: Color.white,
+				lightColor: Color.valueOf("959de6"),
 				buildingDamageMultiplier: 0.25,
 			})
 		}),
 		bulletInterval: 5,
 		intervalBullets: 2,
-		lightningColor: Color.valueOf("5c69cc"),
+		lightningColor: Color.valueOf("6d78c7"),
 		lightningDamage: 19,
 		lightning: 12,
 		lightningLength: 2,
@@ -563,10 +621,10 @@ Object.assign(new Weapon("zerg-meteorite-weapon"),{
 		splashDamage: 650,
 		scaledSplashDamage: true,
 		pierceArmor: true,
-		backColor: Color.valueOf("5c69cccd"),
-		hitColor: Color.valueOf("5c69cccd"),
-		trailColor: Color.valueOf("5c69cccd"),
-		frontColor: Color.white,
+		backColor: Color.valueOf("6d78c7cd"),
+		hitColor: Color.valueOf("6d78c7cd"),
+		trailColor: Color.valueOf("6d78c7cd"),
+		frontColor: Color.valueOf("959de6"),
 		ammoMultiplier: 1,
 		hitSound: Sounds.titanExplosion,
 

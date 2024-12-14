@@ -1,4 +1,5 @@
 const item = require('zerg/item');
+const liquid = require('zerg/liquid');
 
 const nickelPump = new Pump("nickel-pump");
 exports.nickelPump = nickelPump;
@@ -16,9 +17,9 @@ const screwPump = new Pump("screw-pump");
 exports.screwPump = screwPump;
 Object.assign(screwPump, {
 	size: 2,
-	pumpAmount: 18 / 60,
+	pumpAmount: 24 / 60,
 	health: 240,
-	liquidCapacity: 30,
+	liquidCapacity: 50,
 	hasPower: true,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
@@ -29,13 +30,55 @@ Object.assign(screwPump, {
 		item.crystal, 50,
 	)
 })
-screwPump.consumePower(0.35);
+screwPump.consumePower(0.8);
+
+const centrifugalPump = new Pump("centrifugal-pump");
+exports.centrifugalPump = centrifugalPump;
+Object.assign(centrifugalPump,{
+    size: 3,
+	pumpAmount: 42 / 60,
+	health: 480,
+	liquidCapacity: 540,
+	hasPower: true,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.liquid,
+	requirements: ItemStack.with(
+		Items.silicon, 75,
+		item.manganese, 110,
+		item.chromium, 25,
+		item.crystal, 120,
+		item.organistal, 55,
+	)
+})
+centrifugalPump.consumePower(3.15);
+
+const syphonPump = new Pump("syphon-pump");
+exports.syphonPump = syphonPump;
+Object.assign(syphonPump,{
+    size: 4,
+	pumpAmount: 78 / 60,
+	health: 1080,
+	liquidCapacity: 1600,
+	hasPower: true,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.liquid,
+	requirements: ItemStack.with(
+		Items.silicon, 255,
+		item.chromium, 210,
+		item.biomassSteel, 150,
+		item.iridium, 75,
+		item.crystal, 350,
+		item.organistal, 155,
+	)
+})
+syphonPump.consumePower(11);
+syphonPump.consumeLiquid(liquid.naturalGas, 6 / 60);
 
 const waterExtractor = new SolidPump("water-extractor")
 exports.waterExtractor = waterExtractor;
 Object.assign(waterExtractor,{
 	result: Liquids.water,
-	pumpAmount: 0.11,
+	pumpAmount: 0.2,
 	attribute: Attribute.water,
 	size: 2,
 	liquidCapacity: 30,
@@ -49,6 +92,30 @@ Object.assign(waterExtractor,{
 	)
 })
 waterExtractor.consumePower(1.5);
+
+const arkyciteExtractor = new Fracker("arkycite-extractor");
+Object.assign(arkyciteExtractor,{
+    result: Liquids.arkycite,
+	pumpAmount: 0.25,
+	attribute: Attribute.get("arkycite"),
+	size: 3,
+	itemCapacity: 15,
+	liquidCapacity: 30,
+	rotateSpeed: -2.5,
+	baseEfficiency: 0,
+	itemUseTime: 60,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.liquid,
+	requirements: ItemStack.with(
+		Items.graphite, 175,
+		item.nickel, 225,
+		item.crystal, 75,
+		item.organistal, 125,
+	)
+})
+arkyciteExtractor.consumeLiquid(Liquids.water, 0.2);
+arkyciteExtractor.consumeItem(Items.sand, 1);
+arkyciteExtractor.consumePower(3);
 
 const crystalConduit = new Conduit("crystal-conduit");
 exports.crystalConduit = crystalConduit;
@@ -152,6 +219,24 @@ Object.assign(crystalConduitBridge, {
 	requirements: ItemStack.with(
 		Items.graphite, 8,
 		item.crystal, 15,
+	),
+})
+
+const biosulfideConduitBridge = new LiquidBridge("biosulfide-conduit-bridge");
+exports.biosulfideConduitBridge = biosulfideConduitBridge;
+Object.assign(biosulfideConduitBridge,{
+    fadeIn: false,
+	moveArrows: false,
+	hasPower: false,
+	range: 14,
+	arrowSpacing: 6,
+	baseExplosiveness: 10,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.liquid,
+	requirements: ItemStack.with(
+		Items.graphite, 6,
+		item.crystal, 8,
+		item.biosulfide, 5,
 	),
 })
 

@@ -55,33 +55,55 @@ Object.assign(manganeseWallLarge, {
 	),
 })
 
-const manganeseDoor = new AutoDoor("manganese-door");
-exports.manganeseDoor = manganeseDoor;
-Object.assign(manganeseDoor,{
-	health: 640,
-	armor: 7,
+const chromiumWall = new Wall("chromium-wall");
+exports.chromiumWall = chromiumWall;
+Object.assign(chromiumWall,{
+	health: 700,
+	armor: 9,
 	size: 1,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 	requirements: ItemStack.with(
-		Items.silicon, 4,
-		item.nickel, 2,
-		item.manganese, 4,
+		item.chromium, 6,
 	),
 })
 
-const manganeseDoorLarge = new AutoDoor("manganese-door-large");
-exports.manganeseDoorLarge = manganeseDoorLarge;
-Object.assign(manganeseDoorLarge,{
-	health: 640 * 4,
-	armor: 7,
+const chromiumWallLarge = new Wall("chromium-wall-large");
+exports.chromiumWallLarge = chromiumWallLarge;
+Object.assign(chromiumWallLarge,{
+	health: 700 * 4,
+	armor: 9,
 	size: 2,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 	requirements: ItemStack.with(
-		Items.silicon, 4 * 4,
-		item.nickel, 2 * 4,
-		item.manganese, 4 * 4,
+		item.chromium, 6 * 4,
+	),
+})
+
+const iridiumWall = new Wall("iridium-wall");
+exports.iridiumWall = iridiumWall;
+Object.assign(iridiumWall,{
+    health: 1200,
+	armor: 11,
+	size: 1,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+		item.iridium, 6,
+	),
+})
+
+const iridiumWallLarge = new Wall("iridium-wall-large");
+exports.iridiumWallLarge = iridiumWallLarge;
+Object.assign(iridiumWallLarge,{
+    health: 1200 * 4,
+	armor: 11,
+	size: 2,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+		item.iridium, 6 * 4,
 	),
 })
 
@@ -149,32 +171,6 @@ Object.assign(energicWallLarge, {
 	),
 })
 
-const chromiumWall = new Wall("chromium-wall");
-exports.chromiumWall = chromiumWall;
-Object.assign(chromiumWall,{
-	health: 700,
-	armor: 9,
-	size: 1,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.defense,
-	requirements: ItemStack.with(
-		item.chromium, 6,
-	),
-})
-
-const chromiumWallLarge = new Wall("chromium-wall-large");
-exports.chromiumWallLarge = chromiumWallLarge;
-Object.assign(chromiumWallLarge,{
-	health: 700 * 4,
-	armor: 9,
-	size: 2,
-	buildVisibility: BuildVisibility.shown,
-	category: Category.defense,
-	requirements: ItemStack.with(
-		item.chromium, 6 * 4,
-	),
-})
-
 const biomassWall = new Wall("biomass-wall");
 exports.biomassWall = biomassWall;
 Object.assign(biomassWall, {
@@ -209,28 +205,68 @@ Object.assign(biomassWallLarge, {
 	),
 })
 
-const iridiumWall = new Wall("iridium-wall");
-exports.iridiumWall = iridiumWall;
-Object.assign(iridiumWall,{
-    health: 1200,
-	armor: 11,
+const biosulfideWall = new Wall("biosulfide-wall");
+exports.biosulfideWall = biosulfideWall;
+Object.assign(biosulfideWall,{
+    chanceDeflect: 40,
+	flashHit: true,
+	deflectSound: Sounds.none,
+	health: 280,
+	baseExplosiveness: 20,
+	armor: 0,
 	size: 1,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 	requirements: ItemStack.with(
-		item.iridium, 6,
+	    item.chromium, 2,
+		item.biosulfide, 4,
 	),
 })
 
-const iridiumWallLarge = new Wall("iridium-wall-large");
-exports.iridiumWallLarge = iridiumWallLarge;
-Object.assign(iridiumWallLarge,{
-    health: 1200 * 4,
-	armor: 11,
+const biosulfideWallLarge = new Wall("biosulfide-wall-large");
+exports.biosulfideWallLarge = biosulfideWallLarge;
+Object.assign(biosulfideWallLarge,{
+    chanceDeflect: 40,
+	flashHit: true,
+	deflectSound: Sounds.none,
+	health: 280 * 4,
+	baseExplosiveness: 40,
+	armor: 0,
 	size: 2,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 	requirements: ItemStack.with(
-		item.iridium, 6 * 4,
+	    item.chromium, 2 * 4,
+		item.biosulfide, 4 * 4,
+	),
+})
+
+const manganeseDoor = new AutoDoor("manganese-door");
+exports.manganeseDoor = manganeseDoor;
+Object.assign(manganeseDoor,{
+	health: 640,
+	armor: 7,
+	size: 1,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+		Items.silicon, 4,
+		item.nickel, 2,
+		item.manganese, 4,
+	),
+})
+
+const manganeseDoorLarge = new AutoDoor("manganese-door-large");
+exports.manganeseDoorLarge = manganeseDoorLarge;
+Object.assign(manganeseDoorLarge,{
+	health: 640 * 4,
+	armor: 7,
+	size: 2,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.defense,
+	requirements: ItemStack.with(
+		Items.silicon, 4 * 4,
+		item.nickel, 2 * 4,
+		item.manganese, 4 * 4,
 	),
 })

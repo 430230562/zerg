@@ -3,12 +3,7 @@ const liquid = require('zerg/liquid')
 const status = require('zerg/status')
 
 Attribute.add("biomass");
-
-Blocks.arkyicStone.attributes.set(Attribute.get("biomass"), 0.35);
-
-Blocks.ice.attributes.set(Attribute.water, 0.6);
-Blocks.iceSnow.attributes.set(Attribute.water, 0.55);
-Blocks.snow.attributes.set(Attribute.water, 0.5);
+Attribute.add("arkycite");
 
 const flower = new Prop("flower");
 Object.assign(flower,{
@@ -18,13 +13,17 @@ Object.assign(flower,{
 
 //tundra
 const tundraWall = new StaticWall("tundra-wall");
-tundraWall.mapColor = Color.valueOf("928b00")
 
 const tundra = new Floor("tundra");
-tundra.mapColor = Color.valueOf("787300")
+tundra.variants = 2;
 tundra.attributes.set(Attribute.water, 0.35);
+tundra.attributes.set(Attribute.get("biomass"), 0.05);
 
 //arkycite
+Blocks.arkyicStone.attributes.set(Attribute.get("biomass"), 0.35)
+Blocks.arkyicStone.attributes.set(Attribute.get("arkycite"), 1.5)
+Blocks.arkyicStone.attributes.set(Attribute.water, -0.75)
+
 const arkyciteSandWall = new StaticWall("arkycite-sand-wall");
 
 const arkyciteSand = new Floor("arkycite-sand");
@@ -36,25 +35,31 @@ Object.assign(arkyciteSand, {
 	wall: arkyciteSandWall,
 })
 arkyciteSand.attributes.set(Attribute.get("biomass"), 0.35);
+arkyciteSand.attributes.set(Attribute.get("arkycite"), 1);
+arkyciteSand.attributes.set(Attribute.water, -0.75);
 
 //neoplasm
-const neoplasmWall = new StaticWall("neoplasm-wall");
+Blocks.denseRedStone.attributes.set(Attribute.get("biomass"), 0.45);
+Blocks.denseRedStone.attributes.set(Attribute.get("arkycite"), 1.1);
+Blocks.redStone.attributes.set(Attribute.get("biomass"), 0.45);
+Blocks.redStone.attributes.set(Attribute.get("arkycite"), 1);
 
-const neoplasmStone = new Floor("neoplasm-stone");
-neoplasmStone.attributes.set(Attribute.get("biomass"), 0.45);
+const neoplasmWall = new StaticWall("neoplasm-wall");
 
 const neoplasmSand = new Floor("neoplasm-sand")
 Object.assign(neoplasmSand, {
 	itemDrop: Items.sand,
 	playerUnmineable: true,
-	speedMultiplier: 0.95,
+	speedMultiplier: 0.9,
 	variants: 3,
 })
 neoplasmSand.attributes.set(Attribute.get("biomass"), 0.45);
+neoplasmSand.attributes.set(Attribute.get("arkycite"), 0.8);
+neoplasmSand.attributes.set(Attribute.water, -1);
 
 const sandNeoplasm = new Floor("sand-neoplasm");
 Object.assign(sandNeoplasm, {
-	speedMultiplier: 0.8,
+	speedMultiplier: 0.75,
 	variants: 0,
 	status: status.none,
 	statusDuration: 90,
@@ -68,7 +73,7 @@ Object.assign(sandNeoplasm, {
 
 const neoplasm = new Floor("neoplasm");
 Object.assign(neoplasm, {
-	speedMultiplier: 0.5,
+	speedMultiplier: 0.4,
 	variants: 0,
 	status: status.none,
 	statusDuration: 120,
@@ -78,7 +83,7 @@ Object.assign(neoplasm, {
 	albedo: 0.9,
 	supportsOverlay: true,
 	liquidMultiplier: 0.5,
-	drownTime: 60 * 1.2,
+	damageTaken: 0.5,
 })
 
 //crystal
@@ -92,23 +97,10 @@ Object.assign(crystallineFloor, {
 	variants: 3,
 	wall: crystallineWall,
 })
-
-const acidPool = new Floor("acid-pool");
-Object.assign(acidPool,{
-	speedMultiplier: 0.5,
-	variants: 0,
-	status: status.corroding,
-	statusDuration: 120,
-	liquidDrop: liquid.acid,
-	isLiquid: true,
-	cacheLayer: CacheLayer.water,
-	albedo: 0.9,
-	supportsOverlay: true,
-	liquidMultiplier: 0.5,
-})
+crystallineFloor.attributes.set(Attribute.get("arkycite"), 0.5);
+crystallineFloor.attributes.set(Attribute.water, -0.5)
 
 //autium
-
 const autiumFruit = new Wall("autiumFruit");
 Object.assign(autiumFruit,{
 	targetable: false,
@@ -206,57 +198,6 @@ Object.assign(autium1,{
 	buildCostMultiplier: 50,
 	targetable: false,
 })
-
-const lichen = extend(Block,"lichen",{
-    update: true,
-    buildVisibility: BuildVisibility.shown,
-    category: Category.effect,
-    requirements: ItemStack.with(
-		item.lichen, 1,
-	),
-    targetable: false,
-    setBars() {
-		this.super$setBars();
-		this.addBar("growthProgress", func(e => new Bar(
-			prov(() => Core.bundle.get("bar.growthProgress", Strings.fixed(e.getGrowthProgress() * 100, 0))),
-			prov(() => Pal.powerBar),
-			floatp(() => e.getGrowthProgress())
-		)));
-	},
-	canReplace(other){
-	    return true
-	}
-});
-exports.lichen = lichen;
-lichen.buildType = prov(() => extend(Building, {
-    i: 0,
-    updateTile(){
-        this.super$updateTile();
-		
-		this.i += Time.delta
-		
-		if(this.i >= 60 * 60){
-		    this.tile.circle(2, cons(tile => {
-		        if(tile != null && Mathf.chance(0.15) && tile.block() == Blocks.air){
-		            tile.setBlock(lichen,this.team);
-		        }
-		    }))
-		    
-		    this.i = 0
-		}
-    },
-    getGrowthProgress(){
-	    return this.i / 3600
-	},
-	write(write) {
-		this.super$write(write);
-		write.f(this.i);
-	},
-	read(read, revision) {
-		this.super$read(read, revision);
-		this.i = read.f();
-	}
-}))
 
 new OreBlock("ore-nickel",item.nickel);
 new OreBlock("ore-manganese",item.manganese);

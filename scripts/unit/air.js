@@ -74,7 +74,7 @@ cirrus.weapons.add(
 		x: -3.75,
 		y: 0,
 		shootY: 30 / 4,
-		reload: 45,
+		reload: 60,
 		shoot: Object.assign(new ShootAlternate(), {
 			shotDelay: 3,
 			shots: 4,
@@ -82,14 +82,14 @@ cirrus.weapons.add(
 			spread: 2,
 		}),
 		shootSound: Sounds.missile,
-		bullet: Object.assign(new MissileBulletType(4,19),{
+		bullet: Object.assign(new MissileBulletType(4,11),{
 			width: 8,
 			height: 8,
 			shrinkY: 0,
 			homingRange: 60,
 			keepVelocity: true,
 			lifetime: 50,
-			splashDamage: 18,
+			splashDamage: 8,
 			splashDamageRadius: 16,
 			trailChance: 0.1,
 			frontColor: Color.white,
@@ -113,19 +113,17 @@ Object.assign(cloud,{
 	constructor: () => new UnitEntity.create(),
 })
 cloud.weapons.add(
-	Object.assign(new Weapon(),{
+	Object.assign(new Weapon("zerg-cloud-weapon0"),{
 		x: 4,
 		y: -2,
 		shootY: 0,
-		reload: 120,
+		reload: 45,
 		shoot: Object.assign(new ShootAlternate(), {
 			shotDelay: 3,
-			shots: 8,
-			barrels: 4,
-			spread: 3,
+			shots: 4,
+			barrels: 3,
+			spread: 2,
 		}),
-		baseRotation: -90,
-		shootCone: 360,
 		shootSound: Sounds.missile,
 		bullet: Object.assign(new MissileBulletType(4,17),{
 			width: 8,
@@ -134,7 +132,7 @@ cloud.weapons.add(
 			homingRange: 160,
 			homingPower: 0.16,
 			keepVelocity: false,
-			lifetime: 55,
+			lifetime: 60,
 			splashDamage: 18,
 			splashDamageRadius: 16,
 			trailChance: 0.1,
@@ -144,9 +142,9 @@ cloud.weapons.add(
 			frontColor: Color.white,
 		})
 	}),
-	Object.assign(new Weapon("zerg-cloud-weapon"),{
+	Object.assign(new Weapon("zerg-cloud-weapon1"),{
 		shootSound: Sounds.blaster,
-		reload: 50,
+		reload: 120,
 		x: 0,
 		y: 6.5,
 		shootY: 5,
@@ -155,12 +153,13 @@ cloud.weapons.add(
 		layerOffset: -0.01,
 		rotate: false,
 		mirror: false,
+		shoot: new ShootHelix(),
 
-		bullet: Object.assign(new BasicBulletType(4, 80),{
+		bullet: Object.assign(new BasicBulletType(6, 40),{
 			width: 7,
 			height: 12,
-			lifetime: 50,
-			shootEffect: Fx.sparkShoot,
+			lifetime: 30,
+			hitSize: 16,
 			smokeEffect: Fx.shootBigSmoke,
 			hitColor: Color.valueOf("d99f6b"),
 			backColor: Color.valueOf("d99f6b"),
@@ -168,9 +167,7 @@ cloud.weapons.add(
 			frontColor: Color.white,
 			trailWidth: 1.5,
 			trailLength: 5,
-			hitEffect: Fx.hitBulletColor,
-			despawnEffect: Fx.hitBulletColor,
-			pierceCap: 1,
+			buildingDamageMultiplier: 1.5
 		})
 	})
 )
@@ -385,83 +382,6 @@ ampere.weapons.add(
 	})
 )
 
-/*const colchicineMissile = new MissileUnitType("colchicine-missile");
-Object.assign(colchicineMissile,{
-    speed: 4.3,
-    maxRange: 6,
-    lifetime: 60 * 1.4,
-    engineColor: Color.valueOf("41ae3c"),
-    trailColor: Color.valueOf("41ae3c"),
-    engineLayer: Layer.effect,
-    health: 45,
-    loopSoundVolume: 0.1,
-    constructor : () => new TimedKillUnit.create(),
-})
-colchicineMissile.weapons.add(
-Object.assign(new Weapon(),{
-    shootCone: 360,
-    mirror: false,
-    reload: 1,
-    shootOnDeath: true,
-    bullet: Object.assign(new ExplosionBulletType(110, 25),{
-        shootEffect: Fx.massiveExplosion,
-    })
-})
-)
-colchicineMissile.abilities.add(
-	Object.assign(new ShieldArcAbility(),{
-		radius: 16,
-		angle: 60,
-		regen: 0.05,
-		cooldown: 9999,
-		max: 50,
-		y: -10,
-		width: 4,
-		whenShooting: false,
-	})
-)
-
-const colchicine = new UnitType("colchicine");
-exports.colchicine = colchicine;
-Object.assign(colchicine,{
-    aiController: () => new FlyingFollowAI(),
-    
-    flying: true,
-    drag: 0.06,
-    speed: 1.1,
-    rotateSpeed: 3.2,
-    accel: 0.1,
-    health: 6000,
-    armor: 5,
-    hitSize: 20,
-
-    engineSize: 4.8,
-    engineOffset: 15,
-    engineColor: Color.valueOf("41ae3c"),
-    constructor: () => new UnitEntity.create(),
-})
-colchicine.setEnginesMirror(
-    new UnitType.UnitEngine(8.5, -10, 4.5, -40.36)
-);
-colchicine.weapons.add(Object.assign(new Weapon("zerg-colchicine-weapon"), {
-	shootSound: Sounds.missileLarge,
-	x: 29 / 4,
-	y: -11 / 4,
-	shootY: 1.5,
-	reload: 120,
-	layerOffset: 0.01,
-	rotateSpeed: 2,
-	rotate: true,
-	alternate: false,
-    shoot: new ShootSpread(2, 15),
-	bullet: Object.assign(new BulletType(), {
-		spawnUnit: colchicineMissile,
-		smokeEffect: Fx.shootBigSmoke2,
-		speed: 0,
-		keepVelocity: false,
-	}),
-}))*/
-
 const phantom = new UnitType("phantom");
 exports.phantom = phantom;
 Object.assign(phantom,{
@@ -540,6 +460,7 @@ Object.assign(shadow,{
 	itemCapacity: 130,
 	mineTier: 4,
 	mineSpeed: 7.5,
+	mineRange: 160,
 	engineSize: 0,
     engineOffset: 0,
 	mineWalls: true,

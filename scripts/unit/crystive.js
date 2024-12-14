@@ -130,7 +130,7 @@ Object.assign(new Weapon("zerg-asbestos-weapon"), {
 	smoothReloadSpeed: 0.15,
 	recoil: 2,
 	shootSound: Sounds.shootSnap,
-	bullet: Object.assign(new ArtilleryBulletType(3.5, 37), {
+	bullet: Object.assign(new ArtilleryBulletType(3.5, 20), {
 		backColor: Color.valueOf("7e8ae6"),
 		trailColor: Color.valueOf("7e8ae6"),
 		hitColor: Color.valueOf("7e8ae6"),
@@ -225,9 +225,10 @@ Object.assign(quartz, {
 })
 quartz.weapons.add(
 Object.assign(new Weapon("zerg-quartz-weapon"), {
-	x: 8.5,
+	x: 0,
 	y: -1.5,
 	top: false,
+	mirror: false,
 	reload: 45,
 	recoil: 4,
 	shake: 2,
@@ -239,7 +240,7 @@ Object.assign(new Weapon("zerg-quartz-weapon"), {
 		shots: 3,
 		shotDelay: 5,
 	}),
-	bullet: Object.assign(new ArtilleryBulletType(3, 100), {
+	bullet: Object.assign(new ArtilleryBulletType(3, 15), {
 		knockback: 0.8,
 		lifetime: 80,
 		width: 11,

@@ -103,21 +103,13 @@ Object.assign(new Weapon("bugs-election-weapon"), {
 		hitSound: Sounds.none,
 		shootEffect: Fx.sparkShoot,
 		smokeEffect: Fx.shootBigSmoke,
-		backColor: Pal.heal,
-		trailColor: Pal.heal,
 		frontColor: Color.white,
-		hitEffect: Fx.hitLaser,
-		despawnEffect: Fx.hitLaser,
 		buildingDamageMultiplier: 0.001,
-		healPercent: 2.5,
-		collidesTeam: true,
 	})
 })
 )
 election.abilities.add(
-	Object.assign(new RegenAbility(), {
-		percentAmount: 1 / (60 * 60) * 100,
-	})
+	new ab.MendFieldAbility(75,300,8 * 6)
 )
 
 const atom = new UnitType("atom");
@@ -162,23 +154,15 @@ Object.assign(new Weapon("bugs-atom-weapon"), {
 		lifetime: 25,
 		shootEffect: Fx.sparkShoot,
 		smokeEffect: Fx.shootBigSmoke,
-		backColor: Pal.heal,
-		trailColor: Pal.heal,
 		frontColor: Color.white,
 		trailWidth: 1.5,
 		trailLength: 5,
-		hitEffect: Fx.hitLaser,
-		despawnEffect: Fx.hitLaser,
 		buildingDamageMultiplier: 0.001,
-		healPercent: 7.5,
-		collidesTeam: true,
 	})
 })
 )
 atom.abilities.add(
-	Object.assign(new RegenAbility(), {
-		percentAmount: 1 / (60 * 60) * 100,
-	}),
+	ab.MendFieldAbility(100,300,8 * 7)
 )
 
 const molecule = new UnitType("molecule");
@@ -263,7 +247,7 @@ Object.assign(albus, {
 	size: 4,
 	
 	unitCapModifier: 18,
-	researchCostMultiplier: 0.1,
+	researchCostMultiplier: 0.05,
 	
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
@@ -285,7 +269,7 @@ Object.assign(annular, {
 	itemCapacity: 15000,
 	
 	unitCapModifier: 24,
-	researchCostMultiplier: 0.1,
+	researchCostMultiplier: 0.05,
 	
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
@@ -302,6 +286,7 @@ Object.assign(column,{
 	buildVisibility: BuildVisibility.editorOnly,
 	category: Category.effect,
 	update: true,
+	alwaysUnlocked: true,
 })
 column.buildType = prov(() => extend(Building,{
 	updateTile(){

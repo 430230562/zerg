@@ -210,8 +210,8 @@ exports.picker = picker;
 const geothermalExploration = new HeatProducer("geothermal-exploration");
 exports.geothermalExploration = geothermalExploration;
 Object.assign(geothermalExploration,{
-    outputLiquid: new LiquidStack(Liquids.slag, 0.1),
-    heatOutput: 10,
+    outputLiquid: new LiquidStack(Liquids.slag, 0.3),
+    heatOutput: 15,
 	liquidCapacity: 30,
 	craftTime: 60,
 	size: 3,
@@ -253,7 +253,7 @@ const crystalCollector = new BeamDrill("crystal-collector");
 exports.crystalCollector = crystalCollector;
 Object.assign(crystalCollector, {
 	drillTime: 180 / 0.5,
-	itemCapacity: 15,
+	itemCapacity: 9,
 	optionalBoostIntensity: 4,
 	tier: 3,
 	size: 2,

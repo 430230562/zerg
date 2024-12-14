@@ -78,12 +78,29 @@ Object.assign(nickelBridge, {
 	moveArrows: false,
 	hasPower: false,
 	range: 6,
-	speed: 60,
+	speed: 30,
 	arrowSpacing: 6,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
 		item.nickel, 20,
+	),
+})
+
+const biosulfideBridge = new ItemBridge("biosulfide-bridge");
+exports.biosulfideBridge = biosulfideBridge;
+Object.assign(biosulfideBridge,{
+    fadeIn: false,
+	moveArrows: false,
+	hasPower: false,
+	range: 14,
+	arrowSpacing: 6,
+	baseExplosiveness: 10,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.distribution,
+	requirements: ItemStack.with(
+		item.nickel, 10,
+		item.biosulfide, 5,
 	),
 })
 

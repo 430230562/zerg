@@ -220,16 +220,14 @@ Object.assign(reincubator,{
 		Items.graphite, 75,
 		item.nickel, 200,
 		item.manganese, 100,
-		item.agar, 150,
 	),
 })
 reincubator.addUpgrade(insect.haploid, insect.diploid);
 reincubator.addUpgrade(insect.ribosome, insect.lysosome);
-reincubator.addUpgrade(insect.glycocalyx, insect.cytokine)
+reincubator.addUpgrade(insect.glycocalyx, insect.hydrolase)
 reincubator.consumePower(2.7);
 reincubator.consumeItems(ItemStack.with(
 	item.biomass, 40,
-	item.agar, 20,
 	item.amino, 60,
 ));
 reincubator.buildType = prov(() => extend(Reconstructor.ReconstructorBuild, reincubator,{
@@ -264,7 +262,6 @@ Object.assign(hyperplasia,{
 	requirements: ItemStack.with(
 		Items.silicon, 500,
 		Items.graphite, 275,
-		item.agar, 250,
 		item.nickel, 600,
 		item.manganese, 500,
 		item.biomassSteel, 400,
@@ -274,9 +271,8 @@ hyperplasia.addUpgrade(insect.diploid, insect.triploid);
 hyperplasia.addUpgrade(insect.lysosome, insect.trichocyst);
 hyperplasia.consumePower(7.7);
 hyperplasia.consumeItems(ItemStack.with(
-	item.biomass, 40,
-	item.agar, 50,
-	item.amino, 60,
+	item.biomass, 80,
+	item.biosulfide, 20,
 	item.biomassSteel, 20,
 ));
 hyperplasia.consumeLiquids(LiquidStack.with(
@@ -374,7 +370,7 @@ Object.assign(laboratory, {
 	category: Category.units,
 	requirements: ItemStack.with(
 		Items.silicon, 100,
-		item.crystal, 125,
+		item.organistal, 75,
 		item.nickel, 200,
 		item.manganese, 100,
 	),
@@ -382,7 +378,6 @@ Object.assign(laboratory, {
 laboratory.addUpgrade(insect.haploid, crystive.anatase);
 laboratory.consumePower(3.2);
 laboratory.consumeItems(ItemStack.with(
-	item.biomass, 20,
 	item.crystal, 50,
 	item.amino, 30,
 ))
@@ -428,7 +423,7 @@ Object.assign(assemblerModule, {
 	),
 	category: Category.units,
 	buildVisibility: BuildVisibility.shown,
-	size: 1,
+	size: 3,
 	tier: 1,
 });
 assemblerModule.consumePower(0.5);

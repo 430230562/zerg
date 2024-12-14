@@ -209,6 +209,15 @@ nexus.ammo(
 	}),
 )
 
+nexus.drawer = new DrawTurret();
+nexus.drawer.parts.addAll(
+    new RegionPart("-bottom"),
+    Object.assign(new RegionPart("-top"),{
+        progress: DrawPart.PartProgress.recoil,
+        moveY: -2.5,
+    })
+)
+
 const bomb = new ItemTurret("bomb");
 exports.bomb = bomb;
 Object.assign(bomb, {
@@ -263,9 +272,9 @@ bomb.ammo(
 		width: 11,
 		height: 11,
 		collidesTiles: false,
-		reloadMultiplier: 0.7,
 		splashDamageRadius: 16,
 		splashDamage: 27,
+		reloadMultiplier: 0.8,
 		backColor: Color.valueOf("7e8ae6"),
 		frontColor: Color.white,
 		fragBullets: 2,
@@ -289,8 +298,7 @@ bomb.ammo(
 		splashDamage: 42,
 		backColor: Color.valueOf("fa7f7f"),
 		frontColor: Color.white,
-		reloadMultiplier: 0.75,
-		fragBullets: 2,
+		fragBullets: 3,
 		fragBullet: Object.assign(new LightningBulletType(), {
 			damage: 9,
 			collidesAir: false,
@@ -373,12 +381,21 @@ soak.ammo(
 	}),
 	liquid.acid,Object.assign(new LiquidBulletType(liquid.acid),{
 		damage: 5,
+		knockback: 0.5,
+		drag: 0.01,
+		lifetime: 37,
+		layer: Layer.bullet - 2,
+	}),
+	Liquids.arkycite, Object.assign(new LiquidBulletType(Liquids.arkycite),{
+	    damage: 0,
+	    knockback: 1,
 		drag: 0.01,
 		lifetime: 37,
 		layer: Layer.bullet - 2,
 	}),
 	liquid.dissolvant,extend(LiquidBulletType,liquid.dissolvant,{
 		damage: 3,
+		knockback: 1,
 		drag: 0.01,
 		lifetime: 37,
 		layer: Layer.bullet - 2,
@@ -446,6 +463,7 @@ Object.assign(spiral, {
 		height: 12,
 		lifetime: 35,
 		pierce: true,
+		absorbable: false,
 		collidesAir: false,
 		shootEffect: Fx.sparkShoot,
 		smokeEffect: Fx.shootBigSmoke,
@@ -504,40 +522,12 @@ Object.assign(lacerate, {
 lacerate.consumePower(6.4);
 AddCoolant(lacerate,0.15);
 
-/*const parallax = new TractorBeamTurret("parallax")
-Object.assign(parallax,{
-	category: Category.turret,
-	buildVisibility: BuildVisibility.shown,
-	size: 2,
-	force: 0,
-	scaledForce: 0,
-	range: 240,
-	damage: 0,
-	targetGround: true,
-	scaledHealth: 160,
-	rotateSpeed: 10,
-	hasPower: true
-})
-parallax.consumePower(3)
-parallax.buildType = prov(() => extend(TractorBeamTurret.TractorBeamBuild, parallax, {
-	updateTile(){
-		this.super$updateTile();
-		if(this.target != null){
-			this.target.impulse(
-				Math.cos(Angles.angle(this.x, this.y, other.x, other.y)* Math.PI / 180) * 50,
-				Math.sin(Angles.angle(this.x, this.y, other.x, other.y)* Math.PI / 180) * 50
-			)
-		}
-	}
-}))*/
-//requirements(Category.turret, with(Items.silicon, 120, Items.titanium, 90, Items.graphite, 30));
-
 const lumen = new ItemTurret("lumen");
 exports.lumen = lumen;
 Object.assign(lumen, {
 	health: 1040,
 	size: 3,
-	reload: 120,
+	reload: 90,
 	targetAir: false,
 	range: 8 * 25,
 	maxAmmo: 20,
@@ -642,6 +632,37 @@ lumen.ammo(
 	})
 )
 
+const serum = new TractorBeamTurret("serum")
+exports.serum = serum;
+Object.assign(serum,{
+	category: Category.turret,
+	buildVisibility: BuildVisibility.shown,
+	size: 3,
+	force: 0,
+	scaledForce: 0,
+	range: 240,
+	damage: 0,
+	targetGround: true,
+	health: 1600,
+})
+serum.consumePower(7.9)
+serum.buildType = prov(() => extend(TractorBeamTurret.TractorBeamBuild, serum, {
+    mul: 1,
+	updateTile(){
+		this.super$updateTile();
+		if(this.target != null && this.efficiency >= 0.001){
+			/*this.target.impulse(
+				Math.cos(Angles.angle(this.x, this.y, this.target.x, this.target.y)* Math.PI / 180) * 24,
+				Math.sin(Angles.angle(this.x, this.y, this.target.x, this.target.y)* Math.PI / 180) * 24
+			)*/
+			this.target.damageContinuous(110/60 * this.mul * this.efficiency);
+			if(this.mul <= 20 && this.efficiency >= 0.8) this.mul += 1/60
+		}else if(this.mul >= 1){
+			this.mul -= 1/6
+		}
+	}
+}))
+
 const deluge = new LiquidTurret("deluge");
 exports.deluge = deluge;
 Object.assign(deluge,{
@@ -673,14 +694,14 @@ Object.assign(deluge,{
 deluge.ammo(
 	Liquids.water,Object.assign(new LiquidBulletType(Liquids.water),{
 		speed: 5.5,
-		knockback: 0.7,
+		knockback: 1.3,
 		drag: 0.01,
 		lifetime: 60,
 		layer: Layer.bullet - 2,
 	}),
 	Liquids.slag,Object.assign(new LiquidBulletType(Liquids.slag),{
 		speed: 5.5,
-		knockback: 0.7,
+		knockback: 1,
 		damage: 5,
 		drag: 0.01,
 		lifetime: 60,
@@ -688,13 +709,22 @@ deluge.ammo(
 	}),
 	liquid.acid,Object.assign(new LiquidBulletType(liquid.acid),{
 		speed: 5.5,
+		knockback: 1,
 		damage: 5,
+		drag: 0.01,
+		lifetime: 60,
+		layer: Layer.bullet - 2,
+	}),
+	Liquids.arkycite, Object.assign(new LiquidBulletType(Liquids.arkycite),{
+	    speed: 5.5,
+	    knockback: 1.7,
 		drag: 0.01,
 		lifetime: 60,
 		layer: Layer.bullet - 2,
 	}),
 	liquid.dissolvant,extend(LiquidBulletType,liquid.dissolvant,{
 		speed: 5.5,
+		knockback: 1.7,
 		damage: 3,
 		drag: 0.01,
 		lifetime: 60,
@@ -941,9 +971,9 @@ skyfire.ammo(
 		fragBullets: 9,
 		fragRandomSpread: 5,
 		fragSpread: 90 / 8,
-		fragVelocityMin: 1,
+		fragVelocityMin: 3,
 		fragVelocityMax: 5,
-		fragLifeMin: 1,
+		fragLifeMin: 3,
 		fragLifeMax: 4,
 		fragBullet: Object.assign(new BasicBulletType(1, 20), {
     		ammoMultiplier: 1,
@@ -981,6 +1011,7 @@ const aurora = new PowerTurret("aurora");
 exports.aurora = aurora;
 Object.assign(aurora,{
     reload: 6,
+    shootY: 0,
 	range: 41 * 8,
 	shootCone: 24,
 	targetGround: false,
@@ -992,7 +1023,16 @@ Object.assign(aurora,{
 	coolantMultiplier: 1.8,
 	category: Category.turret,
 	buildVisibility: BuildVisibility.shown,
-	shoot: new ShootSpread(6, 18 / 5),
+	shoot: Object.assign(new ShootBarrel(),{
+	    shots: 6,
+	    shotDelay: 4,
+	    barrels:[
+	        5,12.25,0,
+	        -5,12.25,0,
+	        8,12.25,0,
+	        -8,12.25,0
+	    ]
+	}),
     inaccuracy: 6,
     velocityRnd: 0.1,
             
@@ -1170,6 +1210,136 @@ sange.ammo(
 	})
 )
 
+const extinction = new ItemTurret("extinction")
+exports.extinction = extinction;
+Object.assign(extinction,{
+    category: Category.turret,
+	buildVisibility: BuildVisibility.shown,
+	inaccuracy: 1,
+    shake: 2,
+    shootY: 4,
+    health: 6500,
+    outlineColor: Pal.darkOutline,
+    size: 5,
+    reload: 360,
+    cooldownTime: 360,
+    recoil: 3,
+    range: 350,
+    shootCone: 20,
+    rotateSpeed: 1.5,
+    shootSound: Sounds.cannon,
+})
+AddCoolant(extinction, 0.3)
+extinction.ammo(
+    item.iridium, Object.assign(new BasicBulletType(6,600),{
+        shootEffect: new MultiEffect(
+            Fx.shootTitan,
+            Object.assign(new WaveEffect(),{
+                colorTo: Color.valueOf("cc163a"),
+                sizeTo: 26,
+                lifetime: 14,
+                strokeFrom: 4,
+            })
+        ),
+        lifetime: 66.7,
+        smokeEffect: Fx.shootSmokeTitan,
+        hitColor: Color.valueOf("cc163a"),
+
+        sprite: "large-orb",
+        trailEffect: Fx.missileTrail,
+        trailInterval: 3,
+        trailParam: 4,
+        pierce: true,
+        fragOnHit: false,
+        speed: 5,
+        width: 16,
+        height: 16,
+        backColor: Color.valueOf("cc163a"),
+        frontColor: Color.white,
+        shrinkX: 0,
+        shrinkY: 0,
+        trailColor: Color.valueOf("cc163a"),
+        trailLength: 12,
+        trailWidth: 2.2,
+        knockback: 5,
+        despawnEffect: Object.assign(new ExplosionEffect(),{
+            waveColor: Color.valueOf("cc163a"),
+            smokeColor: Color.gray,
+            sparkColor: Pal.sap,
+            waveStroke: 4,
+            waveRad: 40,
+        }),
+        hitEffect: Object.assign(new ExplosionEffect(),{
+            waveColor: Color.valueOf("cc163a"),
+            smokeColor: Color.gray,
+            sparkColor: Pal.sap,
+            waveStroke: 4,
+            waveRad: 40,
+        }),
+        despawnSound: Sounds.dullExplosion,
+        status: StatusEffects.electrified,
+
+        intervalBullet: Object.assign(new BasicBulletType(3, 36),{
+            width: 9,
+            hitSize: 5,
+            height: 15,
+            pierce: true,
+            lifetime: 24,
+            pierceBuilding: true,
+            hitColor: Color.valueOf("cc163a"),
+            backColor: Color.valueOf("cc163a"),
+            trailColor: Color.valueOf("cc163a"),
+            frontColor: Color.white,
+            trailWidth: 2.1,
+            trailLength: 5,
+            hitEffect: Object.assign(new WaveEffect(),{
+                colorFrom: Color.valueOf("cc163a"),
+                colorTo: Color.valueOf("cc163a"),
+                sizeTo: 4,
+                strokeFrom: 4,
+                lifetime: 10,
+            }),
+            despawnEffect: Object.assign(new WaveEffect(),{
+                colorFrom: Color.valueOf("cc163a"),
+                colorTo: Color.valueOf("cc163a"),
+                sizeTo: 4,
+                strokeFrom: 4,
+                lifetime: 10,
+            }),
+            status: StatusEffects.electrified,
+            
+            fragBullets: 1,
+            fragRandomSpread: 0,
+    		fragSpread: 0,
+    		fragBullet: Object.assign(new ShrapnelBulletType(), {
+    		    length: 24,
+                damage: 8,
+                width: 9,
+                status: StatusEffects.electrified,
+    	    })
+        }),
+
+        bulletInterval: 3,
+        intervalRandomSpread: 0,
+        intervalBullets: 2,
+        intervalAngle: 180,
+        intervalSpread: 90,
+        
+        fragBullets: 6,
+        fragVelocityMin: 0.5,
+        fragVelocityMax: 0.5,
+        fragRandomSpread: 0,
+		fragSpread: 60,
+        
+        fragBullet: Object.assign(new ShrapnelBulletType(), {
+		    length: 64,
+            damage: 160,
+            width: 13,
+            pierce: true,
+        })
+    })
+)
+        
 function CometMissile(name,bullet){
 	return extend(MissileUnitType,name,{
 		speed: 21,

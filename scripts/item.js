@@ -1,25 +1,22 @@
+const biomass = new Item("biomass", Color.valueOf("84a94b"));
+exports.biomass = biomass;
+Object.assign(biomass, {
+	flammability: 1.5
+})
+
 const amino = new Item("amino",Color.valueOf("d6dbe7"));
 exports.amino = amino;
 Object.assign(amino,{})
 
-const biomass = new Item("biomass", Color.valueOf("84a94b"));
-exports.biomass = biomass;
-Object.assign(biomass, {
-	flammability: 1.55,
-	buildable: false,
-})
-
-const agar = new Item("agar")
-exports.agar = agar;
-
-const autiumFruit = new Item("autium-fruit",Color.valueOf("6e8b74"));
-exports.autiumFruit = autiumFruit;
-
-const lichen = new Item("lichen",Color.valueOf("ffffff"));
-exports.lichen = lichen;
-Object.assign(lichen,{
+const biosulfide = new Item("biosulfide", Color.valueOf("ed5126"));
+exports.biosulfide = biosulfide;
+Object.assign(biosulfide,{
     flammability: 0.8,
+    explosiveness: 1.2,
 })
+
+const informationCore = new Item("information-core");
+exports.informationCore = informationCore;
 
 const nickel = new Item("nickel", Color.valueOf("00c49b"));
 exports.nickel = nickel
@@ -36,21 +33,6 @@ Object.assign(manganese, {
 	cost: 1.2,
 })
 
-const crystal = new Item("crystal", Color.valueOf("7e8ae6"));
-exports.crystal = crystal;
-Object.assign(crystal, {
-	hardness: 3,
-	cost: 2,
-	healthScaling: 0.25,
-})
-
-const organistal = new Item("organistal",Color.valueOf("f9c116"));
-exports.organistal = organistal;
-Object.assign(organistal,{
-	cost: 3,
-	healthScaling: 0.5,
-})
-
 const chromium = new Item("chromium",Color.valueOf("e45018"));
 exports.chromium = chromium;
 Object.assign(chromium,{
@@ -59,18 +41,19 @@ Object.assign(chromium,{
 	healthScaling: 0.75,
 })
 
-const biomassSteel = new Item("biomass-steel", Color.valueOf("98ba53"));
-exports.biomassSteel = biomassSteel;
-Object.assign(biomassSteel, {
-	cost: 1.25,
-	healthScaling: 0.5,
-})
-
 const iridium = new Item("iridium",Color.valueOf("c9dae3"));
 exports.iridium = iridium;
 Object.assign(iridium,{
     cost: 1.5,
 	healthScaling: 0.5,
+})
+
+const crystal = new Item("crystal", Color.valueOf("7e8ae6"));
+exports.crystal = crystal;
+Object.assign(crystal, {
+	hardness: 3,
+	cost: 2,
+	healthScaling: 0.25,
 })
 
 const energic = new Item("energic",Color.valueOf("fa7f7f"));
@@ -82,13 +65,23 @@ Object.assign(energic,{
 	charge:1,
 })
 
-const salt = new Item("salt",Color.valueOf("c3c1bb"));
-exports.salt = salt;
-Object.assign(salt,{
-	buildable: false,
+const organistal = new Item("organistal",Color.valueOf("f9c116"));
+exports.organistal = organistal;
+Object.assign(organistal,{
+	cost: 3,
+	healthScaling: 0.5,
 })
 
-if(Vars.mods.getMod("zerg-dlc1") != null){
-    exports.connective = new Item("connective",Color.valueOf("c3c1bb"))
-    exports.meristem = new Item("meristem",Color.valueOf("c3c1bb"))
-}
+const biomassSteel = new Item("biomass-steel", Color.valueOf("98ba53"));
+exports.biomassSteel = biomassSteel;
+Object.assign(biomassSteel, {
+	cost: 1.25,
+	healthScaling: 0.5,
+})
+
+const salt = new Item("salt",Color.valueOf("c3c1bb"));
+exports.salt = salt;
+Object.assign(salt,{})
+
+const autiumFruit = new Item("autium-fruit",Color.valueOf("6e8b74"));
+exports.autiumFruit = autiumFruit;

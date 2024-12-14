@@ -24,6 +24,7 @@ require('zerg/block/wall');
 require('zerg/planet');
 require('zerg/tree');
 require('zerg/report');
+require('zerg/sector')
 
 Events.on(EventType.ClientLoadEvent, () => {
 if(Vars.mods.getMod("mfxiao2") != null)Vars.mods.removeMod(Vars.mods.getMod("mfxiao2"));

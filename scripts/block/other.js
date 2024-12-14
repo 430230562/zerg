@@ -1,14 +1,36 @@
 const item = require("zerg/item");
 
+const pulseMender = new MendProjector("pulse-mender");
+exports.pulseMender = pulseMender;
+Object.assign(pulseMender,{
+    size: 1,
+	reload: 70 * 60,
+	range: 6 * 8,
+	phaseRangeBoost: 6 * 8,
+	healPercent: 100,
+	phaseBoost: 0,
+	health: 80,
+	useTime: 12 * 60,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.effect,
+	requirements: ItemStack.with(
+		Items.graphite, 20,
+		item.nickel, 50,
+	)
+})
+pulseMender.consumePower(0.4);
+pulseMender.consumeItem(Items.silicon, 1).boost();
+
 const resurrection = new MendProjector("resurrection");
 exports.resurrection = resurrection;
 Object.assign(resurrection, {
 	size: 3,
-	reload: 120,
-	range: 120,
-	phaseRangeBoost: 60,
+	reload: 180,
+	range: 35 * 8,
+	phaseRangeBoost: 120,
 	healPercent: 8,
-	phaseBoost: 2,
+	phaseBoost: 4,
+	useTime: 3 * 60,
 	health: 720,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
@@ -127,6 +149,20 @@ Object.assign(box, {
 	)
 })
 
+const godown = new StorageBlock("godown");
+exports.godown = godown;
+Object.assign(godown, {
+	size: 3,
+	itemCapacity: 1250,
+	scaledHealth: 75,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.effect,
+	requirements: ItemStack.with(
+		item.manganese, 275,
+		item.chromium, 225,
+	)
+})
+
 const unloader = new Unloader("unloader");
 exports.unloader = unloader;
 Object.assign(unloader, {
@@ -144,7 +180,7 @@ const launchPad = new LaunchPad("launch-pad");
 exports.launchPad = launchPad;
 Object.assign(launchPad,{
 	size: 3,
-	itemCapacity: 120,
+	itemCapacity: 125,
 	launchTime: 60 * 20,
 	hasPower: true,
 	buildVisibility: BuildVisibility.shown,
@@ -218,4 +254,31 @@ lavaMine.buildType = prov(() => extend(Building,{
             Puddles.deposit(unit.tileOn(),Liquids.slag,100)
         }
     }
+}))
+
+const explosive = new Wall("explosive");
+exports.explosive = explosive;
+Object.assign(explosive,{
+	health: 240,
+	baseExplosiveness: 160,
+	size: 1,
+	configurable: true,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.effect,
+	requirements: ItemStack.with(
+	    item.nickel, 20,
+		item.biosulfide, 30,
+		item.salt, 20,
+	),
+})
+explosive.buildType = prov(() => extend(Building,{
+    buildConfiguration(table){
+        table.button(Icon.upOpen, Styles.cleari, run(() => {
+            this.kill()
+        }))
+    },
+    drawSelect() {
+		this.super$drawSelect();
+		Drawf.dashCircle(this.x, this.y, 39, Color.red);
+	}
 }))

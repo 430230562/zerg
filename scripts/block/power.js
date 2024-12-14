@@ -33,6 +33,24 @@ Object.assign(nickelPowerNodeLarge, {
 	)
 })
 
+const reflectTower = new PowerNode("reflect-tower");
+exports.reflectTower = reflectTower;
+Object.assign(reflectTower, {
+	size: 3,
+	maxNodes: 2,
+	laserRange: 55,
+	laserColor1: Color.valueOf("f9c116"),
+	laserColor2: Color.valueOf("b78d12"),
+	category: Category.power,
+	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+	    Items.silicon, 15,
+		item.nickel, 20,
+		item.chromium, 12,
+		item.organistal, 8,
+	)
+})
+
 const nickelBattery = new Battery("nickel-battery");
 exports.nickelBattery = nickelBattery;
 Object.assign(nickelBattery, {
@@ -126,46 +144,6 @@ fullEffectGenerator.consumeLiquid(Liquids.water, 0.1);
 fullEffectGenerator.consume(new ConsumeItemFlammable());
 fullEffectGenerator.consume(new ConsumeItemExplode());
 
-const pyrolysis = new ConsumeGenerator("pyrolysis");
-exports.pyrolysis = pyrolysis;
-Object.assign(pyrolysis,{
-	powerProduction: 6,
-	hasLiquids: true,
-	size: 3,
-	generateEffect: Fx.none,
-	outputLiquid: new LiquidStack(Liquids.water, 0.15),
-	
-	ambientSound: Sounds.smelter,
-	ambientSoundVolume: 0.06,
-	
-	explosionPuddles: 75,
-	explosionPuddleRange: 40,
-	explosionPuddleLiquid: Liquids.neoplasm,
-	explosionPuddleAmount: 125,
-	
-	drawer: new DrawMulti(
-		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.neoplasm, 2),
-		Object.assign(new DrawCells(), {
-			color: Color.valueOf("c33e2b"),
-			particleColorFrom: Color.valueOf("e8803f"),
-			particleColorTo: Color.valueOf("8c1225"),
-			particles: 75,
-			range: 4,
-		}),
-		new DrawDefault(),
-	),
-	category: Category.power,
-	buildVisibility: BuildVisibility.shown,
-	requirements: ItemStack.with(
-		Items.graphite, 50,
-		item.nickel, 80,
-		Items.silicon, 40,
-		item.chromium, 30,
-	),
-})
-pyrolysis.consumeLiquid(Liquids.neoplasm, 0.2);
-
 const crystalPanel = new SolarGenerator("crystal-panel");
 exports.crystalPanel = crystalPanel;
 Object.assign(crystalPanel,{
@@ -195,6 +173,82 @@ Object.assign(crystalPanelLarge,{
 	powerProduction: 0.75,
 })
 
+const pyrolysis = new ConsumeGenerator("pyrolysis");
+exports.pyrolysis = pyrolysis;
+Object.assign(pyrolysis,{
+	powerProduction: 10,
+	hasLiquids: true,
+	size: 3,
+	generateEffect: Fx.none,
+	outputLiquid: new LiquidStack(Liquids.water, 0.1),
+	canOverdrive: false,
+	
+	ambientSound: Sounds.smelter,
+	ambientSoundVolume: 0.06,
+	liquidCapacity: 30,
+	
+	drawer: new DrawMulti(
+		new DrawRegion("-bottom"),
+		new DrawLiquidTile(Liquids.neoplasm, 2),
+		Object.assign(new DrawCells(), {
+			color: Color.valueOf("c33e2b"),
+			particleColorFrom: Color.valueOf("e8803f"),
+			particleColorTo: Color.valueOf("8c1225"),
+			particles: 75,
+			range: 4,
+		}),
+		new DrawDefault(),
+	),
+	category: Category.power,
+	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+		Items.graphite, 50,
+		item.nickel, 80,
+		Items.silicon, 40,
+		item.chromium, 30,
+	),
+})
+pyrolysis.consumeLiquid(Liquids.neoplasm, 0.5);
+
+const neutralizers = new ConsumeGenerator("neutralizers");
+exports.neutralizers = neutralizers;
+Object.assign(neutralizers,{
+	powerProduction: 3,
+	hasLiquids: true,
+	size: 2,
+	generateEffect: Fx.none,
+	outputLiquid: new LiquidStack(Liquids.water, 1.5),
+	
+	ambientSound: Sounds.smelter,
+	ambientSoundVolume: 0.06,
+	liquidCapacity: 90,
+	
+	drawer: new DrawMulti(
+		new DrawRegion("-bottom"),
+		new DrawLiquidTile(Liquids.neoplasm, 2),
+		Object.assign(new DrawCells(), {
+			color: Color.valueOf("c33e2b"),
+			particleColorFrom: Color.valueOf("e8803f"),
+			particleColorTo: Color.valueOf("8c1225"),
+			particles: 75,
+			range: 4,
+		}),
+		new DrawDefault(),
+	),
+	category: Category.power,
+	buildVisibility: BuildVisibility.shown,
+	requirements: ItemStack.with(
+		Items.graphite, 50,
+		item.nickel, 80,
+		Items.silicon, 40,
+		item.chromium, 30,
+	),
+})
+neutralizers.consumeLiquids(LiquidStack.with(
+    Liquids.neoplasm, 54 / 60,
+    liquid.dissolvant, 6 / 60
+));
+
 const biomassReactor = new HeaterGenerator("biomass-reactor");
 exports.biomassReactor = biomassReactor;
 Object.assign(biomassReactor, {
@@ -202,13 +256,14 @@ Object.assign(biomassReactor, {
 	liquidCapacity: 24 * 5,
 	outputLiquid: new LiquidStack(Liquids.neoplasm, 24 / 60),
 	explodeOnFull: true,
+	canOverdrive: false,
 	heatOutput: 30,
 	
-	itemDuration: 90,
+	itemDuration: 60,
 	itemCapacity: 15,
 	
-	explosionRadius: 15,
-	explosionDamage: 3000,
+	explosionRadius: 55 * 8,
+	explosionDamage: 500,
 	explodeEffect: new MultiEffect(
 		Fx.bigShockwave, 
 		new WrapEffect(
@@ -222,11 +277,11 @@ Object.assign(biomassReactor, {
 	powerProduction: 60,
 	rebuildable: false,
 
-	explosionPuddles: 500,
-	explosionPuddleRange: 120,
+	explosionPuddles: 12100,
+	explosionPuddleRange: 55 * 8,
 	explosionPuddleLiquid: Liquids.neoplasm,
-	explosionPuddleAmount: 300,
-	explosionMinWarmup: 0.5,
+	explosionPuddleAmount: 200,
+	explosionMinWarmup: 0.001,
 	
 	consumeEffect: Fx.none,
 	
@@ -248,7 +303,7 @@ Object.assign(biomassReactor, {
 			particleColorFrom: Color.valueOf("e8803f"),
 			particleColorTo: Color.valueOf("8c1225"),
 			particles: 75,
-			range: 4,
+			range: 4.5,
 		}),
 		new DrawDefault(),
 		new DrawHeatOutput(),
@@ -263,10 +318,15 @@ biomassReactor.consumeItem(item.biomass, 1);
 const extremeGenerator = new VariableReactor('extreme-generator');
 exports.extremeGenerator = extremeGenerator;
 Object.assign(extremeGenerator, {
-	powerProduction: 120,
-	maxHeat: 60,
-
-	liquidCapacity: 30,
+	powerProduction: 330,
+	maxHeat: 90,
+	
+	explosionRadius: 12,
+	explosionDamage: 900 * 90,
+	explosionMinWarmup: 0.001,
+	canOverdrive: false,
+	
+	liquidCapacity: 270,
 	size: 4,
 	category: Category.power,
 	buildVisibility: BuildVisibility.shown,
@@ -292,4 +352,4 @@ Object.assign(extremeGenerator, {
 		})
 	)
 })
-extremeGenerator.consumeLiquid(Liquids.water, 24 / 60);
+extremeGenerator.consumeLiquid(Liquids.water, 135 / 60);

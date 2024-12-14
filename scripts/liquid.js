@@ -1,7 +1,23 @@
 const status = require("zerg/status");
 
+Liquids.arkycite.effect = status.arkyicSlow;
 Liquids.neoplasm.viscosity = 0.95;
 Liquids.neoplasm.spreadTarget = null;
+
+const venous = new CellLiquid("venous",Color.valueOf("9e172c"));
+exports.venous = venous;
+Object.assign(venous,{
+    viscosity: 0.95,
+	heatCapacity: 0.2,
+	temperature: 0.5,
+	flammability: 0,
+	spreadTarget: null,
+	capPuddles: false,
+	coolant: false,
+	
+	colorFrom: Color.valueOf("e05438"),
+    colorTo: Color.valueOf("7a0c15"),
+})
 
 const acid = extend(Liquid,"acid",Color.valueOf("84a94b"),{
 	update(puddle){
@@ -24,6 +40,15 @@ Object.assign(acid, {
 	temperature: 0.54,
 	flammability: 0,
 	capPuddles: false,
+	coolant: false,
+})
+
+const nutrient = new Liquid("nutrient",Color.valueOf("f8df70"));
+exports.nutrient = nutrient;
+Object.assign(nutrient,{
+    viscosity: 0.5,
+	temperature: 0.54,
+	flammability: 0.55,
 	coolant: false,
 })
 

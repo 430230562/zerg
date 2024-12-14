@@ -1,7 +1,7 @@
 const status = require('zerg/status');
 const liquid = require('zerg/liquid');
 const { Acid } = require('zerg/base/bulletType');
-const { DeathNeoplasmAbility, MoveLiquidAbility, DeathStatusAbility, DropAbility } = require("zerg/base/ability")
+const { DeathNeoplasmAbility, MoveLiquidAbility, DamageDownAbility, DropAbility } = require("zerg/base/ability")
 
 function Insect(name){
 	return extend(UnitType, name, {
@@ -27,6 +27,7 @@ function Insect(name){
 		}
 	})
 }
+exports.Insect = Insect;
 
 const haploid = new Insect("haploid");
 exports.haploid = haploid;
@@ -281,6 +282,144 @@ new Weapon("zerg-triploid-weapon"), {
 	rotate: true,
 	bullet: Object.assign(new BulletType(), {
 		spawnUnit: polarBody,
+		smokeEffect: Fx.shootBigSmoke2,
+		speed: 0,
+		keepVelocity: false,
+	}),
+	shootStatus: StatusEffects.slow,
+	shootStatusDuration: 130,
+})
+)
+
+const HT5 = extend(MissileUnitType,"HT5",{
+	update(unit){
+		if(unit.getDuration(status.dissolved) >= 1){
+			unit.damageMultiplier = 0
+			
+			unit.kill();
+		}
+	}
+})
+Object.assign(HT5, {
+	hitSize: 4,
+	constructor: () => new TimedKillUnit.create(),
+	trailColor: Pal.lancerLaser,
+	engineColor: Pal.lancerLaser,
+	engineSize: 1.75,
+	engineLayer: Layer.effect,
+	speed: 4,
+	lightOpacity: 0,
+	maxRange: 6,
+	lifetime: 95,
+	outlineColor: Pal.neoplasmOutline,
+	health: 35,
+	lowAltitude: true,
+})
+HT5.parts.add(
+Object.assign(new FlarePart(),{
+	progress: DrawPart.PartProgress.life.slope().curve(Interp.pow2In),
+	color1: Pal.lancerLaser,
+	radius: 0,
+	radiusTo: 35,
+	stroke: 3,
+	rotation: 45,
+	y: -5,
+	followRotation: true,
+}))
+
+HT5.weapons.add(
+Object.assign(new Weapon(), {
+	shootCone: 360,
+	mirror: false,
+	reload: 1,
+	shootOnDeath: true,
+	bullet: Object.assign(new EmpBulletType(),{
+	    unitDamageScl: 0.8,
+	    powerDamageScl: 3,
+        damage: 60,
+        lifetime: 5,
+        killShooter: true,
+        hitColor: Pal.lancerLaser,
+        lightColor: Pal.lancerLaser,
+        hitPowerEffect: new Effect(40, e => {
+            Draw.color(Pal.lancerLaser);
+            Lines.stroke(e.fout() * 1.6);
+
+            Angles.randLenVectors(e.id, 18, e.finpow() * 27, e.rotation, 360, (x, y) => {
+                let ang = Mathf.angle(x, y);
+                Lines.lineAngle(e.x + x, e.y + y, ang, e.fout() * 6 + 1);
+            })
+        }),
+        chainEffect: Fx.chainEmp,
+        radius: 40,
+        shootEffect: new MultiEffect(
+    		Fx.massiveExplosion,
+    		new WrapEffect(
+    			Fx.dynamicSpikes,
+    			Pal.lancerLaser, 24
+    		),
+    		Object.assign(new WaveEffect(),{
+    			colorFrom: Pal.lancerLaser,
+    			colorTo: Pal.lancerLaser,
+    			sizeTo: 40,
+    			lifetime: 12,
+    			strokeFrom: 4,
+    		})
+    	),
+        smokeEffect: Fx.shootBigSmoke2,
+        sprite: "circle-bullet",
+        backColor: Pal.lancerLaser,
+        frontColor: Color.white,
+        splashDamage: 50,
+        splashDamageRadius: 40,
+        //status: StatusEffects.electrified,
+        hitSound: Sounds.plasmaboom,
+	})
+})
+)
+
+const hydroxytryptamine5 = new Insect("5-hydroxytryptamine");
+exports.hydroxytryptamine5 = hydroxytryptamine5;
+Object.assign(hydroxytryptamine5,{
+    speed: 0.5,
+	drag: 0.1,
+	hitSize: 21,
+	rotateSpeed: 3,
+	health: 900,
+	armor: 3,
+	
+	stepShake: 0,
+	legCount: 6,
+	legLength: 18,
+	legGroupSize: 3,
+	lockLegBase: true,
+	legContinuousMove: true,
+	legExtension: -3,
+	legBaseOffset: 7,
+	legMaxLength: 1.1,
+	legMinLength: 0.2,
+	legLengthScl: 0.95,
+	legForwardScl: 0.9,
+	
+	legMoveSpace: 1,
+	hovering: true,
+	
+	shadowElevation: 0.2,
+	groundLayer: 74,
+	constructor: () => new LegsUnit.create(),
+})
+hydroxytryptamine5.weapons.add(Object.assign(
+new Weapon("zerg-5-hydroxytryptamine-weapon"), {
+	shootSound: Sounds.missileLarge,
+	x: 29 / 4,
+	y: -11 / 4,
+	shootY: 1.5,
+	reload: 120,
+	layerOffset: 0.01,
+	rotateSpeed: 2,
+	rotate: true,
+	bullet: Object.assign(new BulletType(), {
+		spawnUnit: HT5,
 		smokeEffect: Fx.shootBigSmoke2,
 		speed: 0,
 		keepVelocity: false,
@@ -552,7 +691,7 @@ Object.assign(centrosome,{
     hitSize: 20,
 
     engineSize: 4.8,
-    engineOffset: 15,
+    engineOffset: 12,
     constructor: () => new UnitEntity.create(),
 })
 centrosome.parts.add(
@@ -654,23 +793,50 @@ glycocalyx.abilities.add(
 	new MoveLiquidAbility(Liquids.neoplasm,12,5)
 )
 
-const cytokine = new Insect("cytokine");
-exports.cytokine = cytokine;
-Object.assign(cytokine, {
+const hydrolase = new Insect("hydrolase");
+exports.hydrolase = hydrolase;
+Object.assign(hydrolase, {
 	constructor: () => new MechUnit.create(),
 	speed: 0.62,
 	armor: 5,
-	hitSize: 11,
+	hitSize: 14,
 	health: 500,
-	mechSideSway: 0.25,
-	outlineColor: Pal.neoplasmOutline,
-	envDisabled: Env.none,
-	healFlash: true,
-	healColor: Pal.neoplasm1,
-	lightRadius: 0,
+	mechSideSway: 0.5,
 })
-cytokine.abilities.add(
-	new StatusFieldAbility(status.pheromoneAlpha,660,600,80),
+hydrolase.weapons.add(
+    Object.assign(new PointDefenseWeapon("zerg-hydrolase-weapon"),{
+        mirror: false,
+        x: 0,
+        y: 1,
+        reload: 6,
+        targetInterval: 10,
+        targetSwitchInterval: 15,
+
+        bullet: Object.assign(new BulletType(),{
+            shootEffect: new Effect(32, 80, e => {
+                Draw.color(Color.valueOf("befa9b"), Color.valueOf("8cca7e"), Color.gray, e.fin());
+        
+                Angles.randLenVectors(e.id, 8, e.finpow() * 60, e.rotation, 10, (x, y) => {
+                    Fill.circle(e.x + x, e.y + y, 0.65 + e.fout() * 1.5);
+                })
+            }),
+            hitEffect: new Effect(14, e => {
+                Draw.color(Color.valueOf("befa9b"), Color.valueOf("8cca7e"), e.fin());
+                Lines.stroke(0.5 + e.fout());
+        
+                Angles.randLenVectors(e.id, 2, 1 + e.fin() * 15, e.rotation, 50, (x, y) => {
+                    let ang = Mathf.angle(x, y);
+                    Lines.lineAngle(e.x + x, e.y + y, ang, e.fout() * 3 + 1);
+                })
+            }),
+            despawnEffect: Fx.none,
+            maxRange: 100,
+            damage: 10,
+        })
+    })
+)
+hydrolase.abilities.add(
+	new DamageDownAbility(12,120)
 )
 
 const s = new StatusEffect("s");
@@ -680,9 +846,8 @@ s.show = false;
 const primeFruitingBody = extend(UnitType,"prime-fruiting-body",{
 	 u:[apoptoticBody,apoptoticBody,haploid,haploid,haploid,ribosome,ribosome,glycocalyx],
 	 update(unit){
-		unit.maxHealth += 0.01;
 		unit.heal(0.2)
-		if(unit.maxHealth + unit.shield >= 112){
+		if(unit.shield >= 10 || Time.time % 20*60 <= 1){
 			this.u[Math.floor(Math.random() * this.u.length)].spawn(unit.team,unit.x,unit.y)
 			
 			unit.remove();
@@ -703,7 +868,7 @@ Object.assign(primeFruitingBody, {
 	constructor: () => new MechUnit.create(),
 	speed: 0,
 	hitSize: 4,
-	health: 100,
+	health: 120,
 	armor: 20,
 	targetPriority: -2,
 	healColor: Pal.neoplasm1,
@@ -719,11 +884,10 @@ Object.assign(primeFruitingBody, {
 primeFruitingBody.immunities.addAll(status.corroding)
 
 const seniorFruitingBody = extend(UnitType,"senior-fruiting-body",{
-	 u:[diploid,diploid,diploid,lysosome,lysosome,cytokine],
+	 u:[diploid,diploid,diploid,lysosome,lysosome,hydrolase],
 	 update(unit){
-		unit.maxHealth += 0.01;
 		unit.heal(0.2)
-		if(unit.maxHealth + unit.shield >= 124){
+		if(unit.shield >= 10 || Time.time % 40*60 <= 1){
 			this.u[Math.floor(Math.random() * this.u.length)].spawn(unit.team,unit.x,unit.y)
 			
 			unit.remove();
@@ -744,7 +908,7 @@ Object.assign(seniorFruitingBody, {
 	constructor: () => new MechUnit.create(),
 	speed: 0,
 	hitSize: 8,
-	health: 100,
+	health: 130,
 	armor: 30,
 	targetPriority: -2,
 	healColor: Pal.neoplasm1,
@@ -759,7 +923,7 @@ Object.assign(seniorFruitingBody, {
 })
 seniorFruitingBody.immunities.addAll(status.corroding);
 
-const cancer = new UnitType("cancer");
+/*const cancer = new UnitType("cancer");
 exports.cancer = cancer;
 Object.assign(cancer, {
 	constructor: () => new MechUnit.create(),
@@ -807,9 +971,16 @@ cancer.abilities.add(
             }
 		},
 	})
-)
+)*/
 
-const mitosis = new Insect("mitosis");
+const mitosis = new extend(UnitType,"mitosis",{
+    update(unit){
+        if(unit.team != Team.crux){
+            unit.team = Team.crux
+            unit.kill()
+        }
+    }
+});
 exports.mitosis = mitosis;
 Object.assign(mitosis, {
 	targetPriority: -1,
@@ -835,20 +1006,40 @@ Object.assign(mitosis, {
 	legMoveSpace: 1,
 	hovering: true,
 	allowLegStep: false,
+	outlineColor: Pal.neoplasmOutline,
+	envDisabled: Env.none,
+	healFlash: true,
+	healColor: Pal.neoplasm1,
+	lightRadius: 0,
 
 	shadowElevation: 0.2,
 	groundLayer: 74,
 	constructor: () => new LegsUnit.create()
 })
-mitosis.abilities.add(
+mitosis.abilities.addAll(
 	new UnitSpawnAbility(primeFruitingBody, 60 * 20, 0, 0),
 	Object.assign(new SpawnDeathAbility(primeFruitingBody, 2, 20),{
 		randAmount: 4,
 	}),
-	new DeathNeoplasmAbility(30, 800),
+	new DeathNeoplasmAbility(30, 1350),
+	Object.assign(new RegenAbility(), {
+		percentAmount: 1 / (90 * 60) * 100,
+	}),
+	Object.assign(new LiquidRegenAbility(), {
+		liquid: Liquids.neoplasm,
+		slurpEffect: Fx.neoplasmHeal,
+		regenPerSlurp: 3.2
+	})
 );
 
-const meiosis = new Insect("meiosis");
+const meiosis = new extend(UnitType,"meiosis",{
+    update(unit){
+        if(Vars.state.rules.waveTeam != null && unit.team != Vars.state.rules.waveTeam){
+            unit.team = Vars.state.rules.waveTeam
+            unit.kill()
+        }
+    }
+});
 exports.meiosis = meiosis;
 Object.assign(meiosis, {
 	targetPriority: -1,
@@ -874,30 +1065,33 @@ Object.assign(meiosis, {
 	legMoveSpace: 1,
 	hovering: true,
 	allowLegStep: false,
+	outlineColor: Pal.neoplasmOutline,
+	envDisabled: Env.none,
+	healFlash: true,
+	healColor: Pal.neoplasm1,
+	lightRadius: 0,
 
 	shadowElevation: 0.2,
 	groundLayer: 74,
 	constructor: () => new LegsUnit.create()
 })
 meiosis.abilities.addAll(
-	new UnitSpawnAbility(primeFruitingBody, 60 * 20, -5, -4),
-	new UnitSpawnAbility(primeFruitingBody, 60 * 20, 5, -4),
-	new UnitSpawnAbility(seniorFruitingBody, 60 * 40, 0, 2),
+	new UnitSpawnAbility(primeFruitingBody, 60 * 20, -7.5, -4),
+	new UnitSpawnAbility(primeFruitingBody, 60 * 20, 7.5, -4),
+	new UnitSpawnAbility(seniorFruitingBody, 60 * 40, 0, 0),
 	Object.assign(new SpawnDeathAbility(primeFruitingBody, 4, 20),{
 		randAmount: 4,
 	}),
 	Object.assign(new SpawnDeathAbility(seniorFruitingBody, 1, 20),{
 		randAmount: 2,
 	}),
-	new DeathNeoplasmAbility(42, 1600),
+	new DeathNeoplasmAbility(48, 2250),
+	Object.assign(new RegenAbility(), {
+		percentAmount: 1 / (90 * 60) * 100,
+	}),
+	Object.assign(new LiquidRegenAbility(), {
+		liquid: Liquids.neoplasm,
+		slurpEffect: Fx.neoplasmHeal,
+		regenPerSlurp: 3.2
+	})
 );
-
-if(Vars.mods.getMod("zerg-dlc1") != null){
-    haploid.abilities.addAll(new DropAbility(1,0))
-    diploid.abilities.addAll(new DropAbility(5,0))
-    triploid.abilities.addAll(new DropAbility(8,2))
-    bivalents.abilities.addAll(new DropAbility(25,13))
-    ribosome.abilities.addAll(new DropAbility(1,0))
-    
-    glycocalyx.abilities.addAll(new DropAbility(0,1))
-}

@@ -53,7 +53,7 @@ exports.MoveLiquidAbility = MoveLiquidAbility;
 function DeathNeoplasmAbility(range,amount){
 	return extend(Ability,{
 		death(unit){
-			unit.tileOn().circle(range / 8,cons(tile => {
+		    if(unit.tileOn() != null)unit.tileOn().circle(range / 8,cons(tile => {
 				if(tile != null)Puddles.deposit(tile,Liquids.neoplasm,amount);
 			}))
 		},
@@ -102,6 +102,24 @@ function ToxicAbility(damage, reload, range) {
 	})
 }
 exports.ToxicAbility = ToxicAbility
+
+function DamageDownAbility(amount,range){
+    return extend(Ability,{
+        update(unit){
+            Groups.bullet.intersect(unit.x - range, unit.y - range, range * 2, range * 2, b => {
+                 if(b.damage >= amount * Time.delta / 60 && b.type.hittable && b.team != unit.team){
+                     b.damage -= amount * Time.delta/ 60
+                 }else if(b.damage <= amount * Time.delta / 60 && b.team != unit.team){
+                    b.absorb()
+                 }
+            })
+        },
+        localized(){
+			return "";
+		}
+    })
+}
+exports.DamageDownAbility = DamageDownAbility;
 
 if(Vars.mods.getMod("zerg-dlc1") != null){
     function DropAbility(amount1,amount2){

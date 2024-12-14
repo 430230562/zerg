@@ -1,7 +1,6 @@
 let armorReduce = Stat("armorReduce");
 let disabled = Stat("disabled");
 let percentDamage = Stat("percentDamage");
-let shieldAdd = Stat("shieldAdd")
 
 const corroding = extend(StatusEffect,"corroding",{
 	update(unit, time){
@@ -14,9 +13,14 @@ const corroding = extend(StatusEffect,"corroding",{
 	setStats(){
 		this.super$setStats();
 		
-		this.stats.add(reduceArmor, 0.5, StatUnit.perSecond)
+		this.stats.add(armorReduce, 0.5, StatUnit.perSecond)
 	},
-	damage: 0.2
+	init(){
+	    this.affinity(StatusEffects.shocked, (unit, result, time) => {
+	        unit.damagePierce(17);
+	    })
+	},
+	damage: 0.2,
 });
 exports.corroding = corroding;
 
@@ -58,8 +62,9 @@ const poisoned = extend(StatusEffect,"poisoned",{
 });
 exports.poisoned = poisoned;
 
-const pheromoneAlpha = extend(StatusEffect,"pheromone-alpha",{
-	reloadMultiplier: 1.5,
-	healthMultiplier: 1.2,
-})
-exports.pheromoneAlpha = pheromoneAlpha
+const arkyicSlow = extend(StatusEffect,"arkyic-slow",{
+	color: Color.valueOf("84a94b"),
+	effect: Fx.oily,
+	speedMultiplier: 0.5,
+});
+exports.arkyicSlow = arkyicSlow;
