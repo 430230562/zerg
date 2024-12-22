@@ -13,20 +13,9 @@ Object.assign(mist,{
 	drag: 0.04,
 	itemCapacity: 0,
 	targetGround: false,
-	playerControllable: false,
-	logicControllable: false,
 	physics: true,
 	range: 1600,
 	constructor: () => new UnitEntity.create(),
-	aiController: () => extend(FlyingAI,{
-		updateMovement(){
-			if(this.target != null && this.target instanceof Unit && this.health >= 75){
-				this.circle(this.target, 150)
-			}else if(this.unit.team.core() != null){
-				this.circle(this.unit.team.core(), 120)
-			}
-		}
-	})
 })
 mist.weapons.add(
 	Object.assign(new Weapon("zerg-mist-weapon"),{

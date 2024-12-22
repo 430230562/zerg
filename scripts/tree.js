@@ -415,11 +415,15 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
 	            node(sector.rustRift,Seq.with(
 	                new SectorComplete(sector.coldJunction),
 	                new SectorComplete(sector.spikeValley)
-	            ),() => {
+	            ), () => {
 	                node(sector.twilightSea,Seq.with(
 	                    new SectorComplete(sector.rustRift)
-	                ),() => {})
-	            })
+	                ), () => {})
+	            }),
+	            node(sector.fallOutpost, Seq.with(
+	                new SectorComplete(sector.coldJunction),
+	                new Research(unitFactory.reconstructor)
+	            ), () => {})
 	        })
 	    })
 	})

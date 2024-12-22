@@ -73,15 +73,16 @@ Object.assign(prokaryote,{
 	hasShadow: false,
 	size: 3,
 	health: 1500,
-	unitCapModifier: 0,
-	itemCapacity: 0,
+	unitType: insect.ribosome,
+	unitCapModifier: 4,
+	itemCapacity: 500,
 	buildVisibility: BuildVisibility.editorOnly,
 	category: Category.effect,
 })
 prokaryote.buildType = prov(() => extend(CoreBlock.CoreBuild,prokaryote,{
 	i : 0,
 	updateTile(){
-		this.i += Time.delta
+		this.i += Time.delta * Vars.state.rules.unitBuildSpeed(this.team)
 		
 		if(this.i >= 60 * 10){
 			let a = Math.random() * 5
@@ -111,20 +112,21 @@ Object.assign(eukaryote,{
 	hasShadow: false,
 	size: 5,
 	health: 5500,
-	unitCapModifier: 0,
-	itemCapacity: 0,
+	unitType: insect.ribosome,
+	unitCapModifier: 8,
+	itemCapacity: 1200,
 	buildVisibility: BuildVisibility.editorOnly,
 	category: Category.effect,
 })
 eukaryote.buildType = prov(() => extend(CoreBlock.CoreBuild,eukaryote,{
 	i : 0,
 	updateTile(){
-		this.i += Time.delta
+		this.i += Time.delta * Vars.state.rules.unitBuildSpeed(this.team)
 		
 		if(this.i >= 60 * 20){
 			let a = Math.random() * 13
 			for(let i = 0; i < a;i++){
-				if(i < 8){
+				if(i < 9){
 				    insect.primeFruitingBody.spawn(this.team,this.tile.worldx() + Math.random(),this.tile.worldy() + Math.random());
 				}else{
 				    insect.seniorFruitingBody.spawn(this.team,this.tile.worldx() + Math.random(),this.tile.worldy() + Math.random());
@@ -147,7 +149,7 @@ Object.assign(sieveTube,{
     health: 45,
     speed: 4,
     researchCostMultiplier: 0.1,
-    buildVisibility: BuildVisibility.editorOnly,
+    buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
 		item.biomass, 1,
@@ -157,7 +159,7 @@ Object.assign(sieveTube,{
 const sieveJunction = new Junction("sieve-junction");
 exports.sieveJunction = sieveJunction;
 Object.assign(sieveJunction, {
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
 		item.biomass, 4,
@@ -177,7 +179,7 @@ Object.assign(sieveBridge, {
 	range: 8,
 	arrowSpacing: 6,
 	researchCostMultiplier: 0.1,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
 		item.biomass, 16,
@@ -188,7 +190,7 @@ const sieveRouter = new Router("sieve-router");
 exports.sieveRouter = sieveRouter;
 Object.assign(sieveRouter, {
     researchCostMultiplier: 0.1,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
 		item.biomass, 4,
@@ -226,7 +228,7 @@ Object.assign(carrierLoader,{
     unitType: carrier,
     polyColor: Pal.neoplasmOutline,
     itemCapacity: 200,
-    buildVisibility: BuildVisibility.editorOnly,
+    buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
 		item.biomass, 150,
@@ -240,7 +242,7 @@ exports.carrierUnloader = carrierUnloader;
 Object.assign(carrierUnloader,{
     size: 2,
     itemCapacity: 50,
-    buildVisibility: BuildVisibility.editorOnly,
+    buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
 		item.biomass, 75,
@@ -252,8 +254,8 @@ exports.vessel = vessel;
 Object.assign(vessel,{
     health: 45,
 	liquidCapacity: 5,
-	liquidPressure: 2,
-	buildVisibility: BuildVisibility.editorOnly,
+	liquidPressure: 1.2,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	researchCostMultiplier: 0.1,
 	requirements: ItemStack.with(
@@ -265,9 +267,9 @@ const stiffenVessel = new ArmoredConduit("stiffen-vessel");
 exports.stiffenVessel = stiffenVessel;
 Object.assign(stiffenVessel,{
     health: 220,
-	liquidCapacity: 10,
-	liquidPressure: 2,
-	buildVisibility: BuildVisibility.editorOnly,
+	liquidCapacity: 5,
+	liquidPressure: 1.2,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	researchCostMultiplier: 0.1,
 	requirements: ItemStack.with(
@@ -278,31 +280,31 @@ Object.assign(stiffenVessel,{
 const vesselRouter = new LiquidRouter("vessel-router");
 exports.vesselRouter = vesselRouter;
 Object.assign(vesselRouter, {
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	researchCostMultiplier: 0.1,
 	requirements: ItemStack.with(
 		item.biomass, 8,
 	),
-	liquidCapacity: 30
+	liquidCapacity: 15
 });
 
 const vacuole = new LiquidRouter("vacuole");
 Object.assign(vacuole,{
-    buildVisibility: BuildVisibility.editorOnly,
+    buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	researchCostMultiplier: 0.1,
 	requirements: ItemStack.with(
 		item.biomass, 45,
 	),
 	size: 2,
-	liquidCapacity: 550
+	liquidCapacity: 350
 })
 
 const vesselJunction = new LiquidJunction("vessel-junction");
 exports.vesselJunction = vesselJunction;
 Object.assign(vesselJunction, {
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	researchCostMultiplier: 0.1,
 	requirements: ItemStack.with(
@@ -319,7 +321,7 @@ Object.assign(vesselBridge,{
 	range: 8,
 	arrowSpacing: 6,
 	researchCostMultiplier: 0.1,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.liquid,
 	requirements: ItemStack.with(
 		item.biomass, 16,
@@ -352,7 +354,7 @@ Object.assign(hematopoieticTissue, {
 	),
 	
 	researchCostMultiplier: 0.1,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
 		item.biomass, 65,
@@ -379,7 +381,7 @@ Object.assign(respiratoryTissue, {
 	),
 	
 	researchCostMultiplier: 0.1,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
 		item.biomass, 65,
@@ -408,7 +410,7 @@ Object.assign(photosyntheticTissue, {
 	),
 	
 	researchCostMultiplier: 0.1,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
 		item.biomass, 105,
@@ -438,7 +440,7 @@ Object.assign(filterTissue, {
 	),
 	
 	researchCostMultiplier: 0.1,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
 		item.biomass, 105,
@@ -468,7 +470,7 @@ Object.assign(nutrientExchanger, {
 	),
 	
 	researchCostMultiplier: 0.1,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.crafting,
 	requirements: ItemStack.with(
 		item.biomass, 105,
@@ -495,7 +497,7 @@ Object.assign(incubator, {
 			item.biomass, 20,
 		))
 	),
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.units,
 	requirements: ItemStack.with(
 		item.biomass, 175,
@@ -508,7 +510,7 @@ Object.assign(stemCell,{
     size: 2,
     range: 20 * 8,
     buildSpeed: 0.5,
-    buildVisibility: BuildVisibility.editorOnly,
+    buildVisibility: BuildVisibility.shown,
     category: Category.effect,
     requirements: ItemStack.with(
 		item.biomass, 225,
@@ -531,7 +533,7 @@ Object.assign(contractileVacuole,{
 	range: 25 * 8,
 	scaledHealth: 250,
 	category: Category.turret,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
 		item.biomass, 150
 	)
@@ -581,7 +583,7 @@ Object.assign(acidMist,{
 	    shots: 2,
 	}),
 	shootSound: Sounds.plantBreak,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.turret,
 	requirements: ItemStack.with(
 		item.biomass, 170
@@ -646,7 +648,7 @@ Object.assign(synapse,{
     shoot: Object.assign(new ShootPattern(), {
 		shots: 4,
 	}),
-    buildVisibility: BuildVisibility.editorOnly,
+    buildVisibility: BuildVisibility.shown,
 	category: Category.turret,
     requirements: ItemStack.with(
 		item.biomass, 220
@@ -678,7 +680,7 @@ Object.assign(mineralWall,{
     variants: 3,
 	armor: 1,
 	size: 1,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 })
 
@@ -688,7 +690,7 @@ Object.assign(mineralWallLarge,{
     variants: 2,
 	armor: 1,
 	size: 2,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 })
 
@@ -698,7 +700,7 @@ Object.assign(mineralWallHuge,{
     variants: 2,
 	armor: 1,
 	size: 3,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	category: Category.defense,
 })
 
@@ -712,7 +714,7 @@ Object.assign(acidMine,{
     health: 400,
     crushDamageMultiplier: 0,
     category: Category.effect,
-	buildVisibility: BuildVisibility.editorOnly,
+	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
 		item.biomass, 20
 	)
@@ -768,7 +770,7 @@ Object.assign(toxicMine,{
     size: 2,
     crushDamageMultiplier: 0,
     category: Category.effect,
-    buildVisibility: BuildVisibility.editorOnly,
+    buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
 		item.biomass, 30
 	)

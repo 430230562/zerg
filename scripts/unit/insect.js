@@ -847,7 +847,7 @@ const primeFruitingBody = extend(UnitType,"prime-fruiting-body",{
 	 u:[apoptoticBody,apoptoticBody,haploid,haploid,haploid,ribosome,ribosome,glycocalyx],
 	 update(unit){
 		unit.heal(0.2)
-		if(unit.shield >= 10 || Time.time % 20*60 <= 1){
+		if(unit.shield >= 10 || Time.time % 20*60 <= 2){
 			this.u[Math.floor(Math.random() * this.u.length)].spawn(unit.team,unit.x,unit.y)
 			
 			unit.remove();
@@ -887,7 +887,7 @@ const seniorFruitingBody = extend(UnitType,"senior-fruiting-body",{
 	 u:[diploid,diploid,diploid,lysosome,lysosome,hydrolase],
 	 update(unit){
 		unit.heal(0.2)
-		if(unit.shield >= 10 || Time.time % 40*60 <= 1){
+		if(unit.shield >= 10 || Time.time % 40*60 <= 2){
 			this.u[Math.floor(Math.random() * this.u.length)].spawn(unit.team,unit.x,unit.y)
 			
 			unit.remove();

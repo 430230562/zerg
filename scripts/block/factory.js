@@ -516,7 +516,7 @@ biomassAcidification.consumePower(1.7);
 const biomassFermenter = new GenericCrafter("biomass-fermenter");
 exports.biomassFermenter = biomassFermenter;
 Object.assign(biomassFermenter,{
-	outputLiquid: new LiquidStack(liquid.naturalGas, 3 / 60),
+	outputLiquid: new LiquidStack(liquid.naturalGas, 6 / 60),
 	liquidCapacity: 15,
 	craftTime: 60,
 	size: 3,
@@ -576,7 +576,7 @@ Object.assign(charger,{
 charger.consumeItem(item.crystal, 1);
 charger.consumePower(3.5);
 
-const chargeStation = new GenericCrafter("charger-station");
+const chargeStation = new GenericCrafter("charge-station");
 exports.chargeStation = chargeStation;
 Object.assign(chargeStation,{
 	outputItem: new ItemStack(item.energic, 1),
