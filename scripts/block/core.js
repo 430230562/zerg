@@ -243,7 +243,7 @@ Object.assign(albus, {
 	unitType: atom,
 	health: 5500,
 	armor: 3,
-	itemCapacity: 10000,
+	itemCapacity: 12000,
 	size: 4,
 	
 	unitCapModifier: 18,
@@ -274,7 +274,7 @@ Object.assign(annular, {
 	buildVisibility: BuildVisibility.shown,
 	category: Category.effect,
 	requirements: ItemStack.with(
-		item.nickel, 15000,
+		item.nickel, 12000,
 		Items.silicon, 5000,
 		item.chromium, 4000,
 	)

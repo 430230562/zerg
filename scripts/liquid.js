@@ -4,9 +4,7 @@ Liquids.arkycite.effect = status.arkyicSlow;
 Liquids.neoplasm.viscosity = 0.95;
 Liquids.neoplasm.spreadTarget = null;
 
-const venous = new CellLiquid("venous",Color.valueOf("9e172c"));
-exports.venous = venous;
-Object.assign(venous,{
+const venous = extend(CellLiquid,"venous",Color.valueOf("9e172c"),{
     viscosity: 0.95,
 	heatCapacity: 0.2,
 	temperature: 0.5,
@@ -18,6 +16,7 @@ Object.assign(venous,{
 	colorFrom: Color.valueOf("e05438"),
     colorTo: Color.valueOf("7a0c15"),
 })
+exports.venous = venous;
 
 const acid = extend(Liquid,"acid",Color.valueOf("84a94b"),{
 	update(puddle){

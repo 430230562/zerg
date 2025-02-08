@@ -143,7 +143,7 @@ Object.assign(new Weapon(), {
 		height: 11,
 		collidesTiles: false,
 		splashDamageRadius: 8 * 2.25,
-		splashDamage: 40,
+		splashDamage: 60,
 		
 		backColor: Color.valueOf("84a94b"),
 		frontColor: Color.valueOf("84a94b"),
@@ -282,144 +282,6 @@ new Weapon("zerg-triploid-weapon"), {
 	rotate: true,
 	bullet: Object.assign(new BulletType(), {
 		spawnUnit: polarBody,
-		smokeEffect: Fx.shootBigSmoke2,
-		speed: 0,
-		keepVelocity: false,
-	}),
-	shootStatus: StatusEffects.slow,
-	shootStatusDuration: 130,
-})
-)
-
-const HT5 = extend(MissileUnitType,"HT5",{
-	update(unit){
-		if(unit.getDuration(status.dissolved) >= 1){
-			unit.damageMultiplier = 0
-			
-			unit.kill();
-		}
-	}
-})
-Object.assign(HT5, {
-	hitSize: 4,
-	constructor: () => new TimedKillUnit.create(),
-	trailColor: Pal.lancerLaser,
-	engineColor: Pal.lancerLaser,
-	engineSize: 1.75,
-	engineLayer: Layer.effect,
-	speed: 4,
-	lightOpacity: 0,
-	maxRange: 6,
-	lifetime: 95,
-	outlineColor: Pal.neoplasmOutline,
-	health: 35,
-	lowAltitude: true,
-})
-HT5.parts.add(
-Object.assign(new FlarePart(),{
-	progress: DrawPart.PartProgress.life.slope().curve(Interp.pow2In),
-	color1: Pal.lancerLaser,
-	radius: 0,
-	radiusTo: 35,
-	stroke: 3,
-	rotation: 45,
-	y: -5,
-	followRotation: true,
-}))
-
-HT5.weapons.add(
-Object.assign(new Weapon(), {
-	shootCone: 360,
-	mirror: false,
-	reload: 1,
-	shootOnDeath: true,
-	bullet: Object.assign(new EmpBulletType(),{
-	    unitDamageScl: 0.8,
-	    powerDamageScl: 3,
-        damage: 60,
-        lifetime: 5,
-        killShooter: true,
-        hitColor: Pal.lancerLaser,
-        lightColor: Pal.lancerLaser,
-        hitPowerEffect: new Effect(40, e => {
-            Draw.color(Pal.lancerLaser);
-            Lines.stroke(e.fout() * 1.6);
-
-            Angles.randLenVectors(e.id, 18, e.finpow() * 27, e.rotation, 360, (x, y) => {
-                let ang = Mathf.angle(x, y);
-                Lines.lineAngle(e.x + x, e.y + y, ang, e.fout() * 6 + 1);
-            })
-        }),
-        chainEffect: Fx.chainEmp,
-        radius: 40,
-        shootEffect: new MultiEffect(
-    		Fx.massiveExplosion,
-    		new WrapEffect(
-    			Fx.dynamicSpikes,
-    			Pal.lancerLaser, 24
-    		),
-    		Object.assign(new WaveEffect(),{
-    			colorFrom: Pal.lancerLaser,
-    			colorTo: Pal.lancerLaser,
-    			sizeTo: 40,
-    			lifetime: 12,
-    			strokeFrom: 4,
-    		})
-    	),
-        smokeEffect: Fx.shootBigSmoke2,
-        sprite: "circle-bullet",
-        backColor: Pal.lancerLaser,
-        frontColor: Color.white,
-        splashDamage: 50,
-        splashDamageRadius: 40,
-        //status: StatusEffects.electrified,
-        hitSound: Sounds.plasmaboom,
-	})
-})
-)
-
-const hydroxytryptamine5 = new Insect("5-hydroxytryptamine");
-exports.hydroxytryptamine5 = hydroxytryptamine5;
-Object.assign(hydroxytryptamine5,{
-    speed: 0.5,
-	drag: 0.1,
-	hitSize: 21,
-	rotateSpeed: 3,
-	health: 900,
-	armor: 3,
-	
-	stepShake: 0,
-	legCount: 6,
-	legLength: 18,
-	legGroupSize: 3,
-	lockLegBase: true,
-	legContinuousMove: true,
-	legExtension: -3,
-	legBaseOffset: 7,
-	legMaxLength: 1.1,
-	legMinLength: 0.2,
-	legLengthScl: 0.95,
-	legForwardScl: 0.9,
-	
-	legMoveSpace: 1,
-	hovering: true,
-	
-	shadowElevation: 0.2,
-	groundLayer: 74,
-	constructor: () => new LegsUnit.create(),
-})
-hydroxytryptamine5.weapons.add(Object.assign(
-new Weapon("zerg-5-hydroxytryptamine-weapon"), {
-	shootSound: Sounds.missileLarge,
-	x: 29 / 4,
-	y: -11 / 4,
-	shootY: 1.5,
-	reload: 120,
-	layerOffset: 0.01,
-	rotateSpeed: 2,
-	rotate: true,
-	bullet: Object.assign(new BulletType(), {
-		spawnUnit: HT5,
 		smokeEffect: Fx.shootBigSmoke2,
 		speed: 0,
 		keepVelocity: false,
@@ -707,22 +569,79 @@ centrosome.parts.add(
 	})
 )
 centrosome.weapons.add(Object.assign(new Weapon("zerg-centrosome-weapon"), {
-	shootSound: Sounds.missileLarge,
 	x: 29 / 4,
 	y: -11 / 4,
 	shootY: 1.5,
 	reload: 120,
 	layerOffset: 0.01,
-	rotateSpeed: 2,
-	rotate: true,
+	rotate: false,
 	alternate: false,
-    shoot: new ShootSpread(2, 15),
-	bullet: Object.assign(new BulletType(), {
-		spawnUnit: polarBody,
-		smokeEffect: Fx.shootBigSmoke2,
-		speed: 0,
-		keepVelocity: false,
-	}),
+	shootCone: 180,
+	baseRotation: -30,
+    shoot: new ShootSpread(2, 10),
+    shootSound: Sounds.plantBreak,
+	bullet: Object.assign(new BasicBulletType(4,120),{
+	    lifetime: 60,
+	    width: 16,
+	    height: 16,
+        shrinkY: 0.3,
+        homingPower: 0.19,
+        homingDelay: 8,
+        backSprite: "large-bomb-back",
+        sprite: "mine-bullet",
+        collidesGround: true,
+        collidesTiles: false,
+        shootEffect: Fx.shootBig2,
+        smokeEffect: Fx.shootSmokeDisperse,
+        frontColor: Color.valueOf("84a94b7f"),
+        backColor: Color.valueOf("84a94bff"),
+        trailColor: Color.valueOf("84a94bff"),
+        hitColor: Color.valueOf("84a94bff"),
+        trailChance: 0.25,
+        trailWidth: 3,
+        trailLength: 5,
+        trailRotation: true,
+        trailEffect: Fx.disperseTrail,
+
+        hitEffect: Fx.hitBulletColor,
+        despawnEffect: Fx.hitBulletColor,
+        
+        fragBullets: 1,
+        fragRandomSpread: 0,
+		fragSpread: 0,
+		fragVelocityMin: 1,
+		fragVelocityMax: 1,
+		fragLifeMin: 1,
+		fragLifeMax: 1,
+		fragBullet: Object.assign(new BasicBulletType(6, 66), {
+    		ammoMultiplier: 1,
+    		width: 7,
+    		height: 21,
+    		lifetime: 10,
+    		hitSize: 4,
+    		hitColor: Color.valueOf("84a94b"),
+    		backColor: Color.valueOf("84a94b"),
+    		trailColor: Color.valueOf("84a94b"),
+    		frontColor: Color.white,
+    		trailWidth: 2,
+    		trailLength: 5,
+    		
+    		hitEffect: Fx.flakExplosionBig,
+    		
+    		pierce: true,
+    		pierceBuilding: true,
+    		collidesAir: true,
+    		pierceCap: 2,
+    		
+    		knockback: 12,
+    		
+    		intervalBullets: 3,
+    		bulletInterval: 1,
+    		intervalBullet: new Acid(18),
+    		fragBullets: 13,
+    		fragBullet: new Acid(18)
+    	})
+	})
 }))
 
 const apoptoticBody = new UnitType("apoptotic-body");

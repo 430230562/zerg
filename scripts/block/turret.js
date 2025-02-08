@@ -202,7 +202,7 @@ nexus.ammo(
 		),
 		ammoMultiplier: 6,
 		reloadMultiplier: 1.5,
-		splashDamage: 16,
+		splashDamage: 24,
 		splashDamageRadius: 32,
 		makeFire: true,
 		lifetime: 64,
@@ -252,7 +252,7 @@ bomb.ammo(
 		height: 11,
 		collidesTiles: false,
 		splashDamageRadius: 24,
-		splashDamage: 22,
+		splashDamage: 33,
 	}),
 	Items.silicon, Object.assign(new ArtilleryBulletType(3, 20), {
 		knockback: 0.8,
@@ -261,7 +261,7 @@ bomb.ammo(
 		height: 11,
 		collidesTiles: false,
 		splashDamageRadius: 24,
-		splashDamage: 22,
+		splashDamage: 33,
 		reloadMultiplier: 1.5,
 		homingRange: 32,
 		homingPower: 0.04,
@@ -273,7 +273,7 @@ bomb.ammo(
 		height: 11,
 		collidesTiles: false,
 		splashDamageRadius: 16,
-		splashDamage: 27,
+		splashDamage: 41,
 		reloadMultiplier: 0.8,
 		backColor: Color.valueOf("7e8ae6"),
 		frontColor: Color.white,
@@ -295,7 +295,7 @@ bomb.ammo(
 		height: 11,
 		collidesTiles: false,
 		splashDamageRadius: 24,
-		splashDamage: 42,
+		splashDamage: 63,
 		backColor: Color.valueOf("fa7f7f"),
 		frontColor: Color.white,
 		fragBullets: 3,
@@ -316,7 +316,7 @@ bomb.ammo(
 		height: 13,
 		collidesTiles: false,
 		splashDamageRadius: 8 * 3.25,
-		splashDamage: 55,
+		splashDamage: 82.5,
 		status: StatusEffects.burning,
 		statusDuration: 60 * 15,
 		frontColor: Pal.lightishOrange,
@@ -943,7 +943,7 @@ skyfire.ammo(
 		height: 21,
 		width: 19,
 		splashDamageRadius: 72,
-		splashDamage: 680,
+		splashDamage: 850,
 		scaledSplashDamage: true,
 		backColor: Color.valueOf("d9c668cd"),
 		hitColor: Color.valueOf("d9c668cd"),
@@ -1221,8 +1221,8 @@ Object.assign(extinction,{
     health: 6500,
     outlineColor: Pal.darkOutline,
     size: 5,
-    reload: 360,
-    cooldownTime: 360,
+    reload: 60,
+    cooldownTime: 40,
     recoil: 3,
     range: 350,
     shootCone: 20,
@@ -1231,7 +1231,7 @@ Object.assign(extinction,{
 })
 AddCoolant(extinction, 0.3)
 extinction.ammo(
-    item.iridium, Object.assign(new BasicBulletType(6,600),{
+    item.iridium, Object.assign(new BasicBulletType(6,330),{
         shootEffect: new MultiEffect(
             Fx.shootTitan,
             Object.assign(new WaveEffect(),{
@@ -1277,7 +1277,7 @@ extinction.ammo(
             waveRad: 40,
         }),
         despawnSound: Sounds.dullExplosion,
-        status: StatusEffects.electrified,
+        status: StatusEffects.sapped,
 
         intervalBullet: Object.assign(new BasicBulletType(3, 36),{
             width: 9,
@@ -1306,7 +1306,7 @@ extinction.ammo(
                 strokeFrom: 4,
                 lifetime: 10,
             }),
-            status: StatusEffects.electrified,
+            status: StatusEffects.sapped,
             
             fragBullets: 1,
             fragRandomSpread: 0,
@@ -1315,7 +1315,7 @@ extinction.ammo(
     		    length: 24,
                 damage: 8,
                 width: 9,
-                status: StatusEffects.electrified,
+                status: StatusEffects.sapped,
     	    })
         }),
 
@@ -1335,18 +1335,19 @@ extinction.ammo(
 		    length: 64,
             damage: 160,
             width: 13,
+            toColor: Color.valueOf("cc163a"),
             pierce: true,
         })
     })
 )
         
-function CometMissile(name,bullet){
+function CometMissile(name,color,bullet){
 	return extend(MissileUnitType,name,{
 		speed: 21,
 		maxRange: 6,
 		lifetime: 210,
-		engineColor: Pal.techBlue,
-		trailColor: Pal.techBlue,
+		engineColor: color,
+		trailColor: color,
 		engineLayer: Layer.effect,
 		engineSize: 3.1,
 		engineOffset: 10,
@@ -1421,7 +1422,7 @@ comet.ammo(
 		//smokeEffect: Fx.shootSmokeMissile,
 		ammoMultiplier: 2,
 
-		spawnUnit: CometMissile("comet-graphite-missile",Object.assign(new ExplosionBulletType(1600, 88),{
+		spawnUnit: CometMissile("comet-graphite-missile",Color.valueOf("b2c6d2"),Object.assign(new ExplosionBulletType(1600, 88),{
 			hitColor: Pal.techBlue,
 			shootEffect: new MultiEffect(
 				Fx.massiveExplosion,
@@ -1431,9 +1432,9 @@ comet.ammo(
 					lifetime: 10,
 					strokeFrom: 4,
 					sizeTo: 130,
-					colorFrom: Pal.techBlue,
-					colorTo: Pal.techBlue,
-					lightColor: Pal.techBlue
+					colorFrom: Color.valueOf("b2c6d2"),
+					colorTo: Color.valueOf("b2c6d2"),
+					lightColor: Color.valueOf("b2c6d2")
 				})
 			),
 		
@@ -1458,14 +1459,14 @@ comet.ammo(
 				height: 18,
 				collidesTiles: false,
 				splashDamageRadius: 24,
-				backColor: Pal.techBlue,
-				trailColor: Pal.techBlue,
-				hitColor: Pal.techBlue,
+				backColor: Color.valueOf("b2c6d2"),
+				trailColor: Color.valueOf("b2c6d2"),
+				hitColor: Color.valueOf("b2c6d2"),
 				frontColor: Color.white,
 				smokeEffect: Fx.shootBigSmoke2,
 				despawnShake: 7,
 				lightRadius: 30,
-				lightColor: Pal.techBlue,
+				lightColor: Color.valueOf("b2c6d2"),
 				lightOpacity: 0.5,
 		
 				trailLength: 20,
@@ -1479,7 +1480,7 @@ comet.ammo(
 		//smokeEffect: Fx.shootSmokeMissile,
 		ammoMultiplier: 1,
 
-		spawnUnit: CometMissile("comet-biomass-steel-missile",Object.assign(new ExplosionBulletType(3000, 8 * 11.5),{
+		spawnUnit: CometMissile("comet-biomass-steel-missile",Color.valueOf("114514"),Object.assign(new ExplosionBulletType(3000, 8 * 11.5),{
 			hitColor: Pal.techBlue,
 			shootEffect: new MultiEffect(
 				Fx.massiveExplosion,
@@ -1489,9 +1490,9 @@ comet.ammo(
 					lifetime: 10,
 					strokeFrom: 4,
 					sizeTo: 130,
-					colorFrom: Pal.techBlue,
-					colorTo: Pal.techBlue,
-					lightColor: Pal.techBlue
+					colorFrom: Color.valueOf("114514"),
+					colorTo: Color.valueOf("114514"),
+					lightColor: Color.valueOf("114514")
 				})
 			),
 
@@ -1516,14 +1517,14 @@ comet.ammo(
 				height: 18,
 				collidesTiles: false,
 				splashDamageRadius: 24,
-				backColor: Pal.techBlue,
-				trailColor: Pal.techBlue,
-				hitColor: Pal.techBlue,
+				backColor: Color.valueOf("114514"),
+				trailColor: Color.valueOf("114514"),
+				hitColor: Color.valueOf("114514"),
 				frontColor: Color.white,
 				smokeEffect: Fx.shootBigSmoke2,
 				despawnShake: 7,
 				lightRadius: 30,
-				lightColor: Pal.techBlue,
+				lightColor: Color.valueOf("114514"),
 				lightOpacity: 0.5,
 
 				trailLength: 20,

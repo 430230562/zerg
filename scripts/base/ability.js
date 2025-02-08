@@ -33,11 +33,87 @@ function MendFieldAbility(amount,reload,range){
 			}
 		},
 		localized(){
-			return Core.bundle.format("ability.mendField",reload / 60,range / 8,amount);
-		}
+			return Core.bundle.format("ability.mendField");
+		},
+		addStats(t){
+            this.super$addStats(t);
+            t.add(Core.bundle.format("ability.stat.repairInterval", Strings.autoFixed(range / 8, 2)));
+            t.row();
+            t.add(Core.bundle.format("bullet.range", Strings.autoFixed(range / 8, 2)));
+            t.row();
+            t.add(Core.bundle.format("ability.stat.repairAmount", Strings.autoFixed(amount, 2)))
+        }
 	})
 }
 exports.MendFieldAbility = MendFieldAbility;
+
+function ReflectFieldAbility(regen,max,range){
+    return extend(Ability,{
+        update(unit){
+            if(unit.shield >= 0 && unit.health >= unit.type.health){
+                Groups.bullet.intersect(unit.x - range, unit.y - range, range * 2, range * 2, b => {
+                    if(b.team != unit.team){
+                        if(b.type.hittable && b.type.absorbable){
+                            b.team = unit.team;
+                            
+                            if(b.vel.x <= b.vel.y){
+                                b.vel.x *= -1
+                            }else{
+                                b.vel.y *= -1
+                            }
+                            
+                            unit.shield -= b.damage
+                            
+                        }else{
+                            b.absorb();
+                            Fx.absorb.at(b)
+                            
+                            unit.shield -= b.damage * 3
+                        }
+                        
+                        unit.drag = 0
+                    }
+                })
+            }
+            
+            unit.shield = Math.min(max, Time.delta * regen + unit.shield)
+            unit.drag = Math.min(0.8, unit.drag + Time.delta / 12)
+            
+        },
+        draw(unit){
+            Draw.color(Color.valueOf("7e8ae6"), unit.team.color, unit.drag);
+            
+            if(unit.shield >= 0 && unit.health >= unit.type.health){
+                if(Vars.renderer.animateShields){
+                    Draw.z(125);
+                    Fill.poly(unit.x, unit.y, 4, range * 1.414, 45);
+                }else{
+                    Draw.z(125);
+                    Lines.stroke(1.5);
+                    Draw.alpha(0.09);
+                    Fill.poly(unit.x, unit.y, 4, range * 1.414, 45);
+                    Draw.alpha(1);
+                    Lines.poly(unit.x, unit.y, 4, range * 1.414, 45);
+                }
+            }
+        },
+        localized(){
+			return Core.bundle.format("ability.reflectField");
+		},
+		addStats(t){
+            this.super$addStats(t);
+            t.add(Core.bundle.format("bullet.range", Strings.autoFixed(range / 8, 2)));
+            t.row();
+            t.add(Core.bundle.format("ability.stat.shield", Strings.autoFixed(max, 2)));
+            t.row();
+            t.add(Core.bundle.format("ability.stat.repairspeed", Strings.autoFixed(regen * 60, 2)));
+        },
+        displayBars(unit,bars){
+            bars.add(new Bar("stat.shieldhealth", unit.team.color, () => unit.shield / max)).row();
+        }
+    })
+}
+exports.ReflectFieldAbility = ReflectFieldAbility
 
 function MoveLiquidAbility(liquid,range,amount){
 	return extend(Ability,{
@@ -59,6 +135,10 @@ function DeathNeoplasmAbility(range,amount){
 		},
 		localized(){
 			return Core.bundle.format("ability.deathNeoplasm");
+		},
+		addStats(t){
+		    this.super$addStats(t);
+		    t.add(Core.bundle.format("bullet.range", Strings.autoFixed(range / 8, 2)));
 		}
 	})
 }
@@ -115,23 +195,12 @@ function DamageDownAbility(amount,range){
             })
         },
         localized(){
-			return "";
+			return Core.bundle.format("ability.damageDown");
+		},
+		addStats(t){
+		    this.super$addStats(t);
+		    t.add(Core.bundle.format("bullet.range", Strings.autoFixed(range / 8, 2)));
 		}
     })
 }
 exports.DamageDownAbility = DamageDownAbility;
-
-if(Vars.mods.getMod("zerg-dlc1") != null){
-    function DropAbility(amount1,amount2){
-        return extend(Ability,{
-    		death(unit){
-    			Team.sharded.core().items.add(item.connective, amount1)
-    			Team.sharded.core().items.add(item.meristem, amount2)
-    		},
-    		localized(){
-    			return Core.bundle.format("ability.drop");
-    		}
-    	})
-    }
-    exports.DropAbility = DropAbility;
-}

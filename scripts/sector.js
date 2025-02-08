@@ -84,7 +84,6 @@ Object.assign(twilightSea,{
 const fallOutpost = new SectorPreset("fallOutpost",greavar,51);
 exports.fallOutpost = fallOutpost;
 Object.assign(fallOutpost,{
-    captureWave: -1,
 	difficulty: 6,
 })
 

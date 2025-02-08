@@ -301,8 +301,21 @@ Object.assign(compositeDissolvantMixer, {
 	hasLiquids: true,
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
-		new DrawLiquidTile(Liquids.water, 1),
-		new DrawLiquidTile(liquid.dissolvant, 1),
+		new DrawLiquidTile(Liquids.water),
+		Object.assign(new DrawPistons(),{
+		    suffix: "-piston1-",
+		    sinMag: 2,
+		    sinScl: 2.5,
+		}),
+		Object.assign(new DrawPistons(),{
+		    suffix: "-piston2-",
+		    sinMag: 2,
+		    sinScl: 2,
+		}),
+	    Object.assign(new DrawCultivator(), {
+			plantColor: Color.valueOf("a9d8ff"),
+			plantColorLight: Color.valueOf("ffffff"),
+		}),
 		new DrawDefault()
 	),
 	buildVisibility: BuildVisibility.shown,

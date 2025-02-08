@@ -208,7 +208,7 @@ Object.assign(pyrolysis,{
 		item.chromium, 30,
 	),
 })
-pyrolysis.consumeLiquid(Liquids.neoplasm, 0.5);
+pyrolysis.consumeLiquid(Liquids.neoplasm, 30 / 60)
 
 const neutralizers = new ConsumeGenerator("neutralizers");
 exports.neutralizers = neutralizers;

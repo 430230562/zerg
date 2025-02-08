@@ -37,7 +37,7 @@ mist.weapons.add(
 			keepVelocity: false,
 			lifetime: 50,
 			trailChance: 0.1,
-			splashDamage: 18,
+			splashDamage: 27,
 			splashDamageRadius: 16,
 		})
 	})
@@ -78,7 +78,7 @@ cirrus.weapons.add(
 			homingRange: 60,
 			keepVelocity: true,
 			lifetime: 50,
-			splashDamage: 8,
+			splashDamage: 12,
 			splashDamageRadius: 16,
 			trailChance: 0.1,
 			frontColor: Color.white,
@@ -122,7 +122,7 @@ cloud.weapons.add(
 			homingPower: 0.16,
 			keepVelocity: false,
 			lifetime: 60,
-			splashDamage: 18,
+			splashDamage: 27,
 			splashDamageRadius: 16,
 			trailChance: 0.1,
 			hitColor: Color.valueOf("d99f6b"),
@@ -312,6 +312,7 @@ ampere.weapons.add(
 			smokeEffect: Fx.shootSmokeTitan,
 			hitColor: Pal.lancerLaser,
 			despawnSound: Sounds.spark,
+			absorbable: false,
 		
 			sprite: "large-orb",
 			trailEffect: Fx.missileTrail,
@@ -367,6 +368,96 @@ ampere.weapons.add(
 			lightning: 12,
 			lightningLength: 2,
 			lightningLengthRand: 8,
+		})
+	})
+)
+
+const farad = new UnitType("farad");
+exports.farad = farad;
+Object.assign(farad,{
+    health: 6400,
+	speed: 0.8,
+	flying: true,
+	hitSize: 24,
+	engineOffset: 11,
+	armor: 6,
+	accel: 0.08,
+	drag: 0.016,
+	targetFlags: [BlockFlag.turret,BlockFlag.generator,BlockFlag.factory,null],
+	itemCapacity: 0,
+	constructor: () => new UnitEntity.create(),
+})
+farad.weapons.add(
+    Object.assign(new Weapon("zerg-farad-weapon"),{
+		layerOffset: 0.0001,
+		reload: 240,
+		shootY: 0.75,
+		recoil: 3,
+		shootCone: 30,
+		rotate: false,
+		mirror: false,
+		x: 0,
+		y: 6,
+		heatColor: Pal.lancerLaser,
+		cooldownTime: 50,
+		shake: 8,
+		shoot: Object.assign(new ShootPattern(), {
+		    firstShotDelay: 48,
+	    }),
+		shootSound: Sounds.shockBlast,
+		bullet: Object.assign(new BasicBulletType(8,644), {
+			shootEffect: new MultiEffect(
+				Fx.shootTitan,
+				Object.assign(new WaveEffect(), {
+					colorTo: Pal.lancerLaser,
+					sizeTo: 26,
+					lifetime: 14,
+					strokeFrom: 4,
+				})
+			),
+			smokeEffect: Fx.shootSmokeTitan,
+			hitColor: Pal.lancerLaser,
+			despawnSound: Sounds.spark,
+			absorbable: false,
+		
+			sprite: "large-orb",
+			trailEffect: Fx.missileTrail,
+			trailInterval: 3,
+			trailParam: 4,
+			lifetime: 21,
+			recoil: 0.8,
+			width: 25,
+			height: 25,
+			backColor: Pal.lancerLaser,
+			frontColor: Pal.lancerLaser,
+			shrinkX: 0,
+			shrinkY: 0,
+			trailColor: Pal.lancerLaser,
+			trailLength: 12,
+			trailWidth: 2.2,
+			keepVelocity: false,
+			splashDamageRadius: 40,
+		    splashDamage: 1200,
+		    buildingDamageMultiplier: 0.6,
+			despawnEffect: Object.assign(new ExplosionEffect(),{
+				waveColor: Pal.lancerLaser,
+				smokeColor: Color.gray,
+				sparkColor: Pal.lancerLaser,
+				waveStroke: 4,
+				waveRad: 40,
+			}),
+			hitEffect: Object.assign(new ExplosionEffect(),{
+				waveColor: Pal.lancerLaser,
+				smokeColor: Color.gray,
+				sparkColor: Pal.lancerLaser,
+				waveStroke: 4,
+				waveRad: 40,
+			}),
+			lightningColor: Pal.lancerLaser,
+			lightningDamage: 60,
+			lightning: 8,
+			lightningLength: 2,
+			lightningLengthRand: 8
 		})
 	})
 )
@@ -459,7 +550,7 @@ Object.assign(shadow,{
 	flying: true,
 	constructor: () => new PayloadUnit.create(),
 	
-	payloadCapacity: 64
+	payloadCapacity: 64 * 4,
 })
 shadow.setEnginesMirror(
     new UnitType.UnitEngine(8, -8, 4, -45),

@@ -1,3 +1,5 @@
+const { ReflectFieldAbility } = require("zerg/base/ability");
+
 function CrystalUnit(name){
 	return extend(UnitType, name, {
 		outlineColor: Color.valueOf("2e3466"),
@@ -69,7 +71,7 @@ Object.assign(new Weapon("zerg-anatase-weapon"), {
 		width: 6,
 		height: 8,
 		hitEffect: Fx.flakExplosion,
-		splashDamage: 21,
+		splashDamage: 31,
 		splashDamageRadius: 24,
 		backColor: Color.valueOf("7e8ae6"),
 		trailColor: Color.valueOf("7e8ae6"),
@@ -143,7 +145,7 @@ Object.assign(new Weapon("zerg-asbestos-weapon"), {
 		trailLength: 5,
 		recoil: 0.1,
 		splashDamageRadius: 24,
-		splashDamage: 35,
+		splashDamage: 52.5,
 		fragBullets: 5,
 		fragBullet: Object.assign(new BasicBulletType(3, 7, "bullet"), {
 			width: 5,
@@ -200,7 +202,7 @@ asbestos.abilities.add(
 		max: 300,
 		y: -20,
 		width: 4,
-	})
+	}),
 )
 
 const quartz = new CrystalUnit("quartz");
@@ -240,14 +242,14 @@ Object.assign(new Weapon("zerg-quartz-weapon"), {
 		shots: 3,
 		shotDelay: 5,
 	}),
-	bullet: Object.assign(new ArtilleryBulletType(3, 15), {
+	bullet: Object.assign(new ArtilleryBulletType(3, 45), {
 		knockback: 0.8,
 		lifetime: 80,
 		width: 11,
 		height: 11,
 		collidesTiles: false,
 		splashDamageRadius: 8 * 4.25,
-		splashDamage: 77,
+		splashDamage: 116,
 		backColor: Color.valueOf("7e8ae6"),
 		frontColor: Color.white,
 		lightOpacity: 0.3,
@@ -357,4 +359,126 @@ Object.assign(new Weapon("zerg-prism-weapon"), {
         })
     })
 })
+)
+
+function ColorBullet(color,speed,damage){
+    return extend(BasicBulletType,speed,damage,{
+		width: 1,
+		height: 9,
+		shootEffect: Fx.none,
+		smokeEffect: Fx.none,
+		despawnEffect: Fx.none,
+		
+		lifetime: 15,
+		trailWidth: 0.8,
+		trailLength: 14,
+		pierce: true,
+    	pierceBuilding: true,
+		
+		frontColor: color,
+		backColor: color,
+		trailColor: color
+	})
+}
+
+const dispersion = new CrystalUnit("dispersion");
+exports.dispersion = dispersion;
+Object.assign(dispersion,{
+    speed: 0.8,
+	drag: 0.11,
+	hitSize: 8,
+	rotateSpeed: 5,
+	health: 350,
+	armor: 6,
+	legStraightness: 0.3,
+	stepShake: 0,
+	
+	legCount: 6,
+	legLength: 8,
+	lockLegBase: true,
+	legContinuousMove: true,
+	legExtension: -2,
+	legBaseOffset: 3,
+	legMaxLength: 1.1,
+	legMinLength: 0.2,
+	legLengthScl: 0.96,
+	legForwardScl: 1.1,
+	legGroupSize: 3,
+	rippleScale: 0.2,
+	
+	legMoveSpace: 1,
+	allowLegStep: true,
+	hovering: true,
+	legPhysicsLayer: false,
+	
+	shadowElevation: 0.1,
+	groundLayer: 74,
+	
+	constructor: () => new LegsUnit.create()
+})
+dispersion.weapons.add(
+    Object.assign(new Weapon("zerg-dispersion-weapon"), {
+	    mirror: false,
+	    x: 0,
+	    y: 1,
+	    shootY: 4,
+	    reload: 60,
+	    heatColor: Color.valueOf("7e8ae6"),
+	    shootSound: Sounds.laser,
+	    bullet: extend(BasicBulletType,6,17.5,{
+	        bullets: [ColorBullet(Color.valueOf("ff0000"),6,2.5),ColorBullet(Color.valueOf("ffd500"),6,2.5),ColorBullet(Color.valueOf("55ff00"),6,2.5),ColorBullet(Color.valueOf("00ff80"),6,2.5),ColorBullet(Color.valueOf("00aaff"),6,2.5),ColorBullet(Color.valueOf("2a00ff"),6,2.5),ColorBullet(Color.valueOf("ff00ff"),6,2.5)],
+	        despawned(b,x,y){
+    		    for(let i = 0;i < 7;i++){
+    		        this.bullets[i].create(b,b.x,b.y,b.rotation() - 15 + i * 5)
+    		    }
+    		},
+    		hit(b,x,y){
+    		    for(let i = 0;i < 7;i++){
+    		        this.bullets[i].create(b,b.x,b.y,b.rotation() - 15 + i * 5)
+    		    }
+    		},
+    		width: 1,
+    		height: 9,
+    		shootEffect: Fx.shootSmall,
+    		smokeEffect: Fx.shootSmallSmoke,
+    		
+    		keepVelocity: true,
+    		lifetime: 30,
+    		trailWidth: 0.8,
+    		trailLength: 14,
+    		
+    		frontColor: Color.valueOf("ffffff"),
+    		backColor: Color.valueOf("ffffff"),
+    		trailColor: Color.valueOf("ffffff"),
+    	})
+    })
+)
+
+const reflection = new CrystalUnit("reflection");
+Object.assign(reflection,{
+    speed: 0.5,
+	hitSize: 13,
+	rotateSpeed: 3,
+	health: 1100,
+	armor: 9,
+	stepShake: 0,
+	legCount: 4,
+	legLength: 14,
+	lockLegBase: true,
+	legContinuousMove: true,
+	legExtension: -3,
+	legBaseOffset: 5,
+	legMaxLength: 1.1,
+	legMinLength: 0.2,
+	legLengthScl: 0.95,
+	legForwardScl: 0.7,
+	legMoveSpace: 1,
+	hovering: true,
+	shadowElevation: 0.2,
+	groundLayer: 74,
+	
+	constructor: () => new LegsUnit.create()
+})
+reflection.abilities.add(
+    new ReflectFieldAbility(0.5,900,72)
 )
