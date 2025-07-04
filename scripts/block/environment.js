@@ -4,6 +4,8 @@ const status = require('zerg/status')
 
 Attribute.add("biomass");
 Attribute.add("arkycite");
+Attribute.add("SO2");
+Attribute.add("gas");
 
 const flower = new Prop("flower");
 Object.assign(flower,{
@@ -99,6 +101,30 @@ Object.assign(crystallineFloor, {
 })
 crystallineFloor.attributes.set(Attribute.get("arkycite"), 0.5);
 crystallineFloor.attributes.set(Attribute.water, -0.5)
+
+//travertine
+const travertine = new Floor("travertine");
+travertine.variants = 3;
+
+const travertineWall = new StaticWall("travertine-wall");
+
+const travertineWaterVent = new SteamVent("travertine-water-vent");
+travertineWaterVent.parent = travertine;
+travertineWaterVent.effectColor = Color.white;
+travertineWaterVent.attributes.set(Attribute.steam, 1);
+travertineWaterVent.attributes.set(Attribute.water, 1);
+
+const travertineSO2Vent = new SteamVent("travertine-SO2-vent");
+travertineWaterVent.parent = travertine;
+//travertineWaterVent.effectColor = Color.white;
+travertineWaterVent.attributes.set(Attribute.steam, 1);
+travertineWaterVent.attributes.set(Attribute.get("SO2"), 1);
+
+const travertineGasVent = new SteamVent("travertine-gas-vent");
+travertineWaterVent.parent = travertine;
+travertineWaterVent.effectColor = Color.valueOf("149926");
+travertineWaterVent.attributes.set(Attribute.steam, 1);
+travertineWaterVent.attributes.set(Attribute.get("Gas"), 1);
 
 //autium
 const autiumFruit = new Wall("autiumFruit");

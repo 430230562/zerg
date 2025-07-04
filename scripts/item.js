@@ -79,6 +79,8 @@ Object.assign(biomassSteel, {
 	healthScaling: 0.5,
 })
 
+const sulfideSand = Item("sulfide-sand")
+
 const salt = new Item("salt",Color.valueOf("c3c1bb"));
 exports.salt = salt;
 Object.assign(salt,{})

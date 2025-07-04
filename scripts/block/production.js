@@ -269,3 +269,108 @@ Object.assign(crystalCollector, {
 })
 crystalCollector.consumeLiquid(Liquids.water, 3 / 60).boost();
 crystalCollector.consumePower(0.15);
+
+//
+const condenser = new AttributeCrafter("condenser");
+exports.condenser = condenser;
+Object.assign(condenser,{
+    attribute: Attribute.water,
+    group: BlockGroup.liquids,
+    minEfficiency: 9 - 0.0001,
+    baseEfficiency: 0,
+    displayEfficiency: false,
+    craftEffect: Fx.turbinegenerate,
+    drawer: new DrawMulti(
+        new DrawRegion("-bottom"),
+        new DrawRegion("-rotator", 6),
+        new DrawRegion("-mid"),
+        new DrawLiquidTile(Liquids.water),
+        new DrawDefault()
+    ),
+    craftTime: 120,
+    size: 3;
+    ambientSound: Sounds.hum,
+    ambientSoundVolume: 0.06,
+    hasLiquids: true,
+    boostScale: 1 / 9,
+    itemCapacity: 0,
+    outputLiquid: new LiquidStack(Liquids.water, 30 / 60);
+    liquidCapacity: 60,
+    
+    buildVisibility: BuildVisibility.shown,
+	category: Category.production,
+	requirements: ItemStack.with(
+		Items.graphite, 20,
+		item.nickel, 60,
+	)
+})
+
+const SO2Collector = new AttributeCrafter("SO2-collector");
+exports.SO2Collector = SO2Collector;
+Object.assign(SO2Collector,{
+    attribute: Attribute.get("SO2"),
+    group: BlockGroup.liquids,
+    minEfficiency: 9 - 0.0001,
+    baseEfficiency: 0,
+    displayEfficiency: false,
+    craftEffect: Fx.turbinegenerate,
+    drawer: new DrawMulti(
+        new DrawRegion("-bottom"),
+        new DrawRegion("-rotator", 6),
+        new DrawRegion("-mid"),
+        new DrawLiquidTile(liquid.sulfurDioxide),
+        new DrawDefault()
+    ),
+    craftTime: 120,
+    size: 3;
+    ambientSound: Sounds.hum,
+    ambientSoundVolume: 0.06,
+    hasLiquids: true,
+    boostScale: 1 / 9,
+    itemCapacity: 0,
+    outputLiquid: new LiquidStack(liquid.sulfurDioxide, 45 / 60);
+    liquidCapacity: 90,
+    
+    buildVisibility: BuildVisibility.shown,
+	category: Category.production,
+	requirements: ItemStack.with(
+		Items.graphite, 20,
+		item.nickel, 60,
+	)
+})
+SO2Collector.consumePower(0.3);
+
+const gasCollector = new AttributeCrafter("gas-collector");
+exports.gasCollector = gasCollector;
+Object.assign(gasCollector,{
+    attribute: Attribute.water,
+    group: BlockGroup.liquids,
+    minEfficiency: 9 - 0.0001,
+    baseEfficiency: 0,
+    displayEfficiency: false,
+    craftEffect: Fx.turbinegenerate,
+    drawer: new DrawMulti(
+        new DrawRegion("-bottom"),
+        new DrawRegion("-rotator", 6),
+        new DrawRegion("-mid"),
+        new DrawLiquidTile(liquid.naturalGas),
+        new DrawDefault()
+    ),
+    craftTime: 120,
+    size: 3;
+    ambientSound: Sounds.hum,
+    ambientSoundVolume: 0.06,
+    hasLiquids: true,
+    boostScale: 1 / 9,
+    itemCapacity: 0,
+    outputLiquid: new LiquidStack(liquid.naturalGas, 18 / 60);
+    liquidCapacity: 60,
+    
+    buildVisibility: BuildVisibility.shown,
+	category: Category.production,
+	requirements: ItemStack.with(
+		Items.graphite, 20,
+		item.nickel, 60,
+	)
+})
+gasCollector.consumePower(1.3);

@@ -82,3 +82,11 @@ Object.assign(yperite,{
 	explosiveness: 3,
 	coolant: false,
 })
+
+const sulfurDioxide = new Liquid("sulfur-dioxide",Color.valueOf("d1d100"));
+exports.sulfurDioxide = sulfurDioxide;
+Object.assign(sulfurDioxide,{
+    gas: true,
+    flammability: 0.2,
+    coolant: false,
+})

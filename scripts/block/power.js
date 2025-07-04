@@ -97,6 +97,7 @@ exports.deflagrationGenerator = deflagrationGenerator;
 Object.assign(deflagrationGenerator, {
 	powerProduction: 1.2,
 	itemDuration: 120,
+	envRequired: Env.oxygen,
 	
 	ambientSound: Sounds.smelter,
 	ambientSoundVolume: 0.03,
@@ -122,10 +123,11 @@ Object.assign(fullEffectGenerator, {
 	itemDuration: 90,
 	hasLiquids: true,
 	size: 2,
-	generateEffect: Fx.generatespark,
+	envRequired: Env.oxygen,
 	
 	ambientSound: Sounds.smelter,
 	ambientSoundVolume: 0.06,
+	generateEffect: Fx.generatespark,
 	
 	drawer: new DrawMulti(
 	    new DrawLiquidTile(Liquids.water),
@@ -353,3 +355,30 @@ Object.assign(extremeGenerator, {
 	)
 })
 extremeGenerator.consumeLiquid(Liquids.water, 135 / 60);
+
+//
+const ventGenerator = new ThermalGenerator("vent-generator");
+exports.ventGenerator = ventGenerator;
+Object.assign(ventGenerator,{
+    attribute: Attribute.steam;
+    displayEfficiencyScale: 1 / 9,
+    minEfficiency: 9 - 0.0001,
+    powerProduction: 4.5 / 9,
+    displayEfficiency: false,
+    generateEffect: Fx.turbinegenerate,
+    effectChance: 0.04,
+    size: 3,
+    ambientSound: Sounds.hum,
+    ambientSoundVolume: 0.06,
+
+    drawer: new DrawMulti(
+        new DrawDefault(),
+        new DrawRegion("-rotator", 0.6, true){{
+    ),
+    
+    category: Category.power,
+	buildVisibility: BuildVisibility.shown,
+    requirements: ItemStack.with(
+		item.nickel, 60,
+	),
+})

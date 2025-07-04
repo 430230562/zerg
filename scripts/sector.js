@@ -41,14 +41,6 @@ Object.assign(crystallineMountains,{
 	difficulty: 5,
 })
 
-const crystalOutpost = new SectorPreset("crystalOutpost", greavar, 27);
-exports.crystalOutpost = crystalOutpost;
-Object.assign(crystalOutpost,{
-	captureWave: 45,
-	difficulty: 6,
-	startWaveTimeMultiplier: 1,
-})
-
 const experimental035 = new SectorPreset("experimental035",greavar,35);
 exports.experimental035 = experimental035;
 Object.assign(experimental035,{

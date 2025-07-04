@@ -192,6 +192,27 @@ Object.assign(launchPad,{
 	),
 })
 launchPad.consumePower(4);
+launchPad.buildType = prov(() => extend(LaunchPad.LaunchPadBuild,launchPad,{
+    /*buildConfiguration(table){
+        if(!Vars.state.isCampaign() || Vars.net.client()){
+            this.deselect();
+            return;
+        }
+
+        table.button(Icon.upOpen, Styles.cleari, () => {
+            PlanetDialog.debugSelect = true;
+            
+            
+            Vars.ui.planet.showSelect(Vars.state.rules.sector, other => {
+                Vars.ui.planet.mode = PlanetDialog.Mode.look;
+                if(Vars.state.isCampaign() && other.hasBase()){
+                    Vars.state.rules.sector.info.destination = other;
+                    this.deselect();
+                }
+            });
+        }).size(40);
+    }*/
+}))
 
 const lamp = extend(LightBlock,"lamp",{
 	drawPlace(x,y,rotation,valid){

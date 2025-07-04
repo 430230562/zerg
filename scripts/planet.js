@@ -137,8 +137,52 @@ greavar.hiddenItems.addAll(
 	Items.carbide,
 	Items.fissileMatter,
 	Items.dormantCyst,
-	item.biomass,
 );
+const phurnace = new Planet("phurnace", ochre, 1, 2);
+exports.phurnace = phurnace;
+Object.assign(phurnace, {
+	generator: extend(SerpuloPlanetGenerator,{
+		allowLanding(sector){return false},
+		getDefaultLoadout() {
+			return Schematics.readBase64("bXNjaAF4nBXLUQqAIBBF0WdKRa2lFUUfow45oBaN7b+Ey/m7sLAOrlJhWNKESRtTkYhFQ+JCTYJijazhkbvJVQGMmTxnxbAfBrN/T936CpjezwfPPBUT");
+		}
+	}),
+	meshLoader: prov(() => MultiMesh(
+        new NoiseMesh(phurnace,0,4,0.94,1,0.0001,0.0001,0.98,Color.valueOf("d4db85"),Color.valueOf("d4db85"),1,1,1,1),
+        new NoiseMesh(phurnace,0,5,0.94,4,0.85,0.7,1,Color.valueOf("ddcf95"),Color.valueOf("ddcf95"),1,1,1.8,1),
+        new NoiseMesh(phurnace,0,5,0.895,4,0.9,0.7,1.5,Color.valueOf("bfa17a"),Color.valueOf("bfa17a"),4,1,1.8,1),
+        new NoiseMesh(phurnace,0,5,0.83,4,0.9,0.7,2.2,Color.valueOf("3c444c"),Color.valueOf("3c444c"),4,1,0.7,1),
+    )),
+	cloudMeshLoader: () => new MultiMesh(
+    	new HexSkyMesh(phurnace,0,3,0.1,6,Color.valueOf("ccc0235b"),3,0.3,1,0.43),
+        new HexSkyMesh(phurnace,0,-2,0.034,5,Color.valueOf("ccc0235b"),0.4,0.2,0.2,0.4)
+	),
+	atmosphereColor: Color.valueOf("ffffff"),
+	landCloudColor: Color.valueOf("d4db85"),
+	atmosphereRadIn: 0,
+	atmosphereRadOut: 0.2,
+	camRadius: 0.75,
+	visible: true,
+	bloom: false,
+	accessible: true,
+	alwaysUnlocked: true,
+	allowLaunchLoadout: true,
+	allowLaunchSchematics: true,
+	allowWaveSimulation: true,
+	launchCapacityMultiplier: 1,
+	clearSectorOnLose: false,
+	startSector: 88,
+	orbitRadius: 15,
+	defaultEnv: Env.terrestrial | Env.groundOil,
+	//0.1125 到 1.2375
+	lightSrcFrom: 0.1,
+	lightSrcTo: 0.5,
+	lightDstFrom: 0,
+	lightDstTo: 0.45,
+	rotateTime: 34.7 * 60,
+	defaultCore: core.ash,
+	iconColor: Color.valueOf("ddcf95"),
+})
 
 Planets.serpulo.hiddenItems.addAll(
 	item.amino,

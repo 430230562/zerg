@@ -61,11 +61,40 @@ pulseCrystal.buildType = prov(() => extend(Building,{
 	}
 }))
 
+const synthesis = new GenericCrafter("synthesis");
+exports.synthesis = synthesis
+Object.assign(synthesis, {
+	outputItem: new ItemStack(item.biomass, 1),
+	craftTime: 180,
+	size: 2,
+	hasItems: true,
+	drawer: new DrawMulti(
+		new DrawRegion("-bottom"),
+		new DrawLiquidTile(Liquids.water),
+		Object.assign(new DrawCultivator(), {
+			plantColor: Color.valueOf("9cb664"),
+			plantColorLight: Color.valueOf("cbd97f"),
+		}),
+		new DrawDefault(),
+		new DrawRegion("-top")
+	),
+	
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.graphite, 55,
+		Items.silicon, 45,
+	)
+})
+synthesis.consumePower(210 / 60);
+synthesis.consumeLiquid(Liquids.water, 36 / 60);
+
 const prokaryote = extend(CoreBlock,"prokaryote",{
 	canPlaceOn(tile,team,rotation){
 		return true
 	},
 });
+exports.prokaryote = prokaryote;
 Object.assign(prokaryote,{
 	update: true,
 	solid: false,
@@ -105,6 +134,7 @@ const eukaryote = extend(CoreBlock,"eukaryote",{
 		return true
 	},
 });
+exports.eukaryote = eukaryote;
 Object.assign(eukaryote,{
 	update: true,
 	solid: false,
@@ -277,30 +307,6 @@ Object.assign(stiffenVessel,{
 	)
 })
 
-const vesselRouter = new LiquidRouter("vessel-router");
-exports.vesselRouter = vesselRouter;
-Object.assign(vesselRouter, {
-	buildVisibility: BuildVisibility.shown,
-	category: Category.liquid,
-	researchCostMultiplier: 0.1,
-	requirements: ItemStack.with(
-		item.biomass, 8,
-	),
-	liquidCapacity: 15
-});
-
-const vacuole = new LiquidRouter("vacuole");
-Object.assign(vacuole,{
-    buildVisibility: BuildVisibility.shown,
-	category: Category.liquid,
-	researchCostMultiplier: 0.1,
-	requirements: ItemStack.with(
-		item.biomass, 45,
-	),
-	size: 2,
-	liquidCapacity: 350
-})
-
 const vesselJunction = new LiquidJunction("vessel-junction");
 exports.vesselJunction = vesselJunction;
 Object.assign(vesselJunction, {
@@ -326,6 +332,31 @@ Object.assign(vesselBridge,{
 	requirements: ItemStack.with(
 		item.biomass, 16,
 	),
+})
+
+const vesselRouter = new LiquidRouter("vessel-router");
+exports.vesselRouter = vesselRouter;
+Object.assign(vesselRouter, {
+	buildVisibility: BuildVisibility.shown,
+	category: Category.liquid,
+	researchCostMultiplier: 0.1,
+	requirements: ItemStack.with(
+		item.biomass, 8,
+	),
+	liquidCapacity: 15
+});
+
+const vacuole = new LiquidRouter("vacuole");
+exports.vacuole = vacuole;
+Object.assign(vacuole,{
+    buildVisibility: BuildVisibility.shown,
+	category: Category.liquid,
+	researchCostMultiplier: 0.1,
+	requirements: ItemStack.with(
+		item.biomass, 45,
+	),
+	size: 2,
+	liquidCapacity: 350
 })
 
 vessel.junctionReplacement = vesselJunction;
@@ -506,6 +537,7 @@ Object.assign(incubator, {
 incubator.consumeLiquid(liquid.nutrient, 0.05);
 
 const stemCell = new BuildTurret("stem-cell");
+exports.stemCell = stemCell;
 Object.assign(stemCell,{
     size: 2,
     range: 20 * 8,
@@ -568,6 +600,7 @@ contractileVacuole.ammo(
 )
 
 const acidMist = new LiquidTurret("acid-mist");
+exports.acidMist = acidMist;
 Object.assign(acidMist,{
     reload: 20,
 	range: 220,
@@ -634,6 +667,7 @@ acidMist.ammo(
 )
 
 const synapse = new LiquidTurret("synapse");
+exports.synapse = synapse;
 Object.assign(synapse,{
     reload: 70,
     shootCone: 40,
@@ -705,6 +739,7 @@ Object.assign(mineralWallHuge,{
 })
 
 const acidMine = new Block("acid-mine");
+exports.acidMine = acidMine;
 Object.assign(acidMine,{
     update: false,
     destructible: true,
@@ -716,7 +751,7 @@ Object.assign(acidMine,{
     category: Category.effect,
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
-		item.biomass, 20
+		item.biomass, 3
 	)
 })
 acidMine.buildType = prov(() => extend(Building,{
@@ -760,6 +795,7 @@ bottle.abilities.add(
 bottle.immunities.addAll(status.poisoned)
 
 const toxicMine = new Block("toxic-mine");
+exports.toxicMine = toxicMine;
 Object.assign(toxicMine,{
     update: false,
     destructible: true,
@@ -772,7 +808,7 @@ Object.assign(toxicMine,{
     category: Category.effect,
     buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(
-		item.biomass, 30
+		item.biomass, 12
 	)
 })
 toxicMine.buildType = prov(() => extend(Building,{

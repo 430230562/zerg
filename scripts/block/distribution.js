@@ -12,6 +12,7 @@ Object.assign(nickelConveyor, {
 	speed: 0.05,
 	displayedSpeed: 6.5,
 	alwaysUnlocked: true,
+	envRequired: Env.oxygen
 })
 
 const manganeseConveyor = new Conveyor("manganese-conveyor");
@@ -26,6 +27,7 @@ Object.assign(manganeseConveyor, {
 	health: 80,
 	speed: 0.11,
 	displayedSpeed: 15.7,
+	envRequired: Env.oxygen
 })
 
 const armoredConveyor = ArmoredConveyor("armored-conveyor");
@@ -41,6 +43,7 @@ Object.assign(armoredConveyor,{
 	health: 220,
 	speed: 0.11,
 	displayedSpeed: 15.7,
+	envRequired: Env.oxygen
 })
 
 const biomassConveyor = new StackConveyor("biomass-conveyor");
@@ -68,7 +71,8 @@ Object.assign(junction, {
 	),
 	speed: 1,
 	capacity: 1,
-	health: 55
+	health: 55,
+	envRequired: Env.oxygen
 })
 
 const nickelBridge = new BufferedItemBridge("nickel-bridge");
@@ -80,6 +84,7 @@ Object.assign(nickelBridge, {
 	range: 6,
 	speed: 30,
 	arrowSpacing: 6,
+	envRequired: Env.oxygen,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
@@ -96,6 +101,7 @@ Object.assign(biosulfideBridge,{
 	range: 14,
 	arrowSpacing: 6,
 	baseExplosiveness: 10,
+	envRequired: Env.oxygen,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
@@ -107,6 +113,7 @@ Object.assign(biosulfideBridge,{
 const sorter = new Sorter("sorter");
 exports.sorter = sorter;
 Object.assign(sorter, {
+    envRequired: Env.oxygen,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
@@ -117,6 +124,7 @@ Object.assign(sorter, {
 const invertedSorter = new Sorter("inverted-sorter");
 exports.invertedSorter = invertedSorter;
 Object.assign(invertedSorter, {
+    envRequired: Env.oxygen,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
@@ -128,6 +136,7 @@ Object.assign(invertedSorter, {
 const overflowGate = new OverflowGate("overflow-gate");
 exports.overflowGate = overflowGate;
 Object.assign(overflowGate, {
+    envRequired: Env.oxygen,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
@@ -138,6 +147,7 @@ Object.assign(overflowGate, {
 const underflowGate = new OverflowGate("underflow-gate");
 exports.underflowGate = underflowGate;
 Object.assign(underflowGate, {
+    envRequired: Env.oxygen,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
@@ -149,6 +159,7 @@ Object.assign(underflowGate, {
 const router = new Router("router");
 exports.router = router;
 Object.assign(router, {
+    envRequired: Env.oxygen,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(
@@ -159,6 +170,7 @@ Object.assign(router, {
 const distributor = new Router("distributor");
 exports.distributor = distributor;
 Object.assign(distributor, {
+    envRequired: Env.oxygen,
 	buildVisibility: BuildVisibility.shown,
 	category: Category.distribution,
 	requirements: ItemStack.with(

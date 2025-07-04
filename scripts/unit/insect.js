@@ -197,7 +197,6 @@ Object.assign(new FlarePart(),{
 	y: -5,
 	followRotation: true,
 }))
-
 polarBody.weapons.add(
 Object.assign(new Weapon(), {
 	shootCone: 360,
@@ -555,6 +554,7 @@ Object.assign(centrosome,{
     engineSize: 4.8,
     engineOffset: 12,
     constructor: () => new UnitEntity.create(),
+    targetFlags: [BlockFlag.turret,null],
 })
 centrosome.parts.add(
 	Object.assign(new RegionPart("-wing"),{
@@ -580,17 +580,16 @@ centrosome.weapons.add(Object.assign(new Weapon("zerg-centrosome-weapon"), {
 	baseRotation: -30,
     shoot: new ShootSpread(2, 10),
     shootSound: Sounds.plantBreak,
-	bullet: Object.assign(new BasicBulletType(4,120),{
+	bullet: Object.assign(new BasicBulletType(4,130),{
 	    lifetime: 60,
 	    width: 16,
 	    height: 16,
         shrinkY: 0.3,
-        homingPower: 0.19,
-        homingDelay: 8,
+        homingPower: 0.1,
+        homingDelay: 4,
         backSprite: "large-bomb-back",
         sprite: "mine-bullet",
         collidesGround: true,
-        collidesTiles: false,
         shootEffect: Fx.shootBig2,
         smokeEffect: Fx.shootSmokeDisperse,
         frontColor: Color.valueOf("84a94b7f"),
@@ -894,8 +893,8 @@ cancer.abilities.add(
 
 const mitosis = new extend(UnitType,"mitosis",{
     update(unit){
-        if(unit.team != Team.crux){
-            unit.team = Team.crux
+        if(Vars.state.rules.waveTeam != null && unit.team != Vars.state.rules.waveTeam){
+            unit.team = Vars.state.rules.waveTeam
             unit.kill()
         }
     }

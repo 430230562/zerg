@@ -50,7 +50,7 @@ exports.MendFieldAbility = MendFieldAbility;
 function ReflectFieldAbility(regen,max,range){
     return extend(Ability,{
         update(unit){
-            if(unit.shield >= 0 && unit.health >= unit.type.health){
+            if(unit.shield > 0){
                 Groups.bullet.intersect(unit.x - range, unit.y - range, range * 2, range * 2, b => {
                     if(b.team != unit.team){
                         if(b.type.hittable && b.type.absorbable){
@@ -70,18 +70,15 @@ function ReflectFieldAbility(regen,max,range){
                             
                             unit.shield -= b.damage * 3
                         }
-                        
-                        unit.drag = 0
                     }
                 })
             }
-            
-            unit.shield = Math.min(max, Time.delta * regen + unit.shield)
-            unit.drag = Math.min(0.8, unit.drag + Time.delta / 12)
-            
+            if(unit.health >= unit.maxHealth){
+                unit.shield = Math.min(Time.delta * regen + unit.shield, max)
+            }
         },
         draw(unit){
-            Draw.color(Color.valueOf("7e8ae6"), unit.team.color, unit.drag);
+            Draw.color(Color.valueOf("7e8ae6"), unit.team.color, 0.9);
             
             if(unit.shield >= 0 && unit.health >= unit.type.health){
                 if(Vars.renderer.animateShields){
