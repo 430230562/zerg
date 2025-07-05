@@ -15,9 +15,9 @@
 
 [[]white]I am looking for volunteers who can translate this mod into his (or her) native language.
 ''',
-"minGameVersion": 139,
+"minGameVersion": 149,
 "author": "pardon",
-"version": 0.15,
+"version": 0.25,
 "repo":"430230562/zerg",
 "hideBrowser":false
 }

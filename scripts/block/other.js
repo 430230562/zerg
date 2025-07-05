@@ -214,6 +214,22 @@ launchPad.buildType = prov(() => extend(LaunchPad.LaunchPadBuild,launchPad,{
     }*/
 }))
 
+const landingPad = new LandingPad("landing-pad");
+exports.landingPad = landingPad;
+Object.assign(landingPad,{
+    size: 3,
+    itemCapacity: 250,
+    consumeLiquidAmount: 36,
+    coolingEffect: new RadialEffect(Fx.steamCoolSmoke, 4, 90, 9.5, 180),
+    buildVisibility: BuildVisibility.shown,
+	category: Category.effect,
+	requirements: ItemStack.with(
+		Items.silicon, 250,
+		item.nickel, 200,
+	),
+})
+
+
 const lamp = extend(LightBlock,"lamp",{
 	drawPlace(x,y,rotation,valid){
 		Drawf.dashCircle(x * 8 + this.offset, y * 8 + this.offset, this.radius * 2, Pal.accent);

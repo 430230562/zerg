@@ -119,25 +119,8 @@ Object.assign(greavar, {
 	defaultCore: core.ash,
 	iconColor: Color.valueOf("3c7141"),
 })
-greavar.hiddenItems.addAll(
-	Items.scrap,
-	Items.copper,
-	Items.lead,
-	Items.titanium,
-	Items.thorium,
-	Items.plastanium,
-	Items.phaseFabric,
-	Items.surgeAlloy,
-	Items.blastCompound,
-	Items.pyratite,
-	Items.metaglass,
-	Items.beryllium,
-	Items.tungsten,
-	Items.oxide,
-	Items.carbide,
-	Items.fissileMatter,
-	Items.dormantCyst,
-);
+
+
 const phurnace = new Planet("phurnace", ochre, 1, 2);
 exports.phurnace = phurnace;
 Object.assign(phurnace, {
@@ -183,33 +166,3 @@ Object.assign(phurnace, {
 	defaultCore: core.ash,
 	iconColor: Color.valueOf("ddcf95"),
 })
-
-Planets.serpulo.hiddenItems.addAll(
-	item.amino,
-	item.nickel,
-	item.manganese,
-	item.chromium,
-	item.iridium,
-	item.crystal,
-	item.energic,
-	item.organistal,
-	item.biomassSteel,
-	item.salt,
-	item.autiumFruit,
-);
-Planets.erekir.hiddenItems.addAll(
-	item.biomass,
-	item.amino,
-	item.biosulfide,
-	item.informationCore,
-	item.nickel,
-	item.manganese,
-	item.chromium,
-	item.iridium,
-	item.crystal,
-	item.energic,
-	item.organistal,
-	item.biomassSteel,
-	item.salt,
-	item.autiumFruit,
-);

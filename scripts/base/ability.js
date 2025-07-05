@@ -53,6 +53,7 @@ function ReflectFieldAbility(regen,max,range){
             if(unit.shield > 0){
                 Groups.bullet.intersect(unit.x - range, unit.y - range, range * 2, range * 2, b => {
                     if(b.team != unit.team){
+                        unit.drag = 0
                         if(b.type.hittable && b.type.absorbable){
                             b.team = unit.team;
                             
@@ -73,12 +74,13 @@ function ReflectFieldAbility(regen,max,range){
                     }
                 })
             }
+            unit.drag = Math.min(0.8,unit.draw + Time.delta / 12)
             if(unit.health >= unit.maxHealth){
                 unit.shield = Math.min(Time.delta * regen + unit.shield, max)
             }
         },
         draw(unit){
-            Draw.color(Color.valueOf("7e8ae6"), unit.team.color, 0.9);
+            Draw.color(Color.valueOf("7e8ae6"), unit.team.color, unit.drag);
             
             if(unit.shield >= 0 && unit.health >= unit.type.health){
                 if(Vars.renderer.animateShields){

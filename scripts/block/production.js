@@ -288,13 +288,13 @@ Object.assign(condenser,{
         new DrawDefault()
     ),
     craftTime: 120,
-    size: 3;
+    size: 3,
     ambientSound: Sounds.hum,
     ambientSoundVolume: 0.06,
     hasLiquids: true,
     boostScale: 1 / 9,
     itemCapacity: 0,
-    outputLiquid: new LiquidStack(Liquids.water, 30 / 60);
+    outputLiquid: new LiquidStack(Liquids.water, 30 / 60),
     liquidCapacity: 60,
     
     buildVisibility: BuildVisibility.shown,
@@ -322,13 +322,13 @@ Object.assign(SO2Collector,{
         new DrawDefault()
     ),
     craftTime: 120,
-    size: 3;
+    size: 3,
     ambientSound: Sounds.hum,
     ambientSoundVolume: 0.06,
     hasLiquids: true,
     boostScale: 1 / 9,
     itemCapacity: 0,
-    outputLiquid: new LiquidStack(liquid.sulfurDioxide, 45 / 60);
+    outputLiquid: new LiquidStack(liquid.sulfurDioxide, 45 / 60),
     liquidCapacity: 90,
     
     buildVisibility: BuildVisibility.shown,
@@ -357,13 +357,13 @@ Object.assign(gasCollector,{
         new DrawDefault()
     ),
     craftTime: 120,
-    size: 3;
+    size: 3,
     ambientSound: Sounds.hum,
     ambientSoundVolume: 0.06,
     hasLiquids: true,
     boostScale: 1 / 9,
     itemCapacity: 0,
-    outputLiquid: new LiquidStack(liquid.naturalGas, 18 / 60);
+    outputLiquid: new LiquidStack(liquid.naturalGas, 18 / 60),
     liquidCapacity: 60,
     
     buildVisibility: BuildVisibility.shown,

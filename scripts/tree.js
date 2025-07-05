@@ -93,7 +93,10 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                 node(other.godown, () => {}),
                 node(other.unloader, () => {}),
                 node(other.launchPad, Seq.with(
-                new SectorComplete(sector.crystallineMountains)), () => {})
+                new SectorComplete(sector.crystallineMountains)
+                ), () => {
+                    node(other.landingPad,() => {})
+                })
             }),
             node(distribution.biomassConveyor, () => {}),
             node(distribution.armoredConveyor, () => {})

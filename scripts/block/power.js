@@ -360,7 +360,7 @@ extremeGenerator.consumeLiquid(Liquids.water, 135 / 60);
 const ventGenerator = new ThermalGenerator("vent-generator");
 exports.ventGenerator = ventGenerator;
 Object.assign(ventGenerator,{
-    attribute: Attribute.steam;
+    attribute: Attribute.steam,
     displayEfficiencyScale: 1 / 9,
     minEfficiency: 9 - 0.0001,
     powerProduction: 4.5 / 9,
@@ -373,7 +373,7 @@ Object.assign(ventGenerator,{
 
     drawer: new DrawMulti(
         new DrawDefault(),
-        new DrawRegion("-rotator", 0.6, true){{
+        new DrawRegion("-rotator", 0.6, true)
     ),
     
     category: Category.power,

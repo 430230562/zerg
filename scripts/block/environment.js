@@ -102,29 +102,26 @@ Object.assign(crystallineFloor, {
 crystallineFloor.attributes.set(Attribute.get("arkycite"), 0.5);
 crystallineFloor.attributes.set(Attribute.water, -0.5)
 
-//travertine
-const travertine = new Floor("travertine");
-travertine.variants = 3;
+//basalt
+const basaltWaterVent = new SteamVent("basalt-water-vent");
+basaltWaterVent.parent = Blocks.basalt;
+basaltWaterVent.effectColor = Color.white;
+basaltWaterVent.attributes.set(Attribute.steam, 1);
+basaltWaterVent.attributes.set(Attribute.water, 1);
 
-const travertineWall = new StaticWall("travertine-wall");
+const basaltSO2Vent = new SteamVent("basalt-SO2-vent");
+basaltSO2Vent.parent = Blocks.basalt;
+//basaltWaterVent.effectColor = Color.white;
+basaltSO2Vent.attributes.set(Attribute.steam, 1);
+basaltSO2Vent.attributes.set(Attribute.get("SO2"), 1);
 
-const travertineWaterVent = new SteamVent("travertine-water-vent");
-travertineWaterVent.parent = travertine;
-travertineWaterVent.effectColor = Color.white;
-travertineWaterVent.attributes.set(Attribute.steam, 1);
-travertineWaterVent.attributes.set(Attribute.water, 1);
+const basaltGasVent = new SteamVent("basalt-gas-vent");
+basaltGasVent.parent = Blocks.basalt;
+basaltGasVent.effectColor = Color.valueOf("149926");
+basaltGasVent.attributes.set(Attribute.steam, 1);
+basaltGasVent.attributes.set(Attribute.get("gas"), 1);
 
-const travertineSO2Vent = new SteamVent("travertine-SO2-vent");
-travertineWaterVent.parent = travertine;
-//travertineWaterVent.effectColor = Color.white;
-travertineWaterVent.attributes.set(Attribute.steam, 1);
-travertineWaterVent.attributes.set(Attribute.get("SO2"), 1);
 
-const travertineGasVent = new SteamVent("travertine-gas-vent");
-travertineWaterVent.parent = travertine;
-travertineWaterVent.effectColor = Color.valueOf("149926");
-travertineWaterVent.attributes.set(Attribute.steam, 1);
-travertineWaterVent.attributes.set(Attribute.get("Gas"), 1);
 
 //autium
 const autiumFruit = new Wall("autiumFruit");
