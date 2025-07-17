@@ -29,7 +29,7 @@ pulseCrystal.buildType = prov(() => extend(Building,{
 		
 		if(this.i >= this.r){
 		    Units.nearby(null,this.x,this.y,10 * 8,other => {
-		        if(other.team != this.team){
+		        if(other != null && other.team != this.team){
     		        other.damagePierce(100);
     		        
     		        other.impulse(
@@ -39,10 +39,11 @@ pulseCrystal.buildType = prov(() => extend(Building,{
     		    }
 		    })
 		    
-		    Groups.bullet.intersect(this.x - 80, this.y - 80, 160, 160, b => {
-                 if(b.type.hittable && b.team != this.team){
-                     b.absorb()
-                 }
+		    var seq = Groups.bullet.intersect(this.x - 80, this.y - 80, 160, 160)
+             seq.each(b => {
+                if(b.type.hittable && b.team != this.team){
+                    b.absorb()
+                }
             });
 		    
 		    Object.assign(new WaveEffect(), {
@@ -160,6 +161,7 @@ eukaryote.buildType = prov(() => extend(CoreBlock.CoreBuild,eukaryote,{
 				    insect.primeFruitingBody.spawn(this.team,this.tile.worldx() + Math.random(),this.tile.worldy() + Math.random());
 				}else{
 				    insect.seniorFruitingBody.spawn(this.team,this.tile.worldx() + Math.random(),this.tile.worldy() + Math.random());
+
 				}
 			}
 			

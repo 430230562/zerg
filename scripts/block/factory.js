@@ -119,6 +119,38 @@ weaver.consumeItems(ItemStack.with(
 weaver.consumePower(4.1);
 weaver.consumeLiquid(Liquids.arkycite, 0.5);
 
+const compiler = new GenericCrafter("compiler");
+exports.compiler = compiler;
+Object.assign(compiler,{
+    health: 1200,
+	craftEffect: Fx.smeltsmoke,
+	outputItem: new ItemStack(item.informationCore, 1),
+	craftTime: 20 * 60,
+	size: 4,
+	hasPower: true,
+	hasLiquids: true,
+	drawer: new DrawMulti(
+	    new DrawRegion("-bottom"),
+	    new DrawWeave(),
+	    new DrawDefault()
+	),
+	ambientSound: Sounds.techloop,
+	ambientSoundVolume: 0.1,
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.silicon, 120,
+		item.chromium, 75,
+		item.biomassSteel, 120,
+	)
+})
+compiler.consumeItems(ItemStack.with(
+    item.biosulfide, 4,
+    item.biomassSteel, 2
+));
+compiler.consumePower(450 / 60);
+compiler.consumeLiquid(Liquids.arkycite, 1);
+
 const biomassSmelter = new GenericCrafter("biomass-smelter");
 exports.biomassSmelter = biomassSmelter;
 Object.assign(biomassSmelter,{

@@ -19,17 +19,15 @@ Object.assign(mist,{
 })
 mist.weapons.add(
 	Object.assign(new Weapon("zerg-mist-weapon"),{
-		x: 0,
+		x: 1,
 		y: -0.5,
 		shootY: 0,
 		layerOffset : -0.0001,
-		reload: 5,
-		rotate: true,
-		rotateSpeed: 7.3,
+		reload: 20,
 		mirror: false,
 		shootCone: 30,
 		shootSound: Sounds.missile,
-		bullet: Object.assign(new MissileBulletType(4,11),{
+		bullet: Object.assign(new MissileBulletType(4,9),{
 			width: 4,
 			height: 4,
 			shrinkY: 0,
@@ -37,7 +35,7 @@ mist.weapons.add(
 			keepVelocity: false,
 			lifetime: 50,
 			trailChance: 0.1,
-			splashDamage: 27,
+			splashDamage: 4,
 			splashDamageRadius: 16,
 		})
 	})
@@ -63,7 +61,7 @@ cirrus.weapons.add(
 		x: -3.75,
 		y: 0,
 		shootY: 30 / 4,
-		reload: 60,
+		reload: 45,
 		shoot: Object.assign(new ShootAlternate(), {
 			shotDelay: 3,
 			shots: 4,
@@ -78,7 +76,7 @@ cirrus.weapons.add(
 			homingRange: 60,
 			keepVelocity: true,
 			lifetime: 50,
-			splashDamage: 12,
+			splashDamage: 6,
 			splashDamageRadius: 16,
 			trailChance: 0.1,
 			frontColor: Color.white,

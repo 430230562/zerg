@@ -51,7 +51,8 @@ function ReflectFieldAbility(regen,max,range){
     return extend(Ability,{
         update(unit){
             if(unit.shield > 0){
-                Groups.bullet.intersect(unit.x - range, unit.y - range, range * 2, range * 2, b => {
+                var seq = Groups.bullet.intersect(unit.x - range, unit.y - range, range * 2, range * 2)
+                seq.each(b => {
                     if(b.team != unit.team){
                         unit.drag = 0
                         if(b.type.hittable && b.type.absorbable){

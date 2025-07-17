@@ -105,22 +105,72 @@ crystallineFloor.attributes.set(Attribute.water, -0.5)
 //basalt
 const basaltWaterVent = new SteamVent("basalt-water-vent");
 basaltWaterVent.parent = Blocks.basalt;
+basaltWaterVent.blendGroup = Blocks.basalt;
 basaltWaterVent.effectColor = Color.white;
 basaltWaterVent.attributes.set(Attribute.steam, 1);
 basaltWaterVent.attributes.set(Attribute.water, 1);
 
 const basaltSO2Vent = new SteamVent("basalt-SO2-vent");
 basaltSO2Vent.parent = Blocks.basalt;
+basaltSO2Vent.blendGroup = Blocks.basalt;
 //basaltWaterVent.effectColor = Color.white;
 basaltSO2Vent.attributes.set(Attribute.steam, 1);
 basaltSO2Vent.attributes.set(Attribute.get("SO2"), 1);
 
 const basaltGasVent = new SteamVent("basalt-gas-vent");
 basaltGasVent.parent = Blocks.basalt;
+basaltGasVent.blendGroup = Blocks.basalt;
 basaltGasVent.effectColor = Color.valueOf("149926");
 basaltGasVent.attributes.set(Attribute.steam, 1);
 basaltGasVent.attributes.set(Attribute.get("gas"), 1);
 
+//sulfide-sand
+const sulfideSandWall = new StaticWall("sulfide-sand-wall");
+Object.assign(sulfideSandWall,{
+    variants: 2,
+})
+
+const sulfideSandFloor = new Floor("sulfide-sand-floor");
+Object.assign(sulfideSandFloor, {
+	variants: 2,
+	wall: sulfideSandWall,
+	itemDrop: item.sulfideSand,
+	playerUnmineable: true,
+	speedMultiplier: 0.85,
+})
+
+//ferric-wasteland
+const ferricWastelandWall = new StaticWall("ferric-wasteland-wall");
+Object.assign(ferricWastelandWall,{
+	variants: 3,
+})
+
+const ferricWasteland = new Floor("ferric-wasteland");
+Object.assign(ferricWasteland, {
+	variants: 3,
+	wall: ferricWastelandWall,
+})
+
+const ferricWastelandWaterVent = new SteamVent("ferric-wasteland-water-vent");
+ferricWastelandWaterVent.parent = ferricWasteland;
+ferricWastelandWaterVent.blendGroup = ferricWasteland;
+ferricWastelandWaterVent.effectColor = Color.white;
+ferricWastelandWaterVent.attributes.set(Attribute.steam, 1);
+ferricWastelandWaterVent.attributes.set(Attribute.water, 1);
+
+const ferricWastelandSO2Vent = new SteamVent("ferric-wasteland-SO2-vent");
+ferricWastelandSO2Vent.parent = ferricWasteland;
+ferricWastelandSO2Vent.blendGroup = ferricWasteland;
+//ferricWastelandWaterVent.effectColor = Color.white;
+ferricWastelandSO2Vent.attributes.set(Attribute.steam, 1);
+ferricWastelandSO2Vent.attributes.set(Attribute.get("SO2"), 1);
+
+const ferricWastelandGasVent = new SteamVent("ferric-wasteland-gas-vent");
+ferricWastelandGasVent.parent = ferricWasteland;
+ferricWastelandGasVent.blendGroup = ferricWasteland;
+ferricWastelandGasVent.effectColor = Color.valueOf("149926");
+ferricWastelandGasVent.attributes.set(Attribute.steam, 1);
+ferricWastelandGasVent.attributes.set(Attribute.get("gas"), 1);
 
 
 //autium
