@@ -72,18 +72,3 @@ Object.assign(twilightSea,{
 	difficulty: 8,
 	startWaveTimeMultiplier: 4,
 })
-
-const fallOutpost = new SectorPreset("fallOutpost",greavar,51);
-exports.fallOutpost = fallOutpost;
-Object.assign(fallOutpost,{
-	difficulty: 6,
-})
-
-/*const borderMines = new SectorPreset("borderMines",greavar,67);
-exports.borderMines = borderMines;
-Object.assign(borderMines,{
-    difficulty: 6,
-})
-
-
-})*/
