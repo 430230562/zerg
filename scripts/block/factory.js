@@ -885,3 +885,24 @@ Object.assign(biosulfideHeater,{
 biosulfideHeater.consumeItems(ItemStack.with(
 	item.biosulfide, 1
 ));
+
+//
+const desulphurizater = new GenericCrafter("desulphurizater");
+Object.assign(desulphurizater,{
+    hasItems: true,
+	hasLiquids: false,
+	hasPower: false,
+	size: 2,
+	craftTime: 200,
+	outputItem: ItemStack.with(
+	    Items.pyratite, 1,
+	    Items.coal, 3
+    ),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.graphite, 15,
+		item.nickel, 75,
+	)
+})
+desulphurizater.consumeItem(item.lignite, 5);
