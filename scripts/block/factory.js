@@ -894,7 +894,7 @@ Object.assign(desulphurizater,{
 	hasPower: false,
 	size: 2,
 	craftTime: 200,
-	outputItem: ItemStack.with(
+	outputItems: ItemStack.with(
 	    Items.pyratite, 1,
 	    Items.coal, 3
     ),

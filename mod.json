@@ -1,0 +1,12 @@
+{
+"name": "zerg",
+"displayName": "虫群",
+"subtitle": "Welcome to Greavar……"
+"description": "",
+"minGameVersion": 149,
+"author": "pardon",
+"version": 0.22,
+"repo":"430230562/zerg",
+"hideBrowser":false,
+//"dependencies":[]
+}
