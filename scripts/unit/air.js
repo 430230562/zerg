@@ -1,6 +1,6 @@
 const item = require('zerg/item');
 
-const mist = new UnitType("mist");
+/*const mist = new UnitType("mist");
 exports.mist = mist;
 Object.assign(mist,{
 	health: 150,
@@ -157,7 +157,7 @@ cloud.weapons.add(
 			buildingDamageMultiplier: 1.5
 		})
 	})
-)
+)*/
 
 const electron = new UnitType("electron");
 exports.electron = electron;

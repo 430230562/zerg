@@ -44,6 +44,7 @@ Object.assign(chromium,{
 const iridium = new Item("iridium",Color.valueOf("c9dae3"));
 exports.iridium = iridium;
 Object.assign(iridium,{
+    hardness: 5,
     cost: 1.5,
 	healthScaling: 0.5,
 })
@@ -84,7 +85,8 @@ const sulfideSand = new Item("sulfide-sand",Color.valueOf("bfa17a"))
 const lignite = new Item("lignite",Color.valueOf("8b5a2b"));
 exports.lignite = lignite;
 Object.assign(lignite,{
-    flammability: 0.6
+    flammability: 0.6,
+    hardness: 2,
 })
 
 const salt = new Item("salt",Color.valueOf("c3c1bb"));

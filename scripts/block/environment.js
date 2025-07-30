@@ -272,6 +272,10 @@ Object.assign(autium1,{
 	targetable: false,
 })
 
-new OreBlock("ore-nickel",item.nickel);
-new OreBlock("ore-manganese",item.manganese);
-new OreBlock("ore-chromium", item.chromium);
+new OreBlock("ore-nickel",item.nickel);//2
+new OreBlock("ore-manganese",item.manganese);//3
+new OreBlock("ore-chromium", item.chromium);//4
+new OreBlock("ore-iridium",item.iridium);//5
+
+new OreBlock("ore-silicon",Items.silicon);//7
+new OreBlock("ore-lignite",item.lignite);//2

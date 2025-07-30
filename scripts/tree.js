@@ -93,9 +93,8 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                 node(other.godown, () => {}),
                 node(other.unloader, () => {}),
                 node(other.launchPad, Seq.with(
-                new SectorComplete(sector.crystallineMountains)
-                ), () => {
-                    node(other.landingPad,() => {})
+                new SectorComplete(sector.crystallineMountains)), () => {
+                    node(other.landingPad, () => {})
                 })
             }),
             node(distribution.biomassConveyor, () => {}),
@@ -289,7 +288,7 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
             node(tank.alter, () => {})
         }),
         node(unitFactory.airFactory, () => {
-            node(air.mist, () => {
+            /*node(air.mist, () => {
                 node(air.cirrus, () => {
                     node(air.cloud, () => {})
                 }),
@@ -301,7 +300,16 @@ planet.greavar.techTree = nodeRoot("greavar", planet.greavar, () => {
                 node(air.phantom, () => {
                     node(air.shadow, () => {})
                 })
+            })*/
+            node(air.electron, () => {
+                node(air.inductance, () => {
+                    node(air.ampere, () => {})
+                })
+            }),
+            node(air.phantom, () => {
+                node(air.shadow, () => {})
             })
+
         }),
         node(unitFactory.unitIncubator, () => {
             node(unitFactory.reincubator, () => {

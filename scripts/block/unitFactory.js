@@ -51,10 +51,10 @@ Object.assign(airFactory,{
 		item.nickel, 120,
 	),
 	plans: Seq.with(
-		new UnitPlan(air.mist, 60 * 25, ItemStack.with(
+		/*new UnitPlan(air.mist, 60 * 25, ItemStack.with(
 			Items.silicon, 40,
 			item.nickel, 20,
-		)),
+		)),*/
 		new UnitPlan(air.electron, 60 * 50, ItemStack.with(
 			Items.silicon, 40,
 			item.nickel, 20,
@@ -85,7 +85,7 @@ Object.assign(reconstructor, {
 })
 reconstructor.addUpgrade(tank.pioneer, tank.brigadier);
 reconstructor.addUpgrade(tank.gale, tank.hurricane);
-reconstructor.addUpgrade(air.mist, air.cirrus);
+//reconstructor.addUpgrade(air.mist, air.cirrus);
 reconstructor.addUpgrade(air.electron, air.inductance);
 reconstructor.addUpgrade(air.phantom, air.shadow)
 reconstructor.consumePower(3.1);
@@ -113,7 +113,7 @@ Object.assign(primeReconstructor, {
 })
 primeReconstructor.addUpgrade(tank.brigadier, tank.shredder);
 primeReconstructor.addUpgrade(tank.hurricane, tank.tornado);
-primeReconstructor.addUpgrade(air.cirrus, air.cloud);
+//primeReconstructor.addUpgrade(air.cirrus, air.cloud);
 primeReconstructor.addUpgrade(air.inductance, air.ampere);
 primeReconstructor.consumePower(6.8);
 primeReconstructor.consumeItems(ItemStack.with(
