@@ -118,8 +118,6 @@ biomassDrill.buildType = prov(() => extend(Drill.DrillBuild, biomassDrill,{
 	}
 }))
 
-const refineDrill = new Drill("refine-drill");
-
 const picker = extend(Block,"picker",{
     ox:[],
     oy:[],

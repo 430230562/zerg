@@ -1,6 +1,5 @@
 const status = require("zerg/status");
 
-Liquids.arkycite.effect = status.arkyicSlow;
 Liquids.neoplasm.viscosity = 0.95;
 Liquids.neoplasm.spreadTarget = null;
 

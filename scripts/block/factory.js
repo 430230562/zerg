@@ -114,7 +114,7 @@ Object.assign(weaver,{
 })
 weaver.consumeItems(ItemStack.with(
     Items.pyratite, 3,
-	item.amino, 12,
+	item.biomass, 8,
 ));
 weaver.consumePower(4.1);
 weaver.consumeLiquid(Liquids.arkycite, 0.5);

@@ -1,4 +1,4 @@
-exports.modName = "黑暗纪元"
+exports.modName = "zerg"
 
 exports.mod = Vars.mods.locateMod(exports.modName);
 //新旧模组检测替换

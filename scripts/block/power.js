@@ -300,6 +300,10 @@ Object.assign(biomassReactor, {
 	drawer: new DrawMulti(
 		new DrawRegion("-bottom"),
 		new DrawLiquidTile(Liquids.water, 4),
+		Object.assign(new DrawCultivator(), {
+			plantColor: Color.valueOf("8c1225"),
+			plantColorLight: Color.valueOf("e8803f"),
+		}),
 		Object.assign(new DrawCells(), {
 			color: Color.valueOf("c33e2b"),
 			particleColorFrom: Color.valueOf("e8803f"),

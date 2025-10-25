@@ -186,7 +186,8 @@ exports.ToxicAbility = ToxicAbility
 function DamageDownAbility(amount,range){
     return extend(Ability,{
         update(unit){
-            Groups.bullet.intersect(unit.x - range, unit.y - range, range * 2, range * 2, b => {
+            const seq = Groups.bullet.intersect(unit.x - range, unit.y - range, range * 2, range * 2);
+            seq.each(b => {
                  if(b.damage >= amount * Time.delta / 60 && b.type.hittable && b.team != unit.team){
                      b.damage -= amount * Time.delta/ 60
                  }else if(b.damage <= amount * Time.delta / 60 && b.team != unit.team){

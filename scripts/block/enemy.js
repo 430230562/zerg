@@ -40,7 +40,7 @@ pulseCrystal.buildType = prov(() => extend(Building,{
 		    })
 		    
 		    var seq = Groups.bullet.intersect(this.x - 80, this.y - 80, 160, 160)
-             seq.each(b => {
+            seq.each(b => {
                 if(b.type.hittable && b.team != this.team){
                     b.absorb()
                 }

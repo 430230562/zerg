@@ -62,9 +62,8 @@ const poisoned = extend(StatusEffect,"poisoned",{
 });
 exports.poisoned = poisoned;
 
-const arkyicSlow = extend(StatusEffect,"arkyic-slow",{
-	color: Color.valueOf("84a94b"),
-	effect: Fx.oily,
-	speedMultiplier: 0.5,
-});
-exports.arkyicSlow = arkyicSlow;
+let scope = new Packages.rhino.TopLevel();
+new Packages.rhino.ClassCache().associate(scope);
+let n = new Packages.rhino.NativeJavaObject(scope, StatusEffects.shocked, StatusEffect, true)
+
+n.affinity(corroding, (unit, result, time) => {})
