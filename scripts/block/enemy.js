@@ -9,7 +9,7 @@ const { Insect } = require("zerg/unit/insect");
 const UnitPlan = UnitFactory.UnitPlan;
 const AssemblerUnitPlan = UnitAssembler.AssemblerUnitPlan;
 
-const pulseCrystal = new Block("pulse-crystal");
+/*const pulseCrystal = new Block("pulse-crystal");
 Object.assign(pulseCrystal,{
     buildVisibility: BuildVisibility.editorOnly,
 	category: Category.effect,
@@ -173,7 +173,7 @@ eukaryote.buildType = prov(() => extend(CoreBlock.CoreBuild,eukaryote,{
 			this.y + Mathf.range(19),
 		);
 	}
-}))
+}))*/
 
 const sieveTube = new Duct("sieve-tube")
 exports.sieveTube = sieveTube;
