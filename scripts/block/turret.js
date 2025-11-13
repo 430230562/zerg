@@ -1,5 +1,5 @@
-const liquid = require("zerg/liquid");
-const item = require("zerg/item");
+const liquid = require("vne/liquid");
+const item = require("vne/item");
 
 Blocks.sublimate.ammoTypes.put(
 	liquid.ammonia, Object.assign(new ContinuousFlameBulletType(), {

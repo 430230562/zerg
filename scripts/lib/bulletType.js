@@ -1,5 +1,5 @@
-const status = require('zerg/status');
-const liquid = require('zerg/liquid');
+const status = require('vne/status');
+const liquid = require('vne/liquid');
 
 function Acid(puddleSize) {
 	return extend(LiquidBulletType,{

@@ -1,11 +1,12 @@
 {
-"name": "zerg",
-"displayName": "虫群",
+"name": "vne",
+"displayName": "原版瘤液拓展",
 "subtitle": "",
 "description": "",
 "minGameVersion": 153,
 "author": "pardon",
-"version": 0,
+"version": 0.1,
 "repo":"430230562/zerg",
-"hideBrowser":false
+"hideBrowser":false,
+//"dependencies":[]
 }

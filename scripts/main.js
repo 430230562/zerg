@@ -1,14 +1,16 @@
-require("zerg/item");
-require("zerg/liquid");
-require("zerg/status");
+require("vne/item");
+require("vne/liquid");
+require("vne/status");
 
-require("zerg/unit");
+require("vne/unit");
 
-//require("zerg/block/enemy");
-require("zerg/block/environment");
-require("zerg/block/factory");
-require("zerg/block/turret");
-require("zerg/block/unitFactory");
+//require("vne/block/enemy");
+require("vne/block/environment");
+require("vne/block/factory");
+require("vne/block/power");
+require("vne/block/turret");
+require("vne/block/unitFactory");
 
-require("zerg/sector");
-require("zerg/planet");
+require("vne/sector");
+require("vne/planet");
+require("vne/report")

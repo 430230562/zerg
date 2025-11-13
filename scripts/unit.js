@@ -1,7 +1,7 @@
-const status = require('zerg/status');
-const liquid = require('zerg/liquid');
-const { Acid } = require('zerg/lib/bulletType');
-const { DeathNeoplasmAbility, MoveLiquidAbility, DamageDownAbility, DropAbility } = require("zerg/lib/ability")
+const status = require('vne/status');
+const liquid = require('vne/liquid');
+const { Acid } = require('vne/lib/bulletType');
+const { DeathNeoplasmAbility, MoveLiquidAbility, DamageDownAbility } = require("vne/lib/ability")
 
 function Insect(name){
 	return extend(UnitType, name, {
@@ -65,7 +65,7 @@ Object.assign(haploid, {
 	constructor: () => new LegsUnit.create()
 })
 haploid.weapons.add(
-Object.assign(new Weapon("zerg-haploid-weapon"), {
+Object.assign(new Weapon("vne-haploid-weapon"), {
 	mirror: false,
 	x: 0,
 	y: 1,
@@ -270,7 +270,7 @@ for(let i = 0; i < 3; i++){
 	)
 }
 triploid.weapons.add(Object.assign(
-new Weapon("zerg-triploid-weapon"), {
+new Weapon("vne-triploid-weapon"), {
 	shootSound: Sounds.missileLarge,
 	x: 29 / 4,
 	y: -11 / 4,
@@ -323,7 +323,7 @@ Object.assign(bivalents,{
 	constructor: () => new LegsUnit.create(),
 })
 bivalents.weapons.add(
-Object.assign(new Weapon("zerg-bivalents-weapon"), {
+Object.assign(new Weapon("vne-bivalents-weapon"), {
 	mirror: true,
 	x: 8,
 	y: 0,
@@ -355,7 +355,7 @@ Object.assign(ribosome, {
 	aiController: () => new FlyingFollowAI()
 })
 ribosome.weapons.add(
-Object.assign(new Weapon("zerg-ribosome-weapon"), {
+Object.assign(new Weapon("vne-ribosome-weapon"), {
 	mirror: false,
 	x: 0,
 	y: 1,
@@ -485,7 +485,7 @@ Object.assign(trichocyst,{
 	engineOffset: 7.8,
 })
 trichocyst.weapons.add(
-	Object.assign(new Weapon("zerg-trichocyst-weapon"),{
+	Object.assign(new Weapon("vne-trichocyst-weapon"),{
 		x: 0,
 		y: 4,
 		mirror: false,
@@ -568,7 +568,7 @@ centrosome.parts.add(
 		progress: DrawPart.PartProgress.smoothReload.sin(1,5)
 	})
 )
-centrosome.weapons.add(Object.assign(new Weapon("zerg-centrosome-weapon"), {
+centrosome.weapons.add(Object.assign(new Weapon("vne-centrosome-weapon"), {
 	x: 29 / 4,
 	y: -11 / 4,
 	shootY: 1.5,
@@ -683,46 +683,18 @@ Object.assign(new Weapon(), {
 })
 )
 
-const glycocalyx = new UnitType("glycocalyx");
-exports.glycocalyx = glycocalyx;
-Object.assign(glycocalyx,{
-	constructor: () => new CrawlUnit.create(),
-	speed: 1,
-	hitSize: 8,
-	targetPriority: 1,
-	health: 400,
-	omniMovement: false,
-	rotateSpeed: 2.5,
-	segments: 3,
-	drawBody: false,
-	aiController: () => new HugAI(),
-
-	segmentScl: 3,
-	segmentPhase: 5,
-	segmentMag: 0.5,
-	outlineColor: Pal.neoplasmOutline,
-	envDisabled: Env.none,
-	healFlash: true,
-	healColor: Pal.neoplasm1,
-	lightRadius: 0,
-})
-glycocalyx.abilities.add(
-	new DeathNeoplasmAbility(32,800),
-	new MoveLiquidAbility(Liquids.neoplasm,12,5)
-)
-
-const hydrolase = new Insect("hydrolase");
-exports.hydrolase = hydrolase;
-Object.assign(hydrolase, {
+const cytoderm = new Insect("cytoderm");
+exports.cytoderm = cytoderm;
+Object.assign(cytoderm, {
 	constructor: () => new MechUnit.create(),
 	speed: 0.62,
-	armor: 5,
+	armor: 12,
 	hitSize: 14,
-	health: 500,
+	health: 700,
 	mechSideSway: 0.5,
 })
-hydrolase.weapons.add(
-    Object.assign(new PointDefenseWeapon("zerg-hydrolase-weapon"),{
+cytoderm.weapons.add(
+    Object.assign(new PointDefenseWeapon("vne-hydrolase-weapon"),{
         mirror: false,
         x: 0,
         y: 1,
@@ -753,16 +725,47 @@ hydrolase.weapons.add(
         })
     })
 )
-hydrolase.abilities.add(
-	new DamageDownAbility(12,120)
+cytoderm.abilities.add(
+	new DamageDownAbility(18,120),
+	new ForceFieldAbility(40, 0.2, 400, 60 * 6)
 )
+
+const neoplasmUnit1 = new UnitType("neoplasmUnit1");
+exports.neoplasmUnit1 = neoplasmUnit1;
+Object.assign(neoplasmUnit1,{
+	constructor: () => new CrawlUnit.create(),
+	speed: 1,
+	hitSize: 8,
+	targetPriority: 1,
+	health: 400,
+	omniMovement: false,
+	rotateSpeed: 2.5,
+	segments: 3,
+	drawBody: false,
+	aiController: () => new HugAI(),
+
+	segmentScl: 3,
+	segmentPhase: 5,
+	segmentMag: 0.5,
+	outlineColor: Pal.neoplasmOutline,
+	envDisabled: Env.none,
+	healFlash: true,
+	healColor: Pal.neoplasm1,
+	lightRadius: 0,
+})
+neoplasmUnit1.abilities.add(
+	new DeathNeoplasmAbility(32,800),
+	new MoveLiquidAbility(Liquids.neoplasm,12,5)
+)
+
+
 
 const s = new StatusEffect("s");
 s.healthMultiplier = 5;
 s.show = false;
 
 const primeFruitingBody = extend(UnitType,"prime-fruiting-body",{
-	 u:[bomber,bomber,haploid,haploid,haploid,ribosome,ribosome,glycocalyx],
+	 u:[bomber,bomber,haploid,haploid,haploid,ribosome,ribosome],
 	 update(unit){
 		unit.heal(0.2)
 		if(unit.shield >= 10 || Time.time % 20*60 <= 2){
@@ -772,9 +775,6 @@ const primeFruitingBody = extend(UnitType,"prime-fruiting-body",{
 		}
 		if(unit.getDuration(s) <= 10){
 			unit.apply(s,20 * 60);
-		}
-		if(unit.getDuration(status.dissolved) >= 1){
-			unit.kill();
 		}
 	 }
 })
@@ -802,7 +802,7 @@ Object.assign(primeFruitingBody, {
 primeFruitingBody.immunities.addAll(status.corroding)
 
 const seniorFruitingBody = extend(UnitType,"senior-fruiting-body",{
-	 u:[diploid,diploid,diploid,lysosome,lysosome,hydrolase],
+	 u:[diploid,diploid,diploid,lysosome,lysosome,cytoderm],
 	 update(unit){
 		unit.heal(0.2)
 		if(unit.shield >= 10 || Time.time % 40*60 <= 2){
@@ -812,9 +812,6 @@ const seniorFruitingBody = extend(UnitType,"senior-fruiting-body",{
 		}
 		if(unit.getDuration(s) <= 10){
 			unit.apply(s,20 * 60);
-		}
-		if(unit.getDuration(status.dissolved) >= 1){
-			unit.kill();
 		}
 	 }
 })
@@ -840,6 +837,15 @@ Object.assign(seniorFruitingBody, {
 	allowedInPayloads: false,
 })
 seniorFruitingBody.immunities.addAll(status.corroding);
+
+UnitTypes.latum.abilities.addAll(
+    Object.assign(new SpawnDeathAbility(primeFruitingBody, 20, 40),{
+		randAmount: 10,
+	}),
+	Object.assign(new SpawnDeathAbility(seniorFruitingBody, 8, 40),{
+		randAmount: 8,
+	})
+)
 
 /*const cancer = new UnitType("cancer");
 exports.cancer = cancer;

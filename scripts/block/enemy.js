@@ -1,10 +1,10 @@
-const insect = require('zerg/unit/insect');
-const status = require('zerg/status');
-const item = require('zerg/item');
-const liquid = require('zerg/liquid');
-const { Acid } = require('zerg/base/bulletType');
-const { ToxicAbility } = require("zerg/base/ability");
-const { Insect } = require("zerg/unit/insect");
+const insect = require('vne/unit/insect');
+const status = require('vne/status');
+const item = require('vne/item');
+const liquid = require('vne/liquid');
+const { Acid } = require('vne/base/bulletType');
+const { ToxicAbility } = require("vne/base/ability");
+const { Insect } = require("vne/unit/insect");
 
 const UnitPlan = UnitFactory.UnitPlan;
 const AssemblerUnitPlan = UnitAssembler.AssemblerUnitPlan;

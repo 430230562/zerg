@@ -1,9 +1,9 @@
-exports.modName = "zerg"
+exports.modName = "vne"
 
 exports.mod = Vars.mods.locateMod(exports.modName);
 //新旧模组检测替换
 //以下为科技树部分
-exports.addToResearch = (content, research) => {
+exports.addResearch = (content, research, children) => {
 	if (!content) {
 		throw new Error('content is null!');
 	}
@@ -19,7 +19,12 @@ exports.addToResearch = (content, research) => {
 		lastNode.remove();
 	}
 
-	var node = new TechTree.TechNode(null, content, customRequirements !== undefined ? customRequirements : content.researchRequirements());
+	//var node = new TechTree.TechNode(null, content, customRequirements !== undefined ? customRequirements : content.researchRequirements());
+	if(customRequirements != null && objectives != null){
+	    var node = new TechTree.node(content, customRequirements, objectives, children);
+	}else{
+	    var node = new TechTree.node(content, children);
+	}
 	var currentMod = exports.mod;
 	if (objectives) {
 		node.objectives.addAll(objectives);

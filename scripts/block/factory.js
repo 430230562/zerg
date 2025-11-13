@@ -1,5 +1,7 @@
-const item = require("zerg/item");
-const liquid = require("zerg/liquid")
+const lib = require("vne/lib/researchlib");
+
+const item = require("vne/item");
+const liquid = require("vne/liquid")
 
 const incubator = new AttributeCrafter("incubator");
 exports.incubator = incubator;
@@ -87,3 +89,56 @@ ammoniaPlant.consumeLiquids(LiquidStack.with(
 	Liquids.nitrogen, 0.05
 ));
 ammoniaPlant.consumePower(0.6);
+
+const watergasStove = new HeatCrafter("watergas-stove");
+exports.watergasStove = watergasStove;
+Object.assign(watergasStove,{
+    craftEffect: Fx.fireRemove,
+    ambientSound: Sounds.smelter,
+    ambientSoundVolume: 0.12,
+	outputLiquid: new LiquidStack(Liquids.hydrogen, 0.45),
+	heatRequirement: 8,
+	maxEfficiency: 5,
+	liquidCapacity: 30,
+	craftTime: 60,
+	size: 3,
+	hasPower: true,
+	hasLiquids: true,
+    drawer: new DrawMulti(
+		new DrawRegion("-bottom"),
+		new DrawLiquidTile(Liquids.hydrogen),
+		Object.assign(new DrawParticles(), {
+			alpha: 0.15,
+			particleRad: 12,
+			particleSize: 9,
+			particleLife: 110,
+			particles: 15,
+			rotateScl: -3,
+			reverse: true,
+			color: Color.valueOf("9eabf7"), 
+		}),
+		new DrawDefault(),
+		new DrawHeatInput(),
+	),
+	buildVisibility: BuildVisibility.shown,
+	category: Category.crafting,
+	requirements: ItemStack.with(
+		Items.silicon, 100,
+		Items.tungsten, 100,
+		Items.oxide, 55,
+	)
+})
+watergasStove.consumeLiquid(Liquids.water, 0.3);
+watergasStove.consumeItem(Items.graphite, 3);
+watergasStove.consumePower(2.5);
+
+lib.addResearch(incubator, { 
+    parent: "silicon-arc-furnace",
+    objectives: Seq.with(Objectives.OnSector(SectorPresets.aegis))
+}, () => {});
+
+lib.addResearch(ammoniaPlant, {
+    parent: "oxidation-chamber",
+}, () => {
+    TechTree.node(watergasStove,() => {})
+});

@@ -1,6 +1,8 @@
-const insect = require('zerg/unit');
+const lib = require("vne/lib/researchlib");
 
-const item = require('zerg/item');
+const insect = require('vne/unit');
+
+const item = require('vne/item');
 
 const UnitPlan = UnitFactory.UnitPlan;
 const AssemblerUnitPlan = UnitAssembler.AssemblerUnitPlan;
@@ -53,6 +55,15 @@ unitIncubator.buildType = prov(() => extend(UnitFactory.UnitFactoryBuild, unitIn
         LiquidBlock.drawTiledFrames(2, this.x, this.y, 0, Liquids.neoplasm, this.a * 0.7)
     }
 }))
+
+lib.addResearch(unitIncubator, { 
+    parent: "tank-fabricator",
+    objectives: Seq.with(Objectives.OnSector(SectorPresets.aegis))
+}, () => {
+    TechTree.node(insect.haploid,() => {}),
+    TechTree.node(insect.ribosome, () => {}),
+    TechTree.node(insect.bomber, () => {})
+});
 
 /*const reincubator = new Reconstructor("reincubator");
 exports.reincubator = reincubator;

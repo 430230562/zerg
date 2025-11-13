@@ -1,4 +1,4 @@
-const item = require('zerg/item');
+const item = require('vne/item');
 
 Planets.sun.radius = 7
 
@@ -34,8 +34,8 @@ Object.assign(ochre,{
 	accessible: false,
 	alwaysUnlocked: false,
 	startSector: 0,
+	orbitRadius: 70
 })
-ochre.orbitRadius = Planets.serpulo.orbitRadius * 5;
 
 const p = extend(Planet, "ochre-rim", ochre, 0.1, {
 	scale: 1,

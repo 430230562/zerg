@@ -1,22 +1,20 @@
-let mod = Vars.modDirectory.child("zerg").child("setting.txt");
-let version = Vars.mods.getMod("zerg").version;
-mod.exists() || mod.writeString("" + version);
+let mod = Vars.modDirectory.child("vne").child("setting.txt");
+let version = 0.1;
+mod.exists() || mod.writeString("-1");
 let currentVersion = parseFloat(mod.readString());
 
 
 Events.on(EventType.ClientLoadEvent, () => {
-	const remind = new BaseDialog("Welcome to the Greavar");
+	const remind = new BaseDialog("");
 	
 	remind.cont.pane(table => {
-		table.image(Core.atlas.find("zerg-greavar")).size(64,64).pad(3).row();
-		table.add(Core.bundle.get("zerg.para1") + currentVersion).left().growX().wrap().width(420).maxWidth(420).pad(4).labelAlign(Align.left).row();
+		table.image(Core.atlas.find("liquid-neoplasm")).size(64,64).pad(3).row();
+		table.add(Core.bundle.get("vne.para1") + version).left().growX().wrap().width(420).maxWidth(420).pad(4).labelAlign(Align.left).row();
 
-		table.add(Core.bundle.get("zerg.para2")).left().growX().wrap().width(420).maxWidth(420).pad(4).labelAlign(Align.left).row();
-
-		table.buttons.button(Core.bundle.get("zerg.changelog"), run(() => { 
+		table.button(Core.bundle.get("vne.changelog"), run(() => { 
 			const changelog = new BaseDialog("Changelog");
 			changelog.cont.pane(t => {
-				t.add(Core.bundle.get("changelogtext")).left().growX().wrap().width(500).maxWidth(500).pad(4).labelAlign(Align.left).row();	
+				t.add(Core.bundle.get("vne.changelogtext")).left().growX().wrap().width(500).maxWidth(500).pad(4).labelAlign(Align.left).row();	
 			});
 			changelog.buttons.button("@close", run(() => {
 				changelog.hide();
@@ -25,15 +23,17 @@ Events.on(EventType.ClientLoadEvent, () => {
 			changelog.show();
 		})).size(200,64).pad(4).row();
 		
-		table.add(Core.bundle.get("zerg.subtile1")).pad(4).labelAlign(Align.center).row();
+		table.add(Core.bundle.get("vne.para2")).left().growX().wrap().width(420).maxWidth(420).pad(4).labelAlign(Align.left).row();
+		
+		table.add(Core.bundle.get("vne.subtile1")).pad(4).labelAlign(Align.center).row();
 		table.image(Tex.whiteui, Pal.accent).growX().height(3).pad(4).row();
-		table.buttons.button("QQ交流群", run(() => {
+		table.button("QQ交流群", run(() => {
 			Core.app.openURI("");
 		})).size(200,64).pad(4).row();
 
-		table.add(Core.bundle.get("zerg.subtile2")).pad(4).labelAlign(Align.center).row();
+		table.add(Core.bundle.get("vne.subtile2")).pad(4).labelAlign(Align.center).row();
 		table.image(Tex.whiteui, Pal.accent).growX().height(3).pad(4).row();
-		table.add(Core.bundle.get("zerg.para3")).left().growX().wrap().width(420).maxWidth(420).pad(4).labelAlign(Align.left).row();
+		table.add(Core.bundle.get("vne.para3")).left().growX().wrap().width(420).maxWidth(420).pad(4).labelAlign(Align.left).row();
 
 		table.add()
 		
@@ -41,7 +41,7 @@ Events.on(EventType.ClientLoadEvent, () => {
 	let time = 15 * 60;
 	remind.buttons.button("",run(() => {
 		remind.hide();
-		mod.writeString("true")
+		mod.writeString("" + version)
 	})).size(128,64).disabled(b => time > 0).update(b => {
 		if(time > 0){
 			time -= Time.delta

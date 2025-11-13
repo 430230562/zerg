@@ -1,6 +1,6 @@
-const environment = require("zerg/block/environment")
-const status = require("zerg/status")
-const item = require("zerg/item")
+const environment = require("vne/block/environment")
+const status = require("vne/status")
+const item = require("vne/item")
 
 function MendFieldAbility(amount,reload,range){
 	return extend(Ability,{

@@ -1,4 +1,4 @@
-const status = require("zerg/status");
+const status = require("vne/status");
 
 const acid = extend(Liquid,"acid",Color.valueOf("84a94b"),{
 	update(puddle){
