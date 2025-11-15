@@ -164,11 +164,7 @@ Object.assign(new Weapon(), {
 
 const polarBody = extend(MissileUnitType,"polar-body",{
 	update(unit){
-		if(unit.getDuration(status.dissolved) >= 1){
-			unit.damageMultiplier = 0
-			
-			unit.kill();
-		}
+		this.super$update(unit);
 	}
 })
 Object.assign(polarBody, {
@@ -187,16 +183,17 @@ Object.assign(polarBody, {
 	lowAltitude: true,
 })
 polarBody.parts.add(
-Object.assign(new FlarePart(),{
-	progress: DrawPart.PartProgress.life.slope().curve(Interp.pow2In),
-	color1: Color.valueOf("e05438"),
-	radius: 0,
-	radiusTo: 35,
-	stroke: 3,
-	rotation: 45,
-	y: -5,
-	followRotation: true,
-}))
+Object.assign(new RegionPart("-wing"),{
+		mirror: true,
+		x: 0,
+		y: 0,
+		rotation: -45,
+		moveX: 0,
+		moveY: 0,
+		moveRot: 30,
+		progress: DrawPart.PartProgress.smoothReload.sin(1,5)
+	})
+)
 polarBody.weapons.add(
 Object.assign(new Weapon(), {
 	shootCone: 360,
@@ -393,7 +390,7 @@ Object.assign(new Weapon("vne-ribosome-weapon"), {
 ribosome.parts.add(
 	Object.assign(new RegionPart("-wing"),{
 		mirror: true,
-		x: 0.5,
+		x: 1.5,
 		y: 0,
 		rotation: -45,
 		moveX: 0,
@@ -457,7 +454,7 @@ Object.assign(new Weapon(), {
 lysosome.parts.add(
 	Object.assign(new RegionPart("-wing"),{
 		mirror: true,
-		x: 0.5,
+		x: 2.5,
 		y: 0,
 		rotation: -45,
 		moveX: 0,
@@ -515,6 +512,7 @@ trichocyst.weapons.add(
     		pierceCap: 2,
     		
     		knockback: 12,
+    		recoil: 2,
     		
     		intervalBullets: 3,
     		bulletInterval: 1,
@@ -560,7 +558,7 @@ centrosome.parts.add(
 	Object.assign(new RegionPart("-wing"),{
 		mirror: true,
 		x: 0.5,
-		y: 0,
+		y: 1,
 		rotation: -45,
 		moveX: 0,
 		moveY: 0,
@@ -686,15 +684,25 @@ Object.assign(new Weapon(), {
 const cytoderm = new Insect("cytoderm");
 exports.cytoderm = cytoderm;
 Object.assign(cytoderm, {
-	constructor: () => new MechUnit.create(),
+	constructor: () => new ElevationMoveUnit.create(),
 	speed: 0.62,
 	armor: 12,
 	hitSize: 14,
 	health: 700,
-	mechSideSway: 0.5,
+	hovering: true,
+    canDrown: false,
+    omniMovement: false,
+    rotateMoveFirst: true,
+    shadowElevation: 0.1,
+
+    drag: 0.07,
+    rotateSpeed: 5,
+
+    accel: 0.09,
+    engineSize: 0,
 })
 cytoderm.weapons.add(
-    Object.assign(new PointDefenseWeapon("vne-hydrolase-weapon"),{
+    Object.assign(new PointDefenseWeapon("vne-cytoderm-weapon"),{
         mirror: false,
         x: 0,
         y: 1,
@@ -730,7 +738,7 @@ cytoderm.abilities.add(
 	new ForceFieldAbility(40, 0.2, 400, 60 * 6)
 )
 
-const neoplasmUnit1 = new UnitType("neoplasmUnit1");
+const neoplasmUnit1 = new UnitType("neoplasm-unit-1");
 exports.neoplasmUnit1 = neoplasmUnit1;
 Object.assign(neoplasmUnit1,{
 	constructor: () => new CrawlUnit.create(),
@@ -838,6 +846,10 @@ Object.assign(seniorFruitingBody, {
 })
 seniorFruitingBody.immunities.addAll(status.corroding);
 
+
+UnitTypes.renale.hidden = false;
+
+UnitTypes.latum.hidden = false;
 UnitTypes.latum.abilities.addAll(
     Object.assign(new SpawnDeathAbility(primeFruitingBody, 20, 40),{
 		randAmount: 10,
