@@ -763,7 +763,7 @@ Object.assign(neoplasmUnit1,{
 })
 neoplasmUnit1.abilities.add(
 	new DeathNeoplasmAbility(32,800),
-	new MoveLiquidAbility(Liquids.neoplasm,12,5)
+	new MoveLiquidAbility(Liquids.neoplasm,12,5,1)
 )
 
 

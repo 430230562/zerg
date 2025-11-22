@@ -1,5 +1,5 @@
 let mod = Vars.modDirectory.child("vne").child("setting.txt");
-let version = 0;
+let version = 0.11;
 mod.exists() || mod.writeString("-1");
 let currentVersion = parseFloat(mod.readString());
 
@@ -30,11 +30,11 @@ Events.on(EventType.ClientLoadEvent, () => {
 		
 		table.button("QQ交流群", run(() => {
 			Core.app.openURI("");
-		})).size(200,64).pad(4).left();
+		})).size(200,64).pad(4).row();
 		
 		table.button("github", run(() => {
 			Core.app.openURI("https://github.com/430230562/vanilla-neoplasm-extend");
-		})).size(200,64).pad(4).left();
+		})).size(200,64).pad(4).row();
 
 		table.add(Core.bundle.get("vne.subtile2")).pad(4).labelAlign(Align.center).row();
 		table.image(Tex.whiteui, Pal.accent).growX().height(3).pad(4).row();

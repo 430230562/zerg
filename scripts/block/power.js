@@ -20,7 +20,8 @@ const biomassReactor = extend(ConsumeGenerator,"biomass-reactor",{
 	canOverdrive: false,
 	fuelItem: item.protein,
 	
-	explosionPuddles: 80,
+	explosionDamage: 800,
+	explosionPuddles: 160,
     explosionPuddleRange: 56,
     explosionPuddleLiquid: Liquids.neoplasm,
     explosionPuddleAmount: 200,

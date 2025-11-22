@@ -127,12 +127,14 @@ function ReflectFieldAbility(regen,max,range){
 }
 exports.ReflectFieldAbility = ReflectFieldAbility
 
-function MoveLiquidAbility(liquid,range,amount){
+function MoveLiquidAbility(liquid,range,amount,healthPercent){
 	return extend(Ability,{
 		update(unit){
-			unit.tileOn().circle(range / 8,cons(tile => {
-				if(tile != null)Puddles.deposit(tile,liquid,amount);
-			}))
+		    if(unit.health / unit.maxHealth <= healthPercent){
+    			unit.tileOn().circle(range / 8,cons(tile => {
+    				if(tile != null)Puddles.deposit(tile,liquid,amount);
+    			}))
+			}
 		}
 	})
 }

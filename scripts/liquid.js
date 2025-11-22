@@ -1,11 +1,17 @@
 const status = require("vne/status");
 
+Liquids.neoplasm.maxSpread = 1.25;
+Liquids.neoplasm.spreadConversion = 2.5;
+Liquids.neoplasm.spreadDamage = 0.1;
+Liquids.neoplasm.removeScaling = 0.05;
+Liquids.neoplasm.effect = status.neoplasmSlow;
+
 const acid = extend(Liquid,"acid",Color.valueOf("84a94b"),{
 	update(puddle){
 		if(puddle.tile != null && puddle.tile.build != null){
 			puddle.tile.build.damage(0.2)
 			
-			puddle.amount -= 0.5
+			puddle.amount -= 0.2
 			
 			if(Mathf.chanceDelta(0.05)){
 				Fx.mineSmall.at(puddle.x,puddle.y)

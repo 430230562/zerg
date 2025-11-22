@@ -22,6 +22,16 @@ const corroding = extend(StatusEffect,"corroding",{
 });
 exports.corroding = corroding;
 
+const neoplasmSlow = new extend(StatusEffect,"neoplasm-slow",{
+    speedMultiplier: 0.25,
+    update(unit, time){
+        if(Mathf.chanceDelta(0.05) && unit.tileOn() != null){
+			Puddles.deposit(unit.tileOn(),Liquids.neoplasm,1);
+        }
+    }
+})
+exports.neoplasmSlow = neoplasmSlow;
+
 let scope = new Packages.rhino.TopLevel();
 new Packages.rhino.ClassCache().associate(scope);
 let n = new Packages.rhino.NativeJavaObject(scope, StatusEffects.shocked, StatusEffect, true)
