@@ -54,6 +54,12 @@ const cyanidePlant = extend(GenericCrafter, "cyanide-plant", {
 })
 cyanidePlant.buildType = prov(() => extend(GenericCrafter.GenericCrafterBuild, cyanidePlant, {
     style: false,
+    updateTile(){
+        this.super$updateTile();
+        
+        this.dump(item.chitin)
+        this.dump(item.protein)
+    },
     craft() {
         this.consume();
 
@@ -76,6 +82,11 @@ cyanidePlant.buildType = prov(() => extend(GenericCrafter.GenericCrafterBuild, c
         }))
     },
 }));
+cyanidePlant.consumeLiquids(LiquidStack.with(
+    Liquids.cyanogen, 0.05,
+    Liquids.neoplasm, 10 / 60
+));
+
 
 const ammoniaPlant = new HeatCrafter("ammonia-plant");
 exports.ammoniaPlant = ammoniaPlant;
@@ -178,7 +189,7 @@ watergasStove.consumePower(2.5);
 
 lib.addResearch(incubator, {
     parent: "silicon-arc-furnace",
-    objectives: Seq.with(Objectives.OnSector(SectorPresets.aegis))
+    objectives: Seq.with(Objectives.OnSector(SectorPresets.intersect))
 }, () => {});
 
 lib.addResearch(ammoniaPlant, {

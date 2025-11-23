@@ -58,7 +58,7 @@ unitIncubator.buildType = prov(() => extend(UnitFactory.UnitFactoryBuild, unitIn
 
 lib.addResearch(unitIncubator, { 
     parent: "tank-fabricator",
-    objectives: Seq.with(Objectives.OnSector(SectorPresets.aegis))
+    objectives: Seq.with(Objectives.OnSector(SectorPresets.intersect))
 }, () => {
     TechTree.node(insect.haploid,() => {}),
     TechTree.node(insect.ribosome, () => {}),

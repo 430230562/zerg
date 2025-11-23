@@ -10,6 +10,7 @@ function Insect(name){
 		healFlash: true,
 		healColor: Pal.neoplasm1,
 		lightRadius: 0,
+		engineSize: 0,
 		init(){
 			this.super$init();
 			
@@ -24,6 +25,7 @@ function Insect(name){
 					regenPerSlurp: 3.2
 				})
 			);
+			this.immunities.add(status.neoplasmSlow)
 		}
 	})
 }
@@ -664,6 +666,7 @@ bomber.abilities.add(
 		percentAmount: 1 / (90 * 60) * 100,
 	}),
 )
+bomber.immunities.add(status.neoplasmSlow)
 bomber.weapons.add(
 Object.assign(new Weapon(), {
 	shootOnDeath: true,
@@ -737,6 +740,7 @@ cytoderm.abilities.add(
 	new DamageDownAbility(18,120),
 	new ForceFieldAbility(40, 0.2, 400, 60 * 6)
 )
+cytoderm.immunities.add(status.neoplasmSlow)
 
 const neoplasmUnit1 = new UnitType("neoplasm-unit-1");
 exports.neoplasmUnit1 = neoplasmUnit1;
@@ -765,7 +769,7 @@ neoplasmUnit1.abilities.add(
 	new DeathNeoplasmAbility(32,800),
 	new MoveLiquidAbility(Liquids.neoplasm,12,5,1)
 )
-
+neoplasmUnit1.immunities.add(status.neoplasmSlow)
 
 
 const s = new StatusEffect("s");
